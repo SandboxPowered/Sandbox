@@ -17,11 +17,6 @@ public class AddonInfo {
 
     private File file;
 
-    public AddonInfo setFile(File file) {
-        this.file = file;
-        return this;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -40,5 +35,10 @@ public class AddonInfo {
 
     public File getFile() {
         return file;
+    }
+
+    public AddonInfo setFile(File file) {
+        this.file = file;
+        return this;
     }
 }

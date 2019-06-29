@@ -7,6 +7,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.Material;
 import net.minecraft.block.SlabBlock;
 import net.minecraft.client.MinecraftClient;
@@ -16,7 +17,6 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-import javax.script.ScriptException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,12 +33,13 @@ public class Sandbox implements ModInitializer, ISandbox {
         Log.info("Setting up Sandbox environment");
         ScriptEngine.init(SANDBOX);
         ADDONS = SandboxLoader.locateAddons(SandboxLocation.ADDONS);
-        Block block = new SlabBlock(Block.Settings.of(Material.METAL));
+
+
+        Block block = new SlabBlock(Block.Settings.copy(Blocks.GOLD_BLOCK));
         Registry.register(Registry.BLOCK, new Identifier("sandbox", "test_block"), block);
-        BlockItem item = new BlockItem(block, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS));
-        item.appendBlocks(Item.BLOCK_ITEMS, item);
-        Registry.register(Registry.ITEM, new Identifier("sandbox", "test_block"), item);
-        block.getStateFactory().getStates().forEach(Block.STATE_IDS::add);
+        ((SandboxRegistry) Registry.ITEM).register(new Identifier("sandbox", "test_block"), new BlockItem(block, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS)));
+
+
         MinecraftClient.getInstance().reloadResourcesConcurrently();
         return true;
     }

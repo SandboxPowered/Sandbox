@@ -18,7 +18,7 @@ public class SandboxLoader {
     private static final Gson GSON = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
     public static List<AddonInfo> locateAddons(File addonsFolder) {
-        if(!addonsFolder.exists()) {
+        if (!addonsFolder.exists()) {
             addonsFolder.mkdir();
             return Collections.emptyList();
         }

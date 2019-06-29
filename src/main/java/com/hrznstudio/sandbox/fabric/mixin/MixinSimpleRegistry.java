@@ -3,6 +3,9 @@ package com.hrznstudio.sandbox.fabric.mixin;
 import com.google.common.collect.BiMap;
 import com.hrznstudio.sandbox.api.SandboxRegistry;
 import com.hrznstudio.sandbox.util.Log;
+import net.minecraft.block.Block;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Int2ObjectBiMap;
 import net.minecraft.util.registry.MutableRegistry;
@@ -38,5 +41,11 @@ public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implemen
     @Override
     public void register(Identifier identifier, T object) {
         add(identifier, object);
+        if (object instanceof BlockItem) {
+            ((BlockItem) object).appendBlocks(Item.BLOCK_ITEMS, (BlockItem) object);
+        }
+        if (object instanceof Block) {
+            ((Block) object).getStateFactory().getStates().forEach(Block.STATE_IDS::add);
+        }
     }
 }
