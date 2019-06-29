@@ -8,6 +8,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import javax.script.ScriptException;
+
 @Mixin(IntegratedServer.class)
 public class MixinIntegratedServer extends MixinMinecraftServer {
     @Inject(method = "setupServer",
@@ -16,7 +18,7 @@ public class MixinIntegratedServer extends MixinMinecraftServer {
                     shift = At.Shift.BEFORE),
             cancellable = true
     )
-    public void setupServer(CallbackInfoReturnable<Boolean> info) {
+    public void setupServer(CallbackInfoReturnable<Boolean> info) throws ScriptException {
         if (!Sandbox.setup()) {
             info.setReturnValue(false);
         }

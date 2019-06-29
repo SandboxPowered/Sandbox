@@ -1,13 +1,14 @@
 package com.hrznstudio.sandbox.api;
 
 
-import javax.script.ScriptEngineManager;
+import jdk.nashorn.api.scripting.NashornScriptEngineFactory;
 
 public class ScriptEngine {
-    private static javax.script.ScriptEngine ENGINE;
+    public static javax.script.ScriptEngine ENGINE;
 
     public static void init(ISandbox sandbox) {
-        ENGINE = new ScriptEngineManager().getEngineByName("nashorn");
+        NashornScriptEngineFactory factory = new NashornScriptEngineFactory();
+        ENGINE = factory.getScriptEngine("--no-java");
         ENGINE.put("CLIENT", sandbox.getSide() == Side.CLIENT);
         ENGINE.put("SERVER", sandbox.getSide() == Side.SERVER);
     }

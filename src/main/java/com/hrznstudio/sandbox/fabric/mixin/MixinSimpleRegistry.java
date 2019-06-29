@@ -2,7 +2,7 @@ package com.hrznstudio.sandbox.fabric.mixin;
 
 import com.google.common.collect.BiMap;
 import com.hrznstudio.sandbox.api.SandboxRegistry;
-import com.hrznstudio.sandbox.fabric.util.Log;
+import com.hrznstudio.sandbox.util.Log;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Int2ObjectBiMap;
 import net.minecraft.util.registry.MutableRegistry;

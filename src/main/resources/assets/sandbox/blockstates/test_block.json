@@ -1,0 +1,7 @@
+{
+    "variants": {
+        "type=bottom": { "model": "sandbox:block/test_bottom" },
+        "type=top": { "model": "sandbox:block/test_top" },
+        "type=double": { "model": "sandbox:block/test" }
+    }
+}

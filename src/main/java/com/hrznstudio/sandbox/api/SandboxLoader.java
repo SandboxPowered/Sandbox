@@ -3,6 +3,7 @@ package com.hrznstudio.sandbox.api;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.hrznstudio.sandbox.api.addon.AddonInfo;
+import com.hrznstudio.sandbox.util.Log;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -17,6 +18,10 @@ public class SandboxLoader {
     private static final Gson GSON = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
     public static List<AddonInfo> locateAddons(File addonsFolder) {
+        if(!addonsFolder.exists()) {
+            addonsFolder.mkdir();
+            return Collections.emptyList();
+        }
         File[] addons = addonsFolder.listFiles(File::isDirectory);
         if (addons == null)
             return Collections.emptyList();
@@ -30,6 +35,7 @@ public class SandboxLoader {
                         throw new RuntimeException(e);
                     }
                 })
+                .peek(info -> Log.info("Adding filesystem addon " + info.getFile().getName()))
                 .collect(Collectors.toList());
     }
 }
