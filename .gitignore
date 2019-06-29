@@ -21,5 +21,7 @@ bin/
 .project
 
 # fabric
+run/*
 
-run/
+
+!run/addons/test/*
