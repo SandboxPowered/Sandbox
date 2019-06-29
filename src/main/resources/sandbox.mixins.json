@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "package": "com.hrznstudio.sandbox.fabric.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MixinMinecraftServer",
+    "MixinSimpleRegistry",
+    "crash.MixinCrashReport"
+  ],
+  "client": [
+    "client.MixinIntegratedServer",
+    "client.MixinMinecraft"
+  ],
+  "server": [
+    "server.MixinDedicatedServer"
+  ]
+}

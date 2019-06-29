@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "sandbox",
+  "version": "${version}",
+
+  "name": "Sandbox",
+  "description": "Javascript mod engine!",
+  "authors": [
+    "Invisible",
+    "OpenModLoader",
+    "Horizon Studios"
+  ],
+  "contact": {
+    "homepage": "https://sandbox.hrznstudio.com/",
+    "sources": "https://github.com/OpenModLoader/Sandbox"
+  },
+
+  "license": "ARR",
+  "icon": "assets/sandbox/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.hrznstudio.sandbox.fabric.Sandbox"
+    ]
+  },
+  "mixins": [
+    "sandbox.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.4.0"
+  },
+  "suggests": {
+  }
+}
