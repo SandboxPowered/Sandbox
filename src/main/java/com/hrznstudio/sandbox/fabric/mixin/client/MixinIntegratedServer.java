@@ -2,7 +2,6 @@ package com.hrznstudio.sandbox.fabric.mixin.client;
 
 import com.hrznstudio.sandbox.fabric.Sandbox;
 import com.hrznstudio.sandbox.fabric.mixin.MixinMinecraftServer;
-import net.minecraft.block.Block;
 import net.minecraft.server.integrated.IntegratedServer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

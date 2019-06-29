@@ -1,7 +1,7 @@
 package com.hrznstudio.sandbox.fabric.mixin;
 
 import com.google.common.collect.BiMap;
-import com.hrznstudio.sandbox.fabric.api.SandboxRegistry;
+import com.hrznstudio.sandbox.api.SandboxRegistry;
 import com.hrznstudio.sandbox.fabric.util.Log;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Int2ObjectBiMap;
@@ -12,24 +12,31 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(SimpleRegistry.class)
-public abstract class MixinSimpleRegistry extends MutableRegistry implements SandboxRegistry {
+public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implements SandboxRegistry<T> {
     @Shadow
     @Final
-    protected BiMap<Identifier, Object> entries;
+    protected BiMap<Identifier, T> entries;
 
     @Shadow
     @Final
-    protected Int2ObjectBiMap<Object> indexedEntries;
+    protected Int2ObjectBiMap<T> indexedEntries;
 
     @Shadow
     protected Object[] randomEntries;
 
+    @Shadow
+    public abstract <V extends T> V add(Identifier identifier_1, V object_1);
+
     @Override
     //TODO: Figure out a way to completely remove
-    public boolean remove(Identifier identifier) {
+    public T remove(Identifier identifier) {
         Log.info("Removing " + identifier);
-        entries.remove(identifier);
         randomEntries = null;
-        return true;
+        return entries.remove(identifier);
+    }
+
+    @Override
+    public void register(Identifier identifier, T object) {
+        add(identifier, object);
     }
 }
