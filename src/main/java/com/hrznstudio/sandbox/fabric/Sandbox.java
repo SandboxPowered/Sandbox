@@ -3,6 +3,7 @@ package com.hrznstudio.sandbox.fabric;
 import com.hrznstudio.sandbox.api.*;
 import com.hrznstudio.sandbox.api.addon.AddonInfo;
 import com.hrznstudio.sandbox.util.Log;
+import jdk.nashorn.internal.parser.JSONParser;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
@@ -34,11 +35,9 @@ public class Sandbox implements ModInitializer, ISandbox {
         ScriptEngine.init(SANDBOX);
         ADDONS = SandboxLoader.locateAddons(SandboxLocation.ADDONS);
 
-
         Block block = new SlabBlock(Block.Settings.copy(Blocks.GOLD_BLOCK));
         Registry.register(Registry.BLOCK, new Identifier("sandbox", "test_block"), block);
         ((SandboxRegistry) Registry.ITEM).register(new Identifier("sandbox", "test_block"), new BlockItem(block, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS)));
-
 
         MinecraftClient.getInstance().reloadResourcesConcurrently();
         return true;

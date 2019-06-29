@@ -8,7 +8,7 @@ public class ScriptEngine {
 
     public static void init(ISandbox sandbox) {
         NashornScriptEngineFactory factory = new NashornScriptEngineFactory();
-        ENGINE = factory.getScriptEngine("--no-java");
+        ENGINE = factory.getScriptEngine("--no-java", "-language=es6");
         ENGINE.put("CLIENT", sandbox.getSide() == Side.CLIENT);
         ENGINE.put("SERVER", sandbox.getSide() == Side.SERVER);
     }
