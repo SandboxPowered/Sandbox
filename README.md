@@ -2,7 +2,7 @@
 
 # Sandbox
 
-[![Discord](https://img.shields.io/discord/422424112863117312.svg?style=for-the-badge&logo=discord)](https://discord.gg/758eCD7)
+[![Discord](https://img.shields.io/discord/444525609008496640.svg?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/m9DMfnD)
 [![](https://img.shields.io/github/contributors/OpenModLoader/Sandbox.svg?style=for-the-badge&logo=github)](https://github.com/OpenModLoader/Sandbox/graphs/contributors)
 [![](https://img.shields.io/github/issues/OpenModLoader/Sandbox.svg?style=for-the-badge&logo=github)](https://github.com/OpenModLoader/Sandbox/issues)
 [![](https://img.shields.io/github/issues-pr/OpenModLoader/Sandbox.svg?style=for-the-badge&logo=github)](https://github.com/OpenModLoader/Sandbox/pulls)
