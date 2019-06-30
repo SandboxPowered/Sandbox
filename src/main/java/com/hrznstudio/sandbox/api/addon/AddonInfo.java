@@ -13,7 +13,7 @@ public class AddonInfo {
     @Expose
     private List<String> ignore;
 
-    private File file;
+    private AddonFolder file;
 
     public String getTitle() {
         return title;
@@ -27,12 +27,31 @@ public class AddonInfo {
         return ignore;
     }
 
-    public File getFile() {
+    public AddonFolder getFolder() {
         return file;
     }
 
-    public AddonInfo setFile(File file) {
+    public AddonInfo setFile(AddonFolder file) {
         this.file = file;
         return this;
+    }
+
+    public static class AddonFolder {
+        private final File folder;
+
+        public AddonFolder(File folder) {
+            this.folder = folder;
+        }
+
+        public File asFile() {
+            return folder;
+        }
+        public File getSubFile(String path) {
+            return new File(folder,path);
+        }
+        public String getDirName() {
+            return folder.getName();
+        }
+
     }
 }

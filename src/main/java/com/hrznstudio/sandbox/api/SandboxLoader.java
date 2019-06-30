@@ -30,12 +30,12 @@ public class SandboxLoader {
                 .filter(File::exists)
                 .map(f -> {
                     try {
-                        return GSON.fromJson(FileUtils.readFileToString(f, StandardCharsets.UTF_8), AddonInfo.class).setFile(f);
+                        return GSON.fromJson(FileUtils.readFileToString(f, StandardCharsets.UTF_8), AddonInfo.class).setFile(new AddonInfo.AddonFolder(f.getParentFile()));
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                 })
-                .peek(info -> Log.info("Adding filesystem addon " + info.getFile().getName()))
+                .peek(info -> Log.info("Adding filesystem addon " + info.getId()))
                 .collect(Collectors.toList());
     }
 }
