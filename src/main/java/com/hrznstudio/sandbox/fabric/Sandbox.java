@@ -18,6 +18,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
+import javax.script.ScriptException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class Sandbox implements ModInitializer, ISandbox {
     public static boolean setup() {
         Log.info("Setting up Sandbox environment");
         ScriptEngine.init(SANDBOX);
+
         ADDONS = SandboxLoader.locateAddons(SandboxLocation.ADDONS);
 
         Block block = new SlabBlock(Block.Settings.copy(Blocks.GOLD_BLOCK));

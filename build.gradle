@@ -17,6 +17,7 @@ dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}"
 	modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
+	compile "com.eclipsesource.j2v8:j2v8_win32_x86_64:${project.js_version}"
 }
 
 processResources {
