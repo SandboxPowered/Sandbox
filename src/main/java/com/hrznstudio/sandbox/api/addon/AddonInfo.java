@@ -9,9 +9,7 @@ public class AddonInfo {
     @Expose
     private String title;
     @Expose
-    private String type;
-    @Expose
-    private List<String> tags;
+    private String id;
     @Expose
     private List<String> ignore;
 
@@ -21,12 +19,8 @@ public class AddonInfo {
         return title;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public List<String> getTags() {
-        return tags;
+    public String getId() {
+        return id;
     }
 
     public List<String> getIgnore() {
