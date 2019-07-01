@@ -22,6 +22,8 @@ import org.apache.commons.io.FileUtils;
 import javax.script.ScriptException;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
@@ -46,8 +48,11 @@ public class Sandbox implements ModInitializer, ISandbox {
             if (s != null) {
                 Stream.of(s).forEach(file -> {
                     try {
-                        ScriptEngine.ENGINE.executeVoidScript(FileUtils.readFileToString(file));
-                    } catch (Exception e) {
+                        ScriptEngine.ENGINE.executeVoidScript("'use strict';\n" +
+                                "(function () {\n" +
+                                FileUtils.readFileToString(file, Charset.defaultCharset()) +
+                                "\n})();");
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                 });
@@ -67,6 +72,7 @@ public class Sandbox implements ModInitializer, ISandbox {
     public static void shutdown() {
         ((SandboxRegistry) Registry.BLOCK).remove(new Identifier("test", "test_block"));
         ((SandboxRegistry) Registry.ITEM).remove(new Identifier("test", "test_block"));
+        ScriptEngine.shutdown();
     }
 
     @Override
