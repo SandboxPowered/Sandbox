@@ -1,9 +1,16 @@
 package com.hrznstudio.sandbox.api;
 
-import com.eclipsesource.v8.NodeJS;
-import com.eclipsesource.v8.V8;
-import com.eclipsesource.v8.V8Object;
+import com.eclipsesource.v8.*;
+import com.hrznstudio.sandbox.api.exception.ScriptException;
 import com.hrznstudio.sandbox.util.Log;
+import net.minecraft.world.GameRules;
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,8 +34,7 @@ public class ScriptEngine {
     }
 
     private static void addObjects(ISandbox sandbox) {
-
-        REGISTRY = new V8Object(ENGINE)
+        ENGINE.add("Registry", new V8Object(ENGINE)
                 .registerJavaMethod((receiver, parameters) -> {
                     String registryString = parameters.getString(0);
                     SandboxRegistry registry = sandbox.getRegistry(registryString);
@@ -40,8 +46,7 @@ public class ScriptEngine {
                 .add("ITEM", "item")
                 .add("ENTITY", "entity")
                 .add("TILE", "tileentity")
-        ;
-        ENGINE.add("Registry", REGISTRY);
+        );
         ENGINE.registerJavaMethod((receiver, parameters) -> {
             Log.info(parameters.getString(0));
         }, "print");
@@ -53,11 +58,31 @@ public class ScriptEngine {
                 return null;
             }
         }, "require");
-
     }
 
     public static void shutdown() {
         REGISTRY.release();
         ENGINE.release();
+    }
+
+    public static Optional<ScriptException> executeScript(File script) {
+        return executeScript(script, StandardCharsets.UTF_8);
+    }
+
+    public static Optional<ScriptException> executeScript(File script, Charset charset) {
+        try {
+            return executeScript(FileUtils.readFileToString(script, charset));
+        } catch (IOException e) {
+            return Optional.of(new ScriptException(e));
+        }
+    }
+
+    public static Optional<ScriptException> executeScript(String script) {
+        try {
+            ENGINE.executeVoidScript(script);
+            return Optional.empty();
+        } catch (Exception e) {
+            return Optional.of(new ScriptException(e));
+        }
     }
 }

@@ -3,7 +3,11 @@ package com.hrznstudio.sandbox.fabric;
 import com.eclipsesource.v8.V8ScriptExecutionException;
 import com.hrznstudio.sandbox.api.*;
 import com.hrznstudio.sandbox.api.addon.AddonInfo;
+import com.hrznstudio.sandbox.api.exception.ScriptException;
+import com.hrznstudio.sandbox.fabric.overlay.AddonLoadingMonitor;
+import com.hrznstudio.sandbox.fabric.overlay.LoadingOverlay;
 import com.hrznstudio.sandbox.util.Log;
+import com.hrznstudio.sandbox.util.ReflectionHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
@@ -16,16 +20,18 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import org.apache.commons.io.FileUtils;
+import net.minecraft.world.GameRules;
 
-import javax.script.ScriptException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 public class Sandbox implements ModInitializer, ISandbox {
@@ -43,6 +49,12 @@ public class Sandbox implements ModInitializer, ISandbox {
     }
 
     public static boolean setup() throws V8ScriptExecutionException {
+        MinecraftClient.getInstance().setOverlay(new LoadingOverlay(
+                MinecraftClient.getInstance(),
+                new AddonLoadingMonitor(),
+                ()->{},
+                false
+        ));
         Log.info("Setting up Sandbox environment");
         ScriptEngine.init(SANDBOX);
         ADDONS = SandboxLoader.locateAddons(SandboxLocation.ADDONS);

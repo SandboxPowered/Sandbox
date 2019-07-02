@@ -13,4 +13,8 @@ public class Log {
     public static void error(String s) {
         LOGGER.error("[Sandbox] " + s);
     }
+
+    public static void error(String s, Throwable e) {
+        LOGGER.error("[Sandbox] " + s, e);
+    }
 }
