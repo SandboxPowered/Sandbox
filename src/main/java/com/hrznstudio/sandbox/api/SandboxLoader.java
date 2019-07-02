@@ -30,7 +30,7 @@ public class SandboxLoader {
                 .filter(File::exists)
                 .map(f -> {
                     try {
-                        return GSON.fromJson(FileUtils.readFileToString(f, StandardCharsets.UTF_8), AddonInfo.class).setFile(new AddonInfo.AddonFolder(f.getParentFile()));
+                        return GSON.fromJson(FileUtils.readFileToString(f, StandardCharsets.UTF_8), AddonInfo.class).setFile(new AddonInfo.FolderStructure(f.getParentFile()));
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }

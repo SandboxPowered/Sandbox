@@ -5,6 +5,7 @@ import com.hrznstudio.sandbox.api.*;
 import com.hrznstudio.sandbox.api.addon.AddonInfo;
 import com.hrznstudio.sandbox.fabric.overlay.AddonLoadingMonitor;
 import com.hrznstudio.sandbox.fabric.overlay.LoadingOverlay;
+import com.hrznstudio.sandbox.util.FileUtil;
 import com.hrznstudio.sandbox.util.Log;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
@@ -17,11 +18,9 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class Sandbox implements ModInitializer, ISandbox {
     public static Sandbox SANDBOX;
@@ -50,11 +49,13 @@ public class Sandbox implements ModInitializer, ISandbox {
         ADDONS = SandboxLoader.locateAddons(SandboxLocation.ADDONS);
         ADDONS.forEach(info -> {
             ACTIVE_ADDON = info;
-            File[] s = info.getFolder().getSubFile("blocks").listFiles((dir, name) -> name.endsWith(".js"));
-            if (s != null) {
-                Stream.of(s).forEach(file -> {
-                    ScriptEngine.executeScript(file).ifPresent(e -> Log.error("Script encountered an error", e.getException()));
-                });
+            AddonInfo.FolderStructure scripts = info.getFolder().getSubFolder("scripts");
+            for (RegistryOrder order : RegistryOrder.values()) {
+                FileUtil.getFiles(
+                        scripts.getSubFile(order.getFolder()),
+                        (dir, name) -> name.endsWith(".js"),
+                        true
+                ).forEach(file -> ScriptEngine.executeScript(file).ifPresent(e -> Log.error("Script encountered an error", e.getException())));
             }
             ACTIVE_ADDON = null;
         });
