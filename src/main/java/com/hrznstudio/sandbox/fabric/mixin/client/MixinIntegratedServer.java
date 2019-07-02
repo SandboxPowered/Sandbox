@@ -24,7 +24,7 @@ public class MixinIntegratedServer extends MixinMinecraftServer {
             if (!Sandbox.setup()) {
                 info.setReturnValue(false);
             }
-        } catch(V8ScriptExecutionException e) {
+        } catch (V8ScriptExecutionException e) {
             e.printStackTrace();
             info.setReturnValue(false);
         }

@@ -1,19 +1,19 @@
 package com.hrznstudio.sandbox.api;
 
-import com.eclipsesource.v8.*;
+import com.eclipsesource.v8.NodeJS;
+import com.eclipsesource.v8.V8;
+import com.eclipsesource.v8.V8Object;
 import com.hrznstudio.sandbox.api.exception.ScriptException;
 import com.hrznstudio.sandbox.util.Log;
-import net.minecraft.world.GameRules;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
-
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class ScriptEngine {
 
@@ -51,10 +51,9 @@ public class ScriptEngine {
             Log.info(parameters.getString(0));
         }, "print");
         ENGINE.registerJavaMethod((receiver, parameters) -> {
-            if(REQUIRE_MAP.containsKey(parameters.getString(0))) {
+            if (REQUIRE_MAP.containsKey(parameters.getString(0))) {
                 return parameters.getString(0);
-            }
-            else {
+            } else {
                 return null;
             }
         }, "require");
@@ -79,7 +78,7 @@ public class ScriptEngine {
 
     public static Optional<ScriptException> executeScript(String script) {
         try {
-            ENGINE.executeVoidScript(script);
+            ENGINE.executeVoidScript(String.format("'use strict'; (function () {%s\n})();", script));
             return Optional.empty();
         } catch (Exception e) {
             return Optional.of(new ScriptException(e));

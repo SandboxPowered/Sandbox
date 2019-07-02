@@ -24,10 +24,10 @@ public class LoadingOverlay extends SplashScreen {
 
     public LoadingOverlay(MinecraftClient minecraftClient_1, ResourceReloadMonitor resourceReloadMonitor_1, Runnable runnable_1, boolean boolean_1) {
         super(minecraftClient_1, resourceReloadMonitor_1, runnable_1, boolean_1);
-        this.client=minecraftClient_1;
-        this.reloadMonitor=resourceReloadMonitor_1;
-        this.field_18218=runnable_1;
-        this.field_18219=boolean_1;
+        this.client = minecraftClient_1;
+        this.reloadMonitor = resourceReloadMonitor_1;
+        this.field_18218 = runnable_1;
+        this.field_18219 = boolean_1;
     }
 
     @Override
@@ -39,8 +39,8 @@ public class LoadingOverlay extends SplashScreen {
             this.field_18220 = long_1;
         }
 
-        float float_2 = this.field_17771 > -1L ? (float)(long_1 - this.field_17771) / 1000.0F : -1.0F;
-        float float_3 = this.field_18220 > -1L ? (float)(long_1 - this.field_18220) / 500.0F : -1.0F;
+        float float_2 = this.field_17771 > -1L ? (float) (long_1 - this.field_17771) / 1000.0F : -1.0F;
+        float float_3 = this.field_18220 > -1L ? (float) (long_1 - this.field_18220) / 500.0F : -1.0F;
         float float_6;
         int int_6;
         if (float_2 >= 1.0F) {
@@ -56,7 +56,7 @@ public class LoadingOverlay extends SplashScreen {
                 this.client.currentScreen.render(int_1, int_2, float_1);
             }
 
-            int_6 = MathHelper.ceil(MathHelper.clamp((double)float_3, 0.15D, 1.0D) * 255.0D);
+            int_6 = MathHelper.ceil(MathHelper.clamp((double) float_3, 0.15D, 1.0D) * 255.0D);
             fill(0, 0, int_3, int_4, 13775153 | int_6 << 24);
             float_6 = MathHelper.clamp(float_3, 0.0F, 1.0F);
         } else {
@@ -77,7 +77,7 @@ public class LoadingOverlay extends SplashScreen {
         }
 
         if (float_2 >= 2.0F) {
-            this.client.setOverlay((Overlay)null);
+            this.client.setOverlay((Overlay) null);
         }
 
         if (this.field_17771 == -1L && this.reloadMonitor.isApplyStageComplete() && (!this.field_18219 || float_3 >= 2.0F)) {
@@ -90,10 +90,11 @@ public class LoadingOverlay extends SplashScreen {
         }
 
     }
+
     private void renderProgressBar(int int_1, int int_2, int int_3, int int_4, float float_1, float float_2) {
-        int int_5 = MathHelper.ceil((float)(int_3 - int_1 - 2) * float_1);
+        int int_5 = MathHelper.ceil((float) (int_3 - int_1 - 2) * float_1);
         fill(int_1 - 1, int_2 - 1, int_3 + 1, int_4 + 1, -16777216 | Math.round((1.0F - float_2) * 255.0F) << 16 | Math.round((1.0F - float_2) * 255.0F) << 8 | Math.round((1.0F - float_2) * 255.0F));
         fill(int_1, int_2, int_3, int_4, -1);
-        fill(int_1 + 1, int_2 + 1, int_1 + int_5, int_4 - 1, -16777216 | (int)MathHelper.lerp(1.0F - float_2, 226.0F, 255.0F) << 16 | (int)MathHelper.lerp(1.0F - float_2, 40.0F, 255.0F) << 8 | (int)MathHelper.lerp(1.0F - float_2, 55.0F, 255.0F));
+        fill(int_1 + 1, int_2 + 1, int_1 + int_5, int_4 - 1, -16777216 | (int) MathHelper.lerp(1.0F - float_2, 226.0F, 255.0F) << 16 | (int) MathHelper.lerp(1.0F - float_2, 40.0F, 255.0F) << 8 | (int) MathHelper.lerp(1.0F - float_2, 55.0F, 255.0F));
     }
 }

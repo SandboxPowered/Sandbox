@@ -1,7 +1,5 @@
 package com.hrznstudio.sandbox.util;
 
-import net.minecraft.server.dedicated.command.StopCommand;
-
 import java.lang.reflect.Method;
 
 public class ReflectionHelper {

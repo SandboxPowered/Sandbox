@@ -46,9 +46,11 @@ public class AddonInfo {
         public File asFile() {
             return folder;
         }
+
         public File getSubFile(String path) {
-            return new File(folder,path);
+            return new File(folder, path);
         }
+
         public String getDirName() {
             return folder.getName();
         }

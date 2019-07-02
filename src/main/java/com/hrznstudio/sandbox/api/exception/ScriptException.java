@@ -1,6 +1,6 @@
 package com.hrznstudio.sandbox.api.exception;
 
-public class ScriptException  {
+public class ScriptException {
     private final Exception exception;
 
     public ScriptException(Exception exception) {
