@@ -1,5 +1,6 @@
 package com.hrznstudio.sandbox.fabric.mixin.client;
 
+import com.eclipsesource.v8.V8ScriptExecutionException;
 import com.hrznstudio.sandbox.fabric.Sandbox;
 import com.hrznstudio.sandbox.fabric.mixin.MixinMinecraftServer;
 import net.minecraft.server.integrated.IntegratedServer;
@@ -19,7 +20,12 @@ public class MixinIntegratedServer extends MixinMinecraftServer {
             cancellable = true
     )
     public void setupServer(CallbackInfoReturnable<Boolean> info) throws ScriptException {
-        if (!Sandbox.setup()) {
+        try {
+            if (!Sandbox.setup()) {
+                info.setReturnValue(false);
+            }
+        } catch(V8ScriptExecutionException e) {
+            e.printStackTrace();
             info.setReturnValue(false);
         }
     }
