@@ -1,6 +1,7 @@
 package com.hrznstudio.sandbox.fabric;
 
 import com.eclipsesource.v8.V8ScriptExecutionException;
+import com.google.common.collect.Lists;
 import com.hrznstudio.sandbox.api.*;
 import com.hrznstudio.sandbox.api.addon.AddonInfo;
 import com.hrznstudio.sandbox.fabric.overlay.AddonLoadingMonitor;
@@ -21,6 +22,7 @@ import net.minecraft.util.registry.Registry;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 public class Sandbox implements ModInitializer, ISandbox {
     public static Sandbox SANDBOX;
@@ -28,15 +30,18 @@ public class Sandbox implements ModInitializer, ISandbox {
     public static List<AddonInfo> ADDONS = Collections.emptyList();
     public static AddonInfo ACTIVE_ADDON = null;
 
-    public static List<Identifier> BLOCK_LIST = new ArrayList<>();
+    public static Map<Class, List<Identifier>> CONTENT_LIST;
 
-    public static List<Identifier> ITEM_LIST = new ArrayList<>();
+    public static List<Identifier> getContentList(Class contentClass) {
+        return CONTENT_LIST.computeIfAbsent(contentClass, a->new ArrayList<>());
+    }
 
     public Sandbox() {
         SANDBOX = this;
     }
 
     public static boolean setup() throws V8ScriptExecutionException {
+        CONTENT_LIST.clear();
         MinecraftClient.getInstance().setOverlay(new LoadingOverlay(
                 MinecraftClient.getInstance(),
                 new AddonLoadingMonitor(),
@@ -60,29 +65,31 @@ public class Sandbox implements ModInitializer, ISandbox {
             ACTIVE_ADDON = null;
         });
 
-        /*Block block = new SlabBlock(Block.Settings.copy(Blocks.GOLD_BLOCK));
-        Registry.register(Registry.BLOCK, new Identifier("test", "test_block"), block);
-        ((SandboxRegistry) Registry.ITEM).register(new Identifier("test", "test_block"), new BlockItem(block, new Item.Settings().group(ItemGroup.BUILDING_BLOCKS)));
-        */
         MinecraftClient.getInstance().reloadResourcesConcurrently();
         return true;
     }
 
     public static void loadBlock(Identifier identifier, String namespace, Block block, ItemGroup itemGroup) {
-        BLOCK_LIST.add(identifier);
+        getContentList(Block.class).add(identifier);
         Registry.register(Registry.BLOCK, identifier, block);
-        ((SandboxRegistry) Registry.ITEM).register(identifier, new BlockItem(block, new Item.Settings().group(itemGroup)));
+        loadItem(identifier, namespace, new BlockItem(block, new Item.Settings().group(itemGroup)));
+    }
+
+    public static void loadItem(Identifier identifier, String namespace, Item item) {
+        getContentList(Item.class).add(identifier);
+        Registry.register(Registry.ITEM, identifier, item);
+        ((SandboxRegistry) Registry.ITEM).register(identifier, item);
+        if (item instanceof BlockItem)
+            Item.BLOCK_ITEMS.put(((BlockItem) item).getBlock(), item);
     }
 
     public static void shutdown() {
-        for (Identifier identifier : BLOCK_LIST) {
+        for (Identifier identifier : getContentList(Block.class)) {
             ((SandboxRegistry) Registry.BLOCK).remove(identifier);
         }
-        for (Identifier identifier : ITEM_LIST) {
+        for (Identifier identifier : getContentList(Item.class)) {
             ((SandboxRegistry) Registry.ITEM).remove(identifier);
         }
-        /*((SandboxRegistry) Registry.BLOCK).remove(new Identifier("test", "test_block"));
-        ((SandboxRegistry) Registry.ITEM).remove(new Identifier("test", "test_block"));*/
         ScriptEngine.shutdown();
     }
 
