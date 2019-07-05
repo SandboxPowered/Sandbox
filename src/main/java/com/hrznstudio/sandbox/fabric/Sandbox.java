@@ -19,10 +19,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Sandbox implements ModInitializer, ISandbox {
     public static Sandbox SANDBOX;
@@ -30,7 +27,7 @@ public class Sandbox implements ModInitializer, ISandbox {
     public static List<AddonInfo> ADDONS = Collections.emptyList();
     public static AddonInfo ACTIVE_ADDON = null;
 
-    public static Map<Class, List<Identifier>> CONTENT_LIST;
+    public static Map<Class, List<Identifier>> CONTENT_LIST = new HashMap<>();
 
     public static List<Identifier> getContentList(Class contentClass) {
         return CONTENT_LIST.computeIfAbsent(contentClass, a->new ArrayList<>());
