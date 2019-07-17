@@ -13,11 +13,18 @@ group = project.maven_group
 minecraft {
 }
 
+repositories {
+	maven { url 'https://jitpack.io' }
+}
+
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}"
 	modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
 	compile "com.eclipsesource.j2v8:j2v8_win32_x86_64:${project.js_version}"
+	compile group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.2'
+	implementation 'com.github.Vatuu:discord-rpc:1.6.2'
+
 }
 
 processResources {

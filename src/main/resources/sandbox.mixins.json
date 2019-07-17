@@ -9,7 +9,8 @@
   ],
   "client": [
     "client.MixinIntegratedServer",
-    "client.MixinMinecraftClient"
+    "client.MixinMinecraftClient",
+    "client.MixinScreen"
   ],
   "server": [
     "server.MixinDedicatedServer"

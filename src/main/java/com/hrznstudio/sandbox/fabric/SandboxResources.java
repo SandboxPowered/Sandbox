@@ -25,8 +25,8 @@ public class SandboxResources extends AbstractFileResourcePack {
     }
 
     private Path getPath(String filename) {
-        if(filename.equals("pack.png"))
-            filename="assets/sandbox/icon.png";
+        if (filename.equals("pack.png"))
+            filename = "assets/sandbox/icon.png";
         Path childPath = basePath.resolve(filename.replace("/", separator)).toAbsolutePath().normalize();
 
         if (childPath.startsWith(basePath) && Files.exists(childPath)) {

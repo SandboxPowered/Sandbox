@@ -1,18 +1,24 @@
 package com.hrznstudio.sandbox.fabric;
 
+import com.eclipsesource.v8.V8Object;
 import com.eclipsesource.v8.V8ScriptExecutionException;
-import com.google.common.collect.Lists;
 import com.hrznstudio.sandbox.api.*;
 import com.hrznstudio.sandbox.api.addon.AddonInfo;
+import com.hrznstudio.sandbox.fabric.api.ISandboxScreen;
+import com.hrznstudio.sandbox.fabric.block.JavascriptBlock;
 import com.hrznstudio.sandbox.fabric.overlay.AddonLoadingMonitor;
 import com.hrznstudio.sandbox.fabric.overlay.LoadingOverlay;
 import com.hrznstudio.sandbox.util.FileUtil;
 import com.hrznstudio.sandbox.util.Log;
+import net.arikia.dev.drpc.DiscordRPC;
+import net.arikia.dev.drpc.DiscordRichPresence;
 import net.fabricmc.api.EnvType;
-import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.TitleScreen;
+import net.minecraft.client.resource.language.I18n;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -20,21 +26,27 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 import java.util.*;
+import java.util.function.Function;
 
-public class Sandbox implements ModInitializer, ISandbox {
-    public static Sandbox SANDBOX;
+public class Sandbox implements ISandbox {
+    public static Sandbox SANDBOX = new Sandbox();
 
     public static List<AddonInfo> ADDONS = Collections.emptyList();
     public static AddonInfo ACTIVE_ADDON = null;
 
     public static Map<Class, List<Identifier>> CONTENT_LIST = new HashMap<>();
+    public static Map<SandboxRegistry.RegistryType, Map<String, Function<V8Object, ?>>> REGISTRIES = new HashMap<>();
 
-    public static List<Identifier> getContentList(Class contentClass) {
-        return CONTENT_LIST.computeIfAbsent(contentClass, a->new ArrayList<>());
+    static {
+        getReg(SandboxRegistry.RegistryType.BLOCK).put("block", JavascriptBlock::new);
     }
 
-    public Sandbox() {
-        SANDBOX = this;
+    public static List<Identifier> getContentList(Class contentClass) {
+        return CONTENT_LIST.computeIfAbsent(contentClass, a -> new ArrayList<>());
+    }
+
+    public static Map<String, Function<V8Object, ?>> getReg(SandboxRegistry.RegistryType type) {
+        return REGISTRIES.computeIfAbsent(type, aClass -> new HashMap<>());
     }
 
     public static boolean setup() throws V8ScriptExecutionException {
@@ -63,19 +75,22 @@ public class Sandbox implements ModInitializer, ISandbox {
         });
 
         MinecraftClient.getInstance().reloadResourcesConcurrently();
+        DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("In Singleplayer")
+                .setBigImage("logo", "")
+                .build()
+        );
         return true;
     }
 
-    public static void loadBlock(Identifier identifier, String namespace, Block block, ItemGroup itemGroup) {
+    public static void loadBlock(Identifier identifier, Block block, ItemGroup itemGroup) {
         getContentList(Block.class).add(identifier);
         Registry.register(Registry.BLOCK, identifier, block);
-        loadItem(identifier, namespace, new BlockItem(block, new Item.Settings().group(itemGroup)));
+        loadItem(identifier, new BlockItem(block, new Item.Settings().group(itemGroup)));
     }
 
-    public static void loadItem(Identifier identifier, String namespace, Item item) {
+    public static void loadItem(Identifier identifier, Item item) {
         getContentList(Item.class).add(identifier);
         Registry.register(Registry.ITEM, identifier, item);
-        ((SandboxRegistry) Registry.ITEM).register(identifier, item);
         if (item instanceof BlockItem)
             Item.BLOCK_ITEMS.put(((BlockItem) item).getBlock(), item);
     }
@@ -90,9 +105,23 @@ public class Sandbox implements ModInitializer, ISandbox {
         ScriptEngine.shutdown();
     }
 
-    @Override
-    public void onInitialize() {
+    public static void setupGlobal() {
+        SandboxDiscord.start();
+    }
 
+    public static void shutdownGlobal() {
+        SandboxDiscord.shutdown();
+    }
+
+    public static Screen openScreen(Screen screen) {
+        if (screen instanceof TitleScreen && screen instanceof ISandboxScreen) {
+            ((ISandboxScreen) screen).getButtons().removeIf(w -> w.getMessage().equals(I18n.translate("menu.online")));
+            DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("In Menu")
+                    .setBigImage("logo", "")
+                    .build()
+            );
+        }
+        return screen;
     }
 
     @Override
@@ -101,15 +130,15 @@ public class Sandbox implements ModInitializer, ISandbox {
     }
 
     @Override
-    public SandboxRegistry getRegistry(String registryString) {
-        switch (registryString) {
-            case "block":
+    public SandboxRegistry getRegistry(SandboxRegistry.RegistryType registryType) {
+        switch (registryType) {
+            case BLOCK:
                 return (SandboxRegistry) Registry.BLOCK;
-            case "item":
+            case ITEM:
                 return (SandboxRegistry) Registry.ITEM;
-            case "entity":
+            case ENTITY:
                 return (SandboxRegistry) Registry.ENTITY_TYPE;
-            case "tile":
+            case BLOCK_ENTITY:
                 return (SandboxRegistry) Registry.BLOCK_ENTITY;
             default:
                 return null;

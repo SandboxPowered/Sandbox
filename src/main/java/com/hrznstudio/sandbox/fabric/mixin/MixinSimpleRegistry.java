@@ -14,6 +14,8 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
+import javax.annotation.Nullable;
+
 @Mixin(SimpleRegistry.class)
 public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implements SandboxRegistry<T> {
     @Shadow
@@ -26,6 +28,10 @@ public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implemen
 
     @Shadow
     protected Object[] randomEntries;
+
+    @Shadow
+    @Nullable
+    public abstract T get(Identifier identifier_1);
 
     @Shadow
     public abstract <V extends T> V add(Identifier identifier_1, V object_1);

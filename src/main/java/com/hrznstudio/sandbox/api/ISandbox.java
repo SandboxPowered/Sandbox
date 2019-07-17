@@ -4,5 +4,5 @@ public interface ISandbox {
 
     Side getSide();
 
-    SandboxRegistry getRegistry(String registryString);
+    SandboxRegistry getRegistry(SandboxRegistry.RegistryType registryType);
 }
