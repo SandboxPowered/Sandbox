@@ -1,4 +1,4 @@
-package com.hrznstudio.sandbox.fabric;
+package com.hrznstudio.sandbox;
 
 import net.fabricmc.api.ModInitializer;
 

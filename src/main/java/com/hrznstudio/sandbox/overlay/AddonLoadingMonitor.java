@@ -1,4 +1,4 @@
-package com.hrznstudio.sandbox.fabric.overlay;
+package com.hrznstudio.sandbox.overlay;
 
 import net.minecraft.resource.ResourceReloadMonitor;
 import net.minecraft.util.Unit;

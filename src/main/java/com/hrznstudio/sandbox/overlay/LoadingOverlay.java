@@ -1,4 +1,4 @@
-package com.hrznstudio.sandbox.fabric.overlay;
+package com.hrznstudio.sandbox.overlay;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.MinecraftClient;

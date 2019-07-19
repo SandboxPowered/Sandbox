@@ -1,4 +1,4 @@
-package com.hrznstudio.sandbox.fabric.api;
+package com.hrznstudio.sandbox.api;
 
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
 

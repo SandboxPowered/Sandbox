@@ -1,4 +1,4 @@
-package com.hrznstudio.sandbox.fabric.mixin.crash;
+package com.hrznstudio.sandbox.mixin.crash;
 
 import net.minecraft.util.crash.CrashReport;
 import net.minecraft.util.crash.CrashReportSection;

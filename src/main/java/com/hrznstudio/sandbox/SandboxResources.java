@@ -1,4 +1,4 @@
-package com.hrznstudio.sandbox.fabric;
+package com.hrznstudio.sandbox;
 
 import com.hrznstudio.sandbox.util.Log;
 import net.minecraft.resource.AbstractFileResourcePack;

@@ -1,6 +1,6 @@
-package com.hrznstudio.sandbox.fabric.mixin.client;
+package com.hrznstudio.sandbox.mixin.client;
 
-import com.hrznstudio.sandbox.fabric.api.ISandboxScreen;
+import com.hrznstudio.sandbox.api.ISandboxScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import org.spongepowered.asm.mixin.Final;

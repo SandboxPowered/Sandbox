@@ -3,7 +3,7 @@ package com.hrznstudio.sandbox.util;
 import com.eclipsesource.v8.V8Array;
 import com.eclipsesource.v8.V8Object;
 import com.eclipsesource.v8.V8Value;
-import com.hrznstudio.sandbox.api.ScriptEngine;
+import com.hrznstudio.sandbox.SandboxServer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
@@ -31,13 +31,13 @@ public class V8Util {
     }
 
     public static V8Object createV8Object() {
-        V8Object o = new V8Object(ScriptEngine.ENGINE);
+        V8Object o = new V8Object(SandboxServer.INSTANCE.getEngine().ENGINE);
         OBJECTS.add(o);
         return o;
     }
 
     public static V8Array createV8Array() {
-        V8Array o = new V8Array(ScriptEngine.ENGINE);
+        V8Array o = new V8Array(SandboxServer.INSTANCE.getEngine().ENGINE);
         OBJECTS.add(o);
         return o;
     }

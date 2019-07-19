@@ -1,6 +1,5 @@
-package com.hrznstudio.sandbox.fabric.mixin;
+package com.hrznstudio.sandbox.mixin;
 
-import com.hrznstudio.sandbox.fabric.Sandbox;
 import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,6 +12,6 @@ public class MixinMinecraftServer {
             at = @At(value = "TAIL")
     )
     public void shutdown(CallbackInfo info) {
-        Sandbox.shutdown();
+        SandboxHooks.shutdown();
     }
 }

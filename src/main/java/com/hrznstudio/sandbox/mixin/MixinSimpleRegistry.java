@@ -1,4 +1,4 @@
-package com.hrznstudio.sandbox.fabric.mixin;
+package com.hrznstudio.sandbox.mixin;
 
 import com.google.common.collect.BiMap;
 import com.hrznstudio.sandbox.api.SandboxRegistry;

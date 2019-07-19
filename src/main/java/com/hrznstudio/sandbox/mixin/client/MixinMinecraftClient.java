@@ -1,8 +1,10 @@
-package com.hrznstudio.sandbox.fabric.mixin.client;
+package com.hrznstudio.sandbox.mixin.client;
 
-import com.hrznstudio.sandbox.fabric.Sandbox;
-import com.hrznstudio.sandbox.fabric.resources.AddonResourcePack;
-import com.hrznstudio.sandbox.fabric.resources.SandboxResourceCreator;
+import com.hrznstudio.sandbox.Sandbox;
+import com.hrznstudio.sandbox.SandboxClient;
+import com.hrznstudio.sandbox.mixin.SandboxHooks;
+import com.hrznstudio.sandbox.resources.AddonResourcePack;
+import com.hrznstudio.sandbox.resources.SandboxResourceCreator;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resource.ClientResourcePackContainer;
@@ -44,14 +46,19 @@ public class MixinMinecraftClient {
         addonResourcePackModifications(list);
     }
 
+    @Inject(method = "startIntegratedServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/integrated/IntegratedServer;start()V"))
+    public void clientSetup(CallbackInfo info) {
+        SandboxClient.constructAndSetup();
+    }
+
     @Inject(method = "init", at = @At("HEAD"))
     public void initGlobal(CallbackInfo info) {
-        Sandbox.setupGlobal();
+        SandboxHooks.setupGlobal();
     }
 
     @Inject(method = "close", at = @At("HEAD"))
     public void shutdownGlobal(CallbackInfo info) {
-        Sandbox.shutdownGlobal();
+        SandboxHooks.shutdownGlobal();
     }
 
     @Inject(method = "reloadResources", at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/ReloadableResourceManager;beginMonitoredReload(Ljava/util/concurrent/Executor;Ljava/util/concurrent/Executor;Ljava/util/concurrent/CompletableFuture;Ljava/util/List;)Lnet/minecraft/resource/ResourceReloadMonitor;", ordinal = 0), locals = LocalCapture.CAPTURE_FAILHARD)
@@ -61,6 +68,6 @@ public class MixinMinecraftClient {
 
     @ModifyVariable(method = "openScreen", at = @At("HEAD"), ordinal = 0)
     public Screen openScreen(Screen screen) {
-        return Sandbox.openScreen(screen);
+        return SandboxHooks.openScreen(screen);
     }
 }

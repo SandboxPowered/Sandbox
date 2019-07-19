@@ -1,7 +1,6 @@
-package com.hrznstudio.sandbox.fabric.block;
+package com.hrznstudio.sandbox.block;
 
 import com.eclipsesource.v8.V8Object;
-import com.hrznstudio.sandbox.api.ScriptEngine;
 import com.hrznstudio.sandbox.util.V8Util;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -28,7 +27,6 @@ public class JavascriptBlock extends Block {
 
         if (!world_1.isClient) {
             if (object.contains("onBreak")) {
-                ScriptEngine.ENGINE.getLocker();
                 V8Util.push();
                 object.executeVoidFunction("onBreak", V8Util.createV8Array(
                         V8Util.createV8Pos(pos),
@@ -45,11 +43,11 @@ public class JavascriptBlock extends Block {
 
         if (!world_1.isClient) {
             if (object.contains("onPlace")) {
-                ScriptEngine.ENGINE.getLocker();
                 V8Util.push();
                 object.executeVoidFunction("onPlace", V8Util.createV8Array(
                         V8Util.createV8Pos(pos),
-                        livingEntity_1 instanceof PlayerEntity ? V8Util.createV8Player((PlayerEntity) livingEntity_1) : null
+                        livingEntity_1 instanceof PlayerEntity ? V8Util.createV8Player((PlayerEntity) livingEntity_1) : null,
+                        V8Util.createV8ItemStack(itemStack_1)
                 ));
                 V8Util.pop();
             }

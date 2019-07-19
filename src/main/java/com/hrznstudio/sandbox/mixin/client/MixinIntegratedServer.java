@@ -1,8 +1,7 @@
-package com.hrznstudio.sandbox.fabric.mixin.client;
+package com.hrznstudio.sandbox.mixin.client;
 
-import com.eclipsesource.v8.V8ScriptExecutionException;
-import com.hrznstudio.sandbox.fabric.Sandbox;
-import com.hrznstudio.sandbox.fabric.mixin.MixinMinecraftServer;
+import com.hrznstudio.sandbox.SandboxServer;
+import com.hrznstudio.sandbox.mixin.MixinMinecraftServer;
 import net.minecraft.server.integrated.IntegratedServer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,13 +19,6 @@ public class MixinIntegratedServer extends MixinMinecraftServer {
             cancellable = true
     )
     public void setupServer(CallbackInfoReturnable<Boolean> info) throws ScriptException {
-        try {
-            if (!Sandbox.setup()) {
-                info.setReturnValue(false);
-            }
-        } catch (V8ScriptExecutionException e) {
-            e.printStackTrace();
-            info.setReturnValue(false);
-        }
+        SandboxServer.constructAndSetup(true);
     }
 }

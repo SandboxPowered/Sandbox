@@ -1,4 +1,4 @@
-package com.hrznstudio.sandbox.fabric.resources;
+package com.hrznstudio.sandbox.resources;
 
 import com.google.gson.JsonObject;
 import com.hrznstudio.sandbox.api.addon.AddonInfo;

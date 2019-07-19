@@ -1,6 +1,6 @@
-package com.hrznstudio.sandbox.fabric.resources;
+package com.hrznstudio.sandbox.resources;
 
-import com.hrznstudio.sandbox.fabric.SandboxResources;
+import com.hrznstudio.sandbox.SandboxResources;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resource.ResourcePackContainer;
 import net.minecraft.resource.ResourcePackCreator;
