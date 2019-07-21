@@ -40,7 +40,7 @@ public class SandboxDiscord {
             while(!callbackThread.isInterrupted()) {
                 DiscordRPC.discordRunCallbacks();
             }
-        });
+        }, "Discord-Callbacks");
         callbackThread.start();
     }
 

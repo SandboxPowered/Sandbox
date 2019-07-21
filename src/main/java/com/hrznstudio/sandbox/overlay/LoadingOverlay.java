@@ -77,7 +77,7 @@ public class LoadingOverlay extends SplashScreen {
         }
 
         if (float_2 >= 2.0F) {
-            this.client.setOverlay((Overlay) null);
+            this.client.setOverlay(null);
         }
 
         if (this.field_17771 == -1L && this.reloadMonitor.isApplyStageComplete() && (!this.field_18219 || float_3 >= 2.0F)) {

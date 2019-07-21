@@ -2,6 +2,7 @@ package com.hrznstudio.sandbox;
 
 import com.hrznstudio.sandbox.api.ISandboxScreen;
 import com.hrznstudio.sandbox.api.Side;
+import com.hrznstudio.sandbox.client.DownloadScreen;
 import com.hrznstudio.sandbox.client.SandboxClient;
 import com.hrznstudio.sandbox.server.SandboxServer;
 import com.hrznstudio.sandbox.util.ArrayUtil;
@@ -10,8 +11,8 @@ import net.arikia.dev.drpc.DiscordRichPresence;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
+import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.resource.language.I18n;
-import org.apache.commons.lang3.ArrayUtils;
 
 public class SandboxHooks {
     public static void shutdown() {
@@ -39,6 +40,10 @@ public class SandboxHooks {
                     .setBigImage("logo", "")
                     .build()
             );
+        } else {
+            if (screen instanceof MultiplayerScreen) {
+                return new DownloadScreen();
+            }
         }
         return screen;
     }

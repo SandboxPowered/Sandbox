@@ -12,6 +12,7 @@ import net.minecraft.resource.ResourcePack;
 import net.minecraft.resource.ResourcePackContainerManager;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -71,5 +72,14 @@ public class MixinMinecraftClient {
     @ModifyVariable(method = "openScreen", at = @At("HEAD"), ordinal = 0)
     public Screen openScreen(Screen screen) {
         return SandboxHooks.openScreen(screen);
+    }
+
+    /**
+     * @reason Sandbox Branding
+     * @author Coded
+     */
+    @Overwrite
+    public String getVersionType() {
+        return "Sandbox";
     }
 }

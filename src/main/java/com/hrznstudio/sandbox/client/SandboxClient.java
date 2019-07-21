@@ -3,15 +3,11 @@ package com.hrznstudio.sandbox.client;
 import com.hrznstudio.sandbox.Sandbox;
 import com.hrznstudio.sandbox.SandboxCommon;
 import com.hrznstudio.sandbox.api.Gamemode;
-import com.hrznstudio.sandbox.overlay.AddonLoadingMonitor;
-import com.hrznstudio.sandbox.overlay.LoadingOverlay;
 import com.hrznstudio.sandbox.util.Log;
 import com.hrznstudio.sandbox.vanilla.VanillaGamemodes;
 import net.arikia.dev.drpc.DiscordRPC;
 import net.arikia.dev.drpc.DiscordRichPresence;
 import net.minecraft.client.MinecraftClient;
-
-import java.util.LinkedHashMap;
 
 public class SandboxClient extends SandboxCommon {
     public static SandboxClient INSTANCE;
@@ -31,13 +27,13 @@ public class SandboxClient extends SandboxCommon {
         CONTENT_LIST.clear();
         engine.init(Sandbox.SANDBOX);
         //Init client engine
-        MinecraftClient.getInstance().setOverlay(new LoadingOverlay(
-                MinecraftClient.getInstance(),
-                new AddonLoadingMonitor(),
-                () -> {
-                },
-                false
-        ));
+//        MinecraftClient.getInstance().setOverlay(new LoadingOverlay(
+//                MinecraftClient.getInstance(),
+//                new AddonLoadingMonitor(),
+//                () -> {
+//                },
+//                false
+//        ));
         Log.info("Setting up Sandbox environment");
         MinecraftClient.getInstance().reloadResourcesConcurrently();
         Gamemode currentMode = VanillaGamemodes.SURVIVAL;
