@@ -8,6 +8,9 @@ import com.hrznstudio.sandbox.server.SandboxServer;
 import com.hrznstudio.sandbox.util.ArrayUtil;
 import net.arikia.dev.drpc.DiscordRPC;
 import net.arikia.dev.drpc.DiscordRichPresence;
+import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.ModContainer;
+import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
@@ -26,9 +29,15 @@ public class SandboxHooks {
     }
 
     public static void setupGlobal() {
+        if (FabricLoader.getInstance().getAllMods()
+                .stream()
+                .map(ModContainer::getMetadata)
+                .map(ModMetadata::getId)
+                .anyMatch(id -> !id.equals("sandbox") && !id.equals("fabricloader"))) {
+            throw new RuntimeException("Incompatible Mods Loaded");
+        }
         SandboxDiscord.start();
     }
-
     public static void shutdownGlobal() {
         SandboxDiscord.shutdown();
     }

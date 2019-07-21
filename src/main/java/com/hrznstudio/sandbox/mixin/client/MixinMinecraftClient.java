@@ -80,6 +80,6 @@ public class MixinMinecraftClient {
      */
     @Overwrite
     public String getVersionType() {
-        return "Sandbox";
+        return "Sandbox 1.0.0";
     }
 }

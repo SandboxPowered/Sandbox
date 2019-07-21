@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.hrznstudio.sandbox.Sandbox;
 import com.hrznstudio.sandbox.SandboxCommon;
+import com.hrznstudio.sandbox.api.RegistryOrder;
 import com.hrznstudio.sandbox.api.SandboxLocation;
 import com.hrznstudio.sandbox.api.addon.AddonInfo;
 import com.hrznstudio.sandbox.util.FileUtil;
@@ -37,10 +38,18 @@ public class SandboxServer extends SandboxCommon {
         engine.init(Sandbox.SANDBOX);
         Log.info("Setting up Sandbox environment");
         findAddons();
-        if(!isIntegrated) {
+        if (!isIntegrated) {
             setupDedicated();
         }
-        //Init server engine
+        loadedAddons.forEach(info -> {
+            AddonInfo.FolderStructure scripts = info.getFolder().getSubFolder("scripts");
+            for (RegistryOrder order : RegistryOrder.values()) {
+                FileUtil.getFiles(scripts.getSubFile(order.getFolder()),
+                        ((dir, name) -> name.equals(".js")),
+                        true
+                ).forEach(file -> engine.executeScript(file).ifPresent(e -> Log.error("Script encountered an error", e.getException())));
+            }
+        });
     }
 
     protected void findAddons() {
