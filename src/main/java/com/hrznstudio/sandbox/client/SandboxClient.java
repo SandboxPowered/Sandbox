@@ -1,11 +1,17 @@
-package com.hrznstudio.sandbox;
+package com.hrznstudio.sandbox.client;
 
+import com.hrznstudio.sandbox.Sandbox;
+import com.hrznstudio.sandbox.SandboxCommon;
+import com.hrznstudio.sandbox.api.Gamemode;
 import com.hrznstudio.sandbox.overlay.AddonLoadingMonitor;
 import com.hrznstudio.sandbox.overlay.LoadingOverlay;
 import com.hrznstudio.sandbox.util.Log;
+import com.hrznstudio.sandbox.vanilla.VanillaGamemodes;
 import net.arikia.dev.drpc.DiscordRPC;
 import net.arikia.dev.drpc.DiscordRichPresence;
 import net.minecraft.client.MinecraftClient;
+
+import java.util.LinkedHashMap;
 
 public class SandboxClient extends SandboxCommon {
     public static SandboxClient INSTANCE;
@@ -22,9 +28,9 @@ public class SandboxClient extends SandboxCommon {
 
     @Override
     protected void setup() {
+        CONTENT_LIST.clear();
         engine.init(Sandbox.SANDBOX);
         //Init client engine
-        CONTENT_LIST.clear();
         MinecraftClient.getInstance().setOverlay(new LoadingOverlay(
                 MinecraftClient.getInstance(),
                 new AddonLoadingMonitor(),
@@ -34,8 +40,13 @@ public class SandboxClient extends SandboxCommon {
         ));
         Log.info("Setting up Sandbox environment");
         MinecraftClient.getInstance().reloadResourcesConcurrently();
-        DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("In Singleplayer")
-                .setBigImage("logo", "")
+        Gamemode currentMode = VanillaGamemodes.SURVIVAL;
+        DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("In Private Session")
+                .setBigImage(currentMode.getRichImage().orElse("logo"), String.format("Playing %s", currentMode.getDisplayName().orElse(currentMode.getName())))
+                .setSecrets("wah", "")
+                .setParty("wah2", 5, 12)
+                .setStartTimestamps(System.currentTimeMillis() / 1000)
+                .setDetails("Playing on 'world'")
                 .build()
         );
     }

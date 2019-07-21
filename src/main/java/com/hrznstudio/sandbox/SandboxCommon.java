@@ -2,6 +2,7 @@ package com.hrznstudio.sandbox;
 
 import com.hrznstudio.sandbox.api.SandboxRegistry;
 import com.hrznstudio.sandbox.api.ScriptEngine;
+import com.hrznstudio.sandbox.api.addon.AddonInfo;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -9,13 +10,11 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public abstract class SandboxCommon {
     protected ScriptEngine engine = new ScriptEngine();
+    public List<AddonInfo> loadedAddons = Collections.emptyList();
 
     protected Map<Class, List<Identifier>> CONTENT_LIST = new HashMap<>();
 

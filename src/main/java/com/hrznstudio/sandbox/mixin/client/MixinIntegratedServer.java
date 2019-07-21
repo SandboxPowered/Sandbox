@@ -1,6 +1,6 @@
 package com.hrznstudio.sandbox.mixin.client;
 
-import com.hrznstudio.sandbox.SandboxServer;
+import com.hrznstudio.sandbox.server.SandboxServer;
 import com.hrznstudio.sandbox.mixin.MixinMinecraftServer;
 import net.minecraft.server.integrated.IntegratedServer;
 import org.spongepowered.asm.mixin.Mixin;

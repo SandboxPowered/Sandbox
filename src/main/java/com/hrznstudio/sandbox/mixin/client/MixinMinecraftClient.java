@@ -1,8 +1,8 @@
 package com.hrznstudio.sandbox.mixin.client;
 
 import com.hrznstudio.sandbox.Sandbox;
-import com.hrznstudio.sandbox.SandboxClient;
-import com.hrznstudio.sandbox.mixin.SandboxHooks;
+import com.hrznstudio.sandbox.client.SandboxClient;
+import com.hrznstudio.sandbox.SandboxHooks;
 import com.hrznstudio.sandbox.resources.AddonResourcePack;
 import com.hrznstudio.sandbox.resources.SandboxResourceCreator;
 import net.minecraft.client.MinecraftClient;
@@ -31,9 +31,11 @@ public class MixinMinecraftClient {
     private ResourcePackContainerManager<ClientResourcePackContainer> resourcePackContainerManager;
 
     private void addonResourcePackModifications(List<ResourcePack> packs) {
-        Sandbox.ADDONS.forEach(info -> {
-            packs.add(new AddonResourcePack(info));
-        });
+        if(SandboxClient.INSTANCE!=null) {
+            SandboxClient.INSTANCE.loadedAddons.forEach(info -> {
+                packs.add(new AddonResourcePack(info));
+            });
+        }
     }
 
     @Inject(method = "<init>", at = @At("RETURN"))

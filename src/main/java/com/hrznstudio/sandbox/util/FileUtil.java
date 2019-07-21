@@ -24,4 +24,10 @@ public class FileUtil {
         }
         return allFiles;
     }
+    public static File[] listFiles(File dir) {
+        File[] files = dir.listFiles();
+        if (files != null)
+            return files;
+        return new File[0];
+    }
 }

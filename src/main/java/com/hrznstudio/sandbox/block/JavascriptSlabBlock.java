@@ -6,6 +6,7 @@ import com.hrznstudio.sandbox.util.V8Util;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
+import net.minecraft.block.SlabBlock;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -14,11 +15,11 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-public class JavascriptBlock extends Block {
+public class JavascriptSlabBlock extends SlabBlock {
     private V8Object object;
 
-    public JavascriptBlock(V8Object object) {
-        super(Block.Settings.of(Material.METAL));
+    public JavascriptSlabBlock(V8Object object) {
+        super(Settings.of(Material.METAL));
         this.object = object;
     }
 

@@ -1,21 +1,22 @@
-package com.hrznstudio.sandbox.mixin;
+package com.hrznstudio.sandbox;
 
-import com.hrznstudio.sandbox.Sandbox;
-import com.hrznstudio.sandbox.SandboxClient;
-import com.hrznstudio.sandbox.SandboxDiscord;
-import com.hrznstudio.sandbox.SandboxServer;
 import com.hrznstudio.sandbox.api.ISandboxScreen;
 import com.hrznstudio.sandbox.api.Side;
+import com.hrznstudio.sandbox.client.SandboxClient;
+import com.hrznstudio.sandbox.server.SandboxServer;
+import com.hrznstudio.sandbox.util.ArrayUtil;
 import net.arikia.dev.drpc.DiscordRPC;
 import net.arikia.dev.drpc.DiscordRichPresence;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.resource.language.I18n;
+import org.apache.commons.lang3.ArrayUtils;
 
 public class SandboxHooks {
     public static void shutdown() {
         if (Sandbox.SANDBOX.getSide() == Side.CLIENT) {
-            SandboxClient.INSTANCE.shutdown();
+            MinecraftClient.getInstance().execute(SandboxClient.INSTANCE::shutdown);
             if (SandboxServer.INSTANCE != null && SandboxServer.INSTANCE.isIntegrated())
                 SandboxServer.INSTANCE.shutdown();
         } else {
@@ -42,8 +43,9 @@ public class SandboxHooks {
         return screen;
     }
 
-    public static boolean setupDedicatedServer() {
-        SandboxServer.constructAndSetup(false);
-        return true;
+    public static String[] startDedicatedServer(String[] args) {
+        SandboxServer.ARGS = args;
+        ArrayUtil.removeAll(args, "-noaddons");
+        return args;
     }
 }

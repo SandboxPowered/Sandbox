@@ -5,7 +5,7 @@ import com.eclipsesource.v8.V8;
 import com.eclipsesource.v8.V8Object;
 import com.eclipsesource.v8.V8Value;
 import com.hrznstudio.sandbox.Sandbox;
-import com.hrznstudio.sandbox.SandboxServer;
+import com.hrznstudio.sandbox.server.SandboxServer;
 import com.hrznstudio.sandbox.api.exception.ScriptException;
 import com.hrznstudio.sandbox.util.Log;
 import net.minecraft.block.Block;
@@ -43,6 +43,7 @@ public class ScriptEngine {
 
     private void addObjects(ISandbox sandbox) {
         ENGINE.add("Registry", createV8()
+                .add("GAMEMODE", createRegistryObject(sandbox.getRegistry(SandboxRegistry.RegistryType.GAMEMODE)))
                 .add("BLOCK", createRegistryObject(sandbox.getRegistry(SandboxRegistry.RegistryType.BLOCK)))
                 .add("ITEM", createRegistryObject(sandbox.getRegistry(SandboxRegistry.RegistryType.ITEM)))
                 .add("ENTITY", createRegistryObject(sandbox.getRegistry(SandboxRegistry.RegistryType.ENTITY)))
