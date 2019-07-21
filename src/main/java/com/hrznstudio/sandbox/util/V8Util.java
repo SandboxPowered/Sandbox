@@ -4,6 +4,7 @@ import com.eclipsesource.v8.V8Array;
 import com.eclipsesource.v8.V8Object;
 import com.eclipsesource.v8.V8Value;
 import com.hrznstudio.sandbox.api.ScriptEngine;
+import com.hrznstudio.sandbox.server.SandboxServer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
@@ -19,25 +20,28 @@ import java.util.function.Supplier;
 
 public class V8Util {
 
+    private static ScriptEngine engine;
     public static List<V8Object> OBJECTS;
 
-    public static void push() {
+    public static void push(ScriptEngine se) {
         OBJECTS = new ArrayList<>();
+        engine=se;
     }
 
     public static void pop() {
         OBJECTS.forEach(V8Value::release);
         OBJECTS = null;
+        engine=null;
     }
 
     public static V8Object createV8Object() {
-        V8Object o = new V8Object(ScriptEngine.ENGINE);
+        V8Object o = new V8Object(engine.ENGINE);
         OBJECTS.add(o);
         return o;
     }
 
     public static V8Array createV8Array() {
-        V8Array o = new V8Array(ScriptEngine.ENGINE);
+        V8Array o = new V8Array(engine.ENGINE);
         OBJECTS.add(o);
         return o;
     }

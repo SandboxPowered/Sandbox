@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "com.hrznstudio.sandbox.fabric.mixin",
+  "package": "com.hrznstudio.sandbox.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "MixinMinecraftServer",

@@ -21,7 +21,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.hrznstudio.sandbox.fabric.SandboxIgnore"
+      "com.hrznstudio.sandbox.SandboxIgnore"
     ]
   },
   "mixins": [
