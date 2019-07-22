@@ -28,7 +28,7 @@ public class Ragdolls {
     private static MinecraftClient mc = MinecraftClient.getInstance();
 
     public static EntityType<RagdollEntity> RAGDOLL = Registry.register(Registry.ENTITY_TYPE, new Identifier("sandbox", "ragdoll"),
-            (EntityType)EntityType.Builder.create(RagdollEntity::new, EntityCategory.MISC).disableSaving().disableSummon().setDimensions(0.15f, 0.15f).build(new Identifier("sandbox", "ragdoll").toString()));
+            EntityType.Builder.create(RagdollEntity::new, EntityCategory.MISC).disableSaving().disableSummon().setDimensions(0.15f, 0.15f).build(new Identifier("sandbox", "ragdoll").toString()));
 
 
     public List<RagdollEntity> ragdolls = new ArrayList<>();

@@ -40,15 +40,15 @@ public class DownloadScreen extends Screen {
         }
     }
 
-    public static String humanReadableByteCount(long bytes, boolean si) {
-        return humanReadableByteCount(bytes, si, 2);
+    public static String humanReadableByteCount(long bytes) {
+        return humanReadableByteCount(bytes, 2);
     }
 
-    public static String humanReadableByteCount(long bytes, boolean si, int depth) {
-        int unit = si ? 1000 : 1024;
+    public static String humanReadableByteCount(long bytes, int depth) {
+        int unit = 1024;
         if (bytes < unit) return bytes + " B";
         int exp = (int) (Math.log(bytes) / Math.log(unit));
-        String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + (si ? "" : "i");
+        char pre = ("KMGTPE").charAt(exp - 1);
         return String.format("%." + depth + "f %sB", bytes / Math.pow(unit, exp), pre);
     }
 
@@ -64,7 +64,7 @@ public class DownloadScreen extends Screen {
         if (dl.hasStarted()) {
             right = "Downloading Addon " + addon + " of " + dls.length;
             int percent = (int) ((dl.getCurrentSize() * 100) / dl.getTotalSize());
-            right2 = percent + "% " + humanReadableByteCount(dl.getCurrentSize(), true) + "/" + humanReadableByteCount(dl.getTotalSize(), true);
+            right2 = percent + "% " + humanReadableByteCount(dl.getCurrentSize()) + "/" + humanReadableByteCount(dl.getTotalSize());
         }
         fill(0, 0, width, height, RED.getRGB());
         fill(0, height - 20, width, height, DARK.darker().getRGB());
