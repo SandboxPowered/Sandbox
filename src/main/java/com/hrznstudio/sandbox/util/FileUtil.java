@@ -50,11 +50,14 @@ public class FileUtil {
                 Files.createDirectories(downloads);
 
                 Path temp = downloads.resolve(UUID.randomUUID().toString() + ".sbxdl");
+                int totalDataRead = 0;
                 try (CountingOutputStream output = new CountingOutputStream(Files.newOutputStream(temp))) {
-                    int b;
-                    while ((b = input.read()) != -1) {
-                        output.write(b);
-                        tracker.set(output.getByteCount());
+                    byte[] data = new byte[1024];
+                    int b = 0;
+                    while ((b = input.read(data, 0, 1024)) >= 0) {
+                        output.write(data);
+                        totalDataRead += b;
+                        tracker.set(totalDataRead);
                     }
                 }
                 if (Files.exists(out))
