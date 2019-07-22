@@ -74,42 +74,42 @@ public class FileUtil {
     }
 
     static class DownloadTracker implements IDownloadIndicator {
-        AtomicLong totalSize = new AtomicLong();
-        AtomicLong currentSize = new AtomicLong();
-        AtomicBoolean complete = new AtomicBoolean();
-        AtomicBoolean hasStarted = new AtomicBoolean();
+        long totalSize;
+        long currentSize;
+        boolean complete;
+        boolean hasStarted;
 
         void init(long totalSize) {
-            this.totalSize.set(totalSize);
-            this.hasStarted.set(true);
+            this.totalSize = totalSize;
+            this.hasStarted = true;
         }
 
         public void set(long byteCount) {
-            this.currentSize.set(byteCount);
+            this.currentSize = byteCount;
         }
 
         void complete() {
-            this.complete.set(true);
+            this.complete = true;
         }
 
         @Override
         public long getCurrentSize() {
-            return currentSize.get();
+            return currentSize;
         }
 
         @Override
         public long getTotalSize() {
-            return totalSize.get();
+            return totalSize;
         }
 
         @Override
         public boolean isComplete() {
-            return complete.get();
+            return complete;
         }
 
         @Override
         public boolean hasStarted() {
-            return hasStarted.get();
+            return hasStarted;
         }
     }
 
