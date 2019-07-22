@@ -39,14 +39,6 @@ public class RagdollEntity extends LivingEntity {
         this.ignoreCameraFrustum = true;
     }
 
-    /**
-     * Not sure why not casting complains only for some entities (see {@link net.minecraft.entity.EntityType}'s list)
-     * @return
-     */
-    public static RagdollEntity create(EntityType<? extends Entity> entityType, World world) {
-        return new RagdollEntity((EntityType<RagdollEntity>) entityType, world);
-    }
-
     @Override
     public Iterable<ItemStack> getArmorItems() {
         return null;
