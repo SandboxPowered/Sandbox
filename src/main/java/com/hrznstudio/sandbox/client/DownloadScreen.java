@@ -30,7 +30,7 @@ public class DownloadScreen extends Screen {
     }
 
     public void nextAddon() {
-        if (addon + 1 != dls.length) {
+        if (addon != dls.length) {
             try {
                 dl = FileUtil.downloadFile(new URL(dls[addon]), Paths.get("server/ttt.playhrzn.com/cache/addon" + addon + ".sbx"));
             } catch (MalformedURLException e) {
@@ -55,16 +55,16 @@ public class DownloadScreen extends Screen {
     @Override
     public void render(int mouseX, int mouseY, float partialTicks) {
         super.render(mouseX, mouseY, partialTicks);
-        if (dl.isComplete()) {
-            nextAddon();
-        }
-
         String right = "Preparing Addon " + addon + " of " + dls.length;
         String right2 = "";
         if (dl.hasStarted()) {
             right = "Downloading Addon " + addon + " of " + dls.length;
             int percent = (int) ((dl.getCurrentSize() * 100) / dl.getTotalSize());
             right2 = percent + "% " + humanReadableByteCount(dl.getCurrentSize()) + "/" + humanReadableByteCount(dl.getTotalSize());
+        }
+        if (dl.isComplete()) {
+            right = "Completed Addon Download " + addon + " of " + dls.length;
+            nextAddon();
         }
         fill(0, 0, width, height, RED.getRGB());
         fill(0, height - 20, width, height, DARK.darker().getRGB());

@@ -53,7 +53,7 @@ public class FileUtil {
                 int totalDataRead = 0;
                 try (CountingOutputStream output = new CountingOutputStream(Files.newOutputStream(temp))) {
                     byte[] data = new byte[1024];
-                    int b = 0;
+                    int b;
                     while ((b = input.read(data, 0, 1024)) >= 0) {
                         output.write(data);
                         totalDataRead += b;
@@ -62,6 +62,8 @@ public class FileUtil {
                 }
                 if (Files.exists(out))
                     Files.delete(out);
+                if(Files.notExists(out.getParent()))
+                    Files.createDirectories(out.getParent());
                 Files.move(temp, out);
                 tracker.complete();
             } catch (Exception e) {
