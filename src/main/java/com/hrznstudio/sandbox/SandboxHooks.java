@@ -29,6 +29,7 @@ public class SandboxHooks {
     }
 
     public static void setupGlobal() {
+        System.out.println(SandboxHooks.class.getClassLoader().getClass());
         if (FabricLoader.getInstance().getAllMods()
                 .stream()
                 .map(ModContainer::getMetadata)

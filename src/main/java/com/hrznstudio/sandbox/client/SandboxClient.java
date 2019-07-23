@@ -25,7 +25,6 @@ public class SandboxClient extends SandboxCommon {
     @Override
     protected void setup() {
         CONTENT_LIST.clear();
-        engine.init(Sandbox.SANDBOX);
         //Init client engine
 //        MinecraftClient.getInstance().setOverlay(new LoadingOverlay(
 //                MinecraftClient.getInstance(),
@@ -34,7 +33,7 @@ public class SandboxClient extends SandboxCommon {
 //                },
 //                false
 //        ));
-        Log.info("Setting up Sandbox environment");
+        Log.info("Setting up Clientside Sandbox environment");
         MinecraftClient.getInstance().reloadResourcesConcurrently();
         Gamemode currentMode = VanillaGamemodes.SURVIVAL;
         DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("In Private Session")
