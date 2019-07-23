@@ -2,7 +2,6 @@ package com.hrznstudio.sandbox;
 
 import com.hrznstudio.sandbox.api.ISandboxScreen;
 import com.hrznstudio.sandbox.api.Side;
-import com.hrznstudio.sandbox.client.DownloadScreen;
 import com.hrznstudio.sandbox.client.SandboxClient;
 import com.hrznstudio.sandbox.server.SandboxServer;
 import com.hrznstudio.sandbox.util.ArrayUtil;
@@ -16,6 +15,8 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.resource.language.I18n;
+import org.reactivestreams.Publisher;
+import reactor.core.publisher.Flux;
 
 public class SandboxHooks {
     public static void shutdown() {
@@ -52,7 +53,7 @@ public class SandboxHooks {
             );
         } else {
             if (screen instanceof MultiplayerScreen) {
-                return new DownloadScreen();
+                return new com.hrznstudio.sandbox.client.MultiplayerScreen();
             }
         }
         return screen;

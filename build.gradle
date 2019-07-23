@@ -24,6 +24,8 @@ dependencies {
 	compile group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.2'
 	implementation 'com.github.Vatuu:discord-rpc:1.6.2'
 
+	compile group: 'io.projectreactor', name: 'reactor-core', version: '3.2.10.RELEASE'
+
 }
 
 processResources {

@@ -23,7 +23,7 @@ public class PanoramaHandler {
     public static int panoramaStep;
     public static boolean takingPanorama;
     public static int currentWidth, currentHeight;
-    public static boolean overridenOnce;
+    public static double fov;
     public static int panoramaSize = 1024;
     public static boolean fullscreen = false;
 
@@ -68,6 +68,8 @@ public class PanoramaHandler {
             if (start) {
                 if (panoramaStep == 0) {
                     mc.options.hudHidden = true;
+                    fov = mc.options.fov;
+                    mc.options.fov = 91;
                     currentWidth = mc.window.getWidth();
                     currentHeight = mc.window.getHeight();
                     rotationYaw = mc.player.yaw;
@@ -111,6 +113,7 @@ public class PanoramaHandler {
                 panoramaStep++;
                 if (panoramaStep == 7) {
                     mc.options.hudHidden = false;
+                    mc.options.fov=fov;
                     takingPanorama = false;
 
                     mc.player.yaw = rotationYaw;
