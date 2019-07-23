@@ -45,7 +45,7 @@ public class SandboxServer extends SandboxCommon {
             AddonInfo.FolderStructure scripts = info.getFolder().getSubFolder("scripts");
             for (RegistryOrder order : RegistryOrder.values()) {
                 FileUtil.getFiles(scripts.getSubFile(order.getFolder()),
-                        ((dir, name) -> name.equals(".js")),
+                        ((dir, name) -> name.endsWith(".js")),
                         true
                 ).forEach(file -> engine.executeScript(file).ifPresent(e -> Log.error("Script encountered an error", e.getException())));
             }
