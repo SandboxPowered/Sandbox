@@ -17,6 +17,7 @@ import java.util.function.Consumer;
 
 public class PanoramaHandler {
 
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
     public static File panoramaDir;
     public static File currentDir;
     public static float rotationYaw, rotationPitch;
@@ -27,31 +28,31 @@ public class PanoramaHandler {
     public static int panoramaSize = 1024;
     public static boolean fullscreen = false;
 
-    public static boolean takeScreenshot(Consumer<Text> consumer)  {
-        if(takingPanorama)
+    public static boolean takeScreenshot(Consumer<Text> consumer) {
+        if (takingPanorama)
             return false;
 
         takingPanorama = true;
         panoramaStep = 0;
 
-        if(panoramaDir == null)
+        if (panoramaDir == null)
             panoramaDir = new File("screenshots", "panoramas");
-        if(!panoramaDir.exists())
+        if (!panoramaDir.exists())
             panoramaDir.mkdirs();
 
         int i = 0;
         String ts = getTimestamp();
         do {
-            if(fullscreen) {
-                if(i == 0)
+            if (fullscreen) {
+                if (i == 0)
                     currentDir = new File(panoramaDir + "_fullres", ts);
                 else currentDir = new File(panoramaDir, ts + "_" + i + "_fullres");
             } else {
-                if(i == 0)
+                if (i == 0)
                     currentDir = new File(panoramaDir, ts);
                 else currentDir = new File(panoramaDir, ts + "_" + i);
             }
-        } while(currentDir.exists());
+        } while (currentDir.exists());
 
         currentDir.mkdirs();
 
@@ -113,7 +114,7 @@ public class PanoramaHandler {
                 panoramaStep++;
                 if (panoramaStep == 7) {
                     mc.options.hudHidden = false;
-                    mc.options.fov=fov;
+                    mc.options.fov = fov;
                     takingPanorama = false;
 
                     mc.player.yaw = rotationYaw;
@@ -127,17 +128,16 @@ public class PanoramaHandler {
         }
     }
 
-
     private static void saveScreenshot(File dir, String screenshotName, int width, int height, GlFramebuffer buffer) {
         try {
             NativeImage bufferedimage = ScreenshotUtils.method_1663(width, height, buffer);
             File file2 = new File(dir, screenshotName);
 
             bufferedimage.writeFile(file2);
-        } catch(Exception exception) { }
+        } catch (Exception exception) {
+        }
     }
 
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
     private static String getTimestamp() {
         String s = DATE_FORMAT.format(new Date()).toString();
         return s;

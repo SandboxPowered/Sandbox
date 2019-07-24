@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.hrznstudio.sandbox.SandboxCommon;
 import com.hrznstudio.sandbox.api.SandboxLocation;
 import com.hrznstudio.sandbox.api.addon.AddonInfo;
+import com.hrznstudio.sandbox.event.EventDispatcher;
 import com.hrznstudio.sandbox.util.FileUtil;
 import com.hrznstudio.sandbox.util.Log;
 import org.apache.commons.io.FileUtils;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 
 public class SandboxServer extends SandboxCommon {
     private static final Gson GSON = new GsonBuilder().create();
-    public static  String[] ARGS;
+    public static String[] ARGS;
     public static SandboxServer INSTANCE;
     private final boolean isIntegrated;
 
@@ -34,6 +35,7 @@ public class SandboxServer extends SandboxCommon {
     protected void setup() {
         CONTENT_LIST.clear();
         Log.info("Setting up Serverside Sandbox environment");
+        dispatcher = new EventDispatcher();
         findAddons();
         if (!isIntegrated) {
             setupDedicated();

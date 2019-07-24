@@ -19,7 +19,7 @@ public class PointF {
     }
 
     public PointF() {
-        this(0,0,0);
+        this(0, 0, 0);
     }
 
     public PointF add(PointF v) {

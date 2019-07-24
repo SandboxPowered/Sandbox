@@ -17,14 +17,14 @@ public class TrackerTriangleScaled extends TrackerTriangle {
     public TrackerTriangleScaled(Cuboid part, Triangle triangle, float scale) {
         super(part, triangle);
         this.scale = scale;
-        this.scaleInvert = 1f/scale;
+        this.scaleInvert = 1f / scale;
     }
 
     public TrackerTriangleScaled(Cuboid part, Triangle triangle, float rotateOffsetX, float rotateOffsetY,
                                  float rotateOffsetZ, float scale) {
         super(part, triangle, rotateOffsetX, rotateOffsetY, rotateOffsetZ);
         this.scale = scale;
-        this.scaleInvert = 1f/scale;
+        this.scaleInvert = 1f / scale;
     }
 
     public void render(float partialTicks) {

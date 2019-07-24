@@ -6,7 +6,7 @@ import net.minecraft.client.model.Cuboid;
 
 /**
  * Created by on 30/06/2016.
- *
+ * <p>
  * TODO possibly recode to use a constraint rather than set points
  *
  * @author sekwah41
@@ -21,7 +21,7 @@ public class TrackerVertexScaled extends TrackerVertex {
         super(part, anchor, pointsTo);
 
         this.scale = scale;
-        this.scaleInvert = 1f/scale;
+        this.scaleInvert = 1f / scale;
     }
 
     @Override

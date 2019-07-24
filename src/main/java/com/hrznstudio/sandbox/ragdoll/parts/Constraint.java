@@ -5,7 +5,7 @@ import com.hrznstudio.sandbox.maths.PointD;
 
 /**
  * Created by sekawh on 8/6/2015.
- *
+ * <p>
  * Creates links between points for physics, if its fixed its like creating sticks between the points
  * and if the constraint is not then it can be any length in a range sorta like a unpowered piston or some sorta
  * sliding thing.
@@ -51,23 +51,23 @@ public class Constraint {
 
     public void calc(RagdollEntity entity) {
 
-        if(!(end[0].hasMoved || end[1].hasMoved)) {
+        if (!(end[0].hasMoved || end[1].hasMoved)) {
             //System.out.println("Cancel");
             return;
         }
 
         PointD averageLoc = new PointD((end[0].newPosX + end[1].newPosX) * 0.5d,
-                (end[0].newPosY + end[1].newPosY) * 0.5d,(end[0].newPosZ + end[1].newPosZ) * 0.5d);
+                (end[0].newPosY + end[1].newPosY) * 0.5d, (end[0].newPosZ + end[1].newPosZ) * 0.5d);
 
         double currentLength = Math.sqrt(Math.pow(end[0].newPosX - end[1].newPosX, 2) + Math.pow(end[0].newPosY - end[1].newPosY, 2) + Math.pow(end[0].newPosZ - end[1].newPosZ, 2));
         // If its already the correct length theres no point in recalculating
-        if(currentLength == length) {
+        if (currentLength == length) {
             return;
         }
-        if(currentLength == 0) {
+        if (currentLength == 0) {
             currentLength = 0.01;
         }
-        double currentLengthInvert = 1.0d/currentLength;
+        double currentLengthInvert = 1.0d / currentLength;
 
         PointD direction = new PointD((end[0].newPosX - end[1].newPosX) * currentLengthInvert,
                 (end[0].newPosY - end[1].newPosY) * currentLengthInvert, (end[0].newPosZ - end[1].newPosZ) * currentLengthInvert);

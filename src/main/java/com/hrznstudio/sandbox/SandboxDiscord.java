@@ -4,7 +4,6 @@ import com.hrznstudio.sandbox.util.Log;
 import net.arikia.dev.drpc.DiscordEventHandlers;
 import net.arikia.dev.drpc.DiscordRPC;
 import net.arikia.dev.drpc.DiscordRichPresence;
-import net.arikia.dev.drpc.callbacks.JoinGameCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ConnectScreen;
 import net.minecraft.client.gui.screen.TitleScreen;
@@ -36,8 +35,8 @@ public class SandboxDiscord {
                 .setBigImage("logo", "")
                 .build()
         );
-        callbackThread = new Thread(()-> {
-            while(!callbackThread.isInterrupted()) {
+        callbackThread = new Thread(() -> {
+            while (!callbackThread.isInterrupted()) {
                 DiscordRPC.discordRunCallbacks();
             }
         }, "Discord-Callbacks");

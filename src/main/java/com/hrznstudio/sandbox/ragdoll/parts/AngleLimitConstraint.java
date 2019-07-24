@@ -5,11 +5,10 @@ import com.hrznstudio.sandbox.maths.PointD;
 
 /**
  * Created by sekawh on 8/6/2015.
- *
+ * <p>
  * Needs a different name but is currently a placeholder for stuff
- *
+ * <p>
  * May need complete changing
- *
  */
 public class AngleLimitConstraint {
 
@@ -39,7 +38,7 @@ public class AngleLimitConstraint {
 
     public void apply(RagdollEntity entity) {
         // Center between left and right
-        PointD averageLoc = new PointD((end[1].posX + end[2].posX) / 2F,(end[1].posY + end[2].posY) / 2F,(end[1].posZ + end[2].posZ) / 2F);
+        PointD averageLoc = new PointD((end[1].posX + end[2].posX) / 2F, (end[1].posY + end[2].posY) / 2F, (end[1].posZ + end[2].posZ) / 2F);
 
         double currentLength = Math.sqrt(Math.pow(end[0].posX - averageLoc.x, 2) + Math.pow(end[0].posY - averageLoc.y, 2) + Math.pow(end[0].posZ - averageLoc.z, 2));
         // Direction from the base directly down the center of the triangle

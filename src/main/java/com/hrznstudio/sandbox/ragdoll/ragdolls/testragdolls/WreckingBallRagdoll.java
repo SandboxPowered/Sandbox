@@ -54,11 +54,11 @@ public class WreckingBallRagdoll extends BaseRagdoll {
 
         skeleton.points.add(frontbox);
 
-        skeleton.constraints.add(new Constraint(anchorPoint,chain1));
+        skeleton.constraints.add(new Constraint(anchorPoint, chain1));
 
-        skeleton.constraints.add(new Constraint(chain1,chain2));
+        skeleton.constraints.add(new Constraint(chain1, chain2));
 
-        skeleton.constraints.add(new Constraint(chain2,topbox));
+        skeleton.constraints.add(new Constraint(chain2, topbox));
 
         List<SkeletonPoint> pointsInBox = new ArrayList<SkeletonPoint>();
 
@@ -70,14 +70,13 @@ public class WreckingBallRagdoll extends BaseRagdoll {
         pointsInBox.add(rightbox);
 
         // Is rather rough and repeats constraints so takes longer but should be fine.
-        for(SkeletonPoint point1 : pointsInBox) {
-            for(SkeletonPoint point2 : pointsInBox) {
-                if(point1 != point2) {
+        for (SkeletonPoint point1 : pointsInBox) {
+            for (SkeletonPoint point2 : pointsInBox) {
+                if (point1 != point2) {
                     skeleton.constraints.add(new Constraint(point1, point2));
                 }
             }
         }
-
 
 
         // write code to add a list to the array, it makes it easier.

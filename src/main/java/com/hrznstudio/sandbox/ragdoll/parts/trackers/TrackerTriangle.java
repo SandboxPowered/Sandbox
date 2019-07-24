@@ -81,7 +81,7 @@ public class TrackerTriangle extends Tracker {
     @Override
     protected void smoothRotation(float partialTicks) {
         super.smoothRotation(partialTicks);
-        GlStateManager.rotatef((float) Math.toDegrees(this.lastRotationAxis + this.rotationAxisDiff * partialTicks), 0,1,0);
+        GlStateManager.rotatef((float) Math.toDegrees(this.lastRotationAxis + this.rotationAxisDiff * partialTicks), 0, 1, 0);
     }
 
     protected void updatePosition() {

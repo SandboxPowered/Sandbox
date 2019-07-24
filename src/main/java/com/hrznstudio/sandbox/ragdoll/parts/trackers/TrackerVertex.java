@@ -7,7 +7,7 @@ import net.minecraft.client.model.Cuboid;
 
 /**
  * Created by on 30/06/2016.
- *
+ * <p>
  * TODO possibly recode to use a constraint rather than set points
  *
  * @author sekwah41
@@ -58,9 +58,9 @@ public class TrackerVertex extends Tracker {
     }
 
 
-
     /**
      * Convert to using Math.atan2(y,x);
+     *
      * @param axis1
      * @param axis2
      * @return

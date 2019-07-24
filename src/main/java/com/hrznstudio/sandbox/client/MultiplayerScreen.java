@@ -10,7 +10,6 @@ import net.minecraft.util.math.MathHelper;
 import org.apache.commons.lang3.StringUtils;
 
 import java.awt.*;
-import java.util.Random;
 
 public class MultiplayerScreen extends Screen {
     public static Color DARK = new Color(0x951213);

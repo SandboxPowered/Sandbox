@@ -47,7 +47,7 @@ public abstract class Tracker {
     public PointD offset = new PointD();
 
     protected Tracker(Cuboid part) {
-        part.setRotationPoint(0,0,0);
+        part.setRotationPoint(0, 0, 0);
         part.pitch = 0;
         part.yaw = 0;
         part.roll = 0;
@@ -84,7 +84,7 @@ public abstract class Tracker {
     /**
      * Calculates the offsets then adds the offset value (reduces amount of calculations needed)
      * This is so the offset data is just added after all calculations.
-     *
+     * <p>
      * TODO check how offsets and calculations work together or if they even do as all the calculations are based off default pos
      */
     public void updatePosDifference() {
@@ -98,6 +98,7 @@ public abstract class Tracker {
 
     /**
      * For rendering, not generally setting
+     *
      * @param partialTicks
      */
     protected void smoothLocation(float partialTicks) {
@@ -123,20 +124,20 @@ public abstract class Tracker {
 
     private void applyRotationDeg(float x, float y, float z) {
         if (z != 0.0F) {
-            GlStateManager.rotatef(z, 0,0,1);
+            GlStateManager.rotatef(z, 0, 0, 1);
         }
 
         if (y != 0.0F) {
-            GlStateManager.rotatef(y, 0,1,0);
+            GlStateManager.rotatef(y, 0, 1, 0);
         }
 
         if (x != 0.0F) {
-            GlStateManager.rotatef(x, 1,0,0);
+            GlStateManager.rotatef(x, 1, 0, 0);
         }
     }
 
     private void applyRotation(float x, float y, float z) {
-        this.applyRotationDeg(z * (180F / (float)Math.PI), y * (180F / (float)Math.PI),x * (180F / (float)Math.PI));
+        this.applyRotationDeg(z * (180F / (float) Math.PI), y * (180F / (float) Math.PI), x * (180F / (float) Math.PI));
     }
 
     public abstract void render(float partialTicks);

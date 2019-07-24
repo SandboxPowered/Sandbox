@@ -15,7 +15,7 @@ public class RotateF {
     }
 
     public RotateF() {
-        this( 0, 0, 0);
+        this(0, 0, 0);
     }
 
     public RotateF add(RotateF r) {
@@ -54,13 +54,13 @@ public class RotateF {
 
     /**
      * If its more than 180 then it reverses it to get the shortest
+     *
      * @return
      */
     public float shortestAngleTo(float angle) {
-        if(angle > Math.PI) {
+        if (angle > Math.PI) {
             return (float) (-Math.PI * 2) + angle;
-        }
-        else if(angle < -Math.PI) {
+        } else if (angle < -Math.PI) {
             return (float) (Math.PI * 2) + angle;
         }
         return angle;

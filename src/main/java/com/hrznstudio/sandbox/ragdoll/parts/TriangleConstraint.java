@@ -2,7 +2,7 @@ package com.hrznstudio.sandbox.ragdoll.parts;
 
 /**
  * Created by sekawh on 8/4/2015.
- *
+ * <p>
  * Not implemented yet
  */
 public class TriangleConstraint {

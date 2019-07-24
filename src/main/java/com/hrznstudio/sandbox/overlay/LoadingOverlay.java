@@ -2,7 +2,6 @@ package com.hrznstudio.sandbox.overlay;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Overlay;
 import net.minecraft.client.gui.screen.SplashScreen;
 import net.minecraft.resource.ResourceReloadMonitor;
 import net.minecraft.util.Identifier;

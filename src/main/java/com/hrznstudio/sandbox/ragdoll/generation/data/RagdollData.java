@@ -8,7 +8,7 @@ import java.util.LinkedList;
 
 /**
  * Stores Ragdoll data for creation
- *
+ * <p>
  * Created by sekwah41 on 28/06/2017.
  */
 public class RagdollData implements Cloneable {
@@ -34,7 +34,7 @@ public class RagdollData implements Cloneable {
     }
 
     public void setSkeletonPoint(String pointName, double x, double y, double z) {
-        this.pointHashMap.put(pointName, new PointD(x,y,-z));
+        this.pointHashMap.put(pointName, new PointD(x, y, -z));
     }
 
     /*public void setTriangle(String triangleName, String point1, String point2, String point3) throws RagdollInvalidDataException {
@@ -48,14 +48,14 @@ public class RagdollData implements Cloneable {
 
     public PointD getPoint(String point) throws RagdollInvalidDataException {
         PointD skeletonPoint = this.pointHashMap.get(point);
-        if(skeletonPoint == null) {
+        if (skeletonPoint == null) {
             throw new RagdollInvalidDataException("Invalid Skeleton Point Selected");
         }
         return skeletonPoint;
     }
 
     public String checkPoint(String point) throws RagdollInvalidDataException {
-        if(!this.pointHashMap.containsKey(point)) {
+        if (!this.pointHashMap.containsKey(point)) {
             throw new RagdollInvalidDataException("Invalid Skeleton Point Selected");
         }
         return point;
@@ -74,7 +74,7 @@ public class RagdollData implements Cloneable {
     }
 
     public void addTriangle(String name, String point1, String point2, String point3) throws RagdollInvalidDataException {
-        if(this.triangleHashMap.containsKey(name)) {
+        if (this.triangleHashMap.containsKey(name)) {
             throw new RagdollInvalidDataException("Already triangle with that name");
         }
         this.triangleHashMap.put(name, new TriangleData(point1, point2, point3));
@@ -96,12 +96,12 @@ public class RagdollData implements Cloneable {
         return modelData;
     }
 
-    public void setScale(float scale) {
-        this.scale = scale;
-    }
-
     public float getScale() {
         return scale;
+    }
+
+    public void setScale(float scale) {
+        this.scale = scale;
     }
 
     public float getCenterHeightOffset() {

@@ -6,5 +6,6 @@ public interface IDownloadIndicator {
     long getTotalSize();
 
     boolean isComplete();
+
     boolean hasStarted();
 }
