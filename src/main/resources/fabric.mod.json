@@ -14,10 +14,8 @@
     "homepage": "https://sandbox.hrznstudio.com/",
     "sources": "https://github.com/OpenModLoader/Sandbox"
   },
-
   "license": "ARR",
   "icon": "assets/sandbox/icon.png",
-
   "environment": "*",
   "entrypoints": {
     "main": [

@@ -2,6 +2,7 @@ package com.hrznstudio.sandbox.client;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.GlFramebuffer;
+import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.util.ScreenshotUtils;
 import net.minecraft.text.ClickEvent;
@@ -10,6 +11,7 @@ import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,7 +26,6 @@ public class PanoramaHandler {
     public static int panoramaStep;
     public static boolean takingPanorama;
     public static int currentWidth, currentHeight;
-    public static double fov;
     public static int panoramaSize = 1024;
     public static boolean fullscreen = false;
 
@@ -69,8 +70,6 @@ public class PanoramaHandler {
             if (start) {
                 if (panoramaStep == 0) {
                     mc.options.hudHidden = true;
-                    fov = mc.options.fov;
-                    mc.options.fov = 91;
                     currentWidth = mc.window.getWidth();
                     currentHeight = mc.window.getHeight();
                     rotationYaw = mc.player.yaw;
@@ -114,7 +113,6 @@ public class PanoramaHandler {
                 panoramaStep++;
                 if (panoramaStep == 7) {
                     mc.options.hudHidden = false;
-                    mc.options.fov = fov;
                     takingPanorama = false;
 
                     mc.player.yaw = rotationYaw;

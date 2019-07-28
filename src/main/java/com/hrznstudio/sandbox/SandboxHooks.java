@@ -1,9 +1,9 @@
 package com.hrznstudio.sandbox;
 
-import com.hrznstudio.sandbox.api.ISandboxScreen;
 import com.hrznstudio.sandbox.api.Side;
+import com.hrznstudio.sandbox.client.DownloadScreen;
 import com.hrznstudio.sandbox.client.SandboxClient;
-import com.hrznstudio.sandbox.event.client.OpenScreenEvent;
+import com.hrznstudio.sandbox.security.AddonSecurityPolicy;
 import com.hrznstudio.sandbox.server.SandboxServer;
 import com.hrznstudio.sandbox.util.ArrayUtil;
 import net.arikia.dev.drpc.DiscordRPC;
@@ -15,6 +15,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
+
+import java.security.Policy;
 
 public class SandboxHooks {
     public static void shutdown() {
@@ -28,6 +30,8 @@ public class SandboxHooks {
     }
 
     public static void setupGlobal() {
+        Policy.setPolicy(new AddonSecurityPolicy());
+        System.setSecurityManager(new SecurityManager());
         if (FabricLoader.getInstance().getAllMods()
                 .stream()
                 .map(ModContainer::getMetadata)
@@ -43,18 +47,17 @@ public class SandboxHooks {
     }
 
     public static Screen openScreen(Screen screen) {
-        if (screen instanceof TitleScreen && screen instanceof ISandboxScreen) {
+        if (screen instanceof TitleScreen) {
             DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("In Menu")
                     .setBigImage("logo", "")
                     .build()
             );
-        } else {
-            if (screen instanceof MultiplayerScreen) {
-                screen = new com.hrznstudio.sandbox.client.MultiplayerScreen();
-            }
+        }
+        if (screen instanceof MultiplayerScreen) {
+            screen = new DownloadScreen();
         }
         if (SandboxClient.INSTANCE != null) {
-            screen = SandboxClient.INSTANCE.getDispatcher().publish(new OpenScreenEvent(screen)).getScreen();
+            // TODO: OpenScreenEvent
         }
 
         return screen;

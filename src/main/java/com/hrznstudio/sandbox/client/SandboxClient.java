@@ -2,7 +2,6 @@ package com.hrznstudio.sandbox.client;
 
 import com.hrznstudio.sandbox.SandboxCommon;
 import com.hrznstudio.sandbox.api.Gamemode;
-import com.hrznstudio.sandbox.event.EventDispatcher;
 import com.hrznstudio.sandbox.util.Log;
 import com.hrznstudio.sandbox.vanilla.VanillaGamemodes;
 import net.arikia.dev.drpc.DiscordRPC;
@@ -34,7 +33,6 @@ public class SandboxClient extends SandboxCommon {
 //                false
 //        ));
         Log.info("Setting up Clientside Sandbox environment");
-        dispatcher = new EventDispatcher();
         MinecraftClient.getInstance().reloadResourcesConcurrently();
         Gamemode currentMode = VanillaGamemodes.SURVIVAL;
         DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("In Private Session")
