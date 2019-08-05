@@ -9,7 +9,7 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.util.AbsoluteHand;
+import net.minecraft.util.Arm;
 import net.minecraft.util.DefaultedList;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
@@ -30,8 +30,8 @@ public class RagdollEntity extends LivingEntity {
 
     public RagdollEntity(EntityType<? extends RagdollEntity> entityType, World world) {
         super(entityType, world);
-        this.handItems = DefaultedList.create(2, ItemStack.EMPTY);
-        this.armorItems = DefaultedList.create(4, ItemStack.EMPTY);
+        this.handItems = DefaultedList.ofSize(2, ItemStack.EMPTY);
+        this.armorItems = DefaultedList.ofSize(4, ItemStack.EMPTY);
 
         // To stop issues (TODO look to making just a large render box instead)
         this.ignoreCameraFrustum = true;
@@ -83,11 +83,6 @@ public class RagdollEntity extends LivingEntity {
                 this.armorItems.set(3, var2);
                 break;
         }
-    }
-
-    @Override
-    public AbsoluteHand getMainHand() {
-        return null;
     }
 
     /*public RagdollEntity(World world, BaseRagdoll ragdoll) {
@@ -146,6 +141,11 @@ public class RagdollEntity extends LivingEntity {
         this.setPosition(this.x + ragdollPos.x, this.y + ragdollPos.y, this.z + ragdollPos.z);
 
         this.ragdoll.shiftPos(-ragdollPos.x, -ragdollPos.y, -ragdollPos.z);
+    }
+
+    @Override
+    public Arm getMainArm() {
+        return null;
     }
 
     public void setRemainingLife(int ticks) {

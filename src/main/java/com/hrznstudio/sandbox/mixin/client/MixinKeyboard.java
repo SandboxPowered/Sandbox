@@ -26,11 +26,11 @@ import java.util.function.Consumer;
 public abstract class MixinKeyboard {
 
     @Shadow
-    protected abstract void debugWarn(String string_1, Object... objects_1);
-
-    @Shadow
     @Final
     private MinecraftClient client;
+
+    @Shadow
+    protected abstract void debugWarn(String string_1, Object... objects_1);
 
     @Redirect(method = "onKey", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/ScreenshotUtils;method_1659(Ljava/io/File;IILnet/minecraft/client/gl/GlFramebuffer;Ljava/util/function/Consumer;)V"))
     public void takeScreenshot(File file_1, int int_1, int int_2, GlFramebuffer glFramebuffer_1, Consumer<Text> consumer_1) {

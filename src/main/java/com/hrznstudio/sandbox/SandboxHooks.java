@@ -30,8 +30,6 @@ public class SandboxHooks {
     }
 
     public static void setupGlobal() {
-        Policy.setPolicy(new AddonSecurityPolicy());
-        System.setSecurityManager(new SecurityManager());
         if (FabricLoader.getInstance().getAllMods()
                 .stream()
                 .map(ModContainer::getMetadata)
@@ -39,6 +37,7 @@ public class SandboxHooks {
                 .anyMatch(id -> !id.equals("sandbox") && !id.equals("fabricloader"))) {
             throw new RuntimeException("Incompatible Mods Loaded");
         }
+        Policy.setPolicy(new AddonSecurityPolicy());
         SandboxDiscord.start();
     }
 

@@ -2,7 +2,6 @@ package com.hrznstudio.sandbox.client;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.GlFramebuffer;
-import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.util.ScreenshotUtils;
 import net.minecraft.text.ClickEvent;
@@ -11,7 +10,6 @@ import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
