@@ -5,7 +5,6 @@ import com.hrznstudio.sandbox.event.EventDispatcher;
 import com.hrznstudio.sandbox.util.Log;
 import net.minecraft.client.MinecraftClient;
 import reactor.core.publisher.EmitterProcessor;
-import reactor.core.scheduler.Schedulers;
 
 public class SandboxClient extends SandboxCommon {
     public static SandboxClient INSTANCE;
@@ -33,8 +32,7 @@ public class SandboxClient extends SandboxCommon {
 //        ));
         Log.info("Setting up Clientside Sandbox environment");
         dispatcher = new EventDispatcher(
-                EmitterProcessor.create(),
-                Schedulers.immediate() // Client events are blocking
+                EmitterProcessor.create()
         );
         MinecraftClient.getInstance().reloadResourcesConcurrently();
 //        Gamemode currentMode = VanillaGamemodes.SURVIVAL;

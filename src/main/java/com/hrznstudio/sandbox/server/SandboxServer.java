@@ -3,11 +3,11 @@ package com.hrznstudio.sandbox.server;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.hrznstudio.sandbox.SandboxCommon;
+import com.hrznstudio.sandbox.event.Event;
 import com.hrznstudio.sandbox.event.EventDispatcher;
 import com.hrznstudio.sandbox.loader.SandboxLoader;
 import com.hrznstudio.sandbox.util.Log;
 import reactor.core.publisher.EmitterProcessor;
-import reactor.core.scheduler.Schedulers;
 
 import java.io.IOException;
 
@@ -34,13 +34,14 @@ public class SandboxServer extends SandboxCommon {
         CONTENT_LIST.clear();
         Log.info("Setting up Serverside Sandbox environment");
         dispatcher = new EventDispatcher(
-                EmitterProcessor.create(),
-                Schedulers.parallel() // Server events are Async
+                EmitterProcessor.create()
         );
         load();
         if (!isIntegrated) {
             setupDedicated();
         }
+        dispatcher.publish(new Event());
+        dispatcher.publish(new Event());
     }
 
     protected void load() {

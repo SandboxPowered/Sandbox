@@ -4,15 +4,13 @@ import com.hrznstudio.sandbox.client.SandboxClient;
 import com.hrznstudio.sandbox.server.SandboxServer;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.FluxProcessor;
-import reactor.core.scheduler.Scheduler;
+import reactor.core.scheduler.Schedulers;
 
 public class EventDispatcher {
     private final FluxProcessor<Event, Event> processor;
-    private final Scheduler scheduler;
 
-    public EventDispatcher(FluxProcessor<Event, Event> processor, Scheduler scheduler) {
+    public EventDispatcher(FluxProcessor<Event, Event> processor) {
         this.processor = processor;
-        this.scheduler = scheduler;
     }
 
     public static EventDispatcher getServerDispatcher() {
@@ -24,7 +22,11 @@ public class EventDispatcher {
     }
 
     public <T extends Event> Flux<T> on(Class<T> eventClass) {
-        return processor.publishOn(scheduler).ofType(eventClass);
+        return processor.publishOn(Schedulers.immediate()).ofType(eventClass);
+    }
+
+    public <T extends Event> Flux<T> onAsync(Class<T> eventClass) {
+        return processor.publishOn(Schedulers.parallel()).ofType(eventClass);
     }
 
     public void publish(Event event) {
