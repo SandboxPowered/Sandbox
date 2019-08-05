@@ -15,6 +15,7 @@ public class TriangleData {
 
     /**
      * Must be between 0 and 2 else it will throw a outofbounds error
+     *
      * @param pointNum
      * @return
      */

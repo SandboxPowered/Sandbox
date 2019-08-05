@@ -2,7 +2,7 @@ package com.hrznstudio.sandbox.maths;
 
 /**
  * TODO allow the code to apply multiple matricies then apply the rotation. (Make another class for that)
- *
+ * <p>
  * Created by sekwah41 on 07/07/2017.
  */
 public final class VectorMaths {
@@ -14,7 +14,7 @@ public final class VectorMaths {
     }
 
     public static PointD normalize(PointD p1, PointD p2, double precalcNorm) {
-        double norm = 1.0d/precalcNorm;
+        double norm = 1.0d / precalcNorm;
 
         return new PointD((p1.x - p2.x) * norm,
                 (p1.y - p2.y) * norm, (p1.z - p2.z) * norm);
@@ -32,6 +32,7 @@ public final class VectorMaths {
 
     /**
      * Rotate the point anticlockwise around the origin
+     *
      * @param angle
      * @param p
      * @return
@@ -48,6 +49,7 @@ public final class VectorMaths {
 
     /**
      * Rotate the point anticlockwise around the origin
+     *
      * @param angle
      * @param p
      * @return
@@ -56,7 +58,7 @@ public final class VectorMaths {
 
         double sin = Math.sin(angle);
         double cos = Math.cos(angle);
-        
+
         double x = p.x * cos + p.z * sin;
         double z = p.x * -sin + p.z * cos;
 
@@ -66,6 +68,7 @@ public final class VectorMaths {
 
     /**
      * Rotate the point anticlockwise around the origin
+     *
      * @param angle
      * @param p
      * @return

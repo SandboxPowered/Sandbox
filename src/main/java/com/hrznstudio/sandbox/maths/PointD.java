@@ -19,7 +19,7 @@ public class PointD {
     }
 
     public PointD() {
-        this(0,0,0);
+        this(0, 0, 0);
     }
 
     public PointD add(PointD v) {
@@ -35,6 +35,6 @@ public class PointD {
     }
 
     public PointF convertToF() {
-        return new PointF((float) x, (float) y, (float)z);
+        return new PointF((float) x, (float) y, (float) z);
     }
 }

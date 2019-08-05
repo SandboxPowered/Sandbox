@@ -1,9 +1,9 @@
 package com.hrznstudio.sandbox;
 
-import com.hrznstudio.sandbox.api.ISandboxScreen;
 import com.hrznstudio.sandbox.api.Side;
 import com.hrznstudio.sandbox.client.DownloadScreen;
 import com.hrznstudio.sandbox.client.SandboxClient;
+import com.hrznstudio.sandbox.security.AddonSecurityPolicy;
 import com.hrznstudio.sandbox.server.SandboxServer;
 import com.hrznstudio.sandbox.util.ArrayUtil;
 import net.arikia.dev.drpc.DiscordRPC;
@@ -15,7 +15,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
-import net.minecraft.client.resource.language.I18n;
+
+import java.security.Policy;
 
 public class SandboxHooks {
     public static void shutdown() {
@@ -36,24 +37,28 @@ public class SandboxHooks {
                 .anyMatch(id -> !id.equals("sandbox") && !id.equals("fabricloader"))) {
             throw new RuntimeException("Incompatible Mods Loaded");
         }
+        Policy.setPolicy(new AddonSecurityPolicy());
         SandboxDiscord.start();
     }
+
     public static void shutdownGlobal() {
         SandboxDiscord.shutdown();
     }
 
     public static Screen openScreen(Screen screen) {
-        if (screen instanceof TitleScreen && screen instanceof ISandboxScreen) {
-            ((ISandboxScreen) screen).getButtons().removeIf(w -> w.getMessage().equals(I18n.translate("menu.online")));
+        if (screen instanceof TitleScreen) {
             DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("In Menu")
                     .setBigImage("logo", "")
                     .build()
             );
-        } else {
-            if (screen instanceof MultiplayerScreen) {
-                return new DownloadScreen();
-            }
         }
+        if (screen instanceof MultiplayerScreen) {
+            screen = new DownloadScreen();
+        }
+        if (SandboxClient.INSTANCE != null) {
+            // TODO: OpenScreenEvent
+        }
+
         return screen;
     }
 

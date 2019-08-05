@@ -7,16 +7,16 @@ import java.util.ArrayList;
 
 /**
  * Store data about the entity
- *
+ * <p>
  * Created by sekwah41 on 29/07/2017.
  */
 public class ModelConstructData {
 
     /**
      * Can only contain string int boolean float double and long for now.
-     *
+     * <p>
      * More can be added as they need to have support added.
-     *
+     * <p>
      * Add them into the RagdollGenerator
      */
     private Object[] constructData = new Object[0];
@@ -27,20 +27,21 @@ public class ModelConstructData {
 
     private String className;
 
+    public String getClassName() {
+        return className;
+    }
+
     /**
      * Ignores null values
+     *
      * @param className
      */
     public void setClassName(String className) {
-        if(className == null) {
+        if (className == null) {
             return;
         }
         this.constructData = new Object[0];
         this.className = className;
-    }
-
-    public String getClassName() {
-        return className;
     }
 
     public Object[] getConstructData() {

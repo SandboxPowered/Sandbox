@@ -11,6 +11,10 @@ public class Gamemode {
         this.displayName = properties.displayName;
     }
 
+    public static Properties properties(String name) {
+        return new Properties(name);
+    }
+
     public String getName() {
         return name;
     }
@@ -23,18 +27,13 @@ public class Gamemode {
         return Optional.ofNullable(displayName);
     }
 
-    public static Properties properties(String name) {
-        return new Properties(name);
-    }
-
     public static class Properties {
         private final String name;
+        private String richImage, displayName;
 
         private Properties(String name) {
             this.name = name;
         }
-
-        private String richImage, displayName;
 
         public Properties setRichImage(String richImage) {
             this.richImage = richImage;

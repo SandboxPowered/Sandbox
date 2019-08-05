@@ -29,17 +29,6 @@ public class DownloadScreen extends Screen {
         nextAddon();
     }
 
-    public void nextAddon() {
-        if (addon != dls.length) {
-            try {
-                dl = FileUtil.downloadFile(new URL(dls[addon]), Paths.get("server/ttt.playhrzn.com/cache/addon" + addon + ".sbx"));
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-            addon++;
-        }
-    }
-
     public static String humanReadableByteCount(long bytes) {
         return humanReadableByteCount(bytes, 2);
     }
@@ -50,6 +39,17 @@ public class DownloadScreen extends Screen {
         int exp = (int) (Math.log(bytes) / Math.log(unit));
         char pre = ("KMGTPE").charAt(exp - 1);
         return String.format("%." + depth + "f %sB", bytes / Math.pow(unit, exp), pre);
+    }
+
+    public void nextAddon() {
+        if (addon != dls.length) {
+            try {
+                dl = FileUtil.downloadFile(new URL(dls[addon]), Paths.get("server/ttt.playhrzn.com/cache/addon" + addon + ".sbx"));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            addon++;
+        }
     }
 
     @Override

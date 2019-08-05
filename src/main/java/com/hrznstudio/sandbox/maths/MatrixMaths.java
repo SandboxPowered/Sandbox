@@ -11,7 +11,7 @@ public final class MatrixMaths {
         rotationMatrix.rotY(axis);
 
         return new PointD(Math.atan2(rotationMatrix.m21, rotationMatrix.m22),
-                Math.atan2(-rotationMatrix.m20,Math.sqrt(rotationMatrix.m21 * rotationMatrix.m21 + rotationMatrix.m22 * rotationMatrix.m22)),
+                Math.atan2(-rotationMatrix.m20, Math.sqrt(rotationMatrix.m21 * rotationMatrix.m21 + rotationMatrix.m22 * rotationMatrix.m22)),
                 Math.atan2(rotationMatrix.m10, rotationMatrix.m00));
     }
 

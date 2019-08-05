@@ -6,7 +6,7 @@ import net.minecraft.client.model.Model;
 
 /**
  * Stores a copy of the model as well as data to link it to the ragdoll on creation
- *
+ * <p>
  * Created by sekwah41 on 31/07/2017.
  */
 public class ModelData {
@@ -25,20 +25,20 @@ public class ModelData {
         return baseModel;
     }
 
-    public void setVertexTrackers(VertexTrackerData[] vertexTrackerData) {
-        this.vertexTrackers = vertexTrackerData;
-    }
-
-    public void setTriangleTrackers(TriangleTrackerData[] triangleTrackerData) {
-        this.triangleTrackers = triangleTrackerData;
-    }
-
     public VertexTrackerData[] getVertexTrackers() {
         return vertexTrackers;
     }
 
+    public void setVertexTrackers(VertexTrackerData[] vertexTrackerData) {
+        this.vertexTrackers = vertexTrackerData;
+    }
+
     public TriangleTrackerData[] getTriangleTrackers() {
         return triangleTrackers;
+    }
+
+    public void setTriangleTrackers(TriangleTrackerData[] triangleTrackerData) {
+        this.triangleTrackers = triangleTrackerData;
     }
 
 }

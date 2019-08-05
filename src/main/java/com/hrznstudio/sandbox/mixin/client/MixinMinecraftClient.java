@@ -1,8 +1,8 @@
 package com.hrznstudio.sandbox.mixin.client;
 
-import com.hrznstudio.sandbox.Sandbox;
-import com.hrznstudio.sandbox.client.SandboxClient;
 import com.hrznstudio.sandbox.SandboxHooks;
+import com.hrznstudio.sandbox.client.PanoramaHandler;
+import com.hrznstudio.sandbox.client.SandboxClient;
 import com.hrznstudio.sandbox.resources.AddonResourcePack;
 import com.hrznstudio.sandbox.resources.SandboxResourceCreator;
 import net.minecraft.client.MinecraftClient;
@@ -32,7 +32,7 @@ public class MixinMinecraftClient {
     private ResourcePackContainerManager<ClientResourcePackContainer> resourcePackContainerManager;
 
     private void addonResourcePackModifications(List<ResourcePack> packs) {
-        if(SandboxClient.INSTANCE!=null) {
+        if (SandboxClient.INSTANCE != null) {
             SandboxClient.INSTANCE.loadedAddons.forEach(info -> {
                 packs.add(new AddonResourcePack(info));
             });
@@ -52,6 +52,16 @@ public class MixinMinecraftClient {
     @Inject(method = "startIntegratedServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/integrated/IntegratedServer;start()V"))
     public void clientSetup(CallbackInfo info) {
         SandboxClient.constructAndSetup();
+    }
+
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/GameRenderer;render(FJZ)V", shift = At.Shift.BEFORE))
+    public void renderStart(CallbackInfo info) {
+        PanoramaHandler.renderTick(true);
+    }
+
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/toast/ToastManager;draw()V", shift = At.Shift.AFTER))
+    public void renderEnd(CallbackInfo info) {
+        PanoramaHandler.renderTick(false);
     }
 
     @Inject(method = "init", at = @At("HEAD"))

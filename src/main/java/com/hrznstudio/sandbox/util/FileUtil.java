@@ -13,8 +13,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class FileUtil {
     public static Collection<File> getFiles(File folder, FilenameFilter fileFilter, boolean recursive) {
@@ -62,7 +60,7 @@ public class FileUtil {
                 }
                 if (Files.exists(out))
                     Files.delete(out);
-                if(Files.notExists(out.getParent()))
+                if (Files.notExists(out.getParent()))
                     Files.createDirectories(out.getParent());
                 Files.move(temp, out);
                 tracker.complete();
@@ -71,6 +69,21 @@ public class FileUtil {
             }
         }).start();
         return tracker;
+    }
+
+    public static long getFileSize(URL url) {
+        HttpURLConnection conn = null;
+        try {
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("HEAD");
+            return conn.getContentLengthLong();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
     }
 
     static class DownloadTracker implements IDownloadIndicator {
@@ -110,21 +123,6 @@ public class FileUtil {
         @Override
         public boolean hasStarted() {
             return hasStarted;
-        }
-    }
-
-    public static long getFileSize(URL url) {
-        HttpURLConnection conn = null;
-        try {
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("HEAD");
-            return conn.getContentLengthLong();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } finally {
-            if (conn != null) {
-                conn.disconnect();
-            }
         }
     }
 

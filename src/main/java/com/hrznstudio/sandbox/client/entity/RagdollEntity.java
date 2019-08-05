@@ -1,9 +1,7 @@
 package com.hrznstudio.sandbox.client.entity;
 
 import com.hrznstudio.sandbox.maths.PointD;
-import com.hrznstudio.sandbox.ragdoll.Ragdolls;
 import com.hrznstudio.sandbox.ragdoll.ragdolls.BaseRagdoll;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -11,7 +9,7 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.util.AbsoluteHand;
+import net.minecraft.util.Arm;
 import net.minecraft.util.DefaultedList;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
@@ -32,8 +30,8 @@ public class RagdollEntity extends LivingEntity {
 
     public RagdollEntity(EntityType<? extends RagdollEntity> entityType, World world) {
         super(entityType, world);
-        this.handItems = DefaultedList.create(2, ItemStack.EMPTY);
-        this.armorItems = DefaultedList.create(4, ItemStack.EMPTY);
+        this.handItems = DefaultedList.ofSize(2, ItemStack.EMPTY);
+        this.armorItems = DefaultedList.ofSize(4, ItemStack.EMPTY);
 
         // To stop issues (TODO look to making just a large render box instead)
         this.ignoreCameraFrustum = true;
@@ -45,7 +43,7 @@ public class RagdollEntity extends LivingEntity {
     }
 
     public ItemStack getEquippedStack(EquipmentSlot var1) {
-        switch(var1) {
+        switch (var1) {
             case MAINHAND:
                 return this.handItems.get(0);
             case OFFHAND:
@@ -65,7 +63,7 @@ public class RagdollEntity extends LivingEntity {
 
     @Override
     public void setEquippedStack(EquipmentSlot var1, ItemStack var2) {
-        switch(var1) {
+        switch (var1) {
             case MAINHAND:
                 this.handItems.set(0, var2);
                 break;
@@ -87,11 +85,6 @@ public class RagdollEntity extends LivingEntity {
         }
     }
 
-    @Override
-    public AbsoluteHand getMainHand() {
-        return null;
-    }
-
     /*public RagdollEntity(World world, BaseRagdoll ragdoll) {
         this(world);
         this.noClip = true;
@@ -105,31 +98,28 @@ public class RagdollEntity extends LivingEntity {
         //this.ignoreFrustumCheck = true;
     }*/
 
-    public boolean canBeCollidedWith()
-    {
+    public boolean canBeCollidedWith() {
         return false;
     }
 
-    protected void initAttributes()
-    {
+    protected void initAttributes() {
         super.initAttributes();
         this.getAttributeInstance(EntityAttributes.MAX_HEALTH).setBaseValue(0D);
     }
 
     @Override
-    public void tick()
-    {
+    public void tick() {
         this.prevRenderX = this.x;
         this.prevRenderY = this.y;
         this.prevRenderZ = this.z;
         ++this.age;
 
-        if(this.ragdoll == null) {
+        if (this.ragdoll == null) {
             this.destroy();
             return;
         }
 
-        if(remainingLife-- < 0) {
+        if (remainingLife-- < 0) {
 
             for (int i = 0; i < 10; ++i) {
                 float poofSize = 1.0f;
@@ -153,6 +143,11 @@ public class RagdollEntity extends LivingEntity {
         this.ragdoll.shiftPos(-ragdollPos.x, -ragdollPos.y, -ragdollPos.z);
     }
 
+    @Override
+    public Arm getMainArm() {
+        return null;
+    }
+
     public void setRemainingLife(int ticks) {
         this.remainingLife = ticks;
     }
@@ -174,14 +169,13 @@ public class RagdollEntity extends LivingEntity {
         this.z = posZ;
         float f = this.getWidth() / 2.0F;
         float f1 = this.getHeight();
-        this.setBoundingBox(new Box(posX - (double)f, posY, posZ - (double)f, posX + (double)f, posY + (double)f1, posZ + (double)f));
+        this.setBoundingBox(new Box(posX - (double) f, posY, posZ - (double) f, posX + (double) f, posY + (double) f1, posZ + (double) f));
     }
 
     /**
      * Sets the rotation of the entity
      */
-    public void setRotation(float rotYaw/*, float p_70101_2_*/)
-    {
+    public void setRotation(float rotYaw/*, float p_70101_2_*/) {
         this.ragdoll.rotateRagdoll(rotYaw);
         //this.rotationPitch = p_70101_2_ % 360.0F;
     }

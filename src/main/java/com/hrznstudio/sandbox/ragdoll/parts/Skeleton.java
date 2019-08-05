@@ -13,11 +13,10 @@ import static org.lwjgl.opengl.GL11.*;
 
 /**
  * Created by sekwah on 8/4/2015.
- *
+ * <p>
  * // TODO add some detection to contstraints for when they are massively disshaped or something similar and try reversing it
- *  sometimes, should fix legs crossing over glitch but could be made worse if the entity is squashed for whatever reason.
- *  just add some tests to see if they work.
- *
+ * sometimes, should fix legs crossing over glitch but could be made worse if the entity is squashed for whatever reason.
+ * just add some tests to see if they work.
  */
 public class Skeleton {
 
@@ -48,8 +47,8 @@ public class Skeleton {
     }
 
     public boolean isActive() {
-        for(SkeletonPoint point : this.points) {
-            if(point.hasMoved) {
+        for (SkeletonPoint point : this.points) {
+            if (point.hasMoved) {
                 return true;
             }
         }
@@ -58,33 +57,34 @@ public class Skeleton {
 
     /**
      * Applies the physics before constraints are taken into account.
+     *
      * @param entity
      */
     public void update(RagdollEntity entity) {
 
         this.storeTemp(entity);
 
-        for(SkeletonPoint point : points) {
+        for (SkeletonPoint point : points) {
             point.update(entity);
         }
 
         int updates = 0;
-        while(updates++ <= this.maxUpdateCount) {
-            if(!this.isActive()) {
+        while (updates++ <= this.maxUpdateCount) {
+            if (!this.isActive()) {
                 break;
             }
-            for(Constraint constraint : constraints) {
+            for (Constraint constraint : constraints) {
                 constraint.calc(entity);
             }
         }
 
         this.updateCount = updates;
 
-        for(SkeletonPoint point : points) {
+        for (SkeletonPoint point : points) {
             point.updatePos(entity);
         }
 
-        for(Tracker tracker : entity.ragdoll.trackerHashmap.values()) {
+        for (Tracker tracker : entity.ragdoll.trackerHashmap.values()) {
             tracker.calcPosition();
         }
 
@@ -114,6 +114,7 @@ public class Skeleton {
 
     /**
      * Renders all the constraints as lines, also maybe add the linked triangles next. Create a skleton for the
+     *
      * @param activeStatus
      */
     public void renderSkeletonDebug(int activeStatus) {
@@ -121,28 +122,40 @@ public class Skeleton {
         glDisable(GL11.GL_TEXTURE_2D);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glDisable(GL11.GL_LIGHTING);
-        for(Triangle triangle : triangles) {
-            switch(activeStatus) {
-                case 0: glColor4f(0.0f, 0.8f, 0.1f, 0.5f); break;
-                case 1: glColor4f(0.8f, 0.6f, 0.0f, 0.5f); break;
-                case 2: glColor4f(0.8f, 0.0f, 0.0f, 0.5f); break;
+        for (Triangle triangle : triangles) {
+            switch (activeStatus) {
+                case 0:
+                    glColor4f(0.0f, 0.8f, 0.1f, 0.5f);
+                    break;
+                case 1:
+                    glColor4f(0.8f, 0.6f, 0.0f, 0.5f);
+                    break;
+                case 2:
+                    glColor4f(0.8f, 0.0f, 0.0f, 0.5f);
+                    break;
             }
             drawTriangle(triangle.points[0], triangle.points[1], triangle.points[2]);
-            glColor3f(1f,1f,1f);
+            glColor3f(1f, 1f, 1f);
         }
         glEnable(GL_CULL_FACE);
-        for(Constraint constraint : constraints) {
+        for (Constraint constraint : constraints) {
             // getBrightness(float p_70013_1_) from entity
-            switch(activeStatus) {
-                case 0: glColor4f(0.0f, 1.0f, 0.2f, 0.8f); break;
-                case 1: glColor4f(1.0f, 0.7f, 0.0f, 0.5f); break;
-                case 2: glColor4f(1.0f, 0.0f, 0.0f, 0.5f); break;
+            switch (activeStatus) {
+                case 0:
+                    glColor4f(0.0f, 1.0f, 0.2f, 0.8f);
+                    break;
+                case 1:
+                    glColor4f(1.0f, 0.7f, 0.0f, 0.5f);
+                    break;
+                case 2:
+                    glColor4f(1.0f, 0.0f, 0.0f, 0.5f);
+                    break;
             }
             drawLine(constraint.end[0], constraint.end[1]);
-            glColor4f(1f,1f,1f, 1.0f);
+            glColor4f(1f, 1f, 1f, 1.0f);
 
         }
-        for(Triangle triangle : triangles) {
+        for (Triangle triangle : triangles) {
             // getBrightness(float p_70013_1_) from entity
             glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
             PointD direction = triangle.getDirection();
@@ -151,9 +164,9 @@ public class Skeleton {
             PointD directionPoint = basePoint.add(direction);
             PointD normalPoint = basePoint.add(normal.multiply(4));
             drawLine(basePoint, directionPoint);
-            glColor4f(0f,0f,1f, 1.0f);
+            glColor4f(0f, 0f, 1f, 1.0f);
             drawLine(basePoint, normalPoint);
-            glColor4f(1f,1f,1f, 1.0f);
+            glColor4f(1f, 1f, 1f, 1.0f);
         }
         glEnable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_ALPHA_TEST);
@@ -186,10 +199,10 @@ public class Skeleton {
 
     public void verifyPoints(RagdollEntity entity) {
         this.storeTemp(entity);
-        for(SkeletonPoint point : points) {
+        for (SkeletonPoint point : points) {
             point.verify(entity);
         }
-        for(Tracker tracker : entity.ragdoll.trackerHashmap.values()) {
+        for (Tracker tracker : entity.ragdoll.trackerHashmap.values()) {
             tracker.updateLastPos();
             tracker.updatePosDifference();
         }
@@ -197,28 +210,28 @@ public class Skeleton {
     }
 
     public void shiftPos(double x, double y, double z) {
-        for(SkeletonPoint point : points) {
+        for (SkeletonPoint point : points) {
             point.shiftPosition(x, y, z);
             //point.movePoint(entity);
         }
     }
 
     public void setVelocity(double motionX, double motionY, double motionZ) {
-        for(SkeletonPoint point : points) {
+        for (SkeletonPoint point : points) {
             point.setVelocity(motionX, motionY, motionZ);
             //point.movePoint(entity);
         }
     }
 
     public void addVelocity(double motionX, double motionY, double motionZ) {
-        for(SkeletonPoint point : points) {
-            point.addVelocity(motionX,motionY,motionZ);
+        for (SkeletonPoint point : points) {
+            point.addVelocity(motionX, motionY, motionZ);
             //point.movePoint(entity);
         }
     }
 
     public void rotate(float rotYaw) {
-        for(SkeletonPoint point : this.points) {
+        for (SkeletonPoint point : this.points) {
             PointD newLoc = VectorMaths.rotateOriginY(Math.toRadians(-rotYaw), point.toPoint());
             point.setPosition(newLoc);
         }

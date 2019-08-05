@@ -5,12 +5,15 @@
   "mixins": [
     "MixinMinecraftServer",
     "MixinSimpleRegistry",
-    "crash.MixinCrashReport"
+    "crash.MixinCrashReport",
+    "common.MixinEnchantment"
   ],
   "client": [
     "client.MixinIntegratedServer",
     "client.MixinMinecraftClient",
-    "client.MixinScreen"
+    "client.MixinScreen",
+    "client.MixinKeyboard",
+    "client.MixinGameRenderer"
   ],
   "server": [
     "server.MixinDedicatedServer"

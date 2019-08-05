@@ -8,10 +8,10 @@ public class ZombieRagdoll extends BipedRagdoll {
     public ZombieRagdoll() {
         super();
 
-        rightArm.setPosition(-6f,-2f,8f);
+        rightArm.setPosition(-6f, -2f, 8f);
         rightArm.shiftPositionToModelScale();
 
-        leftArm.setPosition(6f,-2f,8f);
+        leftArm.setPosition(6f, -2f, 8f);
         leftArm.shiftPositionToModelScale();
     }
 }

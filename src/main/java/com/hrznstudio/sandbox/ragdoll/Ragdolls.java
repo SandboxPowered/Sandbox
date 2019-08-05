@@ -22,19 +22,9 @@ import java.util.Map;
 public class Ragdolls {
     // add code to store a hashmap of all entities to ragdolls
 
-    // Key is entity class and stores a ragdoll class
-    private static Map<String, RagdollData> entityToRagdollHashmap = new HashMap<String, RagdollData>();
-
-    private static MinecraftClient mc = MinecraftClient.getInstance();
-
     public static EntityType<RagdollEntity> RAGDOLL = Registry.register(Registry.ENTITY_TYPE, new Identifier("sandbox", "ragdoll"),
             EntityType.Builder.create(RagdollEntity::new, EntityCategory.MISC).disableSaving().disableSummon().setDimensions(0.15f, 0.15f).build(new Identifier("sandbox", "ragdoll").toString()));
-
-
-    public List<RagdollEntity> ragdolls = new ArrayList<>();
-
     public static EntityRenderDispatcher entityRenderDispatcher;
-
     /**
      * Need to add update counts to the ragdoll data rather than global also 10 is for cloths
      */
@@ -42,6 +32,10 @@ public class Ragdolls {
 
 
     public static float gravity = 0.05F;
+    // Key is entity class and stores a ragdoll class
+    private static Map<String, RagdollData> entityToRagdollHashmap = new HashMap<String, RagdollData>();
+    private static MinecraftClient mc = MinecraftClient.getInstance();
+    public List<RagdollEntity> ragdolls = new ArrayList<>();
     //public static float gravity = 0F;
 
     public void registerRagdoll(Class<? extends Entity> entityClass, RagdollData ragdollData) {
@@ -51,6 +45,7 @@ public class Ragdolls {
 
     /**
      * Will overwrite ragdolls if there is one already there
+     *
      * @param entityClass
      * @param ragdollData
      */
@@ -61,7 +56,7 @@ public class Ragdolls {
     public void updateRagdolls() {
         this.ragdolls.removeIf(ragdoll -> ragdoll.removed);
 
-        for(RagdollEntity ragdoll : this.ragdolls) {
+        for (RagdollEntity ragdoll : this.ragdolls) {
             ragdoll.tick();
         }
     }
@@ -72,6 +67,7 @@ public class Ragdolls {
 
     /**
      * TODO replace with callback to addon to create/set the ragdoll data allowing to register to entities.
+     *
      * @param entity
      * @return
      */
@@ -79,17 +75,14 @@ public class Ragdolls {
 
         FromDataRagdoll ragdoll = null;
 
-        try
-        {
+        try {
             String entityClass = entity.getClass().getName();
             RagdollData ragdollData = entityToRagdollHashmap.get(entityClass);
 
             if (ragdollData != null) {
                 ragdoll = new FromDataRagdoll(ragdollData);
             }
-        }
-        catch (Exception exception)
-        {
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
 

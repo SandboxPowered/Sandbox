@@ -24,15 +24,15 @@ public class AnchoredSkeletonPoint extends SkeletonPoint {
      * this will set positions to scale in terms of the model, also y coordinates on models are negative so reverse it manually
      */
     public AnchoredSkeletonPoint(double x, double y, double z, float size) {
-        this(x,y,z,size,true);
+        this(x, y, z, size, true);
     }
 
     public AnchoredSkeletonPoint(double x, double y, double z, boolean shouldDoModelScale) {
-        this(x,y,z,0.15f,shouldDoModelScale);
+        this(x, y, z, 0.15f, shouldDoModelScale);
     }
 
     public AnchoredSkeletonPoint(double x, double y, double z) {
-        this(x,y,z,0.15f,true);
+        this(x, y, z, 0.15f, true);
     }
 
     // note the position is in blocks not the model locations, and every 1 block is split into 16 for the model positions(i think)
@@ -60,6 +60,6 @@ public class AnchoredSkeletonPoint extends SkeletonPoint {
         this.velX = 0;
         this.velY = 0;
         this.velZ = 0;
-                         // gravity == (0,-0.01,0)
+        // gravity == (0,-0.01,0)
     }
 }

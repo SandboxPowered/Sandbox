@@ -9,25 +9,21 @@ import net.minecraft.client.model.Cuboid;
  */
 public class TrackerData {
 
+    public final boolean hasRotateData;
     private final String partName;
-
     protected float posOffsetX;
     protected float posOffsetY;
     protected float posOffsetZ;
-
     protected float rotOffsetX;
     protected float rotOffsetY;
     protected float rotOffsetZ;
-
-    public final boolean hasRotateData;
-
     private Cuboid part;
 
     public TrackerData(String partName, JsonObject vertexObj) {
 
         this.partName = partName;
 
-        if(vertexObj == null) {
+        if (vertexObj == null) {
             this.hasRotateData = false;
             return;
         }
@@ -42,14 +38,14 @@ public class TrackerData {
 
     }
 
-    public void setRotOffsetX(JsonElement rotOffsetX) {
-        if(rotOffsetX != null) {
-            this.rotOffsetX = (float) Math.toRadians(rotOffsetX.getAsFloat());
-        }
-    }
-
     public float getRotOffsetX() {
         return rotOffsetX;
+    }
+
+    public void setRotOffsetX(JsonElement rotOffsetX) {
+        if (rotOffsetX != null) {
+            this.rotOffsetX = (float) Math.toRadians(rotOffsetX.getAsFloat());
+        }
     }
 
     public float getRotOffsetY() {
@@ -57,7 +53,7 @@ public class TrackerData {
     }
 
     public void setRotOffsetY(JsonElement rotOffsetY) {
-        if(rotOffsetY != null) {
+        if (rotOffsetY != null) {
             this.rotOffsetY = (float) Math.toRadians(rotOffsetY.getAsFloat());
         }
     }
@@ -67,7 +63,7 @@ public class TrackerData {
     }
 
     public void setRotOffsetZ(JsonElement rotOffsetZ) {
-        if(rotOffsetZ != null) {
+        if (rotOffsetZ != null) {
             this.rotOffsetZ = (float) Math.toRadians(rotOffsetZ.getAsFloat());
         }
     }
@@ -77,7 +73,7 @@ public class TrackerData {
     }
 
     public void setPosOffsetX(JsonElement posOffsetX) {
-        if(posOffsetX != null) {
+        if (posOffsetX != null) {
             this.posOffsetX = posOffsetX.getAsFloat();
         }
     }
@@ -87,7 +83,7 @@ public class TrackerData {
     }
 
     public void setPosOffsetY(JsonElement posOffsetY) {
-        if(posOffsetY != null) {
+        if (posOffsetY != null) {
             this.posOffsetY = posOffsetY.getAsFloat();
         }
     }
@@ -97,7 +93,7 @@ public class TrackerData {
     }
 
     public void setPosOffsetZ(JsonElement posOffsetZ) {
-        if(posOffsetZ != null) {
+        if (posOffsetZ != null) {
             this.posOffsetZ = posOffsetZ.getAsFloat();
         }
     }

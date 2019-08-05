@@ -30,21 +30,15 @@ public class SkeletonPoint {
     public double newPosX;
     public double newPosY;
     public double newPosZ;
-
-    private double nonMoveThresh = 0.001;
-
     public boolean hasMoved = true;
-
     // Push force multiplier
     public float pushability = 1;
-
-
     // basically distance from last point, just sounds nicer for when other forces interact with it or if you wanna set it
     //  from an explosion
     public double velX = 0;
     public double velY = 0;
     public double velZ = 0;
-
+    private double nonMoveThresh = 0.001;
     private boolean onGround = false;
 
     private boolean inWater;
@@ -53,20 +47,20 @@ public class SkeletonPoint {
      * this will set positions to scale in terms of the model, also y coordinates on models are negative so reverse it manually
      */
     public SkeletonPoint(double x, double y, double z, float size) {
-        this(x,y,z,size,true);
+        this(x, y, z, size, true);
     }
 
     public SkeletonPoint(double x, double y, double z, boolean shouldDoModelScale) {
-        this(x,y,z,0.15f,shouldDoModelScale);
+        this(x, y, z, 0.15f, shouldDoModelScale);
     }
 
     public SkeletonPoint(double x, double y, double z) {
-        this(x,y,z,0.15f,true);
+        this(x, y, z, 0.15f, true);
     }
 
     // note the position is in blocks not the model locations, and every 1 block is split into 16 for the model positions(i think)
     public SkeletonPoint(double x, double y, double z, float size, boolean shouldDoModelScale) {
-        this.setPosition(x,y,z);
+        this.setPosition(x, y, z);
 
         // Added to stop ragdolls becoming lines or acting in only 1 plane after hitting a wall
         float sizeRandom = (float) Math.random();
@@ -75,7 +69,7 @@ public class SkeletonPoint {
 
         this.size = size;
 
-        if(shouldDoModelScale) {
+        if (shouldDoModelScale) {
             shiftPositionToModelScale();
         }
     }
@@ -127,6 +121,7 @@ public class SkeletonPoint {
 
     /**
      * Check if it will move and store a variable saying if it has. and set a min move amount
+     *
      * @return
      */
     private boolean checkWillMove() {
@@ -136,7 +131,7 @@ public class SkeletonPoint {
         boolean moved = move < this.nonMoveThresh;
         //System.out.println(move);
         //System.out.println(moved);
-        if(!moved) {
+        if (!moved) {
             this.newPosX = this.posX;
             this.newPosY = this.posY;
             this.newPosZ = this.posZ;
@@ -150,27 +145,26 @@ public class SkeletonPoint {
 
     public void update(RagdollEntity entity) {
         this.velX = this.posX - this.lastPosX;
-        if(!isAboveSpeedThreashold(this.velX)) {
+        if (!isAboveSpeedThreashold(this.velX)) {
             this.velX = 0;
         }
         this.velY = this.posY - this.lastPosY;
-        if(!isAboveSpeedThreashold(this.velX)) {
+        if (!isAboveSpeedThreashold(this.velX)) {
             this.velX = 0;
         }
         this.velZ = this.posZ - this.lastPosZ;
-        if(!isAboveSpeedThreashold(this.velX)) {
+        if (!isAboveSpeedThreashold(this.velX)) {
             this.velX = 0;
         }
         float speedMulti = 0.9999f;
 
         this.velY *= speedMulti;
 
-        if(onGround) {
+        if (onGround) {
             float groundMulti = 0.85f;
             this.velX *= groundMulti;
             this.velZ *= groundMulti;
-        }
-        else{
+        } else {
             this.velX *= speedMulti;
             this.velZ *= speedMulti;
         }
@@ -189,20 +183,18 @@ public class SkeletonPoint {
         // TODO check how the player gets this, i has roughly been coded for 1.13 as a test
         if (entity.world.containsBlockWithMaterial(axisalignedbb.expand(0.0D, -0.4000000059604645D, 0.0D).shrink(0.001D, 0.001D, 0.001D), Material.WATER)) {
             this.addVelocity(0, 0.06f, 0);
-            if(!this.inWater) {
+            if (!this.inWater) {
                 this.inWater = true;
                 this.velX *= 0.9f;
                 this.velY *= 0.5f;
                 this.velZ *= 0.9f;
-            }
-            else {
+            } else {
                 this.velX *= 0.9f;
                 this.velY *= 0.85f;
                 this.velZ *= 0.9f;
             }
             //entity.setVelocity(0,0,0);
-        }
-        else {
+        } else {
             this.inWater = false;
         }
 
@@ -216,7 +208,7 @@ public class SkeletonPoint {
         // position += position - old_position;     // Verlet integration
         //position += gravity;                     // gravity == (0,-0.01,0)
 
-        if(this.checkWillMove()) {
+        if (this.checkWillMove()) {
             this.newPosX = this.posX;
             this.newPosY = this.posY;
             this.newPosZ = this.posZ;
@@ -243,13 +235,11 @@ public class SkeletonPoint {
 
         List list = entity.world.getEntities(entity, boundingBox.expand(0.20000000298023224D, 0.0D, 0.20000000298023224D));
 
-        if (list != null && !list.isEmpty())
-        {
-            for (int i = 0; i < list.size(); ++i)
-            {
-                Entity entityCol = (Entity)list.get(i);
+        if (list != null && !list.isEmpty()) {
+            for (int i = 0; i < list.size(); ++i) {
+                Entity entityCol = (Entity) list.get(i);
 
-                if(entityCol.isPushable()) {
+                if (entityCol.isPushable()) {
                     this.collideWithEntity(entity, entityCol);
                 }
             }
@@ -266,15 +256,13 @@ public class SkeletonPoint {
         double d1 = pointPosZ - entityCol.z;
         double d2 = MathHelper.absMax(d0, d1);
 
-        if (d2 >= 0.009999999776482582D)
-        {
+        if (d2 >= 0.009999999776482582D) {
             d2 = (double) MathHelper.sqrt(d2);
             d0 /= d2;
             d1 /= d2;
             double d3 = 1.0D / d2;
 
-            if (d3 > 1.0D)
-            {
+            if (d3 > 1.0D) {
                 d3 = 1.0D;
             }
 
@@ -283,8 +271,8 @@ public class SkeletonPoint {
             d0 *= 0.05000000074505806D;
             d1 *= 0.05000000074505806D;
             // field_5968 should be pushSpeedModifier
-            d0 *= (double)(1.0F - entityCol.pushSpeedReduction);
-            d1 *= (double)(1.0F - entityCol.pushSpeedReduction);
+            d0 *= (double) (1.0F - entityCol.pushSpeedReduction);
+            d1 *= (double) (1.0F - entityCol.pushSpeedReduction);
             //SekCPhysics.logger.info(entityCol.motionX);
             //entityCol.addVelocity(-d0, 0.0D, -d1);
             this.addVelocity(d0 + entityCol.getVelocity().x, 0.0D, d1 + entityCol.getVelocity().z);

@@ -48,6 +48,7 @@ public class BaseRagdoll {
 
     /**
      * Called whenever an update is needed
+     *
      * @param entity
      */
     public void update(RagdollEntity entity) {
@@ -55,11 +56,11 @@ public class BaseRagdoll {
     }
 
     public void shiftPos(double x, double y, double z) {
-        skeleton.shiftPos(x,y,z);
+        skeleton.shiftPos(x, y, z);
     }
 
     public void setStanceToEntity(LivingEntity entity) {
-        for(SkeletonPoint point : skeleton.points) {
+        for (SkeletonPoint point : skeleton.points) {
             // Finish rotation maths
             //newPoint.translate(new Vector3f((float) point.posX, (float) point.posY, (float) point.posZ));
             //SekCPhysics.logger.info(entity.rotationYaw);
@@ -74,28 +75,25 @@ public class BaseRagdoll {
     }
 
     protected void addVertexTracker(Cuboid part, SkeletonPoint anchor, SkeletonPoint pointTo, float scale) {
-        if(scale == 1) {
+        if (scale == 1) {
             trackerHashmap.put(part, new TrackerVertex(part, anchor, pointTo));
-        }
-        else {
+        } else {
             trackerHashmap.put(part, new TrackerVertexScaled(part, anchor, pointTo, scale));
         }
     }
 
     protected void addTriangleTracker(Cuboid part, Triangle triangle, float scale) {
-        if(scale == 1) {
+        if (scale == 1) {
             trackerHashmap.put(part, new TrackerTriangle(part, triangle));
-        }
-        else {
+        } else {
             trackerHashmap.put(part, new TrackerTriangleScaled(part, triangle, scale));
         }
     }
 
     protected void addTriangleTracker(Cuboid part, Triangle triangle, float rotateOffsetX, float rotateOffsetY, float rotateOffsetZ, float scale) {
-        if(scale == 1) {
+        if (scale == 1) {
             trackerHashmap.put(part, new TrackerTriangle(part, triangle, rotateOffsetX, rotateOffsetY, rotateOffsetZ));
-        }
-        else {
+        } else {
             trackerHashmap.put(part, new TrackerTriangleScaled(part, triangle, rotateOffsetX, rotateOffsetY, rotateOffsetZ, scale));
         }
     }
@@ -106,10 +104,9 @@ public class BaseRagdoll {
 
     public int activeStatus() {
         //System.out.println(this.skeleton.updateCount);
-        if(this.isActive()) {
+        if (this.isActive()) {
             return 0;
-        }
-        else {
+        } else {
             return this.skeleton.updateCount == 1 ? 2 : 1;
         }
     }

@@ -10,7 +10,7 @@ import com.hrznstudio.sandbox.maths.VectorMaths;
  * Also more control over rotational constraints, however i will try to add some rotational constraints like a ball and socket
  * joint. so if loads are needed for a rope. however its rotation will be useless. Try making stuff like ropes for physics
  * tests. So try making a better leads for horses as a test :3.
- *
+ * <p>
  * Actually thinking about it now, that would be useful for stuff like keeping the top of the arm a distance away from
  * the torso as no rotation is needed for rendering but it would be nice for a bit of moving x and y a little like
  * shoulders.
@@ -31,7 +31,7 @@ public class Triangle {
 
         PointD up = normalize(points[1].toPoint(), points[0].toPoint());
         PointD right = subtract(points[2].toPoint(), points[0].toPoint()); // temporarily stores a value
-        PointD facing = normalize(new PointD(0,0,0), crossProduct(up, right));
+        PointD facing = normalize(new PointD(0, 0, 0), crossProduct(up, right));
         right = normalize(new PointD(0, 0, 0), crossProduct(facing, right));
 
        /* XYZ up, right, facing;
@@ -71,7 +71,7 @@ public class Triangle {
     // Get the normalised vector for the direction.
     public PointD getDirectionNorm() {
         // Center between left and right
-        PointD averageLoc = new PointD((points[1].posX + points[2].posX) / 2F,(points[1].posY + points[2].posY) / 2F,(points[1].posZ + points[2].posZ) / 2F);
+        PointD averageLoc = new PointD((points[1].posX + points[2].posX) / 2F, (points[1].posY + points[2].posY) / 2F, (points[1].posZ + points[2].posZ) / 2F);
 
         double currentLength = Math.sqrt(Math.pow(points[0].posX - averageLoc.x, 2) + Math.pow(points[0].posY - averageLoc.y, 2) + Math.pow(points[0].posZ - averageLoc.z, 2));
         // Direction from the base directly down the center of the triangle
@@ -86,7 +86,7 @@ public class Triangle {
 
     public PointD getDirection() {
         // Center between left and right vector
-        PointD averageLoc = new PointD((points[1].posX + points[2].posX) / 2F,(points[1].posY + points[2].posY) / 2F,(points[1].posZ + points[2].posZ) / 2F);
+        PointD averageLoc = new PointD((points[1].posX + points[2].posX) / 2F, (points[1].posY + points[2].posY) / 2F, (points[1].posZ + points[2].posZ) / 2F);
 
         // Direction from the base directly down the center of the triangle
         PointD direction = new PointD((averageLoc.x - points[0].posX),
@@ -97,6 +97,7 @@ public class Triangle {
 
     /**
      * Calculate the rotated angle around the direction.
+     *
      * @return angle, either 0 to 360 or 0 to 2Pi
      */
     public float getAngle() {
