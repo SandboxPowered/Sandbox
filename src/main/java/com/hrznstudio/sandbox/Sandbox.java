@@ -13,6 +13,8 @@ public class Sandbox implements ISandbox {
 
     public static Ragdolls ragdolls = new Ragdolls();
 
+    public static boolean a = false;
+
     @Override
     public Side getSide() {
         return FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT ? Side.CLIENT : Side.SERVER;

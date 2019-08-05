@@ -15,8 +15,8 @@ public class AddonClassLoader extends SecureClassLoader {
 
     private DynamicURLClassLoader urlClassLoader = (DynamicURLClassLoader) getParent();
 
-    public AddonClassLoader() {
-        super(new DynamicURLClassLoader(new URL[0]));
+    public AddonClassLoader(ClassLoader original) {
+        super(new DynamicURLClassLoader(new URL[0], original));
     }
 
     public void addURL(URL url) {
@@ -36,8 +36,8 @@ public class AddonClassLoader extends SecureClassLoader {
             registerAsParallelCapable();
         }
 
-        private DynamicURLClassLoader(URL[] urls) {
-            super(urls); //TODO: Consider making this inherit from something other than the system classloader
+        private DynamicURLClassLoader(URL[] urls, ClassLoader original) {
+            super(urls, original);
         }
 
         public void addURL(URL url) {

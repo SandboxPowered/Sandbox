@@ -27,6 +27,7 @@ dependencies {
 	compile 'com.electronwill.night-config:toml:3.6.0'
 	compile 'com.electronwill.night-config:yaml:3.6.0'
 	compile 'com.github.zafarkhaja:java-semver:0.9.0'
+	compile group: 'io.projectreactor', name: 'reactor-core', version: '3.2.11.RELEASE'
 
 }
 

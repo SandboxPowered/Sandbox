@@ -3,7 +3,6 @@ package com.hrznstudio.sandbox.mixin.client;
 import com.hrznstudio.sandbox.SandboxHooks;
 import com.hrznstudio.sandbox.client.PanoramaHandler;
 import com.hrznstudio.sandbox.client.SandboxClient;
-import com.hrznstudio.sandbox.resources.AddonResourcePack;
 import com.hrznstudio.sandbox.resources.SandboxResourceCreator;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -33,9 +32,9 @@ public class MixinMinecraftClient {
 
     private void addonResourcePackModifications(List<ResourcePack> packs) {
         if (SandboxClient.INSTANCE != null) {
-            SandboxClient.INSTANCE.loadedAddons.forEach(info -> {
-                packs.add(new AddonResourcePack(info));
-            });
+//            SandboxClient.INSTANCE.loadedAddons.forEach(info -> {
+//                packs.add(new AddonResourcePack(info));
+//            });
         }
     }
 
