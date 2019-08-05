@@ -3,6 +3,8 @@ package com.hrznstudio.sandbox;
 import com.hrznstudio.sandbox.api.Side;
 import com.hrznstudio.sandbox.client.DownloadScreen;
 import com.hrznstudio.sandbox.client.SandboxClient;
+import com.hrznstudio.sandbox.event.EventDispatcher;
+import com.hrznstudio.sandbox.event.client.OpenScreenEvent;
 import com.hrznstudio.sandbox.security.AddonSecurityPolicy;
 import com.hrznstudio.sandbox.server.SandboxServer;
 import com.hrznstudio.sandbox.util.ArrayUtil;
@@ -56,7 +58,7 @@ public class SandboxHooks {
             screen = new DownloadScreen();
         }
         if (SandboxClient.INSTANCE != null) {
-            // TODO: OpenScreenEvent
+            screen=EventDispatcher.getClientDispatcher().publish(new OpenScreenEvent(screen)).getScreen();
         }
 
         return screen;
