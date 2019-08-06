@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.hrznstudio.sandbox.SandboxCommon;
 import com.hrznstudio.sandbox.event.EventDispatcher;
-import com.hrznstudio.sandbox.event.mod.ModInitEvent;
+import com.hrznstudio.sandbox.event.mod.ModEvent;
 import com.hrznstudio.sandbox.loader.SandboxLoader;
 import com.hrznstudio.sandbox.util.Log;
 import reactor.core.publisher.EmitterProcessor;
@@ -38,7 +38,7 @@ public class SandboxServer extends SandboxCommon {
         if (!isIntegrated) {
             setupDedicated();
         }
-        dispatcher.publish(new ModInitEvent());
+        dispatcher.publish(new ModEvent.Init());
     }
 
     protected void load() {

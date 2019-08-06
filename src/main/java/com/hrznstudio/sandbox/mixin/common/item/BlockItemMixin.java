@@ -10,8 +10,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import javax.script.ScriptException;
-
 @Mixin(BlockItem.class)
 public class BlockItemMixin {
 
@@ -20,7 +18,7 @@ public class BlockItemMixin {
             cancellable = true
     )
     public void place(ItemPlacementContext context, BlockState state, CallbackInfoReturnable<Boolean> info) {
-        if(!context.getWorld().isClient) {
+        if (!context.getWorld().isClient) {
             BlockEvent.PlaceEvent event = EventDispatcher.getServerDispatcher().publish(new BlockEvent.PlaceEvent(context, state));
             if (event.wasCancelled()) {
                 info.setReturnValue(false);

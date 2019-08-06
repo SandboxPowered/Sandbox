@@ -6,8 +6,6 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.FluxProcessor;
 import reactor.core.scheduler.Schedulers;
 
-import java.util.function.Consumer;
-
 public class EventDispatcher {
     private final FluxProcessor<Event, Event> processor;
 
@@ -24,16 +22,11 @@ public class EventDispatcher {
     }
 
     public <T extends Event> Flux<T> on(Class<T> eventClass) {
-        boolean isAsync = AsyncEvent.class.isAssignableFrom(eventClass);
+        boolean isAsync = eventClass.isAnnotationPresent(Event.Async.class);
         return processor.publishOn(isAsync ? Schedulers.parallel() : Schedulers.immediate()).ofType(eventClass);
     }
 
-    public <T extends Event> void subscribe(Class<T> eventClass, Consumer<T> consumer) {
-        on(eventClass).subscribe(consumer);
-    }
-
     public <T extends Event> T publish(T event) {
-        System.out.println("Publishing " + event);
         processor.onNext(event);
         event.complete();
         return event;

@@ -34,21 +34,21 @@ import java.util.Iterator;
 import java.util.Random;
 
 public class SandboxTitleScreen extends Screen {
-    public static final CubeMapRenderer PANORAMA_CUBE_MAP = new CubeMapRenderer(new Identifier("sandbox", "textures/gui/panorama"));
+    public static final CubeMapRenderer PANORAMA_CUBE_MAP = new CubeMapRenderer(new Identifier("sandbox", "textures/gui/panorama/panorama"));
     private static final Identifier PANORAMA_OVERLAY = new Identifier("textures/gui/title/background/panorama_overlay.png");
     private static final Identifier ACCESSIBILITY_ICON_TEXTURE = new Identifier("textures/gui/accessibility.png");
+    private static final Identifier MINECRAFT_TITLE_TEXTURE = new Identifier("textures/gui/title/minecraft.png");
+    private static final Identifier EDITION_TITLE_TEXTURE = new Identifier("textures/gui/title/edition.png");
     private final boolean field_17776;
+    private final RotatingCubeMapRenderer backgroundRenderer;
+    private final boolean doBackgroundFade;
     @Nullable
     private String splashText;
     private ButtonWidget buttonResetDemo;
     @Nullable
     private SandboxTitleScreen.Warning warning;
-    private static final Identifier MINECRAFT_TITLE_TEXTURE = new Identifier("textures/gui/title/minecraft.png");
-    private static final Identifier EDITION_TITLE_TEXTURE = new Identifier("textures/gui/title/edition.png");
     private int copyrightTextWidth;
     private int copyrightTextX;
-    private final RotatingCubeMapRenderer backgroundRenderer;
-    private final boolean doBackgroundFade;
     private long backgroundFadeStart;
 
     public SandboxTitleScreen() {
@@ -238,14 +238,14 @@ public class SandboxTitleScreen extends Screen {
 
     @Environment(EnvType.CLIENT)
     class Warning {
+        private final Text line1;
+        private final Text line2;
+        private final String helpUrl;
         private int line2Width;
         private int startX;
         private int startY;
         private int endX;
         private int endY;
-        private final Text line1;
-        private final Text line2;
-        private final String helpUrl;
 
         public Warning(Text line1, Text line2, String url) {
             this.line1 = line1;

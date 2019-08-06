@@ -5,7 +5,7 @@ import com.hrznstudio.sandbox.client.DownloadScreen;
 import com.hrznstudio.sandbox.client.SandboxClient;
 import com.hrznstudio.sandbox.client.SandboxTitleScreen;
 import com.hrznstudio.sandbox.event.EventDispatcher;
-import com.hrznstudio.sandbox.event.client.OpenScreenEvent;
+import com.hrznstudio.sandbox.event.client.ScreenEvent;
 import com.hrznstudio.sandbox.security.AddonSecurityPolicy;
 import com.hrznstudio.sandbox.server.SandboxServer;
 import com.hrznstudio.sandbox.util.ArrayUtil;
@@ -60,7 +60,7 @@ public class SandboxHooks {
             screen = new DownloadScreen();
         }
         if (SandboxClient.INSTANCE != null) {
-            OpenScreenEvent event = EventDispatcher.getClientDispatcher().publish(new OpenScreenEvent(screen));
+            ScreenEvent.Open event = EventDispatcher.getClientDispatcher().publish(new ScreenEvent.Open(screen));
             if (event.wasCancelled()) {
                 screen = MinecraftClient.getInstance().currentScreen;
             } else {
