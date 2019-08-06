@@ -6,7 +6,8 @@
     "MixinMinecraftServer",
     "MixinSimpleRegistry",
     "crash.MixinCrashReport",
-    "common.MixinEnchantment"
+    "common.MixinEnchantment",
+    "common.item.BlockItemMixin"
   ],
   "client": [
     "client.MixinIntegratedServer",

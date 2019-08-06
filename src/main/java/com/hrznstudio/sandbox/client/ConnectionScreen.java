@@ -18,10 +18,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class ConnectionScreen extends Screen {
     private static final AtomicInteger CONNECTOR_THREADS_COUNT = new AtomicInteger(0);
+    private final Screen parent;
     private ClientConnection connection;
     private boolean connectingCancelled;
     private Text status = new TranslatableText("connect.connecting");
-    private final Screen parent;
 
     public ConnectionScreen(Text text_1, Screen parent) {
         super(text_1);

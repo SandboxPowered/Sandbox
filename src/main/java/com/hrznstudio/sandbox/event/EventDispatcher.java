@@ -33,6 +33,7 @@ public class EventDispatcher {
     }
 
     public <T extends Event> T publish(T event) {
+        System.out.println("Publishing " + event);
         processor.onNext(event);
         event.complete();
         return event;

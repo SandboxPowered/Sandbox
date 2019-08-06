@@ -3,8 +3,8 @@ package com.hrznstudio.sandbox.event;
 public class Event {
     protected boolean complete;
 
-
     void complete() {
+        System.out.println("Completed Event "+toString());
         this.complete = true;
     }
 

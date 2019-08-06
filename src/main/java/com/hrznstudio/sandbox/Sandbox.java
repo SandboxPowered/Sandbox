@@ -13,7 +13,7 @@ public class Sandbox implements ISandbox {
 
     public static Ragdolls ragdolls = new Ragdolls();
 
-    public static boolean a = false;
+    public static boolean incompatibleModsLoaded = false;
 
     @Override
     public Side getSide() {
