@@ -1,3 +1,0 @@
-[submodule "run/addons/test"]
-	path = run/addons/test
-	url = https://github.com/OpenModLoader/Sandbox-Example-Addon.git

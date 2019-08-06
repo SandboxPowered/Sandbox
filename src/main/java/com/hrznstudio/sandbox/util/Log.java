@@ -4,17 +4,21 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Log {
-    private static Logger LOGGER = LogManager.getFormatterLogger("Sandbox|Fabric");
+    public static Logger LOG = LogManager.getFormatterLogger("Sandbox|Fabric");
 
     public static void info(String s) {
-        LOGGER.info("[Sandbox] " + s);
+        LOG.info("[Sandbox] " + s);
+    }
+
+    public static void info(String s, Object... objs) {
+        LOG.info("[Sandbox] " + s, objs);
     }
 
     public static void error(String s) {
-        LOGGER.error("[Sandbox] " + s);
+        LOG.error("[Sandbox] " + s);
     }
 
     public static void error(String s, Throwable e) {
-        LOGGER.error("[Sandbox] " + s, e);
+        LOG.error("[Sandbox] " + s, e);
     }
 }
