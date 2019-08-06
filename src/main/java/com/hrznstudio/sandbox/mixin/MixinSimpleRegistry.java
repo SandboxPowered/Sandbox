@@ -18,6 +18,7 @@ import javax.annotation.Nullable;
 
 @Mixin(SimpleRegistry.class)
 public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implements SandboxRegistry<T> {
+
     @Shadow
     @Final
     protected BiMap<Identifier, T> entries;

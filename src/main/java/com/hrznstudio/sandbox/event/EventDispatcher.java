@@ -24,23 +24,17 @@ public class EventDispatcher {
     }
 
     public <T extends Event> Flux<T> on(Class<T> eventClass) {
-        return processor.publishOn(Schedulers.immediate()).ofType(eventClass);
+        boolean isAsync = AsyncEvent.class.isAssignableFrom(eventClass);
+        return processor.publishOn(isAsync ? Schedulers.parallel() : Schedulers.immediate()).ofType(eventClass);
     }
 
     public <T extends Event> void subscribe(Class<T> eventClass, Consumer<T> consumer) {
         on(eventClass).subscribe(consumer);
     }
 
-    public <T extends Event> void subscribeAsync(Class<T> eventClass, Consumer<T> consumer) {
-        onAsync(eventClass).subscribe(consumer);
-    }
-
-    public <T extends Event> Flux<T> onAsync(Class<T> eventClass) {
-        return processor.publishOn(Schedulers.parallel()).ofType(eventClass);
-    }
-
     public <T extends Event> T publish(T event) {
         processor.onNext(event);
+        event.complete();
         return event;
     }
 }

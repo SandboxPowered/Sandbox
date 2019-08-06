@@ -11,7 +11,6 @@ public interface SandboxRegistry<T> {
     T get(Identifier identifier);
 
     enum RegistryType {
-        GAMEMODE,
         BLOCK,
         ITEM,
         ENTITY,
