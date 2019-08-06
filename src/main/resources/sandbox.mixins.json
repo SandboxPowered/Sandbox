@@ -7,14 +7,16 @@
     "MixinSimpleRegistry",
     "crash.MixinCrashReport",
     "common.MixinEnchantment",
-    "common.item.BlockItemMixin"
+    "common.item.MixinBlockItem",
+    "common.world.MixinWorld"
   ],
   "client": [
     "client.MixinIntegratedServer",
     "client.MixinMinecraftClient",
     "client.MixinScreen",
     "client.MixinKeyboard",
-    "client.MixinGameRenderer"
+    "client.MixinGameRenderer",
+    "client.MixinClientWorld"
   ],
   "server": [
     "server.MixinDedicatedServer"
