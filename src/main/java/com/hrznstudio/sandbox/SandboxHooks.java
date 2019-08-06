@@ -3,6 +3,7 @@ package com.hrznstudio.sandbox;
 import com.hrznstudio.sandbox.api.Side;
 import com.hrznstudio.sandbox.client.DownloadScreen;
 import com.hrznstudio.sandbox.client.SandboxClient;
+import com.hrznstudio.sandbox.client.SandboxTitleScreen;
 import com.hrznstudio.sandbox.event.EventDispatcher;
 import com.hrznstudio.sandbox.event.client.OpenScreenEvent;
 import com.hrznstudio.sandbox.security.AddonSecurityPolicy;
@@ -37,7 +38,7 @@ public class SandboxHooks {
                 .map(ModContainer::getMetadata)
                 .map(ModMetadata::getId)
                 .anyMatch(id -> !id.equals("sandbox") && !id.equals("fabricloader"))) {
-            Sandbox.incompatibleModsLoaded =true;
+            Sandbox.unsupportedModsLoaded = true;
         }
         Policy.setPolicy(new AddonSecurityPolicy());
         SandboxDiscord.start();
@@ -48,11 +49,12 @@ public class SandboxHooks {
     }
 
     public static Screen openScreen(Screen screen) {
-        if (screen instanceof TitleScreen) {
+        if (screen instanceof TitleScreen || (screen == null && MinecraftClient.getInstance().world == null)) {
             DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("In Menu")
                     .setBigImage("logo", "")
                     .build()
             );
+            screen = new SandboxTitleScreen();
         }
         if (screen instanceof MultiplayerScreen) {
             screen = new DownloadScreen();
