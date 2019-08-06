@@ -17,8 +17,6 @@ import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.client.texture.TextureManager;
-import net.minecraft.realms.RealmsBridge;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
@@ -34,11 +32,9 @@ import net.minecraft.world.level.storage.LevelStorage;
 import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.Random;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 
 public class SandboxTitleScreen extends Screen {
-    public static final CubeMapRenderer PANORAMA_CUBE_MAP = new CubeMapRenderer(new Identifier("sandbox","textures/gui/panorama"));
+    public static final CubeMapRenderer PANORAMA_CUBE_MAP = new CubeMapRenderer(new Identifier("sandbox", "textures/gui/panorama"));
     private static final Identifier PANORAMA_OVERLAY = new Identifier("textures/gui/title/background/panorama_overlay.png");
     private static final Identifier ACCESSIBILITY_ICON_TEXTURE = new Identifier("textures/gui/accessibility.png");
     private final boolean field_17776;
@@ -49,8 +45,6 @@ public class SandboxTitleScreen extends Screen {
     private SandboxTitleScreen.Warning warning;
     private static final Identifier MINECRAFT_TITLE_TEXTURE = new Identifier("textures/gui/title/minecraft.png");
     private static final Identifier EDITION_TITLE_TEXTURE = new Identifier("textures/gui/title/edition.png");
-    private boolean realmsNotificationsInitialized;
-    private Screen realmsNotificationGui;
     private int copyrightTextWidth;
     private int copyrightTextX;
     private final RotatingCubeMapRenderer backgroundRenderer;
@@ -76,21 +70,6 @@ public class SandboxTitleScreen extends Screen {
         if (!GLX.supportsOpenGL2() && !GLX.isNextGen()) {
             this.warning = new SandboxTitleScreen.Warning((new TranslatableText("title.oldgl.eol.line1")).formatted(Formatting.RED).formatted(Formatting.BOLD), (new TranslatableText("title.oldgl.eol.line2")).formatted(Formatting.RED).formatted(Formatting.BOLD), "https://help.mojang.com/customer/portal/articles/325948?ref=game");
         }
-    }
-
-    private boolean areRealmsNotificationsEnabled() {
-        return this.minecraft.options.realmsNotifications && this.realmsNotificationGui != null;
-    }
-
-    public void tick() {
-        if (this.areRealmsNotificationsEnabled()) {
-            this.realmsNotificationGui.tick();
-        }
-
-    }
-
-    public static CompletableFuture<Void> loadTexturesAsync(TextureManager textureManager_1, Executor executor_1) {
-        return CompletableFuture.allOf(textureManager_1.loadTextureAsync(MINECRAFT_TITLE_TEXTURE, executor_1), textureManager_1.loadTextureAsync(EDITION_TITLE_TEXTURE, executor_1), textureManager_1.loadTextureAsync(PANORAMA_OVERLAY, executor_1), PANORAMA_CUBE_MAP.loadTexturesAsync(textureManager_1, executor_1));
     }
 
     public boolean isPauseScreen() {
@@ -131,17 +110,6 @@ public class SandboxTitleScreen extends Screen {
             this.warning.init(int_2);
         }
 
-        this.minecraft.setConnectedToRealms(false);
-        if (this.minecraft.options.realmsNotifications && !this.realmsNotificationsInitialized) {
-            RealmsBridge realmsBridge_1 = new RealmsBridge();
-            this.realmsNotificationGui = realmsBridge_1.getNotificationScreen(this);
-            this.realmsNotificationsInitialized = true;
-        }
-
-        if (this.areRealmsNotificationsEnabled()) {
-            this.realmsNotificationGui.init(this.minecraft, this.width, this.height);
-        }
-
     }
 
     private void initWidgetsNormal(int int_1, int int_2) {
@@ -150,9 +118,6 @@ public class SandboxTitleScreen extends Screen {
         }));
         this.addButton(new ButtonWidget(this.width / 2 - 100, int_1 + int_2, 200, 20, I18n.translate("menu.multiplayer"), (buttonWidget_1) -> {
             this.minecraft.openScreen(new MultiplayerScreen(this));
-        }));
-        this.addButton(new ButtonWidget(this.width / 2 - 100, int_1 + int_2 * 2, 200, 20, I18n.translate("menu.online"), (buttonWidget_1) -> {
-            this.switchToRealms();
         }));
     }
 
@@ -174,11 +139,6 @@ public class SandboxTitleScreen extends Screen {
             this.buttonResetDemo.active = false;
         }
 
-    }
-
-    private void switchToRealms() {
-        RealmsBridge realmsBridge_1 = new RealmsBridge();
-        realmsBridge_1.switchToRealms(this);
     }
 
     public void render(int int_1, int int_2, float float_1) {
@@ -249,9 +209,6 @@ public class SandboxTitleScreen extends Screen {
             }
 
             super.render(int_1, int_2, float_1);
-            if (this.areRealmsNotificationsEnabled() && float_3 >= 1.0F) {
-                this.realmsNotificationGui.render(int_1, int_2, float_1);
-            }
 
         }
     }
@@ -261,8 +218,6 @@ public class SandboxTitleScreen extends Screen {
             return true;
         } else if (this.warning != null && this.warning.onClick(double_1, double_2)) {
             return true;
-        } else if (this.areRealmsNotificationsEnabled() && this.realmsNotificationGui.mouseClicked(double_1, double_2, int_1)) {
-            return true;
         } else {
             if (double_1 > (double) this.copyrightTextX && double_1 < (double) (this.copyrightTextX + this.copyrightTextWidth) && double_2 > (double) (this.height - 10) && double_2 < (double) this.height) {
                 this.minecraft.openScreen(new EndCreditsScreen(false, Runnables.doNothing()));
@@ -270,13 +225,6 @@ public class SandboxTitleScreen extends Screen {
 
             return false;
         }
-    }
-
-    public void removed() {
-        if (this.realmsNotificationGui != null) {
-            this.realmsNotificationGui.removed();
-        }
-
     }
 
     private void method_20375(boolean boolean_1) {
@@ -317,7 +265,7 @@ public class SandboxTitleScreen extends Screen {
 
         public void render(int int_1) {
             DrawableHelper.fill(this.startX - 2, this.startY - 2, this.endX + 2, this.endY - 1, 1428160512);
-            SandboxTitleScreen.this.drawCenteredString(SandboxTitleScreen.this.font, this.line1.asFormattedString(), this.startX+((endX-startX)/2), this.startY, 16777215 | int_1);
+            SandboxTitleScreen.this.drawCenteredString(SandboxTitleScreen.this.font, this.line1.asFormattedString(), this.startX + ((endX - startX) / 2), this.startY, 16777215 | int_1);
             SandboxTitleScreen.this.drawString(SandboxTitleScreen.this.font, this.line2.asFormattedString(), (SandboxTitleScreen.this.width - this.line2Width) / 2, this.startY + 12, 16777215 | int_1);
         }
 
