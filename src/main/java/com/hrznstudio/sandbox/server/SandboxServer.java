@@ -3,10 +3,12 @@ package com.hrznstudio.sandbox.server;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.hrznstudio.sandbox.SandboxCommon;
+import com.hrznstudio.sandbox.api.SandboxRegistry;
 import com.hrznstudio.sandbox.event.EventDispatcher;
 import com.hrznstudio.sandbox.event.mod.ModEvent;
 import com.hrznstudio.sandbox.loader.SandboxLoader;
 import com.hrznstudio.sandbox.util.Log;
+import net.minecraft.util.registry.Registry;
 import reactor.core.publisher.EmitterProcessor;
 
 import java.io.IOException;
@@ -31,9 +33,9 @@ public class SandboxServer extends SandboxCommon {
 
     @Override
     protected void setup() {
-        CONTENT_LIST.clear();
         Log.info("Setting up Serverside Sandbox environment");
         dispatcher = new EventDispatcher(EmitterProcessor.create());
+        Registry.REGISTRIES.stream().map(reg -> (SandboxRegistry.Internal) reg).forEach(SandboxRegistry.Internal::store);
         load();
         if (!isIntegrated) {
             setupDedicated();
@@ -60,7 +62,7 @@ public class SandboxServer extends SandboxCommon {
 
     @Override
     public void shutdown() {
-        super.shutdown();
+        Registry.REGISTRIES.stream().map(reg -> (SandboxRegistry.Internal) reg).forEach(SandboxRegistry.Internal::reset);
         INSTANCE = null;
     }
 }

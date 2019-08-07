@@ -9,7 +9,6 @@ public class Config {
 
     public Config(Path path) {
         this.config = CommentedFileConfig.builder(path).autosave().autoreload().build();
-        this.config.load();
     }
 
     public <T> ConfigValue<T> get(String path) {

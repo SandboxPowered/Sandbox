@@ -6,8 +6,6 @@ public interface SandboxRegistry<T> {
 
     void register(Identifier identifier, T object);
 
-    T remove(Identifier identifier);
-
     T get(Identifier identifier);
 
     enum RegistryType {
@@ -15,5 +13,11 @@ public interface SandboxRegistry<T> {
         ITEM,
         ENTITY,
         BLOCK_ENTITY;
+    }
+
+    interface Internal {
+        void store();
+
+        void reset();
     }
 }

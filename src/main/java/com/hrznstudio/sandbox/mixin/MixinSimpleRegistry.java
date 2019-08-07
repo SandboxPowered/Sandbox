@@ -9,15 +9,21 @@ import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Int2ObjectBiMap;
 import net.minecraft.util.registry.MutableRegistry;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.SimpleRegistry;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import javax.annotation.Nullable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Mixin(SimpleRegistry.class)
-public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implements SandboxRegistry<T> {
+public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implements SandboxRegistry<T>, SandboxRegistry.Internal {
 
     @Shadow
     @Final
@@ -29,6 +35,12 @@ public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implemen
 
     @Shadow
     protected Object[] randomEntries;
+    protected Int2ObjectBiMap<T> storedIndex = new Int2ObjectBiMap<>(256);
+    @Shadow
+    private int nextId;
+    private int vanillaNext;
+    private boolean hasStored;
+    private Set<Identifier> identifiers = new HashSet<>();
 
     @Shadow
     @Nullable
@@ -38,11 +50,36 @@ public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implemen
     public abstract <V extends T> V add(Identifier identifier_1, V object_1);
 
     @Override
-    //TODO: Figure out a way to completely remove
-    public T remove(Identifier identifier) {
-        Log.info("Removing " + identifier);
+    public void store() {
+        vanillaNext = nextId;
+        storedIndex.clear();
+        for (int i = 0; i < vanillaNext; i++) {
+            storedIndex.put(indexedEntries.get(i), i);
+        }
         randomEntries = null;
-        return entries.remove(identifier);
+        identifiers.clear();
+        hasStored = true;
+        Log.debug("Stored " + vanillaNext + " objects in " + Registry.REGISTRIES.getId(this));
+    }
+
+    @Inject(method = "set", at = @At(value = "HEAD"), cancellable = true)
+    public <V extends T> void set(int i, Identifier identifier, V obj, CallbackInfoReturnable<V> ci) {
+        if (hasStored)
+            identifiers.add(identifier);
+    }
+
+    @Override
+    public void reset() {
+        if (nextId != vanillaNext) {
+            Log.debug("Resetting " + (nextId - vanillaNext) + " objects in " + Registry.REGISTRIES.getId(this));
+            nextId = vanillaNext;
+            indexedEntries.clear();
+            for (int i = 0; i < vanillaNext; i++) {
+                indexedEntries.put(storedIndex.get(i), i);
+            }
+            randomEntries = null;
+            identifiers.forEach(id -> entries.remove(id));
+        }
     }
 
     @Override
@@ -55,4 +92,5 @@ public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implemen
             ((Block) object).getStateFactory().getStates().forEach(Block.STATE_IDS::add);
         }
     }
+
 }

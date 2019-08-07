@@ -23,7 +23,6 @@ public class SandboxClient extends SandboxCommon {
 
     @Override
     protected void setup() {
-        CONTENT_LIST.clear();
         //Init client engine
 //        MinecraftClient.getInstance().setOverlay(new LoadingOverlay(
 //                MinecraftClient.getInstance(),
@@ -49,7 +48,6 @@ public class SandboxClient extends SandboxCommon {
 
     @Override
     public void shutdown() {
-        super.shutdown();
         INSTANCE = null;
     }
 }

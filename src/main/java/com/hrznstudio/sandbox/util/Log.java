@@ -21,4 +21,8 @@ public class Log {
     public static void error(String s, Throwable e) {
         LOG.error("[Sandbox] " + s, e);
     }
+
+    public static void debug(String s) {
+        LOG.debug("[SandboxDebug] " + s);
+    }
 }

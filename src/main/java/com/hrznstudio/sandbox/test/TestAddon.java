@@ -16,15 +16,14 @@ public class TestAddon {
         EventDispatcher.getServerDispatcher()
                 .on(ModEvent.Init.class)
                 .subscribe(ev -> {
-                    Registry.ITEM.add(new Identifier("test", "test"), new Item(new Item.Settings()));
-                    Registry.ITEM.add(new Identifier("test", "test2"), new Item(new Item.Settings()));
-                    Registry.ITEM.add(new Identifier("test", "test3"), new Item(new Item.Settings()));
+                    for (int i = 0; i < 5000; i++) {
+                        Registry.ITEM.add(new Identifier("test:test" + i), new Item(new Item.Settings()));
+                    }
                 });
         EventDispatcher.getClientDispatcher()
                 .on(ScreenEvent.Open.class)
                 .filter(event -> event.getScreen() instanceof LanguageOptionsScreen)
                 .subscribe(Event::cancel);
-
         EventDispatcher.getServerDispatcher()
                 .on(BlockEvent.PlaceEvent.class)
                 .subscribe(event -> {
