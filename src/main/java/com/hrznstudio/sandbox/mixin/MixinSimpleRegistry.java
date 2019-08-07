@@ -63,9 +63,16 @@ public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implemen
     }
 
     @Inject(method = "set", at = @At(value = "HEAD"), cancellable = true)
-    public <V extends T> void set(int i, Identifier identifier, V obj, CallbackInfoReturnable<V> ci) {
+    public <V extends T> void set(int i, Identifier identifier, V object, CallbackInfoReturnable<V> ci) {
         if (hasStored)
             identifiers.add(identifier);
+        if (object instanceof BlockItem) {
+            ((BlockItem) object).appendBlocks(Item.BLOCK_ITEMS, (BlockItem) object);
+        }
+        if (object instanceof Block) {
+            ((Block) object).getStateFactory().getStates().forEach(Block.STATE_IDS::add);
+            //TODO: Also need to reset the state ids
+        }
     }
 
     @Override
@@ -85,12 +92,6 @@ public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implemen
     @Override
     public void register(Identifier identifier, T object) {
         add(identifier, object);
-        if (object instanceof BlockItem) {
-            ((BlockItem) object).appendBlocks(Item.BLOCK_ITEMS, (BlockItem) object);
-        }
-        if (object instanceof Block) {
-            ((Block) object).getStateFactory().getStates().forEach(Block.STATE_IDS::add);
-        }
     }
 
 }
