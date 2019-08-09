@@ -1,6 +1,8 @@
 package com.hrznstudio.sandbox.mixin.networking;
 
 import com.hrznstudio.sandbox.api.CustomPayloadPacket;
+import com.hrznstudio.sandbox.network.NetworkManager;
+import com.hrznstudio.sandbox.network.Packet;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.packet.CustomPayloadC2SPacket;
 import net.minecraft.util.Identifier;
@@ -15,12 +17,18 @@ public class MixinServerPlayNetworkHandler {
 
     @Inject(method = "onCustomPayload", at = @At("HEAD"), cancellable = true)
     public void onCustomPayload(CustomPayloadC2SPacket c2s, CallbackInfo info) {
-        CustomPayloadPacket packet = (CustomPayloadPacket) c2s;
+        CustomPayloadPacket customPayloadPacket = (CustomPayloadPacket) c2s;
         PacketByteBuf data = null;
         try {
-            Identifier channel = packet.channel();
+            Identifier channel = customPayloadPacket.channel();
             if (!channel.getNamespace().equals("minecraft")) { //Override non-vanilla packets
-                data = packet.data();
+                Class<? extends Packet> packetClass = NetworkManager.get(channel);
+                if (packetClass != null) {
+                    data = customPayloadPacket.data();
+                    Packet packet = packetClass.getConstructor().newInstance();
+                    packet.read(data);
+                    packet.apply();
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

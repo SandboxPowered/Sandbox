@@ -11,6 +11,8 @@ import com.hrznstudio.sandbox.loader.SandboxLoader;
 import com.hrznstudio.sandbox.util.Log;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.util.registry.Registry;
 
 import java.io.IOException;
@@ -20,17 +22,19 @@ public class SandboxServer extends SandboxCommon {
     private static final Gson GSON = new GsonBuilder().create();
     public static String[] ARGS;
     public static SandboxServer INSTANCE;
+    public final Map<Block, Item> BLOCK_ITEMS = Maps.newHashMap();
     private final boolean isIntegrated;
     private SandboxLoader loader;
-    public final Map<Block, Item> BLOCK_ITEMS = Maps.newHashMap();
+    private MinecraftServer server;
 
-    private SandboxServer(boolean isIntegrated) {
-        this.isIntegrated = isIntegrated;
+    private SandboxServer(MinecraftServer server) {
+        this.isIntegrated = !(server instanceof DedicatedServer);
+        this.server = server;
         INSTANCE = this;
     }
 
-    public static SandboxServer constructAndSetup(boolean integrated) {
-        SandboxServer server = new SandboxServer(integrated);
+    public static SandboxServer constructAndSetup(MinecraftServer s) {
+        SandboxServer server = new SandboxServer(s);
         server.setup();
         return server;
     }
@@ -72,5 +76,9 @@ public class SandboxServer extends SandboxCommon {
         Item.BLOCK_ITEMS.clear();
         BLOCK_ITEMS.forEach(Item.BLOCK_ITEMS::put);
         INSTANCE = null;
+    }
+
+    public MinecraftServer getServer() {
+        return server;
     }
 }
