@@ -9,6 +9,9 @@
     "common.MixinEnchantment",
     "common.item.MixinBlockItem",
     "common.world.MixinWorld",
+    "networking.MixinServerPlayNetworkHandler",
+    "networking.MixinCustomPayloadS2CPacket",
+    "networking.MixinCustomPayloadC2SPacket"
     "common.MixinServerPlayerInteractionManager"
   ],
   "client": [
@@ -19,6 +22,7 @@
     "client.MixinGameRenderer",
     "client.MixinClientWorld",
     "common.MixinClientPlayerInteractionManager"
+    "networking.MixinClientPlayNetworkHandler"
   ],
   "server": [
     "server.MixinDedicatedServer"
