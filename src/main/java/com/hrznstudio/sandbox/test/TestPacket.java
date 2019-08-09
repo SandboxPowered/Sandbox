@@ -27,6 +27,6 @@ public class TestPacket implements Packet {
 
     @Override
     public void apply() {
-        MinecraftClient.getInstance().execute(() -> MinecraftClient.getInstance().player.addChatMessage(new LiteralText(text), true));
+        MinecraftClient.getInstance().player.addChatMessage(new LiteralText(text), true);
     }
 }
