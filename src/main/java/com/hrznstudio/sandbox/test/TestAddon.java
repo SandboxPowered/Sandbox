@@ -18,7 +18,7 @@ public class TestAddon implements IAddon {
         server.getDispatcher().on(ModEvent.Init.class, ev -> {
             Log.debug(Thread.currentThread().getName());
         });
-        server.getDispatcher().on(BlockEvent.PlaceEvent.class, event -> {
+        server.getDispatcher().on(BlockEvent.Place.class, event -> {
             Log.debug(Thread.currentThread().getName());
             Log.debug("Placed " + Registry.BLOCK.getId(event.getState().getBlock()));
             if (event.getState().getBlock() == Blocks.GRASS_BLOCK) {
@@ -28,6 +28,13 @@ public class TestAddon implements IAddon {
             if (event.getState().getBlock() == Blocks.OAK_PLANKS) {
                 if (event.getContext().getWorld().getBlockState(event.getContext().getBlockPos().down()).getBlock() != Blocks.DIAMOND_BLOCK)
                     event.cancel();
+            }
+        });
+        server.getDispatcher().on(BlockEvent.Break.class, event -> {
+            Log.debug(Thread.currentThread().getName());
+            Log.debug("Broke " + Registry.BLOCK.getId(event.getState().getBlock()));
+            if (event.getState().getBlock() == Blocks.GRASS_BLOCK) {
+                event.cancel();
             }
         });
     }

@@ -57,12 +57,14 @@ public class MixinMinecraftClient {
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/GameRenderer;render(FJZ)V", shift = At.Shift.BEFORE))
     public void renderStart(CallbackInfo info) {
         PanoramaHandler.renderTick(true);
-        SandboxClient.INSTANCE.getDispatcher().publish(new RenderEvent.Start());
+        if (SandboxClient.INSTANCE != null)
+            SandboxClient.INSTANCE.getDispatcher().publish(new RenderEvent.Start());
     }
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/toast/ToastManager;draw()V", shift = At.Shift.AFTER))
     public void renderEnd(CallbackInfo info) {
-        SandboxClient.INSTANCE.getDispatcher().publish(new RenderEvent.End());
+        if (SandboxClient.INSTANCE != null)
+            SandboxClient.INSTANCE.getDispatcher().publish(new RenderEvent.End());
         PanoramaHandler.renderTick(false);
     }
 

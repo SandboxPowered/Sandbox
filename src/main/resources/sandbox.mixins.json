@@ -8,7 +8,8 @@
     "crash.MixinCrashReport",
     "common.MixinEnchantment",
     "common.item.MixinBlockItem",
-    "common.world.MixinWorld"
+    "common.world.MixinWorld",
+    "common.MixinServerPlayerInteractionManager"
   ],
   "client": [
     "client.MixinIntegratedServer",
@@ -16,7 +17,8 @@
     "client.MixinScreen",
     "client.MixinKeyboard",
     "client.MixinGameRenderer",
-    "client.MixinClientWorld"
+    "client.MixinClientWorld",
+    "common.MixinClientPlayerInteractionManager"
   ],
   "server": [
     "server.MixinDedicatedServer"

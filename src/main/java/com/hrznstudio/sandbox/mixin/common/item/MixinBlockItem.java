@@ -18,7 +18,7 @@ public class MixinBlockItem {
             cancellable = true
     )
     public void place(ItemPlacementContext context, BlockState state, CallbackInfoReturnable<Boolean> info) {
-        BlockEvent.PlaceEvent event = SandboxServer.INSTANCE.getDispatcher().publish(new BlockEvent.PlaceEvent(context, state));
+        BlockEvent.Place event = SandboxServer.INSTANCE.getDispatcher().publish(new BlockEvent.Place(context, state));
         if (event.wasCancelled()) {
             info.setReturnValue(false);
         } else {
