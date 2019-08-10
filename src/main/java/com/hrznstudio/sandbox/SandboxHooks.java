@@ -4,7 +4,6 @@ import com.hrznstudio.sandbox.api.Side;
 import com.hrznstudio.sandbox.client.DownloadScreen;
 import com.hrznstudio.sandbox.client.SandboxClient;
 import com.hrznstudio.sandbox.client.SandboxTitleScreen;
-import com.hrznstudio.sandbox.event.EventDispatcher;
 import com.hrznstudio.sandbox.event.client.ScreenEvent;
 import com.hrznstudio.sandbox.security.AddonSecurityPolicy;
 import com.hrznstudio.sandbox.server.SandboxServer;
@@ -59,12 +58,20 @@ public class SandboxHooks {
         if (screen instanceof MultiplayerScreen) {
             screen = new DownloadScreen();
         }
-        if (SandboxClient.INSTANCE != null && screen !=null) {
+        if (SandboxClient.INSTANCE != null && screen != null) {
             ScreenEvent.Open event = SandboxClient.INSTANCE.getDispatcher().publish(new ScreenEvent.Open(screen));
             if (event.wasCancelled()) {
                 screen = MinecraftClient.getInstance().currentScreen;
             } else {
                 screen = event.getScreen();
+            }
+        } else if (SandboxClient.INSTANCE != null) {
+            Screen currentScreen = MinecraftClient.getInstance().currentScreen;
+            ScreenEvent.Close event = SandboxClient.INSTANCE.getDispatcher().publish(new ScreenEvent.Close(currentScreen, screen));
+            if (event.wasCancelled()) {
+                screen = currentScreen;
+            } else {
+                screen = event.getNewScreen();
             }
         }
 
