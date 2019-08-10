@@ -39,7 +39,7 @@ public class SandboxServer extends SandboxCommon {
     @Override
     protected void setup() {
         Log.info("Setting up Serverside Sandbox environment");
-        dispatcher = new EventDispatcher(EmitterProcessor.create());
+        dispatcher = new EventDispatcher();
         Registry.REGISTRIES.stream().map(reg -> (SandboxRegistry.Internal) reg).forEach(SandboxRegistry.Internal::store);
         BLOCK_ITEMS.clear();
         Item.BLOCK_ITEMS.forEach(BLOCK_ITEMS::put);

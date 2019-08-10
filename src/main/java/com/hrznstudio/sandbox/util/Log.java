@@ -23,6 +23,6 @@ public class Log {
     }
 
     public static void debug(String s) {
-        LOG.debug("[SandboxDebug] " + s);
+        LOG.info("[SandboxDebug] " + s);
     }
 }

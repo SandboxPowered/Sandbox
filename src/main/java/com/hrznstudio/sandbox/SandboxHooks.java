@@ -59,7 +59,7 @@ public class SandboxHooks {
         if (screen instanceof MultiplayerScreen) {
             screen = new DownloadScreen();
         }
-        if (SandboxClient.INSTANCE != null) {
+        if (SandboxClient.INSTANCE != null && screen !=null) {
             ScreenEvent.Open event = EventDispatcher.getClientDispatcher().publish(new ScreenEvent.Open(screen));
             if (event.wasCancelled()) {
                 screen = MinecraftClient.getInstance().currentScreen;
