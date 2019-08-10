@@ -18,7 +18,7 @@ public class EventDispatcher {
     public <T extends Event> T publish(T event) {
         Class<? extends Event> eventClass = event.getClass();
         List<Class<?>> eventTypes = ClassUtil.lookupAllSuper(eventClass);
-        boolean async = event.isAsync();
+        boolean async = event.isAsync() && !event.isCancellable();
         eventTypes.forEach(s -> (eventMap.getOrDefault(s, Collections.emptyList())).forEach(consumer -> {
             if (async) {
                 eventExecutor.execute(() -> consumer.accept(event));
