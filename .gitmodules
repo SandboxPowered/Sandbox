@@ -1,0 +1,3 @@
+[submodule "SandboxAPI"]
+	path = SandboxAPI
+	url = https://github.com/OpenModLoader/SandboxAPI.git

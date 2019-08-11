@@ -25,8 +25,9 @@ dependencies {
 	implementation 'com.github.Vatuu:discord-rpc:1.6.2'
 	compile 'com.electronwill.night-config:core:3.6.0'
 	compile 'com.electronwill.night-config:toml:3.6.0'
-	compile 'com.electronwill.night-config:yaml:3.6.0'
 	compile 'com.github.zafarkhaja:java-semver:0.9.0'
+
+	compile project(':SandboxAPI')
 
 }
 
