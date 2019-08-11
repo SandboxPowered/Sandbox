@@ -1,6 +1,7 @@
 package com.hrznstudio.sandbox.client;
 
 import com.hrznstudio.sandbox.SandboxCommon;
+import com.hrznstudio.sandbox.api.util.Side;
 import com.hrznstudio.sandbox.event.EventDispatcher;
 import com.hrznstudio.sandbox.util.Log;
 import net.arikia.dev.drpc.DiscordRPC;
@@ -21,6 +22,11 @@ public class SandboxClient extends SandboxCommon {
     }
 
     @Override
+    public Side getSide() {
+        return Side.CLIENT;
+    }
+
+    @Override
     protected void setup() {
         //Init client engine
 //        MinecraftClient.getInstance().setOverlay(new LoadingOverlay(
@@ -32,7 +38,7 @@ public class SandboxClient extends SandboxCommon {
 //        ));
         Log.info("Setting up Clientside Sandbox environment");
         dispatcher = new EventDispatcher();
-        MinecraftClient.getInstance().reloadResourcesConcurrently();
+//        MinecraftClient.getInstance().reloadResourcesConcurrently();
         DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("In Private Session")
                 .setBigImage("gm_debug", String.format("Playing %s", "Debug"))
                 .setSecrets("wah", "")

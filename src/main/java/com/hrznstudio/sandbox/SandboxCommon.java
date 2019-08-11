@@ -1,8 +1,9 @@
 package com.hrznstudio.sandbox;
 
+import com.hrznstudio.sandbox.api.SandboxAPI;
 import com.hrznstudio.sandbox.event.EventDispatcher;
 
-public abstract class SandboxCommon {
+public abstract class SandboxCommon implements SandboxAPI {
 
     protected EventDispatcher dispatcher;
 

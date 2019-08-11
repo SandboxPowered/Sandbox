@@ -2,6 +2,7 @@
   "required": true,
   "package": "com.hrznstudio.sandbox.mixin",
   "compatibilityLevel": "JAVA_8",
+  "minVersion": "0.7",
   "mixins": [
     "MixinMinecraftServer",
     "MixinSimpleRegistry",
@@ -12,7 +13,9 @@
     "networking.MixinServerPlayNetworkHandler",
     "networking.MixinCustomPayloadS2CPacket",
     "networking.MixinCustomPayloadC2SPacket",
-    "common.MixinServerPlayerInteractionManager"
+    "common.MixinServerPlayerInteractionManager",
+
+    "common.state.MixinBlockState"
   ],
   "client": [
     "client.MixinIntegratedServer",

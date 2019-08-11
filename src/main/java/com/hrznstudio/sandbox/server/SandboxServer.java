@@ -5,8 +5,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.hrznstudio.sandbox.SandboxCommon;
 import com.hrznstudio.sandbox.api.SandboxRegistry;
+import com.hrznstudio.sandbox.api.util.Side;
 import com.hrznstudio.sandbox.event.EventDispatcher;
-import com.hrznstudio.sandbox.event.mod.ModEvent;
 import com.hrznstudio.sandbox.loader.SandboxLoader;
 import com.hrznstudio.sandbox.util.Log;
 import net.minecraft.block.Block;
@@ -40,6 +40,11 @@ public class SandboxServer extends SandboxCommon {
     }
 
     @Override
+    public Side getSide() {
+        return Side.SERVER;
+    }
+
+    @Override
     protected void setup() {
         Log.info("Setting up Serverside Sandbox environment");
         dispatcher = new EventDispatcher();
@@ -50,11 +55,10 @@ public class SandboxServer extends SandboxCommon {
         if (!isIntegrated) {
             setupDedicated();
         }
-        dispatcher.publish(new ModEvent.Init());
     }
 
     protected void load() {
-        loader = new SandboxLoader();
+        loader = new SandboxLoader(this);
         try {
             loader.load();
         } catch (IOException e) {

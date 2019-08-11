@@ -1,6 +1,7 @@
 package com.hrznstudio.sandbox;
 
 import com.hrznstudio.sandbox.util.Log;
+import net.minecraft.block.Block;
 import net.minecraft.resource.AbstractFileResourcePack;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;

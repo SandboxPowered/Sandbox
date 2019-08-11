@@ -2,6 +2,7 @@ package com.hrznstudio.sandbox.mixin.client;
 
 import com.hrznstudio.sandbox.mixin.MixinMinecraftServer;
 import com.hrznstudio.sandbox.server.SandboxServer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.integrated.IntegratedServer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,6 +20,6 @@ public class MixinIntegratedServer extends MixinMinecraftServer {
             cancellable = true
     )
     public void setupServer(CallbackInfoReturnable<Boolean> info) throws ScriptException {
-        SandboxServer.constructAndSetup(true);
+        SandboxServer.constructAndSetup((MinecraftServer)(Object)this);
     }
 }

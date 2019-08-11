@@ -3,7 +3,6 @@ package com.hrznstudio.sandbox.mixin.client;
 import com.hrznstudio.sandbox.SandboxHooks;
 import com.hrznstudio.sandbox.client.PanoramaHandler;
 import com.hrznstudio.sandbox.client.SandboxClient;
-import com.hrznstudio.sandbox.event.client.RenderEvent;
 import com.hrznstudio.sandbox.resources.SandboxResourceCreator;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -57,14 +56,14 @@ public class MixinMinecraftClient {
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/GameRenderer;render(FJZ)V", shift = At.Shift.BEFORE))
     public void renderStart(CallbackInfo info) {
         PanoramaHandler.renderTick(true);
-        if (SandboxClient.INSTANCE != null)
-            SandboxClient.INSTANCE.getDispatcher().publish(new RenderEvent.Start());
+//        if (SandboxClient.INSTANCE != null)
+//            SandboxClient.INSTANCE.getDispatcher().publish(new RenderEvent.Start());
     }
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/toast/ToastManager;draw()V", shift = At.Shift.AFTER))
     public void renderEnd(CallbackInfo info) {
-        if (SandboxClient.INSTANCE != null)
-            SandboxClient.INSTANCE.getDispatcher().publish(new RenderEvent.End());
+//        if (SandboxClient.INSTANCE != null)
+//            SandboxClient.INSTANCE.getDispatcher().publish(new RenderEvent.End());
         PanoramaHandler.renderTick(false);
     }
 

@@ -2,7 +2,7 @@ package com.hrznstudio.sandbox;
 
 import com.hrznstudio.sandbox.api.ISandbox;
 import com.hrznstudio.sandbox.api.SandboxRegistry;
-import com.hrznstudio.sandbox.api.Side;
+import com.hrznstudio.sandbox.api.util.Side;
 import com.hrznstudio.sandbox.ragdoll.Ragdolls;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;

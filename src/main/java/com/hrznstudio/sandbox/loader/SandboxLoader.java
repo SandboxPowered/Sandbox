@@ -2,10 +2,9 @@ package com.hrznstudio.sandbox.loader;
 
 import com.electronwill.nightconfig.core.Config;
 import com.electronwill.nightconfig.toml.TomlParser;
-import com.hrznstudio.sandbox.api.IAddon;
-import com.hrznstudio.sandbox.client.SandboxClient;
+import com.hrznstudio.sandbox.api.SandboxAPI;
+import com.hrznstudio.sandbox.api.addon.Addon;
 import com.hrznstudio.sandbox.security.AddonClassLoader;
-import com.hrznstudio.sandbox.server.SandboxServer;
 import net.fabricmc.loader.util.UrlUtil;
 import org.apache.commons.io.IOUtils;
 
@@ -24,9 +23,10 @@ import java.util.zip.ZipEntry;
 public class SandboxLoader {
 
     private AddonClassLoader loader;
+    private final SandboxAPI api;
 
-    public static void main(String[] args) throws IOException {
-        new SandboxLoader().load();
+    public SandboxLoader(SandboxAPI api) {
+        this.api = api;
     }
 
     public void load() throws IOException {
@@ -70,12 +70,11 @@ public class SandboxLoader {
                 getClassLoader().addURL(cURL);
                 if (config.contains("main-class")) {
                     Class mainClass = getClassLoader().loadClass(config.get("main-class"));
-                    if (!IAddon.class.isAssignableFrom(mainClass)) {
+                    if (!Addon.class.isAssignableFrom(mainClass)) {
                         return;
                     }
-                    IAddon addon = (IAddon) mainClass.getConstructor().newInstance();
-                    addon.initServer(SandboxServer.INSTANCE);
-                    addon.initClient(SandboxClient.INSTANCE);
+                    Addon addon = (Addon) mainClass.getConstructor().newInstance();
+                    addon.init(api);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
