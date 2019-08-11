@@ -1,7 +1,6 @@
 package com.hrznstudio.sandbox;
 
 import com.hrznstudio.sandbox.api.Side;
-import com.hrznstudio.sandbox.client.DownloadScreen;
 import com.hrznstudio.sandbox.client.SandboxClient;
 import com.hrznstudio.sandbox.client.SandboxTitleScreen;
 import com.hrznstudio.sandbox.event.client.ScreenEvent;
@@ -56,7 +55,7 @@ public class SandboxHooks {
             screen = new SandboxTitleScreen();
         }
         if (screen instanceof MultiplayerScreen) {
-            screen = new DownloadScreen();
+//            screen = new DownloadScreen();
         }
         if (SandboxClient.INSTANCE != null && screen != null) {
             ScreenEvent.Open event = SandboxClient.INSTANCE.getDispatcher().publish(new ScreenEvent.Open(screen));
