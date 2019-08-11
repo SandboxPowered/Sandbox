@@ -1,33 +1,31 @@
 package com.hrznstudio.sandbox.event;
 
-import com.hrznstudio.sandbox.client.SandboxClient;
-import com.hrznstudio.sandbox.server.SandboxServer;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.FluxProcessor;
-import reactor.core.scheduler.Schedulers;
+import com.hrznstudio.sandbox.util.ClassUtil;
+
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.function.Consumer;
 
 public class EventDispatcher {
-    private final FluxProcessor<Event, Event> processor;
+    private final Map<Class, List<Consumer>> eventMap = new LinkedHashMap<>();
+    private final ExecutorService eventExecutor = Executors.newFixedThreadPool(3);
 
-    public EventDispatcher(FluxProcessor<Event, Event> processor) {
-        this.processor = processor;
-    }
-
-    public static EventDispatcher getServerDispatcher() {
-        return SandboxServer.INSTANCE.getDispatcher();
-    }
-
-    public static EventDispatcher getClientDispatcher() {
-        return SandboxClient.INSTANCE.getDispatcher();
-    }
-
-    public <T extends Event> Flux<T> on(Class<T> eventClass) {
-        boolean isAsync = eventClass.isAnnotationPresent(Event.Async.class);
-        return processor.publishOn(isAsync ? Schedulers.parallel() : Schedulers.immediate()).ofType(eventClass);
+    public <T extends Event> void on(Class<T> eventClass, Consumer<T> consumer) {
+        eventMap.computeIfAbsent(eventClass, c -> new LinkedList<>()).add(consumer);
     }
 
     public <T extends Event> T publish(T event) {
-        processor.onNext(event);
+        Class<? extends Event> eventClass = event.getClass();
+        List<Class<?>> eventTypes = ClassUtil.lookupAllSuper(eventClass);
+        boolean async = event.isAsync() && !event.isCancellable();
+        eventTypes.forEach(s -> (eventMap.getOrDefault(s, Collections.emptyList())).forEach(consumer -> {
+            if (async) {
+                eventExecutor.execute(() -> consumer.accept(event));
+            } else {
+                consumer.accept(event);
+            }
+        }));
         event.complete();
         return event;
     }

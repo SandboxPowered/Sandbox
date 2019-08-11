@@ -38,4 +38,29 @@ public class ScreenEvent extends Event {
             this.screen = screen;
         }
     }
+
+    @Cancellable
+    public static class Close extends ScreenEvent {
+        private final Screen screen;
+        private Screen newScreen;
+
+        public Close(Screen screen, Screen newScreen) {
+            super(screen);
+            this.screen = screen;
+            this.newScreen = newScreen;
+        }
+
+        @Override
+        public Screen getScreen() {
+            return screen;
+        }
+
+        public void setScreen(Screen screen) {
+            this.newScreen = screen;
+        }
+
+        public Screen getNewScreen() {
+            return newScreen;
+        }
+    }
 }

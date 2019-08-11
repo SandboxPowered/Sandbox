@@ -4,6 +4,7 @@ import com.hrznstudio.sandbox.api.ISandboxScreen;
 import com.hrznstudio.sandbox.client.SandboxClient;
 import com.hrznstudio.sandbox.event.EventDispatcher;
 import com.hrznstudio.sandbox.event.client.ScreenEvent;
+import com.hrznstudio.sandbox.server.SandboxServer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import org.spongepowered.asm.mixin.Final;
@@ -32,6 +33,6 @@ public abstract class MixinScreen implements ISandboxScreen {
     @Inject(method = "init(Lnet/minecraft/client/MinecraftClient;II)V", at = @At("TAIL"))
     public void init(CallbackInfo info) {
         if (SandboxClient.INSTANCE != null)
-            EventDispatcher.getClientDispatcher().publish(new ScreenEvent.Init((Screen) (Object) this));
+            SandboxClient.INSTANCE.getDispatcher().publish(new ScreenEvent.Init((Screen) (Object) this));
     }
 }

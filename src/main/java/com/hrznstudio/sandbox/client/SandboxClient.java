@@ -6,7 +6,6 @@ import com.hrznstudio.sandbox.util.Log;
 import net.arikia.dev.drpc.DiscordRPC;
 import net.arikia.dev.drpc.DiscordRichPresence;
 import net.minecraft.client.MinecraftClient;
-import reactor.core.publisher.EmitterProcessor;
 
 public class SandboxClient extends SandboxCommon {
     public static SandboxClient INSTANCE;
@@ -32,9 +31,7 @@ public class SandboxClient extends SandboxCommon {
 //                false
 //        ));
         Log.info("Setting up Clientside Sandbox environment");
-        dispatcher = new EventDispatcher(
-                EmitterProcessor.create()
-        );
+        dispatcher = new EventDispatcher();
         MinecraftClient.getInstance().reloadResourcesConcurrently();
         DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("In Private Session")
                 .setBigImage("gm_debug", String.format("Playing %s", "Debug"))

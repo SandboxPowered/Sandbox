@@ -1,5 +1,7 @@
 package com.hrznstudio.sandbox.event;
 
+import com.hrznstudio.sandbox.util.ClassUtil;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -8,7 +10,8 @@ import java.lang.annotation.Target;
 public class Event {
     protected boolean complete;
     private boolean cancelled;
-    private boolean cancellable = getClass().isAnnotationPresent(Cancellable.class);
+    private final boolean cancellable = ClassUtil.isAnnotationPresent(getClass(), Cancellable.class);
+    private final boolean async = ClassUtil.isAnnotationPresent(getClass(), Async.class);
 
     public void cancel() {
         if (isCancellable()) {
@@ -25,6 +28,10 @@ public class Event {
 
     public boolean isCancellable() {
         return cancellable;
+    }
+
+    public boolean isAsync() {
+        return async;
     }
 
     void complete() {

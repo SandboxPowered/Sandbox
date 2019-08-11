@@ -2,7 +2,10 @@ package com.hrznstudio.sandbox.loader;
 
 import com.electronwill.nightconfig.core.Config;
 import com.electronwill.nightconfig.toml.TomlParser;
+import com.hrznstudio.sandbox.api.IAddon;
+import com.hrznstudio.sandbox.client.SandboxClient;
 import com.hrznstudio.sandbox.security.AddonClassLoader;
+import com.hrznstudio.sandbox.server.SandboxServer;
 import net.fabricmc.loader.util.UrlUtil;
 import org.apache.commons.io.IOUtils;
 
@@ -67,7 +70,12 @@ public class SandboxLoader {
                 getClassLoader().addURL(cURL);
                 if (config.contains("main-class")) {
                     Class mainClass = getClassLoader().loadClass(config.get("main-class"));
-                    mainClass.getConstructor().newInstance();
+                    if (!IAddon.class.isAssignableFrom(mainClass)) {
+                        return;
+                    }
+                    IAddon addon = (IAddon) mainClass.getConstructor().newInstance();
+                    addon.initServer(SandboxServer.INSTANCE);
+                    addon.initClient(SandboxClient.INSTANCE);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
