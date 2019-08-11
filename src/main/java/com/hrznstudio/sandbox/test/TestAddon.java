@@ -5,6 +5,7 @@ import com.hrznstudio.sandbox.client.SandboxClient;
 import com.hrznstudio.sandbox.event.block.BlockEvent;
 import com.hrznstudio.sandbox.event.client.ScreenEvent;
 import com.hrznstudio.sandbox.event.mod.ModEvent;
+import com.hrznstudio.sandbox.network.NetworkManager;
 import com.hrznstudio.sandbox.server.SandboxServer;
 import com.hrznstudio.sandbox.util.Log;
 import net.minecraft.block.Blocks;
@@ -21,6 +22,7 @@ public class TestAddon implements IAddon {
         server.getDispatcher().on(BlockEvent.Place.class, event -> {
             Log.debug(Thread.currentThread().getName());
             Log.debug("Placed " + Registry.BLOCK.getId(event.getState().getBlock()));
+            NetworkManager.sendToAll(new TestPacket(event.getState().toString()));
             if (event.getState().getBlock() == Blocks.GRASS_BLOCK) {
                 if (event.getContext().getWorld().getBlockState(event.getContext().getBlockPos().down()).getBlock() != Blocks.GOLD_BLOCK)
                     event.cancel();

@@ -11,7 +11,7 @@
     "common.world.MixinWorld",
     "networking.MixinServerPlayNetworkHandler",
     "networking.MixinCustomPayloadS2CPacket",
-    "networking.MixinCustomPayloadC2SPacket"
+    "networking.MixinCustomPayloadC2SPacket",
     "common.MixinServerPlayerInteractionManager"
   ],
   "client": [
@@ -21,7 +21,7 @@
     "client.MixinKeyboard",
     "client.MixinGameRenderer",
     "client.MixinClientWorld",
-    "common.MixinClientPlayerInteractionManager"
+    "common.MixinClientPlayerInteractionManager",
     "networking.MixinClientPlayNetworkHandler"
   ],
   "server": [
