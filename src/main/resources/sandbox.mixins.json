@@ -15,7 +15,9 @@
     "networking.MixinCustomPayloadC2SPacket",
     "common.MixinServerPlayerInteractionManager",
 
-    "common.state.MixinBlockState"
+    "common.state.MixinBlockState",
+    "common.util.MixinIdentifier",
+    "common.util.MixinBlock"
   ],
   "client": [
     "client.MixinIntegratedServer",

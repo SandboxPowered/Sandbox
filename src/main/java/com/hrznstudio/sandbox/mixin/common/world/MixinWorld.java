@@ -13,13 +13,14 @@ public abstract class MixinWorld {
     @Shadow
     public abstract net.minecraft.block.BlockState getBlockState(BlockPos blockPos_1);
 
-    @Shadow @Final public boolean isClient;
+    @Shadow public abstract boolean isClient();
 
     public BlockState sbx$getBlockState(Position position) {
         return (BlockState) this.getBlockState(ConversionUtil.convertPosition(position));
     }
 
+    @Unique
     public boolean sbx$isClient() {
-        return isClient; // Has to use the field otherwise causes a loop
+        return isClient();
     }
 }

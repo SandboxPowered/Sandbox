@@ -1,5 +1,7 @@
 package com.hrznstudio.sandbox;
 
+import com.hrznstudio.sandbox.api.util.Functions;
+import com.hrznstudio.sandbox.api.util.Identity;
 import com.hrznstudio.sandbox.api.util.Side;
 import com.hrznstudio.sandbox.client.SandboxClient;
 import com.hrznstudio.sandbox.client.SandboxTitleScreen;
@@ -15,8 +17,10 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
+import net.minecraft.util.Identifier;
 
 import java.security.Policy;
+import java.util.function.Function;
 
 public class SandboxHooks {
     public static void shutdown() {
@@ -38,6 +42,14 @@ public class SandboxHooks {
             Sandbox.unsupportedModsLoaded = true;
         }
         Policy.setPolicy(new AddonSecurityPolicy());
+
+        Functions.class.getField("identityFunction").set(null, new Function<String, Identity>() {
+            @Override
+            public Identity apply(String s) {
+                return (Identity)new Identifier(s);
+            }
+        });
+
         SandboxDiscord.start();
     }
 
