@@ -31,6 +31,7 @@ public abstract class MixinServerLoginNetworkHandler {
     @Shadow
     private GameProfile profile;
     private int velocityId = -1;
+    private boolean velocityConn = false;
 
     @Shadow
     public abstract void disconnect(Text text_1);
@@ -42,8 +43,18 @@ public abstract class MixinServerLoginNetworkHandler {
     public void onHello(CallbackInfo info) {
         if (SandboxConfig.velocity.get()) {
             this.velocityId = ThreadLocalRandom.current().nextInt();
+            velocityConn = false;
             LoginQueryRequestS2CPacket packet = VelocityUtil.create(velocityId);
             this.client.send(packet);
+
+            info.cancel();
+        }
+    }
+
+    @Inject(method = "acceptPlayer", at = @At("HEAD"), cancellable = true)
+    public void acceptPlayer(CallbackInfo info) {
+        if (SandboxConfig.velocity.get() && !velocityConn) {
+            this.disconnect(new LiteralText("This server requires you to log in through a proxy"));
             info.cancel();
         }
     }
@@ -65,6 +76,7 @@ public abstract class MixinServerLoginNetworkHandler {
 
             ((ClientConnectionInternal) this.client).setSocketAddress(new InetSocketAddress(VelocityUtil.readAddress(buf), ((InetSocketAddress) this.client.getAddress()).getPort()));
             this.profile = VelocityUtil.createProfile(buf);
+            velocityConn = true;
             acceptPlayer();
             info.cancel();
         }
