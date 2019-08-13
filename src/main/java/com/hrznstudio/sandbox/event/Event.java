@@ -8,10 +8,10 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 public class Event {
-    protected boolean complete;
-    private boolean cancelled;
     private final boolean cancellable = ClassUtil.isAnnotationPresent(getClass(), Cancellable.class);
     private final boolean async = ClassUtil.isAnnotationPresent(getClass(), Async.class);
+    protected boolean complete;
+    private boolean cancelled;
 
     public void cancel() {
         if (isCancellable()) {

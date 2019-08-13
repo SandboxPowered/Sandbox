@@ -1,23 +1,15 @@
 package com.hrznstudio.sandbox.api;
 
-import net.minecraft.util.Identifier;
+import com.hrznstudio.sandbox.impl.BasicRegistry;
 
-public interface SandboxRegistry<T> {
-
-    void register(Identifier identifier, T object);
-
-    T get(Identifier identifier);
-
-    enum RegistryType {
-        BLOCK,
-        ITEM,
-        ENTITY,
-        BLOCK_ENTITY;
-    }
-
+public interface SandboxRegistry {
     interface Internal {
         void store();
 
         void reset();
+
+        void set(BasicRegistry registry);
+
+        BasicRegistry get();
     }
 }

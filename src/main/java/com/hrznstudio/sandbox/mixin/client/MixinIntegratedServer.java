@@ -20,6 +20,6 @@ public class MixinIntegratedServer extends MixinMinecraftServer {
             cancellable = true
     )
     public void setupServer(CallbackInfoReturnable<Boolean> info) throws ScriptException {
-        SandboxServer.constructAndSetup((MinecraftServer)(Object)this);
+        SandboxServer.constructAndSetup((MinecraftServer) (Object) this);
     }
 }

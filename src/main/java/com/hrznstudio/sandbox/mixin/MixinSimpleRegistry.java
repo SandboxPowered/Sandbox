@@ -2,6 +2,7 @@ package com.hrznstudio.sandbox.mixin;
 
 import com.google.common.collect.BiMap;
 import com.hrznstudio.sandbox.api.SandboxRegistry;
+import com.hrznstudio.sandbox.impl.BasicRegistry;
 import com.hrznstudio.sandbox.util.Log;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
@@ -23,7 +24,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Mixin(SimpleRegistry.class)
-public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implements SandboxRegistry<T>, SandboxRegistry.Internal {
+public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implements SandboxRegistry.Internal {
 
     @Shadow
     @Final
@@ -41,6 +42,8 @@ public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implemen
     private int vanillaNext;
     private boolean hasStored;
     private Set<Identifier> identifiers = new HashSet<>();
+
+    private BasicRegistry sboxRegistry;
 
     @Shadow
     @Nullable
@@ -64,15 +67,26 @@ public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implemen
 
     @Inject(method = "set", at = @At(value = "HEAD"), cancellable = true)
     public <V extends T> void set(int i, Identifier identifier, V object, CallbackInfoReturnable<V> ci) {
-        if (hasStored)
+        if (hasStored) {
             identifiers.add(identifier);
-        if (object instanceof BlockItem) {
-            ((BlockItem) object).appendBlocks(Item.BLOCK_ITEMS, (BlockItem) object);
+            if (object instanceof BlockItem) {
+                ((BlockItem) object).appendBlocks(Item.BLOCK_ITEMS, (BlockItem) object);
+            }
+            if (object instanceof Block) {
+                ((Block) object).getStateFactory().getStates().forEach(Block.STATE_IDS::add);
+                //TODO: Also need to reset the state ids
+            }
         }
-        if (object instanceof Block) {
-            ((Block) object).getStateFactory().getStates().forEach(Block.STATE_IDS::add);
-            //TODO: Also need to reset the state ids
-        }
+    }
+
+    @Override
+    public void set(BasicRegistry registry) {
+        this.sboxRegistry = registry;
+    }
+
+    @Override
+    public BasicRegistry get() {
+        return this.sboxRegistry;
     }
 
     @Override
@@ -87,11 +101,6 @@ public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implemen
             randomEntries = null;
             identifiers.forEach(id -> entries.remove(id));
         }
-    }
-
-    @Override
-    public void register(Identifier identifier, T object) {
-        add(identifier, object);
     }
 
 }

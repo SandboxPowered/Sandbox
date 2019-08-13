@@ -14,6 +14,11 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(net.minecraft.block.Block.class)
 public class MixinBlock implements Block {
     @Override
+    public Properties createProperties() {
+        return null;
+    }
+
+    @Override
     public Activation onBlockUsed(World world, Position pos, BlockState state, Entity player, Hand hand, Direction side, Vec3f hit) {
         return Activation.IGNORE;
     }

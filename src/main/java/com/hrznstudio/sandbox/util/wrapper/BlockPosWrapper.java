@@ -7,7 +7,7 @@ public class BlockPosWrapper extends BlockPos {
     private final Position position;
 
     public BlockPosWrapper(Position position) {
-        super(position.getX(),position.getY(),position.getZ());
+        super(position.getX(), position.getY(), position.getZ());
         this.position = position;
     }
 

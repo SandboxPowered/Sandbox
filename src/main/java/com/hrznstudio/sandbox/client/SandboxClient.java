@@ -6,7 +6,6 @@ import com.hrznstudio.sandbox.event.EventDispatcher;
 import com.hrznstudio.sandbox.util.Log;
 import net.arikia.dev.drpc.DiscordRPC;
 import net.arikia.dev.drpc.DiscordRichPresence;
-import net.minecraft.client.MinecraftClient;
 
 public class SandboxClient extends SandboxCommon {
     public static SandboxClient INSTANCE;

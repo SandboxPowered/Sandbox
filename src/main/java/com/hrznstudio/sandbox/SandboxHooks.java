@@ -1,13 +1,19 @@
 package com.hrznstudio.sandbox;
 
+import com.hrznstudio.sandbox.api.SandboxRegistry;
+import com.hrznstudio.sandbox.api.block.Block;
+import com.hrznstudio.sandbox.api.item.Item;
 import com.hrznstudio.sandbox.api.util.Functions;
 import com.hrznstudio.sandbox.api.util.Identity;
 import com.hrznstudio.sandbox.api.util.Side;
 import com.hrznstudio.sandbox.client.SandboxClient;
 import com.hrznstudio.sandbox.client.SandboxTitleScreen;
+import com.hrznstudio.sandbox.impl.BasicRegistry;
 import com.hrznstudio.sandbox.security.AddonSecurityPolicy;
 import com.hrznstudio.sandbox.server.SandboxServer;
 import com.hrznstudio.sandbox.util.ArrayUtil;
+import com.hrznstudio.sandbox.util.ConversionUtil;
+import com.hrznstudio.sandbox.util.ReflectionHelper;
 import net.arikia.dev.drpc.DiscordRPC;
 import net.arikia.dev.drpc.DiscordRichPresence;
 import net.fabricmc.loader.api.FabricLoader;
@@ -18,6 +24,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 import java.security.Policy;
 import java.util.function.Function;
@@ -43,12 +50,14 @@ public class SandboxHooks {
         }
         Policy.setPolicy(new AddonSecurityPolicy());
 
-        Functions.class.getField("identityFunction").set(null, new Function<String, Identity>() {
-            @Override
-            public Identity apply(String s) {
-                return (Identity)new Identifier(s);
-            }
-        });
+        try {
+            ReflectionHelper.setPrivateField(Functions.class, "identityFunction", (Function<String, Identity>) s -> (Identity) new Identifier(s));
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+        ((SandboxRegistry.Internal) Registry.BLOCK).set(new BasicRegistry<>(Registry.BLOCK, Block.class, ConversionUtil::convert, b -> (Block) b));
+        ((SandboxRegistry.Internal) Registry.ITEM).set(new BasicRegistry<>(Registry.ITEM, Item.class, ConversionUtil::convert, b -> (Item) b));
 
         SandboxDiscord.start();
     }
@@ -86,11 +95,5 @@ public class SandboxHooks {
 //        }
 
         return screen;
-    }
-
-    public static String[] startDedicatedServer(String[] args) {
-        SandboxServer.ARGS = args;
-        ArrayUtil.removeAll(args, "-noaddons");
-        return args;
     }
 }

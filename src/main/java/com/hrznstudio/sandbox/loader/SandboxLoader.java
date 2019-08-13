@@ -17,13 +17,16 @@ import java.nio.file.Paths;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
 public class SandboxLoader {
 
-    private AddonClassLoader loader;
     private final SandboxAPI api;
+    private AddonClassLoader loader;
+    private Executor executor = Executors.newCachedThreadPool();
 
     public SandboxLoader(SandboxAPI api) {
         this.api = api;
@@ -54,33 +57,35 @@ public class SandboxLoader {
         }
 
         urls.forEach(cURL -> {
-            InputStream configStream = null;
-            try {
-                if (cURL.toString().endsWith(".sbx")) {
-                    JarFile jarFile = new JarFile(new File(cURL.toURI()));
-                    ZipEntry ze = jarFile.getEntry("sandbox.toml");
-                    if (ze != null)
-                        configStream = jarFile.getInputStream(ze);
-                } else {
-                    configStream = cURL.toURI().resolve("sandbox.toml").toURL().openStream();
-                }
-                if (configStream == null)
-                    return;
-                Config config = parser.parse(configStream);
-                getClassLoader().addURL(cURL);
-                if (config.contains("main-class")) {
-                    Class mainClass = getClassLoader().loadClass(config.get("main-class"));
-                    if (!Addon.class.isAssignableFrom(mainClass)) {
-                        return;
+            executor.execute(() -> {
+                InputStream configStream = null;
+                try {
+                    if (cURL.toString().endsWith(".sbx")) {
+                        JarFile jarFile = new JarFile(new File(cURL.toURI()));
+                        ZipEntry ze = jarFile.getEntry("sandbox.toml");
+                        if (ze != null)
+                            configStream = jarFile.getInputStream(ze);
+                    } else {
+                        configStream = cURL.toURI().resolve("sandbox.toml").toURL().openStream();
                     }
-                    Addon addon = (Addon) mainClass.getConstructor().newInstance();
-                    addon.init(api);
+                    if (configStream == null)
+                        return;
+                    Config config = parser.parse(configStream);
+                    getClassLoader().addURL(cURL);
+                    if (config.contains("main-class")) {
+                        Class mainClass = getClassLoader().loadClass(config.get("main-class"));
+                        if (!Addon.class.isAssignableFrom(mainClass)) {
+                            return;
+                        }
+                        Addon addon = (Addon) mainClass.getConstructor().newInstance();
+                        addon.init(api);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    IOUtils.closeQuietly(configStream);
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                IOUtils.closeQuietly(configStream);
-            }
+            });
         });
     }
 
