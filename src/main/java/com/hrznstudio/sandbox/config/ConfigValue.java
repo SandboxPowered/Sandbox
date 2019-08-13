@@ -20,7 +20,7 @@ public class ConfigValue<T> {
     }
 
     public void add(T val) {
-        config.set(path, val);
+        config.add(path, val);
     }
 
     public void setComment(String comment) {

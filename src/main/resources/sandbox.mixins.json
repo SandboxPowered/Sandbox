@@ -9,15 +9,23 @@
     "crash.MixinCrashReport",
     "common.MixinEnchantment",
     "common.item.MixinBlockItem",
-    "common.world.MixinWorld",
     "networking.MixinServerPlayNetworkHandler",
     "networking.MixinCustomPayloadS2CPacket",
     "networking.MixinCustomPayloadC2SPacket",
     "common.MixinServerPlayerInteractionManager",
 
+    "common.world.MixinWorld",
+    "common.world.MixinBlockView",
     "common.state.MixinBlockState",
     "common.util.MixinIdentifier",
-    "common.util.MixinBlock"
+    "common.block.MixinBlock",
+    "common.util.MixinBlockPos",
+    "common.util.MixinBlockPos$MixinMutable",
+    "common.util.MixinVec3i",
+
+    "networking.MixinServerLoginNetworkHandler",
+    "networking.MixinLoginQueryResponseC2SPacket",
+    "networking.MixinClientConnection"
   ],
   "client": [
     "client.MixinIntegratedServer",

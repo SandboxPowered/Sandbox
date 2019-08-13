@@ -7,4 +7,10 @@ public interface CustomPayloadPacket {
     Identifier channel();
 
     PacketByteBuf data();
+
+    interface LoginQueryPacket {
+        int getQueryId();
+
+        PacketByteBuf getBuffer();
+    }
 }
