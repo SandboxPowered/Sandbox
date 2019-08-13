@@ -28,16 +28,15 @@ public abstract class MixinServerLoginNetworkHandler {
     @Shadow
     @Final
     public ClientConnection client;
+    @Shadow
+    private GameProfile profile;
+    private int velocityId = -1;
 
     @Shadow
     public abstract void disconnect(Text text_1);
 
     @Shadow
-    private GameProfile profile;
-
-    @Shadow public abstract void acceptPlayer();
-
-    private int velocityId = -1;
+    public abstract void acceptPlayer();
 
     @Inject(method = "onHello", at = @At(value = "FIELD", target = "Lnet/minecraft/server/network/ServerLoginNetworkHandler$State;READY_TO_ACCEPT:Lnet/minecraft/server/network/ServerLoginNetworkHandler$State;"), cancellable = true)
     public void onHello(CallbackInfo info) {

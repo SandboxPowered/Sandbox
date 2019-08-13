@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.function.Function;
 
-public class BasicRegistry<A,B> implements Registry<A> {
+public class BasicRegistry<A, B> implements Registry<A> {
     private final Function<A, B> convertAB;
     private final Function<B, A> convertBA;
     private final SimpleRegistry<B> vanilla;

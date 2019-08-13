@@ -11,7 +11,6 @@ import com.hrznstudio.sandbox.client.SandboxTitleScreen;
 import com.hrznstudio.sandbox.impl.BasicRegistry;
 import com.hrznstudio.sandbox.security.AddonSecurityPolicy;
 import com.hrznstudio.sandbox.server.SandboxServer;
-import com.hrznstudio.sandbox.util.ArrayUtil;
 import com.hrznstudio.sandbox.util.ConversionUtil;
 import com.hrznstudio.sandbox.util.ReflectionHelper;
 import net.arikia.dev.drpc.DiscordRPC;

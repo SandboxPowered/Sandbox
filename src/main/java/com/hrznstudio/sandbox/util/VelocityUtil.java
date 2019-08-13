@@ -17,6 +17,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class VelocityUtil {
+    public static final Identifier PLAYER_INFO_CHANNEL = new Identifier("velocity", "player_info");
+
     public static boolean checkIntegrity(final PacketByteBuf buf) {
         final byte[] signature = new byte[32];
         buf.readBytes(signature);
@@ -54,7 +56,7 @@ public class VelocityUtil {
     }
 
     private static void readProperties(final PacketByteBuf buf, final GameProfile profile) {
-        if(buf.capacity()-buf.readerIndex()-4<=0)
+        if (buf.readableBytes() < 4)
             return;
         final int properties = buf.readInt();
         for (int i1 = 0; i1 < properties; i1++) {
@@ -64,8 +66,6 @@ public class VelocityUtil {
             profile.getProperties().put(name, new Property(name, value, signature));
         }
     }
-
-    public static final Identifier PLAYER_INFO_CHANNEL = new Identifier("velocity", "player_info");
 
     public static LoginQueryRequestS2CPacket create(int id) {
         LoginQueryRequestS2CPacket packet = new LoginQueryRequestS2CPacket();
