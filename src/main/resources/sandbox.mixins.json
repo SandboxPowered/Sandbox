@@ -19,6 +19,7 @@
     "common.state.MixinBlockState",
     "common.util.MixinIdentifier",
     "common.block.MixinBlock",
+    "common.block.MixinMaterial",
     "common.util.MixinBlockPos",
     "common.util.MixinBlockPos$MixinMutable",
     "common.util.MixinVec3i",

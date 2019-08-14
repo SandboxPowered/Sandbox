@@ -4,7 +4,7 @@ import com.hrznstudio.sandbox.api.block.state.BlockState;
 import com.hrznstudio.sandbox.api.util.math.Position;
 import com.hrznstudio.sandbox.api.world.BlockFlag;
 import com.hrznstudio.sandbox.api.world.WorldWriter;
-import com.hrznstudio.sandbox.util.ConversionUtil;
+import com.hrznstudio.sandbox.util.WrappingUtil;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ModifiableWorld;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,6 +17,6 @@ public interface MixinModifiableWorld extends WorldWriter {
 
     @Override
     default boolean setBlockState(Position position, BlockState state, BlockFlag... flags) {
-        return setBlockState(ConversionUtil.convert(position), ConversionUtil.convert(state), ConversionUtil.convert(flags));
+        return setBlockState(WrappingUtil.convert(position), WrappingUtil.convert(state), WrappingUtil.convert(flags));
     }
 }

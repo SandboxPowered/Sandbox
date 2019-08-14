@@ -3,7 +3,7 @@ package com.hrznstudio.sandbox.mixin.common.util;
 import com.hrznstudio.sandbox.api.util.Direction;
 import com.hrznstudio.sandbox.api.util.math.Position;
 import com.hrznstudio.sandbox.api.util.math.Position.Mutable;
-import com.hrznstudio.sandbox.util.ConversionUtil;
+import com.hrznstudio.sandbox.util.WrappingUtil;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
 import org.spongepowered.asm.mixin.*;
@@ -28,7 +28,7 @@ public abstract class MixinBlockPos extends Vec3i {
     }
 
     public Position sbx$offset(Direction direction, int amount) {
-        return (Position) this.offset(ConversionUtil.convert(direction), amount);
+        return (Position) this.offset(WrappingUtil.convert(direction), amount);
     }
 
     @Mixin(BlockPos.Mutable.class)

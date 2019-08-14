@@ -2,6 +2,7 @@ package com.hrznstudio.sandbox.loader;
 
 import com.electronwill.nightconfig.core.Config;
 import com.electronwill.nightconfig.toml.TomlParser;
+import com.hrznstudio.sandbox.api.Registries;
 import com.hrznstudio.sandbox.api.SandboxAPI;
 import com.hrznstudio.sandbox.api.addon.Addon;
 import com.hrznstudio.sandbox.security.AddonClassLoader;
@@ -79,6 +80,7 @@ public class SandboxLoader {
                         }
                         Addon addon = (Addon) mainClass.getConstructor().newInstance();
                         addon.init(api);
+                        addon.register((Registries) api);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

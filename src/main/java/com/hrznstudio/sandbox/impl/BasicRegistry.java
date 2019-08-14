@@ -2,7 +2,7 @@ package com.hrznstudio.sandbox.impl;
 
 import com.hrznstudio.sandbox.api.registry.Registry;
 import com.hrznstudio.sandbox.api.util.Identity;
-import com.hrznstudio.sandbox.util.ConversionUtil;
+import com.hrznstudio.sandbox.util.WrappingUtil;
 import net.minecraft.util.registry.SimpleRegistry;
 
 import java.util.Collection;
@@ -29,12 +29,12 @@ public class BasicRegistry<A, B> implements Registry<A> {
 
     @Override
     public A get(Identity identity) {
-        return convertBA.apply(vanilla.get(ConversionUtil.convert(identity)));
+        return convertBA.apply(vanilla.get(WrappingUtil.convert(identity)));
     }
 
     @Override
     public void register(Identity identity, A val) {
-        vanilla.add(ConversionUtil.convert(identity), convertAB.apply(val));
+        vanilla.add(WrappingUtil.convert(identity), convertAB.apply(val));
     }
 
     @Override

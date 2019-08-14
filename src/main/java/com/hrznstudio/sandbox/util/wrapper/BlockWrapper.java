@@ -2,15 +2,19 @@ package com.hrznstudio.sandbox.util.wrapper;
 
 import com.hrznstudio.sandbox.api.util.Activation;
 import com.hrznstudio.sandbox.api.util.math.Position;
-import com.hrznstudio.sandbox.util.ConversionUtil;
+import com.hrznstudio.sandbox.api.world.WorldReader;
+import com.hrznstudio.sandbox.util.WrappingUtil;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
@@ -19,8 +23,19 @@ public class BlockWrapper extends Block {
     private com.hrznstudio.sandbox.api.block.Block block;
 
     public BlockWrapper(com.hrznstudio.sandbox.api.block.Block block) {
-        super(ConversionUtil.convert(block.createProperties()));
+        super(WrappingUtil.convert(block.createProperties()));
         this.block = block;
+    }
+
+    public static BlockWrapper create(com.hrznstudio.sandbox.api.block.Block block) {
+        if (block.hasBlockEntity()) {
+            return new BlockWrapper.WithBlockEntity(block);
+        }
+        return new BlockWrapper(block);
+    }
+
+    public com.hrznstudio.sandbox.api.block.Block getBlock() {
+        return block;
     }
 
     @Override
@@ -43,5 +58,17 @@ public class BlockWrapper extends Block {
                 (Position) blockPos_1,
                 (com.hrznstudio.sandbox.api.block.state.BlockState) blockPos_1
         );
+    }
+
+    public static class WithBlockEntity extends BlockWrapper implements BlockEntityProvider {
+        public WithBlockEntity(com.hrznstudio.sandbox.api.block.Block block) {
+            super(block);
+        }
+
+        @Nullable
+        @Override
+        public BlockEntity createBlockEntity(BlockView var1) {
+            return WrappingUtil.convert(getBlock().createBlockEntity((WorldReader) var1));
+        }
     }
 }

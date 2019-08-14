@@ -2,6 +2,7 @@ package com.hrznstudio.sandbox;
 
 import com.hrznstudio.sandbox.api.SandboxRegistry;
 import com.hrznstudio.sandbox.api.block.Block;
+import com.hrznstudio.sandbox.api.block.Material;
 import com.hrznstudio.sandbox.api.item.Item;
 import com.hrznstudio.sandbox.api.util.Functions;
 import com.hrznstudio.sandbox.api.util.Identity;
@@ -11,8 +12,9 @@ import com.hrznstudio.sandbox.client.SandboxTitleScreen;
 import com.hrznstudio.sandbox.impl.BasicRegistry;
 import com.hrznstudio.sandbox.security.AddonSecurityPolicy;
 import com.hrznstudio.sandbox.server.SandboxServer;
-import com.hrznstudio.sandbox.util.ConversionUtil;
+import com.hrznstudio.sandbox.util.MaterialUtil;
 import com.hrznstudio.sandbox.util.ReflectionHelper;
+import com.hrznstudio.sandbox.util.WrappingUtil;
 import net.arikia.dev.drpc.DiscordRPC;
 import net.arikia.dev.drpc.DiscordRichPresence;
 import net.fabricmc.loader.api.FabricLoader;
@@ -51,12 +53,15 @@ public class SandboxHooks {
 
         try {
             ReflectionHelper.setPrivateField(Functions.class, "identityFunction", (Function<String, Identity>) s -> (Identity) new Identifier(s));
+            ReflectionHelper.setPrivateField(Functions.class, "materialFunction", (Function<String, Material>) MaterialUtil::from);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
 
-        ((SandboxRegistry.Internal) Registry.BLOCK).set(new BasicRegistry<>(Registry.BLOCK, Block.class, ConversionUtil::convert, b -> (Block) b));
-        ((SandboxRegistry.Internal) Registry.ITEM).set(new BasicRegistry<>(Registry.ITEM, Item.class, ConversionUtil::convert, b -> (Item) b));
+        Material.AIR.getPistonInteraction();
+
+        ((SandboxRegistry.Internal) Registry.BLOCK).set(new BasicRegistry<>(Registry.BLOCK, Block.class, WrappingUtil::convert, b -> (Block) b));
+        ((SandboxRegistry.Internal) Registry.ITEM).set(new BasicRegistry<>(Registry.ITEM, Item.class, WrappingUtil::convert, b -> (Item) b));
 
         SandboxDiscord.start();
     }
