@@ -4,6 +4,7 @@ import com.hrznstudio.sandbox.server.SandboxServer;
 import com.hrznstudio.sandbox.util.ArrayUtil;
 import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
@@ -23,5 +24,13 @@ public class MixinMinecraftServer {
     )
     public void shutdown(CallbackInfo info) {
         SandboxServer.INSTANCE.shutdown();
+    }
+
+    /**
+     * @author Coded
+     */
+    @Overwrite
+    public String getServerModName() {
+        return "Sandbox";
     }
 }

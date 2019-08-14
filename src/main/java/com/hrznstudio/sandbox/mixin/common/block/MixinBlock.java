@@ -30,9 +30,6 @@ public abstract class MixinBlock implements Block {
     @Shadow
     public abstract boolean hasBlockEntity();
 
-    @Shadow
-    public abstract void buildTooltip(ItemStack itemStack_1, @Nullable BlockView blockView_1, List<Text> list_1, TooltipContext tooltipContext_1);
-
     @Override
     public Properties createProperties() {
         return null;
