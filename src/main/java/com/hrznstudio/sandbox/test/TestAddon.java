@@ -9,7 +9,7 @@ import com.hrznstudio.sandbox.api.block.state.BlockState;
 import com.hrznstudio.sandbox.api.entity.Entity;
 import com.hrznstudio.sandbox.api.entity.player.Hand;
 import com.hrznstudio.sandbox.api.registry.Registry;
-import com.hrznstudio.sandbox.api.util.Activation;
+import com.hrznstudio.sandbox.api.util.InteractionResult;
 import com.hrznstudio.sandbox.api.util.Direction;
 import com.hrznstudio.sandbox.api.util.Identity;
 import com.hrznstudio.sandbox.api.util.Side;
@@ -27,8 +27,8 @@ public class TestAddon implements Addon {
             }
 
             @Override
-            public Activation onBlockUsed(World world, Position pos, BlockState state, Entity player, Hand hand, Direction side, Vec3f hit) {
-                return Activation.SUCCESS;
+            public InteractionResult onBlockUsed(World world, Position pos, BlockState state, Entity player, Hand hand, Direction side, Vec3f hit) {
+                return InteractionResult.SUCCESS;
             }
         });
     }

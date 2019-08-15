@@ -3,9 +3,13 @@ package com.hrznstudio.sandbox.mixin.client;
 import com.hrznstudio.sandbox.SandboxHooks;
 import com.hrznstudio.sandbox.client.PanoramaHandler;
 import com.hrznstudio.sandbox.client.SandboxClient;
+import com.hrznstudio.sandbox.client.SandboxTitleScreen;
 import com.hrznstudio.sandbox.resources.SandboxResourceCreator;
+import net.arikia.dev.drpc.DiscordRPC;
+import net.arikia.dev.drpc.DiscordRichPresence;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.resource.ClientResourcePackContainer;
 import net.minecraft.resource.ResourcePack;
 import net.minecraft.resource.ResourcePackContainerManager;
@@ -84,7 +88,14 @@ public class MixinMinecraftClient {
 
     @ModifyVariable(method = "openScreen", at = @At("HEAD"), ordinal = 0)
     public Screen openScreen(Screen screen) {
-        return SandboxHooks.openScreen(screen);
+        if (screen instanceof TitleScreen || (screen == null && MinecraftClient.getInstance().world == null)) {
+            DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("In Menu")
+                    .setBigImage("logo", "")
+                    .build()
+            );
+            screen = new SandboxTitleScreen();
+        }
+        return screen;
     }
 
     /**

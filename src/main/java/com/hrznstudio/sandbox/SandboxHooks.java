@@ -3,32 +3,30 @@ package com.hrznstudio.sandbox;
 import com.hrznstudio.sandbox.api.SandboxRegistry;
 import com.hrznstudio.sandbox.api.block.Block;
 import com.hrznstudio.sandbox.api.block.Material;
+import com.hrznstudio.sandbox.api.block.entity.BlockEntity;
 import com.hrznstudio.sandbox.api.item.Item;
 import com.hrznstudio.sandbox.api.util.Functions;
 import com.hrznstudio.sandbox.api.util.Identity;
 import com.hrznstudio.sandbox.api.util.Side;
 import com.hrznstudio.sandbox.client.SandboxClient;
-import com.hrznstudio.sandbox.client.SandboxTitleScreen;
 import com.hrznstudio.sandbox.impl.BasicRegistry;
 import com.hrznstudio.sandbox.security.AddonSecurityPolicy;
 import com.hrznstudio.sandbox.server.SandboxServer;
 import com.hrznstudio.sandbox.util.MaterialUtil;
 import com.hrznstudio.sandbox.util.ReflectionHelper;
 import com.hrznstudio.sandbox.util.WrappingUtil;
-import net.arikia.dev.drpc.DiscordRPC;
-import net.arikia.dev.drpc.DiscordRichPresence;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.ModMetadata;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.TitleScreen;
-import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 import java.security.Policy;
+import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class SandboxHooks {
     public static void shutdown() {
@@ -54,6 +52,9 @@ public class SandboxHooks {
         try {
             ReflectionHelper.setPrivateField(Functions.class, "identityFunction", (Function<String, Identity>) s -> (Identity) new Identifier(s));
             ReflectionHelper.setPrivateField(Functions.class, "materialFunction", (Function<String, Material>) MaterialUtil::from);
+            ReflectionHelper.setPrivateField(Functions.class, "blockEntityTypeFunction", (BiFunction<Supplier<BlockEntity>, Block[], BlockEntity.Type>) (s,b)->{
+                return (BlockEntity.Type)BlockEntityType.Builder.create((Supplier)()->WrappingUtil.convert(s.get()),WrappingUtil.convert(b)).build(null);
+            });
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
@@ -68,36 +69,5 @@ public class SandboxHooks {
 
     public static void shutdownGlobal() {
         SandboxDiscord.shutdown();
-    }
-
-    public static Screen openScreen(Screen screen) {
-        if (screen instanceof TitleScreen || (screen == null && MinecraftClient.getInstance().world == null)) {
-            DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("In Menu")
-                    .setBigImage("logo", "")
-                    .build()
-            );
-            screen = new SandboxTitleScreen();
-        }
-        if (screen instanceof MultiplayerScreen) {
-//            screen = new DownloadScreen();
-        }
-//        if (SandboxClient.INSTANCE != null && screen != null) {
-//            ScreenEvent.Open event = SandboxClient.INSTANCE.getDispatcher().publish(new ScreenEvent.Open(screen));
-//            if (event.wasCancelled()) {
-//                screen = MinecraftClient.getInstance().currentScreen;
-//            } else {
-//                screen = event.getScreen();
-//            }
-//        } else if (SandboxClient.INSTANCE != null) {
-//            Screen currentScreen = MinecraftClient.getInstance().currentScreen;
-//            ScreenEvent.Close event = SandboxClient.INSTANCE.getDispatcher().publish(new ScreenEvent.Close(currentScreen, screen));
-//            if (event.wasCancelled()) {
-//                screen = currentScreen;
-//            } else {
-//                screen = event.getNewScreen();
-//            }
-//        }
-
-        return screen;
     }
 }

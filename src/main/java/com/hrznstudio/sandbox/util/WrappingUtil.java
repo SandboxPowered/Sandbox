@@ -5,8 +5,10 @@ import com.hrznstudio.sandbox.api.block.state.BlockState;
 import com.hrznstudio.sandbox.api.item.Item;
 import com.hrznstudio.sandbox.api.util.Direction;
 import com.hrznstudio.sandbox.api.util.Identity;
+import com.hrznstudio.sandbox.api.item.Stack;
 import com.hrznstudio.sandbox.api.util.math.Position;
 import com.hrznstudio.sandbox.api.world.BlockFlag;
+import com.hrznstudio.sandbox.api.world.World;
 import com.hrznstudio.sandbox.api.world.WorldReader;
 import com.hrznstudio.sandbox.util.wrapper.BlockEntityWrapper;
 import com.hrznstudio.sandbox.util.wrapper.BlockPosWrapper;
@@ -15,6 +17,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.piston.PistonBehavior;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
@@ -33,6 +36,14 @@ public class WrappingUtil {
 
     public static Block convert(com.hrznstudio.sandbox.api.block.Block block) {
         return castOrWrap(block, Block.class, s -> BlockWrapper.create(block));
+    }
+
+    public static Block[] convert(com.hrznstudio.sandbox.api.block.Block[] block) {
+        Block[] arr = new Block[block.length];
+        for (int i = 0; i < block.length; i++) {
+            arr[i] = convert(block[i]);
+        }
+        return arr;
     }
 
     public static net.minecraft.item.Item convert(Item item) {
@@ -103,11 +114,19 @@ public class WrappingUtil {
         return castOrWrap(reader, BlockView.class, read -> null);
     }
 
+    public static net.minecraft.world.World convert(World reader) {
+        return castOrWrap(reader, net.minecraft.world.World.class, read -> null);
+    }
+
     public static net.minecraft.block.entity.BlockEntity convert(BlockEntity entity) {
         return castOrWrap(entity, net.minecraft.block.entity.BlockEntity.class, read -> BlockEntityWrapper.create(entity));
     }
 
     public static BlockEntityType<?> convert(BlockEntity.Type<?> type) {
         return castOrWrap(type, BlockEntityType.class, t -> null);
+    }
+
+    public static ItemStack convert(Stack stack) {
+        return cast(stack, ItemStack.class);
     }
 }
