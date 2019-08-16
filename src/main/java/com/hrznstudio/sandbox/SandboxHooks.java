@@ -69,6 +69,7 @@ public class SandboxHooks {
 
         ((SandboxRegistry.Internal) Registry.BLOCK).set(new BasicRegistry<>(Registry.BLOCK, Block.class, WrappingUtil::convert, b -> (Block) b));
         ((SandboxRegistry.Internal) Registry.ITEM).set(new BasicRegistry<>(Registry.ITEM, Item.class, WrappingUtil::convert, b -> (Item) b));
+        ((SandboxRegistry.Internal) Registry.BLOCK_ENTITY).set(new BasicRegistry((SimpleRegistry)Registry.BLOCK_ENTITY, BlockEntity.Type.class, (Function<BlockEntity.Type, BlockEntityType>) WrappingUtil::convert, (Function<BlockEntityType, BlockEntity.Type>) WrappingUtil::convert, true)); // DONT TOUCH THIS FOR HEAVENS SAKE PLEASE GOD NO
 
         SandboxDiscord.start();
     }
