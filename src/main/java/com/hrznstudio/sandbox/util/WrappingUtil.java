@@ -3,9 +3,9 @@ package com.hrznstudio.sandbox.util;
 import com.hrznstudio.sandbox.api.block.entity.BlockEntity;
 import com.hrznstudio.sandbox.api.block.state.BlockState;
 import com.hrznstudio.sandbox.api.item.Item;
+import com.hrznstudio.sandbox.api.item.Stack;
 import com.hrznstudio.sandbox.api.util.Direction;
 import com.hrznstudio.sandbox.api.util.Identity;
-import com.hrznstudio.sandbox.api.item.Stack;
 import com.hrznstudio.sandbox.api.util.math.Position;
 import com.hrznstudio.sandbox.api.world.BlockFlag;
 import com.hrznstudio.sandbox.api.world.World;
@@ -122,11 +122,15 @@ public class WrappingUtil {
         return castOrWrap(entity, net.minecraft.block.entity.BlockEntity.class, read -> BlockEntityWrapper.create(entity));
     }
 
-    public static BlockEntityType<?> convert(BlockEntity.Type<?> type) {
-        return castOrWrap(type, BlockEntityType.class, t -> null);
-    }
-
     public static ItemStack convert(Stack stack) {
         return cast(stack, ItemStack.class);
+    }
+
+    public static BlockEntityType convert(BlockEntity.Type type) {
+        return cast(type, BlockEntityType.class);
+    }
+
+    public static BlockEntity.Type convert(BlockEntityType type) {
+        return cast(type, BlockEntity.Type.class);
     }
 }

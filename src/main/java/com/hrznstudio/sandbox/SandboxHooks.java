@@ -5,6 +5,7 @@ import com.hrznstudio.sandbox.api.block.Block;
 import com.hrznstudio.sandbox.api.block.Material;
 import com.hrznstudio.sandbox.api.block.entity.BlockEntity;
 import com.hrznstudio.sandbox.api.item.Item;
+import com.hrznstudio.sandbox.api.item.Stack;
 import com.hrznstudio.sandbox.api.util.Functions;
 import com.hrznstudio.sandbox.api.util.Identity;
 import com.hrznstudio.sandbox.api.util.Side;
@@ -20,8 +21,10 @@ import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.SimpleRegistry;
 
 import java.security.Policy;
 import java.util.function.BiFunction;
@@ -52,14 +55,17 @@ public class SandboxHooks {
         try {
             ReflectionHelper.setPrivateField(Functions.class, "identityFunction", (Function<String, Identity>) s -> (Identity) new Identifier(s));
             ReflectionHelper.setPrivateField(Functions.class, "materialFunction", (Function<String, Material>) MaterialUtil::from);
-            ReflectionHelper.setPrivateField(Functions.class, "blockEntityTypeFunction", (BiFunction<Supplier<BlockEntity>, Block[], BlockEntity.Type>) (s,b)->{
-                return (BlockEntity.Type)BlockEntityType.Builder.create((Supplier)()->WrappingUtil.convert(s.get()),WrappingUtil.convert(b)).build(null);
+            ReflectionHelper.setPrivateField(Functions.class, "blockEntityTypeFunction", (BiFunction<Supplier<BlockEntity>, Block[], BlockEntity.Type>) (s, b) -> {
+                return (BlockEntity.Type) BlockEntityType.Builder.create((Supplier) () -> WrappingUtil.convert(s.get()), WrappingUtil.convert(b)).build(null);
+            });
+            ReflectionHelper.setPrivateField(Functions.class, "itemStackFunction", (BiFunction<Item, Integer, Stack>) (item, count) -> {
+                if (item == null || count == 0)
+                    return WrappingUtil.cast(ItemStack.EMPTY, Stack.class);
+                return WrappingUtil.cast(new ItemStack(WrappingUtil.convert(item), count), Stack.class);
             });
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-
-        Material.AIR.getPistonInteraction();
 
         ((SandboxRegistry.Internal) Registry.BLOCK).set(new BasicRegistry<>(Registry.BLOCK, Block.class, WrappingUtil::convert, b -> (Block) b));
         ((SandboxRegistry.Internal) Registry.ITEM).set(new BasicRegistry<>(Registry.ITEM, Item.class, WrappingUtil::convert, b -> (Item) b));

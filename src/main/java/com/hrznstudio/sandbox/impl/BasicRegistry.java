@@ -22,6 +22,13 @@ public class BasicRegistry<A, B> implements Registry<A> {
         this.type = type;
     }
 
+    public BasicRegistry(SimpleRegistry vanilla, Class type, Function convertAB, Function convertBA, boolean fuck) {
+        this.convertAB = convertAB;
+        this.convertBA = convertBA;
+        this.vanilla = vanilla;
+        this.type = type;
+    }
+
     @Override
     public Identity getIdentity(A val) {
         return (Identity) vanilla.getId(convertAB.apply(val));
