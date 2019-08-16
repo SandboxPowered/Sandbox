@@ -1,7 +1,7 @@
 package com.hrznstudio.sandbox.mixin.common.state;
 
 import com.google.common.collect.ImmutableMap;
-import com.hrznstudio.sandbox.api.block.Block;
+import com.hrznstudio.sandbox.api.block.IBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.state.AbstractPropertyContainer;
 import net.minecraft.state.property.Property;
@@ -20,7 +20,7 @@ public abstract class MixinBlockState extends AbstractPropertyContainer<net.mine
     @Shadow
     public abstract net.minecraft.block.Block getBlock();
 
-    public Block sbx$getBlock() {
-        return (Block) this.owner; // Has to use the field otherwise causes a loop
+    public IBlock sbx$getBlock() {
+        return (IBlock) this.owner; // Has to use the field otherwise causes a loop
     }
 }

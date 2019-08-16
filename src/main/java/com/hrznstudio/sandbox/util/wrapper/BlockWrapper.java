@@ -1,5 +1,6 @@
 package com.hrznstudio.sandbox.util.wrapper;
 
+import com.hrznstudio.sandbox.api.block.IBlock;
 import com.hrznstudio.sandbox.api.entity.Entity;
 import com.hrznstudio.sandbox.api.item.Stack;
 import com.hrznstudio.sandbox.api.util.InteractionResult;
@@ -23,21 +24,21 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 
 public class BlockWrapper extends Block {
-    private com.hrznstudio.sandbox.api.block.Block block;
+    private IBlock block;
 
-    public BlockWrapper(com.hrznstudio.sandbox.api.block.Block block) {
+    public BlockWrapper(IBlock block) {
         super(WrappingUtil.convert(block.createProperties()));
         this.block = block;
     }
 
-    public static BlockWrapper create(com.hrznstudio.sandbox.api.block.Block block) {
+    public static BlockWrapper create(IBlock block) {
         if (block.hasBlockEntity()) {
             return new BlockWrapper.WithBlockEntity(block);
         }
         return new BlockWrapper(block);
     }
 
-    public com.hrznstudio.sandbox.api.block.Block getBlock() {
+    public IBlock getBlock() {
         return block;
     }
 
@@ -75,7 +76,7 @@ public class BlockWrapper extends Block {
     }
 
     public static class WithBlockEntity extends BlockWrapper implements BlockEntityProvider {
-        public WithBlockEntity(com.hrznstudio.sandbox.api.block.Block block) {
+        public WithBlockEntity(IBlock block) {
             super(block);
         }
 

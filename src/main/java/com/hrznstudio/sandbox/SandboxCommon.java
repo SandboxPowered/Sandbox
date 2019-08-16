@@ -1,21 +1,20 @@
 package com.hrznstudio.sandbox;
 
-import com.hrznstudio.sandbox.api.Registries;
 import com.hrznstudio.sandbox.api.SandboxAPI;
-import com.hrznstudio.sandbox.api.SandboxRegistry;
-import com.hrznstudio.sandbox.api.block.Block;
 import com.hrznstudio.sandbox.api.event.Event;
 import com.hrznstudio.sandbox.api.event.Priority;
-import com.hrznstudio.sandbox.api.item.Item;
-import com.hrznstudio.sandbox.api.registry.Registry;
+import com.hrznstudio.sandbox.api.util.Log;
 import com.hrznstudio.sandbox.event.EventDispatcher;
+import com.hrznstudio.sandbox.util.AddonLog;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-public abstract class SandboxCommon implements SandboxAPI, Registries {
+public abstract class SandboxCommon implements SandboxAPI {
 
     protected EventDispatcher dispatcher;
+
+    private Log log = new AddonLog();
 
     protected abstract void setup();
 
@@ -31,12 +30,7 @@ public abstract class SandboxCommon implements SandboxAPI, Registries {
     }
 
     @Override
-    public Registry<Block> getBlockRegistry() {
-        return ((SandboxRegistry.Internal) net.minecraft.util.registry.Registry.BLOCK).get();
-    }
-
-    @Override
-    public Registry<Item> getItemRegistry() {
-        return ((SandboxRegistry.Internal) net.minecraft.util.registry.Registry.ITEM).get();
+    public Log getLog() {
+        return log;
     }
 }

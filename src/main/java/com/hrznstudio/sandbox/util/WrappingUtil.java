@@ -1,6 +1,7 @@
 package com.hrznstudio.sandbox.util;
 
-import com.hrznstudio.sandbox.api.block.entity.BlockEntity;
+import com.hrznstudio.sandbox.api.block.IBlock;
+import com.hrznstudio.sandbox.api.block.entity.IBlockEntity;
 import com.hrznstudio.sandbox.api.block.state.BlockState;
 import com.hrznstudio.sandbox.api.item.Item;
 import com.hrznstudio.sandbox.api.item.Stack;
@@ -34,11 +35,21 @@ public class WrappingUtil {
         return castOrWrap(state, net.minecraft.block.BlockState.class, s -> null);
     }
 
-    public static Block convert(com.hrznstudio.sandbox.api.block.Block block) {
-        return castOrWrap(block, Block.class, s -> BlockWrapper.create(block));
+    public static Block convert(IBlock block) {
+        return castOrWrap(block, Block.class, WrappingUtil::getWrapped);
     }
 
-    public static Block[] convert(com.hrznstudio.sandbox.api.block.Block[] block) {
+    private static Block getWrapped(IBlock block) {
+        if(block instanceof com.hrznstudio.sandbox.api.block.Block) {
+            if(((com.hrznstudio.sandbox.api.block.Block) block).getWrapped()==null) {
+                ((com.hrznstudio.sandbox.api.block.Block) block).setWrapped(BlockWrapper.create(block));
+            }
+            return (Block)((com.hrznstudio.sandbox.api.block.Block) block).getWrapped();
+        }
+        throw new RuntimeException("Unacceptable class "+block);
+    }
+
+    public static Block[] convert(IBlock[] block) {
         Block[] arr = new Block[block.length];
         for (int i = 0; i < block.length; i++) {
             arr[i] = convert(block[i]);
@@ -68,7 +79,7 @@ public class WrappingUtil {
         return wrapper.apply(a);
     }
 
-    public static Block.Settings convert(com.hrznstudio.sandbox.api.block.Block.Properties properties) {
+    public static Block.Settings convert(IBlock.Properties properties) {
         return castOrWrap(properties, Block.Settings.class, prop -> Block.Settings.of(convert(properties.getMaterial())));
     }
 
@@ -118,7 +129,7 @@ public class WrappingUtil {
         return castOrWrap(reader, net.minecraft.world.World.class, read -> null);
     }
 
-    public static net.minecraft.block.entity.BlockEntity convert(BlockEntity entity) {
+    public static net.minecraft.block.entity.BlockEntity convert(IBlockEntity entity) {
         return castOrWrap(entity, net.minecraft.block.entity.BlockEntity.class, read -> BlockEntityWrapper.create(entity));
     }
 
@@ -126,11 +137,11 @@ public class WrappingUtil {
         return cast(stack, ItemStack.class);
     }
 
-    public static BlockEntityType convert(BlockEntity.Type type) {
+    public static BlockEntityType convert(IBlockEntity.Type type) {
         return cast(type, BlockEntityType.class);
     }
 
-    public static BlockEntity.Type convert(BlockEntityType type) {
-        return cast(type, BlockEntity.Type.class);
+    public static IBlockEntity.Type convert(BlockEntityType type) {
+        return cast(type, IBlockEntity.Type.class);
     }
 }

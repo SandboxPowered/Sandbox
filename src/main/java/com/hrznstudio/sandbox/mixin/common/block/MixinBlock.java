@@ -1,14 +1,15 @@
 package com.hrznstudio.sandbox.mixin.common.block;
 
-import com.hrznstudio.sandbox.api.block.Block;
-import com.hrznstudio.sandbox.api.block.entity.BlockEntity;
+import com.hrznstudio.sandbox.api.block.IBlock;
+import com.hrznstudio.sandbox.api.block.entity.IBlockEntity;
 import com.hrznstudio.sandbox.api.block.state.BlockState;
 import com.hrznstudio.sandbox.api.entity.Entity;
 import com.hrznstudio.sandbox.api.entity.player.Hand;
+import com.hrznstudio.sandbox.api.entity.player.Player;
 import com.hrznstudio.sandbox.api.item.Item;
-import com.hrznstudio.sandbox.api.util.InteractionResult;
-import com.hrznstudio.sandbox.api.util.Direction;
 import com.hrznstudio.sandbox.api.item.Stack;
+import com.hrznstudio.sandbox.api.util.Direction;
+import com.hrznstudio.sandbox.api.util.InteractionResult;
 import com.hrznstudio.sandbox.api.util.math.Position;
 import com.hrznstudio.sandbox.api.util.math.Vec3f;
 import com.hrznstudio.sandbox.api.world.World;
@@ -23,7 +24,7 @@ import org.spongepowered.asm.mixin.*;
 import javax.annotation.Nullable;
 
 @Mixin(net.minecraft.block.Block.class)
-@Implements(@Interface(iface = Block.class, prefix = "sbx$"))
+@Implements(@Interface(iface = IBlock.class, prefix = "sbx$"))
 @Unique
 public abstract class MixinBlock {
 
@@ -34,11 +35,17 @@ public abstract class MixinBlock {
 
     @Shadow public abstract net.minecraft.item.Item asItem();
 
-    public Block.Properties sbx$createProperties() {
+    @Shadow public abstract net.minecraft.block.BlockState getDefaultState();
+
+    public IBlock.Properties sbx$createProperties() {
         return null;
     }
 
-    public InteractionResult sbx$onBlockUsed(World world, Position pos, BlockState state, Entity player, Hand hand, Direction side, Vec3f hit) {
+    public BlockState getBaseState() {
+        return (BlockState) this.getDefaultState();
+    }
+
+    public InteractionResult sbx$onBlockUsed(World world, Position pos, BlockState state, Player player, Hand hand, Direction side, Vec3f hit) {
         return InteractionResult.IGNORE;
     }
 
@@ -68,9 +75,9 @@ public abstract class MixinBlock {
         return this.hasBlockEntity();
     }
 
-    public BlockEntity sbx$createBlockEntity(WorldReader reader) {
+    public IBlockEntity sbx$createBlockEntity(WorldReader reader) {
         if (hasBlockEntity())
-            return (BlockEntity) ((BlockEntityProvider) this).createBlockEntity(WrappingUtil.convert(reader));
+            return (IBlockEntity) ((BlockEntityProvider) this).createBlockEntity(WrappingUtil.convert(reader));
         return null;
     }
 }
