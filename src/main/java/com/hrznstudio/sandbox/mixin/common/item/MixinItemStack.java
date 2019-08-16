@@ -20,13 +20,13 @@ public abstract class MixinItemStack {
     public abstract int getCount();
 
     @Shadow
+    public abstract void setCount(int int_1);
+
+    @Shadow
     public abstract void decrement(int int_1);
 
     @Shadow
     public abstract void increment(int int_1);
-
-    @Shadow
-    public abstract void setCount(int int_1);
 
     @Shadow
     public abstract net.minecraft.util.Rarity getRarity();

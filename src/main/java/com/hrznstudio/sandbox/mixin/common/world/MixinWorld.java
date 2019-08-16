@@ -18,11 +18,6 @@ public abstract class MixinWorld implements com.hrznstudio.sandbox.api.world.Wor
     public abstract boolean isClient();
 
     @Override
-    public BlockState getBlockState(Position position) {
-        return (BlockState) this.getBlockState(WrappingUtil.convert(position));
-    }
-
-    @Override
     public Side getSide() {
         return this.isClient() ? Side.CLIENT : Side.SERVER;
     }

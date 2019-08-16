@@ -40,13 +40,13 @@ public class WrappingUtil {
     }
 
     private static Block getWrapped(IBlock block) {
-        if(block instanceof com.hrznstudio.sandbox.api.block.Block) {
-            if(((com.hrznstudio.sandbox.api.block.Block) block).getWrapped()==null) {
+        if (block instanceof com.hrznstudio.sandbox.api.block.Block) {
+            if (((com.hrznstudio.sandbox.api.block.Block) block).getWrapped() == null) {
                 ((com.hrznstudio.sandbox.api.block.Block) block).setWrapped(BlockWrapper.create(block));
             }
-            return (Block)((com.hrznstudio.sandbox.api.block.Block) block).getWrapped();
+            return (Block) ((com.hrznstudio.sandbox.api.block.Block) block).getWrapped();
         }
-        throw new RuntimeException("Unacceptable class "+block);
+        throw new RuntimeException("Unacceptable class " + block);
     }
 
     public static Block[] convert(IBlock[] block) {

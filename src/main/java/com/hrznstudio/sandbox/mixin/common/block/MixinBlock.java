@@ -31,17 +31,28 @@ public abstract class MixinBlock {
     @Shadow
     public abstract boolean hasBlockEntity();
 
-    @Shadow public abstract void onPlaced(net.minecraft.world.World world_1, BlockPos blockPos_1, net.minecraft.block.BlockState blockState_1, @Nullable LivingEntity livingEntity_1, ItemStack itemStack_1);
+    @Shadow
+    public abstract void onPlaced(net.minecraft.world.World world_1, BlockPos blockPos_1, net.minecraft.block.BlockState blockState_1, @Nullable LivingEntity livingEntity_1, ItemStack itemStack_1);
 
-    @Shadow public abstract net.minecraft.item.Item asItem();
+    @Shadow
+    public abstract net.minecraft.item.Item asItem();
 
-    @Shadow public abstract net.minecraft.block.BlockState getDefaultState();
+    @Shadow
+    public abstract net.minecraft.block.BlockState getDefaultState();
+
+    @Shadow
+    @Deprecated
+    public abstract boolean isAir(net.minecraft.block.BlockState blockState_1);
 
     public IBlock.Properties sbx$createProperties() {
         return null;
     }
 
-    public BlockState getBaseState() {
+    public boolean sbx$isAir(BlockState state) {
+        return this.isAir(WrappingUtil.convert(state));
+    }
+
+    public BlockState sbx$getBaseState() {
         return (BlockState) this.getDefaultState();
     }
 
@@ -54,7 +65,7 @@ public abstract class MixinBlock {
     }
 
     public Item sbx$asItem() {
-        return (Item)asItem();
+        return (Item) asItem();
     }
 
     public void sbx$onBlockPlaced(World world, Position position, BlockState state, Entity entity, Stack stack) {
