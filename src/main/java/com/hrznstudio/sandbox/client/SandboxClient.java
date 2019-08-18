@@ -2,13 +2,21 @@ package com.hrznstudio.sandbox.client;
 
 import com.hrznstudio.sandbox.SandboxCommon;
 import com.hrznstudio.sandbox.api.util.Side;
+import com.hrznstudio.sandbox.client.overlay.LoadingOverlay;
 import com.hrznstudio.sandbox.event.EventDispatcher;
+import com.hrznstudio.sandbox.loader.SandboxLoader;
 import com.hrznstudio.sandbox.util.Log;
 import net.arikia.dev.drpc.DiscordRPC;
 import net.arikia.dev.drpc.DiscordRichPresence;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.util.Pair;
+
+import java.nio.file.Path;
+import java.util.List;
 
 public class SandboxClient extends SandboxCommon {
     public static SandboxClient INSTANCE;
+    private SandboxLoader loader;
 
     private SandboxClient() {
         INSTANCE = this;
@@ -51,5 +59,20 @@ public class SandboxClient extends SandboxCommon {
     @Override
     public void shutdown() {
         INSTANCE = null;
+    }
+
+    public void open(String prefix, List<Pair<String, String>> addons) {
+        MinecraftClient.getInstance().setOverlay(new LoadingOverlay(
+                MinecraftClient.getInstance(),
+                prefix,
+                addons
+        ));
+    }
+
+    public void load(List<Path> addons) {
+        loader = new SandboxLoader(this, addons);
+        loader.load();
+        MinecraftClient.getInstance().worldRenderer.reload();
+        MinecraftClient.getInstance().reloadResourcesConcurrently();
     }
 }

@@ -28,7 +28,10 @@
     "common.util.MixinVec3i",
 
     "networking.MixinServerLoginNetworkHandler",
+    "networking.MixinPlayerManager",
     "networking.MixinLoginQueryResponseC2SPacket",
+    "networking.MixinHandshakeC2SPacket",
+    "networking.MixinServerHandshakeNetworkHandler",
     "networking.MixinClientConnection"
   ],
   "client": [

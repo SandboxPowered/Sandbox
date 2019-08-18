@@ -20,7 +20,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -34,7 +33,7 @@ import java.util.function.Supplier;
 public class SandboxHooks {
     public static void shutdown() {
         if (Sandbox.SANDBOX.getSide() == Side.CLIENT) {
-            MinecraftClient.getInstance().execute(SandboxClient.INSTANCE::shutdown);
+            SandboxClient.INSTANCE.shutdown();
             if (SandboxServer.INSTANCE != null && SandboxServer.INSTANCE.isIntegrated())
                 SandboxServer.INSTANCE.shutdown();
         } else {
@@ -51,7 +50,6 @@ public class SandboxHooks {
             Sandbox.unsupportedModsLoaded = true;
         }
         Policy.setPolicy(new AddonSecurityPolicy());
-
         try {
             ReflectionHelper.setPrivateField(Functions.class, "identityFunction", (Function<String, Identity>) s -> (Identity) new Identifier(s));
             ReflectionHelper.setPrivateField(Functions.class, "materialFunction", (Function<String, Material>) MaterialUtil::from);

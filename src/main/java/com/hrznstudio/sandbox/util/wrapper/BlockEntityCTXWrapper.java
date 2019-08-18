@@ -8,7 +8,7 @@ import net.minecraft.block.entity.BlockEntity;
 public class BlockEntityCTXWrapper implements BlockEntityCTX {
     private BlockEntity entity;
 
-    public BlockEntityCTXWrapper(BlockEntity entity) {
+    BlockEntityCTXWrapper(BlockEntity entity) {
         this.entity = entity;
     }
 

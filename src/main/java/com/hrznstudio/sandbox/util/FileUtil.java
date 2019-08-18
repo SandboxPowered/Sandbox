@@ -66,6 +66,8 @@ public class FileUtil {
                 tracker.complete();
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                tracker.complete();
             }
         }).start();
         return tracker;

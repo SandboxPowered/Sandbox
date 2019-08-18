@@ -1,5 +1,6 @@
 package com.hrznstudio.sandbox.mixin.server;
 
+import com.hrznstudio.sandbox.SandboxHooks;
 import com.hrznstudio.sandbox.mixin.MixinMinecraftServer;
 import com.hrznstudio.sandbox.server.SandboxServer;
 import net.minecraft.server.MinecraftServer;
@@ -20,6 +21,7 @@ public class MixinDedicatedServer extends MixinMinecraftServer {
             cancellable = true
     )
     public void setupServer(CallbackInfoReturnable<Boolean> info) throws ScriptException {
+        SandboxHooks.setupGlobal();
         SandboxServer.constructAndSetup((MinecraftServer) (Object) this);
     }
 }

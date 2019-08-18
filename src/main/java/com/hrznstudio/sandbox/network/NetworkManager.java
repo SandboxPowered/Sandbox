@@ -13,8 +13,12 @@ import net.minecraft.util.PacketByteBuf;
 
 public class NetworkManager {
 
-    private static final BiMap<Identifier, Class> packetMap = HashBiMap.create();
-    private static final BiMap<Class, Identifier> packetMapInverse = packetMap.inverse();
+    private static final BiMap<Identifier, Class<? extends Packet>> packetMap = HashBiMap.create();
+    private static final BiMap<Class<? extends Packet>, Identifier> packetMapInverse = packetMap.inverse();
+
+    static {
+        add(new Identifier("sandbox", "addon_sync"), AddonS2CPacket.class);
+    }
 
     public static <T extends Packet> void add(Identifier id, Class<T> packetClass) {
         packetMap.put(id, packetClass);

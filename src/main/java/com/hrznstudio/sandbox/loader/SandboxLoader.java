@@ -12,11 +12,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.Set;
+import java.nio.file.Path;
+import java.util.*;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.jar.JarFile;
@@ -25,26 +22,30 @@ import java.util.zip.ZipEntry;
 public class SandboxLoader {
 
     private final SandboxAPI api;
+    private final List<Path> fileAddonsToLoad;
     private AddonClassLoader loader;
     private Executor executor = Executors.newCachedThreadPool();
+    private List<Path> fileAddons;
 
-    public SandboxLoader(SandboxAPI api) {
+    public SandboxLoader(SandboxAPI api, List<Path> fileAddonsToLoad) {
         this.api = api;
+        this.fileAddonsToLoad = fileAddonsToLoad;
+    }
+
+    public List<Path> getFileAddons() {
+        return fileAddons;
     }
 
     public void load() throws IOException {
         loader = new AddonClassLoader(getClass().getClassLoader());
+        fileAddons = new ArrayList<>();
+        ;
 
         Set<URL> urls = new HashSet<>();
-        Files.walk(Paths.get("addons"), 1)
-                .filter(path -> path.toString().endsWith(".sbx"))
-                .forEach(path -> {
-                    try {
-                        urls.add(path.toUri().toURL());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                });
+        fileAddonsToLoad.forEach(path -> {
+            urls.add(path.toUri().toURL());
+            fileAddons.add(path);
+        });
 
         TomlParser parser = new TomlParser();
         Enumeration<URL> enumeration = getClass().getClassLoader().getResources("sandbox.toml");

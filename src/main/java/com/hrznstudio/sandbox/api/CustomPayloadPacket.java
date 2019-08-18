@@ -13,4 +13,8 @@ public interface CustomPayloadPacket {
 
         PacketByteBuf getBuffer();
     }
+
+    interface Handshake {
+        String getPassword();
+    }
 }

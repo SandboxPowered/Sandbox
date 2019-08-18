@@ -20,13 +20,9 @@ public abstract class SandboxCommon implements SandboxAPI {
 
     public abstract void shutdown();
 
-    public EventDispatcher getDispatcher() {
-        return dispatcher;
-    }
-
     @Override
     public <T extends Event> void on(Class<T> event, Predicate<T> filter, Priority priority, boolean receiveCancelled, Consumer<T> consumer) {
-
+        dispatcher.on(event, consumer);
     }
 
     @Override

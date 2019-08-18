@@ -1,6 +1,5 @@
 package com.hrznstudio.sandbox.mixin.client;
 
-import com.hrznstudio.sandbox.Sandbox;
 import net.minecraft.client.world.ClientWorld;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,7 +12,7 @@ public class MixinClientWorld {
     // Tick method
     @Inject(method = "tickEntities", at = @At("RETURN"))
     public void tickEntities(CallbackInfo ci) {
-        Sandbox.ragdolls.updateRagdolls();
+//        Sandbox.ragdolls.updateRagdolls();
     }
 
 }

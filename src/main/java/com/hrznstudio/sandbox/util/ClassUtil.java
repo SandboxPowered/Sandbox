@@ -1,6 +1,6 @@
 package com.hrznstudio.sandbox.util;
 
-import com.hrznstudio.sandbox.event.Event;
+import com.hrznstudio.sandbox.api.event.Event;
 
 import java.lang.annotation.Annotation;
 import java.util.*;
