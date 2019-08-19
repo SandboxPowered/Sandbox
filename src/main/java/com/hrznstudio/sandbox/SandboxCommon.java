@@ -12,7 +12,7 @@ import java.util.function.Predicate;
 
 public abstract class SandboxCommon implements SandboxAPI {
 
-    protected EventDispatcher dispatcher;
+    public EventDispatcher dispatcher;
 
     private Log log = new AddonLog();
 
@@ -22,7 +22,7 @@ public abstract class SandboxCommon implements SandboxAPI {
 
     @Override
     public <T extends Event> void on(Class<T> event, Predicate<T> filter, Priority priority, boolean receiveCancelled, Consumer<T> consumer) {
-        dispatcher.on(event, consumer);
+        dispatcher.on(event, consumer); //TODO: Respect other params
     }
 
     @Override

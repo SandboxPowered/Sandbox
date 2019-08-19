@@ -1,12 +1,9 @@
 package com.hrznstudio.sandbox.event;
 
 import com.hrznstudio.sandbox.api.event.Event;
-import com.hrznstudio.sandbox.util.ClassUtil;
+import com.hrznstudio.sandbox.api.util.ClassUtil;
 
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
@@ -16,7 +13,7 @@ public class EventDispatcher {
     private final ExecutorService eventExecutor = Executors.newFixedThreadPool(3);
 
     public <T extends Event> void on(Class<T> eventClass, Consumer<T> consumer) {
-
+        eventMap.computeIfAbsent(eventClass, e -> new LinkedList<>()).add(consumer);
     }
 
     public <T extends Event> T publish(T event) {

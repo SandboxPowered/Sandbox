@@ -1,12 +1,11 @@
 package com.hrznstudio.sandbox.mixin.common.item;
 
-import com.hrznstudio.sandbox.api.item.Item;
-import com.hrznstudio.sandbox.api.item.Stack;
-import net.minecraft.item.ItemStack;
+import com.hrznstudio.sandbox.api.item.IItem;
+import com.hrznstudio.sandbox.api.item.ItemStack;
 import org.spongepowered.asm.mixin.*;
 
-@Mixin(ItemStack.class)
-@Implements(@Interface(iface = Stack.class, prefix = "sbx$"))
+@Mixin(net.minecraft.item.ItemStack.class)
+@Implements(@Interface(iface = ItemStack.class, prefix = "sbx$"))
 @Unique
 public abstract class MixinItemStack {
 
@@ -35,31 +34,26 @@ public abstract class MixinItemStack {
         return this.isEmpty();
     }
 
-
-    public Item sbx$getItem() {
-        return (Item) this.getItem();
+    public IItem sbx$getItem() {
+        return (IItem) this.getItem();
     }
-
 
     public int sbx$getCount() {
         return this.getCount();
     }
 
-
-    public Stack sbx$shrink(int amount) {
+    public ItemStack sbx$shrink(int amount) {
         this.decrement(amount);
-        return (Stack) this;
+        return (ItemStack) this;
     }
 
-
-    public Stack sbx$grow(int amount) {
+    public ItemStack sbx$grow(int amount) {
         this.increment(amount);
-        return (Stack) this;
+        return (ItemStack) this;
     }
 
-
-    public Stack sbx$setCount(int amount) {
+    public ItemStack sbx$setCount(int amount) {
         this.setCount(amount);
-        return (Stack) this;
+        return (ItemStack) this;
     }
 }

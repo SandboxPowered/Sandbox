@@ -1,5 +1,10 @@
 package com.hrznstudio.sandbox.mixin.common.item;
 
+import com.hrznstudio.sandbox.api.event.BlockEvent;
+import com.hrznstudio.sandbox.api.util.math.Position;
+import com.hrznstudio.sandbox.api.world.World;
+import com.hrznstudio.sandbox.server.SandboxServer;
+import com.hrznstudio.sandbox.util.WrappingUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
@@ -10,15 +15,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BlockItem.class)
 public class MixinBlockItem {
-
     @Inject(method = "place(Lnet/minecraft/item/ItemPlacementContext;Lnet/minecraft/block/BlockState;)Z",
             at = @At(value = "HEAD"),
             cancellable = true
     )
     public void place(ItemPlacementContext context, BlockState state, CallbackInfoReturnable<Boolean> info) {
-//        BlockEvent.Place event = SandboxServer.INSTANCE.getDispatcher().publish(new BlockEvent.Place(context, state));
-//        if (event.wasCancelled()) {
-//            info.setReturnValue(false);
-//        }
+        BlockEvent.Place event = SandboxServer.INSTANCE.dispatcher.publish(new BlockEvent.Place(
+                (World) context.getWorld(),
+                (Position) context.getBlockPos(),
+                (com.hrznstudio.sandbox.api.block.state.BlockState) state
+        ));
+        BlockState state2 = WrappingUtil.convert(event.getState());
+        if (event.isCancelled()) {
+            info.setReturnValue(false);
+        } else if (state2 != state) {
+            info.setReturnValue(context.getWorld().setBlockState(context.getBlockPos(), state2, 11));
+        }
     }
 }

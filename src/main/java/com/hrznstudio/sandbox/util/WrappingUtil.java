@@ -3,8 +3,8 @@ package com.hrznstudio.sandbox.util;
 import com.hrznstudio.sandbox.api.block.IBlock;
 import com.hrznstudio.sandbox.api.block.entity.IBlockEntity;
 import com.hrznstudio.sandbox.api.block.state.BlockState;
-import com.hrznstudio.sandbox.api.item.Item;
-import com.hrznstudio.sandbox.api.item.Stack;
+import com.hrznstudio.sandbox.api.item.IItem;
+import com.hrznstudio.sandbox.api.item.ItemStack;
 import com.hrznstudio.sandbox.api.util.Direction;
 import com.hrznstudio.sandbox.api.util.Identity;
 import com.hrznstudio.sandbox.api.util.math.Position;
@@ -18,7 +18,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.piston.PistonBehavior;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
@@ -57,7 +56,7 @@ public class WrappingUtil {
         return arr;
     }
 
-    public static net.minecraft.item.Item convert(Item item) {
+    public static net.minecraft.item.Item convert(IItem item) {
         return castOrWrap(item, net.minecraft.item.Item.class, s -> null);
     }
 
@@ -120,6 +119,9 @@ public class WrappingUtil {
     public static net.minecraft.util.math.Direction convert(Direction direction) {
         return net.minecraft.util.math.Direction.byId(direction.ordinal());
     }
+    public static Direction convert(net.minecraft.util.math.Direction direction) {
+        return Direction.values()[direction.ordinal()];
+    }
 
     public static BlockView convert(WorldReader reader) {
         return castOrWrap(reader, BlockView.class, read -> null);
@@ -133,8 +135,8 @@ public class WrappingUtil {
         return castOrWrap(entity, net.minecraft.block.entity.BlockEntity.class, read -> BlockEntityWrapper.create(entity));
     }
 
-    public static ItemStack convert(Stack stack) {
-        return cast(stack, ItemStack.class);
+    public static net.minecraft.item.ItemStack convert(ItemStack itemStack) {
+        return cast(itemStack, net.minecraft.item.ItemStack.class);
     }
 
     public static BlockEntityType convert(IBlockEntity.Type type) {

@@ -11,6 +11,7 @@ import net.arikia.dev.drpc.DiscordRichPresence;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Pair;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -71,7 +72,11 @@ public class SandboxClient extends SandboxCommon {
 
     public void load(List<Path> addons) {
         loader = new SandboxLoader(this, addons);
-        loader.load();
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         MinecraftClient.getInstance().worldRenderer.reload();
         MinecraftClient.getInstance().reloadResourcesConcurrently();
     }

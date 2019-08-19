@@ -11,6 +11,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.*;
@@ -43,8 +44,12 @@ public class SandboxLoader {
 
         Set<URL> urls = new HashSet<>();
         fileAddonsToLoad.forEach(path -> {
-            urls.add(path.toUri().toURL());
-            fileAddons.add(path);
+            try {
+                urls.add(path.toUri().toURL());
+                fileAddons.add(path);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
         });
 
         TomlParser parser = new TomlParser();

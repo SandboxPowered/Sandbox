@@ -1,7 +1,7 @@
 package com.hrznstudio.sandbox.mixin;
 
 import com.google.common.collect.BiMap;
-import com.hrznstudio.sandbox.api.SandboxRegistry;
+import com.hrznstudio.sandbox.api.SandboxInternal;
 import com.hrznstudio.sandbox.impl.BasicRegistry;
 import com.hrznstudio.sandbox.util.Log;
 import net.minecraft.block.Block;
@@ -10,7 +10,6 @@ import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Int2ObjectBiMap;
 import net.minecraft.util.registry.MutableRegistry;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.SimpleRegistry;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,7 +23,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Mixin(SimpleRegistry.class)
-public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implements SandboxRegistry.Internal {
+public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implements SandboxInternal.Registry {
 
     @Shadow
     @Final
@@ -62,7 +61,7 @@ public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implemen
         randomEntries = null;
         identifiers.clear();
         hasStored = true;
-        Log.debug("Stored " + vanillaNext + " objects in " + Registry.REGISTRIES.getId(this));
+        Log.debug("Stored " + vanillaNext + " objects in " + net.minecraft.util.registry.Registry.REGISTRIES.getId(this));
     }
 
     @Inject(method = "set", at = @At(value = "HEAD"), cancellable = true)
@@ -92,7 +91,7 @@ public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implemen
     @Override
     public void reset() {
         if (nextId != vanillaNext) {
-            Log.debug("Resetting " + (nextId - vanillaNext) + " objects in " + Registry.REGISTRIES.getId(this));
+            Log.debug("Resetting " + (nextId - vanillaNext) + " objects in " + net.minecraft.util.registry.Registry.REGISTRIES.getId(this));
             nextId = vanillaNext;
             indexedEntries.clear();
             for (int i = 0; i < vanillaNext; i++) {

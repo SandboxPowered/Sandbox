@@ -2,7 +2,7 @@ package com.hrznstudio.sandbox.util.wrapper;
 
 import com.hrznstudio.sandbox.api.block.IBlock;
 import com.hrznstudio.sandbox.api.entity.Entity;
-import com.hrznstudio.sandbox.api.item.Stack;
+import com.hrznstudio.sandbox.api.item.ItemStack;
 import com.hrznstudio.sandbox.api.util.InteractionResult;
 import com.hrznstudio.sandbox.api.util.math.Position;
 import com.hrznstudio.sandbox.api.world.WorldReader;
@@ -13,10 +13,10 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -56,13 +56,13 @@ public class BlockWrapper extends Block {
     }
 
     @Override
-    public void onPlaced(World world_1, BlockPos blockPos_1, BlockState blockState_1, @Nullable LivingEntity livingEntity_1, ItemStack itemStack_1) {
+    public void onPlaced(World world_1, BlockPos blockPos_1, BlockState blockState_1, @Nullable LivingEntity livingEntity_1, net.minecraft.item.ItemStack itemStack_1) {
         block.onBlockPlaced(
                 (com.hrznstudio.sandbox.api.world.World) world_1,
                 (Position) blockPos_1,
                 (com.hrznstudio.sandbox.api.block.state.BlockState) blockPos_1,
                 (Entity) livingEntity_1,
-                WrappingUtil.cast(itemStack_1, Stack.class)
+                WrappingUtil.cast(itemStack_1, ItemStack.class)
         );
     }
 
@@ -73,6 +73,18 @@ public class BlockWrapper extends Block {
                 (Position) blockPos_1,
                 (com.hrznstudio.sandbox.api.block.state.BlockState) blockState_1
         );
+    }
+
+    @Override
+    public BlockState getStateForNeighborUpdate(BlockState blockState_1, Direction direction_1, BlockState blockState_2, IWorld iWorld_1, BlockPos blockPos_1, BlockPos blockPos_2) {
+        return WrappingUtil.convert(block.updateOnNeighborChanged(
+                (com.hrznstudio.sandbox.api.block.state.BlockState) blockState_1,
+                WrappingUtil.convert(direction_1),
+                (com.hrznstudio.sandbox.api.block.state.BlockState) blockState_2,
+                (com.hrznstudio.sandbox.api.world.World) iWorld_1.getWorld(),
+                (Position) blockPos_1,
+                (Position) blockPos_2
+        ));
     }
 
     public static class WithBlockEntity extends BlockWrapper implements BlockEntityProvider {

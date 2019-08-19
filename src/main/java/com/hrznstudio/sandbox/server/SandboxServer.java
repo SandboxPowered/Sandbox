@@ -6,7 +6,7 @@ import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.hrznstudio.sandbox.SandboxCommon;
-import com.hrznstudio.sandbox.api.SandboxRegistry;
+import com.hrznstudio.sandbox.api.SandboxInternal;
 import com.hrznstudio.sandbox.api.util.Side;
 import com.hrznstudio.sandbox.event.EventDispatcher;
 import com.hrznstudio.sandbox.loader.SandboxLoader;
@@ -18,7 +18,6 @@ import net.minecraft.item.Item;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.util.Pair;
-import net.minecraft.util.registry.Registry;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -75,7 +74,7 @@ public class SandboxServer extends SandboxCommon {
     protected void setup() {
         Log.info("Setting up Serverside Sandbox environment");
         dispatcher = new EventDispatcher();
-        Registry.REGISTRIES.stream().map(reg -> (SandboxRegistry.Internal) reg).forEach(SandboxRegistry.Internal::store);
+        net.minecraft.util.registry.Registry.REGISTRIES.stream().map(reg -> (SandboxInternal.Registry) reg).forEach(SandboxInternal.Registry::store);
         BLOCK_ITEMS.clear();
         Item.BLOCK_ITEMS.forEach(BLOCK_ITEMS::put);
         load();
@@ -131,7 +130,7 @@ public class SandboxServer extends SandboxCommon {
 
     @Override
     public void shutdown() {
-        Registry.REGISTRIES.stream().map(reg -> (SandboxRegistry.Internal) reg).forEach(SandboxRegistry.Internal::reset);
+        net.minecraft.util.registry.Registry.REGISTRIES.stream().map(reg -> (SandboxInternal.Registry) reg).forEach(SandboxInternal.Registry::reset);
         Item.BLOCK_ITEMS.clear();
         BLOCK_ITEMS.forEach(Item.BLOCK_ITEMS::put);
         INSTANCE = null;

@@ -1,5 +1,10 @@
 package com.hrznstudio.sandbox.mixin.common;
 
+import com.hrznstudio.sandbox.api.block.state.BlockState;
+import com.hrznstudio.sandbox.api.event.BlockEvent;
+import com.hrznstudio.sandbox.api.util.math.Position;
+import com.hrznstudio.sandbox.api.world.World;
+import com.hrznstudio.sandbox.server.SandboxServer;
 import net.minecraft.server.network.ServerPlayerInteractionManager;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
@@ -16,10 +21,14 @@ public class MixinServerPlayerInteractionManager {
     public ServerWorld world;
 
     @Inject(method = "tryBreakBlock", at = @At("HEAD"), cancellable = true)
-    public void place(BlockPos pos, CallbackInfoReturnable<Boolean> info) {
-//        BlockEvent.Break event = SandboxServer.INSTANCE.getDispatcher().publish(new BlockEvent.Break(world, pos, world.getBlockState(pos)));
-//        if (event.wasCancelled()) {
-//            info.setReturnValue(false);
-//        }
+    public void tryBreakBlock(BlockPos pos, CallbackInfoReturnable<Boolean> info) {
+        BlockEvent.Break event = SandboxServer.INSTANCE.dispatcher.publish(new BlockEvent.Break(
+                (World) world,
+                (Position) pos,
+                (BlockState) world.getBlockState(pos)
+        ));
+        if (event.isCancelled()) {
+            info.setReturnValue(false);
+        }
     }
 }
