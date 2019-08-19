@@ -25,6 +25,7 @@
     "common.entity.MixinPlayerEntity",
 
     "common.item.MixinItem",
+    "common.item.MixinItemStack",
     "common.item.MixinBlockItem",
 
     "common.block.MixinBlock",
