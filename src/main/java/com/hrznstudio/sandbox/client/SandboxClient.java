@@ -73,7 +73,7 @@ public class SandboxClient extends SandboxCommon {
     public void load(List<Path> addons) {
         loader = new SandboxLoader(this, addons);
         try {
-            loader.load();
+            loader.load(false);
         } catch (IOException e) {
             e.printStackTrace();
         }

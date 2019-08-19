@@ -3,6 +3,7 @@ package com.hrznstudio.sandbox.util;
 import com.hrznstudio.sandbox.api.block.IBlock;
 import com.hrznstudio.sandbox.api.block.entity.IBlockEntity;
 import com.hrznstudio.sandbox.api.block.state.BlockState;
+import com.hrznstudio.sandbox.api.enchant.Enchantment;
 import com.hrznstudio.sandbox.api.item.IItem;
 import com.hrznstudio.sandbox.api.item.ItemStack;
 import com.hrznstudio.sandbox.api.util.Direction;
@@ -49,6 +50,7 @@ public class WrappingUtil {
         }
         throw new RuntimeException("Unacceptable class " + block);
     }
+
     private static Item getWrapped(IItem item) {
         if (item instanceof com.hrznstudio.sandbox.api.item.Item) {
             if (((com.hrznstudio.sandbox.api.item.Item) item).getWrapped() == null) {
@@ -130,6 +132,7 @@ public class WrappingUtil {
     public static net.minecraft.util.math.Direction convert(Direction direction) {
         return net.minecraft.util.math.Direction.byId(direction.ordinal());
     }
+
     public static Direction convert(net.minecraft.util.math.Direction direction) {
         return Direction.values()[direction.ordinal()];
     }
@@ -156,5 +159,9 @@ public class WrappingUtil {
 
     public static IBlockEntity.Type convert(BlockEntityType type) {
         return cast(type, IBlockEntity.Type.class);
+    }
+
+    public static net.minecraft.enchantment.Enchantment convert(Enchantment enchant) {
+        return cast(enchant, net.minecraft.enchantment.Enchantment.class); //TODO: Wrapper
     }
 }

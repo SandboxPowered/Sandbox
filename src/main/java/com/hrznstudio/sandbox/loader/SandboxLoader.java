@@ -38,6 +38,10 @@ public class SandboxLoader {
     }
 
     public void load() throws IOException {
+        load(true);
+    }
+
+    public void load(boolean b) throws IOException {
         loader = new AddonClassLoader(getClass().getClassLoader());
         fileAddons = new ArrayList<>();
         ;
@@ -85,7 +89,8 @@ public class SandboxLoader {
                         }
                         Addon addon = (Addon) mainClass.getConstructor().newInstance();
                         addon.init(api);
-                        addon.register();
+                        if (b)
+                            addon.register();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

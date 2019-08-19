@@ -1,17 +1,13 @@
 package com.hrznstudio.sandbox.mixin.common;
 
-import com.hrznstudio.sandbox.SandboxConfig;
-import com.hrznstudio.sandbox.util.NumberUtil;
+import com.hrznstudio.sandbox.api.item.ItemStack;
+import com.hrznstudio.sandbox.util.WrappingUtil;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
-import net.minecraft.util.Formatting;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 
 @Mixin(Enchantment.class)
+@Implements(@Interface(iface = com.hrznstudio.sandbox.api.enchant.Enchantment.class, prefix = "sbx$"))
+@Unique
 public abstract class MixinEnchantment {
 
     @Shadow
@@ -23,30 +19,32 @@ public abstract class MixinEnchantment {
     @Shadow
     public abstract int getMaximumLevel();
 
-    /**
-     * @return Enchantment Text
-     * @author Coded
-     * @reason Larger than 10 enchantment levels
-     */
-    @Overwrite
-    public Text getName(int level) {
-        Text text_1 = new TranslatableText(this.getTranslationKey());
-        if (this.isCursed()) {
-            text_1.formatted(Formatting.RED);
-        } else {
-            text_1.formatted(Formatting.GRAY);
-        }
+    @Shadow
+    public abstract int getMinimumLevel();
 
-        if (level != 1 || this.getMaximumLevel() != 1) {
-            text_1.append(" ");
+    @Shadow
+    public abstract boolean isAcceptableItem(net.minecraft.item.ItemStack itemStack_1);
 
-            if (SandboxConfig.enchantmentDecimal.get()) {
-                text_1.append(new LiteralText(Integer.toString(level)));
-            } else {
-                text_1.append(new LiteralText(NumberUtil.toRoman(level)));
-            }
-        }
+    @Shadow
+    public abstract boolean isTreasure();
 
-        return text_1;
+    public int sbx$getMinimumLevel() {
+        return this.getMinimumLevel();
+    }
+
+    public int sbx$getMaximumLevel() {
+        return this.getMaximumLevel();
+    }
+
+    public boolean sbx$isAcceptableItem(ItemStack stack) {
+        return this.isAcceptableItem(WrappingUtil.convert(stack));
+    }
+
+    public boolean sbx$isCurse() {
+        return this.isCursed();
+    }
+
+    public boolean sbx$isTreasure() {
+        return this.isTreasure();
     }
 }

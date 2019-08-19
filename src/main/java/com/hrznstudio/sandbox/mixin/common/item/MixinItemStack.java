@@ -1,7 +1,10 @@
 package com.hrznstudio.sandbox.mixin.common.item;
 
+import com.hrznstudio.sandbox.api.enchant.Enchantment;
 import com.hrznstudio.sandbox.api.item.IItem;
 import com.hrznstudio.sandbox.api.item.ItemStack;
+import com.hrznstudio.sandbox.util.WrappingUtil;
+import net.minecraft.enchantment.EnchantmentHelper;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(net.minecraft.item.ItemStack.class)
@@ -55,5 +58,9 @@ public abstract class MixinItemStack {
     public ItemStack sbx$setCount(int amount) {
         this.setCount(amount);
         return (ItemStack) this;
+    }
+
+    public int sbx$getLevel(Enchantment enchantment) {
+        return EnchantmentHelper.getLevel(WrappingUtil.convert(enchantment), (net.minecraft.item.ItemStack) (Object) this);
     }
 }
