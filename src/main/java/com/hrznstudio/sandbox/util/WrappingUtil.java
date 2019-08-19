@@ -4,6 +4,7 @@ import com.hrznstudio.sandbox.api.block.IBlock;
 import com.hrznstudio.sandbox.api.block.entity.IBlockEntity;
 import com.hrznstudio.sandbox.api.block.state.BlockState;
 import com.hrznstudio.sandbox.api.enchant.Enchantment;
+import com.hrznstudio.sandbox.api.enchant.IEnchantment;
 import com.hrznstudio.sandbox.api.item.IItem;
 import com.hrznstudio.sandbox.api.item.ItemStack;
 import com.hrznstudio.sandbox.api.util.Direction;
@@ -60,6 +61,21 @@ public class WrappingUtil {
         }
         throw new RuntimeException("Unacceptable class " + item);
     }
+    private static net.minecraft.enchantment.Enchantment getWrapped(IEnchantment enchantment) {
+        if(enchantment instanceof Enchantment) {
+            return (net.minecraft.enchantment.Enchantment)((Enchantment) enchantment).getWrapped();
+        }
+        if (item instanceof com.hrznstudio.sandbox.api.item.Item) {
+            if (((com.hrznstudio.sandbox.api.item.Item) item).getWrapped() == null) {
+                ((com.hrznstudio.sandbox.api.item.Item) item).setWrapped(ItemWrapper.create(item));
+            }
+            return (Item) ((com.hrznstudio.sandbox.api.item.Item) item).getWrapped();
+        }
+        throw new RuntimeException("Unacceptable class " + item);
+    }
+    public static net.minecraft.enchantment.Enchantment convert(IEnchantment enchant) {
+        return cast(enchant, net.minecraft.enchantment.Enchantment.class); //TODO: Wrapper
+    }
 
     public static Block[] convert(IBlock[] block) {
         Block[] arr = new Block[block.length];
@@ -70,7 +86,7 @@ public class WrappingUtil {
     }
 
     public static net.minecraft.item.Item convert(IItem item) {
-        return castOrWrap(item, net.minecraft.item.Item.class, s -> null);
+        return castOrWrap(item, net.minecraft.item.Item.class, WrappingUtil::getWrapped);
     }
 
     public static PistonBehavior convert(com.hrznstudio.sandbox.api.block.Material.PistonInteraction interaction) {
@@ -159,9 +175,5 @@ public class WrappingUtil {
 
     public static IBlockEntity.Type convert(BlockEntityType type) {
         return cast(type, IBlockEntity.Type.class);
-    }
-
-    public static net.minecraft.enchantment.Enchantment convert(Enchantment enchant) {
-        return cast(enchant, net.minecraft.enchantment.Enchantment.class); //TODO: Wrapper
     }
 }

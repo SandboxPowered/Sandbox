@@ -1,6 +1,6 @@
 package com.hrznstudio.sandbox.mixin.common.item;
 
-import com.hrznstudio.sandbox.api.enchant.Enchantment;
+import com.hrznstudio.sandbox.api.enchant.IEnchantment;
 import com.hrznstudio.sandbox.api.item.IItem;
 import com.hrznstudio.sandbox.api.item.ItemStack;
 import com.hrznstudio.sandbox.util.WrappingUtil;
@@ -60,7 +60,7 @@ public abstract class MixinItemStack {
         return (ItemStack) this;
     }
 
-    public int sbx$getLevel(Enchantment enchantment) {
+    public int sbx$getLevel(IEnchantment enchantment) {
         return EnchantmentHelper.getLevel(WrappingUtil.convert(enchantment), (net.minecraft.item.ItemStack) (Object) this);
     }
 }

@@ -1,5 +1,6 @@
 package com.hrznstudio.sandbox.util.wrapper;
 
+import com.hrznstudio.sandbox.api.enchant.IEnchantment;
 import com.hrznstudio.sandbox.util.WrappingUtil;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
@@ -7,9 +8,9 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
 
 public class EnchantmentWrapper extends Enchantment {
-    private final com.hrznstudio.sandbox.api.enchant.Enchantment enchantment;
+    private final IEnchantment enchantment;
 
-    public EnchantmentWrapper(com.hrznstudio.sandbox.api.enchant.Enchantment enchantment) {
+    public EnchantmentWrapper(IEnchantment enchantment) {
         super(Weight.COMMON, EnchantmentTarget.ALL, EquipmentSlot.values()); //TODO: Allow sandbox enchants to specify these values
         this.enchantment = enchantment;
     }

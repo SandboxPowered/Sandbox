@@ -1,12 +1,13 @@
 package com.hrznstudio.sandbox.mixin.common;
 
+import com.hrznstudio.sandbox.api.enchant.IEnchantment;
 import com.hrznstudio.sandbox.api.item.ItemStack;
 import com.hrznstudio.sandbox.util.WrappingUtil;
 import net.minecraft.enchantment.Enchantment;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(Enchantment.class)
-@Implements(@Interface(iface = com.hrznstudio.sandbox.api.enchant.Enchantment.class, prefix = "sbx$"))
+@Implements(@Interface(iface = IEnchantment.class, prefix = "sbx$"))
 @Unique
 public abstract class MixinEnchantment {
 
