@@ -14,10 +14,12 @@ import com.hrznstudio.sandbox.api.world.WorldReader;
 import com.hrznstudio.sandbox.util.wrapper.BlockEntityWrapper;
 import com.hrznstudio.sandbox.util.wrapper.BlockPosWrapper;
 import com.hrznstudio.sandbox.util.wrapper.BlockWrapper;
+import com.hrznstudio.sandbox.util.wrapper.ItemWrapper;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.piston.PistonBehavior;
+import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
@@ -46,6 +48,15 @@ public class WrappingUtil {
             return (Block) ((com.hrznstudio.sandbox.api.block.Block) block).getWrapped();
         }
         throw new RuntimeException("Unacceptable class " + block);
+    }
+    private static Item getWrapped(IItem item) {
+        if (item instanceof com.hrznstudio.sandbox.api.item.Item) {
+            if (((com.hrznstudio.sandbox.api.item.Item) item).getWrapped() == null) {
+                ((com.hrznstudio.sandbox.api.item.Item) item).setWrapped(ItemWrapper.create(item));
+            }
+            return (Item) ((com.hrznstudio.sandbox.api.item.Item) item).getWrapped();
+        }
+        throw new RuntimeException("Unacceptable class " + item);
     }
 
     public static Block[] convert(IBlock[] block) {

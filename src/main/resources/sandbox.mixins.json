@@ -7,27 +7,37 @@
     "MixinMinecraftServer",
     "MixinSimpleRegistry",
     "crash.MixinCrashReport",
+
     "common.MixinEnchantment",
-    "common.item.MixinBlockItem",
-    "networking.MixinServerPlayNetworkHandler",
-    "networking.MixinCustomPayloadS2CPacket",
-    "networking.MixinCustomPayloadC2SPacket",
+
+
     "common.MixinServerPlayerInteractionManager",
 
     "common.world.MixinWorld",
     "common.world.MixinModifiableWorld",
     "common.world.MixinBlockView",
-    "common.state.MixinBlockState",
+
     "common.util.MixinIdentifier",
+    "common.util.MixinBlockPos",
+    "common.util.MixinBlockPos$MixinMutable",
+    "common.util.MixinVec3i",
+
+    "common.entity.MixinPlayerEntity",
+
+    "common.item.MixinItem",
+    "common.item.MixinBlockItem",
+
     "common.block.MixinBlock",
     "common.block.MixinStateFactory",
     "common.block.MixinBlockEntityType",
     "common.block.MixinBlockEntity",
     "common.block.MixinMaterial",
-    "common.util.MixinBlockPos",
-    "common.util.MixinBlockPos$MixinMutable",
-    "common.util.MixinVec3i",
 
+    "common.state.MixinBlockState",
+
+    "networking.MixinServerPlayNetworkHandler",
+    "networking.MixinCustomPayloadS2CPacket",
+    "networking.MixinCustomPayloadC2SPacket",
     "networking.MixinServerLoginNetworkHandler",
     "networking.MixinPlayerManager",
     "networking.MixinLoginQueryResponseC2SPacket",

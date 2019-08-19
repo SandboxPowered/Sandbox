@@ -72,6 +72,7 @@ public class SandboxHooks {
                 throw new RuntimeException("Unknown registry " + cla);
             });
             ReflectionHelper.setPrivateField(Functions.class, "blockFunction", (Function<String, IBlock>) s -> (IBlock) net.minecraft.util.registry.Registry.BLOCK.get(new Identifier(s)));
+            ReflectionHelper.setPrivateField(Functions.class, "itemFunction", (Function<String, IItem>) s -> (IItem) net.minecraft.util.registry.Registry.ITEM.get(new Identifier(s)));
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
