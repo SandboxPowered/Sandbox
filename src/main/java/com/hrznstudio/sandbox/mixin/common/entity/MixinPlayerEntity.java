@@ -2,6 +2,7 @@ package com.hrznstudio.sandbox.mixin.common.entity;
 
 import com.hrznstudio.sandbox.api.entity.player.Player;
 import com.hrznstudio.sandbox.api.event.ItemEvent;
+import com.hrznstudio.sandbox.api.util.text.Text;
 import com.hrznstudio.sandbox.server.SandboxServer;
 import com.hrznstudio.sandbox.util.WrappingUtil;
 import net.minecraft.entity.EntityType;
@@ -22,17 +23,28 @@ import java.util.function.Predicate;
 
 @Mixin(PlayerEntity.class)
 public abstract class MixinPlayerEntity extends LivingEntity implements Player {
+    @Shadow
+    @Final
+    public PlayerAbilities abilities;
+    @Shadow
+    @Final
+    public PlayerInventory inventory;
+
+    @Shadow public abstract void addChatMessage(net.minecraft.text.Text text_1, boolean boolean_1);
+
     public MixinPlayerEntity(EntityType<? extends LivingEntity> entityType_1, World world_1) {
         super(entityType_1, world_1);
     }
 
-    @Shadow
-    @Final
-    public PlayerAbilities abilities;
+    @Override
+    public void sendChatMessage(Text text) {
+        this.addChatMessage(WrappingUtil.convert(text), false);
+    }
 
-    @Shadow
-    @Final
-    public PlayerInventory inventory;
+    @Override
+    public void sendOverlayMessage(Text text) {
+        this.addChatMessage(WrappingUtil.convert(text), true);
+    }
 
     /**
      * @author Coded

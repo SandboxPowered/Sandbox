@@ -33,6 +33,9 @@ import javax.annotation.Nullable;
 @Implements(@Interface(iface = IBlock.class, prefix = "sbx$"))
 @Unique
 public abstract class MixinBlock {
+    @Shadow
+    @Final
+    protected StateFactory<Block, net.minecraft.block.BlockState> stateFactory;
     private com.hrznstudio.sandbox.api.block.state.StateFactory<IBlock, BlockState> sandboxFactory;
 
     @Shadow
@@ -50,8 +53,6 @@ public abstract class MixinBlock {
     @Shadow
     @Deprecated
     public abstract boolean isAir(net.minecraft.block.BlockState blockState_1);
-
-    @Shadow @Final protected StateFactory<Block, net.minecraft.block.BlockState> stateFactory;
 
     @Inject(method = "<init>", at = @At("RETURN"))
     public void constructor(Block.Settings settings, CallbackInfo info) {

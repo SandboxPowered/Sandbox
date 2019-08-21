@@ -13,15 +13,13 @@ import com.hrznstudio.sandbox.api.util.math.Position;
 import com.hrznstudio.sandbox.api.world.BlockFlag;
 import com.hrznstudio.sandbox.api.world.World;
 import com.hrznstudio.sandbox.api.world.WorldReader;
-import com.hrznstudio.sandbox.util.wrapper.BlockEntityWrapper;
-import com.hrznstudio.sandbox.util.wrapper.BlockPosWrapper;
-import com.hrznstudio.sandbox.util.wrapper.BlockWrapper;
-import com.hrznstudio.sandbox.util.wrapper.ItemWrapper;
+import com.hrznstudio.sandbox.util.wrapper.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.item.Item;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
@@ -61,20 +59,19 @@ public class WrappingUtil {
         }
         throw new RuntimeException("Unacceptable class " + item);
     }
+
     private static net.minecraft.enchantment.Enchantment getWrapped(IEnchantment enchantment) {
-        if(enchantment instanceof Enchantment) {
-            return (net.minecraft.enchantment.Enchantment)((Enchantment) enchantment).getWrapped();
+        if (enchantment instanceof Enchantment) {
+            if (((Enchantment) enchantment).getWrapped() == null)
+                ((Enchantment) enchantment).setWrapped(new EnchantmentWrapper(enchantment));
+            return (net.minecraft.enchantment.Enchantment) ((Enchantment) enchantment).getWrapped();
         }
-        if (item instanceof com.hrznstudio.sandbox.api.item.Item) {
-            if (((com.hrznstudio.sandbox.api.item.Item) item).getWrapped() == null) {
-                ((com.hrznstudio.sandbox.api.item.Item) item).setWrapped(ItemWrapper.create(item));
-            }
-            return (Item) ((com.hrznstudio.sandbox.api.item.Item) item).getWrapped();
-        }
-        throw new RuntimeException("Unacceptable class " + item);
+        throw new RuntimeException("Unacceptable class " + enchantment);
     }
+
+
     public static net.minecraft.enchantment.Enchantment convert(IEnchantment enchant) {
-        return cast(enchant, net.minecraft.enchantment.Enchantment.class); //TODO: Wrapper
+        return castOrWrap(enchant, net.minecraft.enchantment.Enchantment.class, WrappingUtil::getWrapped);
     }
 
     public static Block[] convert(IBlock[] block) {
@@ -175,5 +172,9 @@ public class WrappingUtil {
 
     public static IBlockEntity.Type convert(BlockEntityType type) {
         return cast(type, IBlockEntity.Type.class);
+    }
+
+    public static Text convert(com.hrznstudio.sandbox.api.util.text.Text type) {
+        return cast(type, Text.class);
     }
 }

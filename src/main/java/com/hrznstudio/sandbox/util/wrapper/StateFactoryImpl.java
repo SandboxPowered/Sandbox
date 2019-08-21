@@ -5,7 +5,7 @@ import com.hrznstudio.sandbox.api.block.state.StateFactory;
 
 import java.util.function.Function;
 
-public class StateFactoryImpl<T,S extends PropertyContainer<S>,V,A extends net.minecraft.state.PropertyContainer<A>> implements StateFactory<T,S> {
+public class StateFactoryImpl<T, S extends PropertyContainer<S>, V, A extends net.minecraft.state.PropertyContainer<A>> implements StateFactory<T, S> {
     private net.minecraft.state.StateFactory<V, A> vanilla;
     private Function<V, T> vTS;
     private Function<A, S> aTS;
