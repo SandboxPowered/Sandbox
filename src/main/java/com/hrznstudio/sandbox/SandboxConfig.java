@@ -24,7 +24,7 @@ public class SandboxConfig {
             config = new Config(Paths.get("data", "sandbox.toml"));
             enchantmentDecimal = config.get("enchantment.decimal");
             enchantmentDecimal.add(false);
-            enchantmentDecimal.setComment(" Whether the IEnchantment tooltip uses decimal or roman numerals");
+            enchantmentDecimal.setComment(" Whether the Enchantment tooltip uses decimal or roman numerals");
             velocity = config.get("server.velocity.enable");
             velocity.add(false);
             velocity.setComment(" Use Velocity Modern Forwarding or not");
