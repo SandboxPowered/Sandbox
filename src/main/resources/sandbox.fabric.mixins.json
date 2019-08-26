@@ -1,0 +1,35 @@
+{
+  "required": true,
+  "package": "com.hrznstudio.sandbox.mixin.fabric",
+  "compatibilityLevel": "JAVA_8",
+  "minVersion": "0.7",
+  "mixins": [
+    "server.MixinMinecraftServer",
+    "registry.MixinSimpleRegistry",
+    "crash.MixinCrashReport",
+
+    "block.MixinStateFactory",
+
+    "networking.MixinServerPlayNetworkHandler",
+    "networking.MixinCustomPayloadS2CPacket",
+    "networking.MixinCustomPayloadC2SPacket",
+    "networking.MixinServerLoginNetworkHandler",
+    "networking.MixinPlayerManager",
+    "networking.MixinLoginQueryResponseC2SPacket",
+    "networking.MixinHandshakeC2SPacket",
+    "networking.MixinServerHandshakeNetworkHandler",
+    "networking.MixinClientConnection"
+  ],
+  "client": [
+    "client.MixinIntegratedServer",
+    "client.MixinMinecraftClient",
+    "client.MixinScreen",
+    "client.MixinKeyboard",
+    "client.MixinGameRenderer",
+    "client.MixinClientWorld",
+    "networking.MixinClientPlayNetworkHandler"
+  ],
+  "server": [
+    "server.MixinDedicatedServer"
+  ]
+}

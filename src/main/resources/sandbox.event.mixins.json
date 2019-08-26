@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "com.hrznstudio.sandbox.mixin.event",
+  "compatibilityLevel": "JAVA_8",
+  "minVersion": "0.7",
+  "mixins": [
+    "entity.MixinPlayerEntity",
+    "item.MixinBlockItem",
+    "network.MixinServerPlayerInteractionManager"
+  ],
+  "client": [
+    "network.MixinClientPlayerInteractionManager"
+  ]
+}

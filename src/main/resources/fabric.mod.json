@@ -23,7 +23,9 @@
     ]
   },
   "mixins": [
-    "sandbox.mixins.json"
+    "sandbox.event.mixins.json",
+    "sandbox.fabric.mixins.json",
+    "sandbox.impl.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.4.0"

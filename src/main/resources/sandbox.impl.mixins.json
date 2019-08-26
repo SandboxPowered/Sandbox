@@ -1,0 +1,26 @@
+{
+  "required": true,
+  "package": "com.hrznstudio.sandbox.mixin.impl",
+  "compatibilityLevel": "JAVA_8",
+  "minVersion": "0.7",
+  "mixins": [
+    "block.MixinBlock",
+    "block.MixinBlockEntity",
+    "block.MixinBlockEntityType",
+    "block.MixinMaterial",
+    "enchant.MixinEnchantment",
+    "entity.MixinEntity",
+    "entity.MixinPlayerEntity",
+    "item.MixinBlockItem",
+    "item.MixinItem",
+    "item.MixinItemStack",
+    "state.MixinBlockState",
+    "text.MixinText",
+    "util.MixinBlockPos",
+    "util.MixinIdentifier",
+    "util.MixinVec3i",
+    "world.MixinBlockView",
+    "world.MixinModifiableWorld",
+    "world.MixinWorld"
+  ]
+}
