@@ -39,7 +39,6 @@ public class SandboxClient extends SandboxCommon {
     protected void setup() {
         //Init client engine
         Log.info("Setting up Clientside Sandbox environment");
-        dispatcher = new EventDispatcher();
         DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("In Private Session")
                 .setBigImage("gm_debug", String.format("Playing %s", "Debug"))
 //                .setSecrets("wah", "")
@@ -53,6 +52,8 @@ public class SandboxClient extends SandboxCommon {
     @Override
     public void shutdown() {
         INSTANCE = null;
+        if (SandboxServer.INSTANCE == null)
+            EventDispatcher.clear();
     }
 
     public void open(String prefix, List<Pair<String, String>> addons) {

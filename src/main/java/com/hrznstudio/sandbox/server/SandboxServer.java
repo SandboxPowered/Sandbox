@@ -74,7 +74,6 @@ public class SandboxServer extends SandboxCommon {
     @Override
     protected void setup() {
         Log.info("Setting up Serverside Sandbox environment");
-        dispatcher = new EventDispatcher();
         net.minecraft.util.registry.Registry.REGISTRIES.stream().map(reg -> (SandboxInternal.Registry) reg).forEach(SandboxInternal.Registry::store);
         BLOCK_ITEMS.clear();
         Item.BLOCK_ITEMS.forEach(BLOCK_ITEMS::put);
@@ -135,6 +134,7 @@ public class SandboxServer extends SandboxCommon {
         Item.BLOCK_ITEMS.clear();
         BLOCK_ITEMS.forEach(Item.BLOCK_ITEMS::put);
         INSTANCE = null;
+        EventDispatcher.clear();
     }
 
     public MinecraftServer getServer() {

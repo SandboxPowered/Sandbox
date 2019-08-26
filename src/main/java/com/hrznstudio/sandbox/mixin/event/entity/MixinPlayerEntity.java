@@ -1,6 +1,7 @@
 package com.hrznstudio.sandbox.mixin.event.entity;
 
 import com.hrznstudio.sandbox.api.event.ItemEvent;
+import com.hrznstudio.sandbox.event.EventDispatcher;
 import com.hrznstudio.sandbox.server.SandboxServer;
 import com.hrznstudio.sandbox.util.WrappingUtil;
 import net.minecraft.entity.EntityType;
@@ -37,7 +38,7 @@ public abstract class MixinPlayerEntity extends LivingEntity {
      */
     @Overwrite
     public ItemStack getArrowType(ItemStack weapon) {
-        ItemEvent.GetArrowType event = SandboxServer.INSTANCE.dispatcher.publish(new ItemEvent.GetArrowType(
+        ItemEvent.GetArrowType event = EventDispatcher.publish(new ItemEvent.GetArrowType(
                 WrappingUtil.cast(weapon, com.hrznstudio.sandbox.api.item.ItemStack.class),
                 WrappingUtil.cast(getVanillaArrowType(weapon), com.hrznstudio.sandbox.api.item.ItemStack.class)
         ));

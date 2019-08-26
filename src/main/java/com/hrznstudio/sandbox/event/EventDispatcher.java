@@ -9,14 +9,14 @@ import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 public class EventDispatcher {
-    private final Map<Class, List<Consumer>> eventMap = new LinkedHashMap<>();
-    private final ExecutorService eventExecutor = Executors.newFixedThreadPool(3);
+    private static final Map<Class, List<Consumer>> eventMap = new LinkedHashMap<>();
+    private static final ExecutorService eventExecutor = Executors.newFixedThreadPool(3);
 
-    public <T extends Event> void on(Class<T> eventClass, Consumer<T> consumer) {
+    public static <T extends Event> void on(Class<T> eventClass, Consumer<T> consumer) {
         eventMap.computeIfAbsent(eventClass, e -> new LinkedList<>()).add(consumer);
     }
 
-    public <T extends Event> T publish(T event) {
+    public static <T extends Event> T publish(T event) {
         Class<? extends Event> eventClass = event.getClass();
         List<Class<?>> eventTypes = ClassUtil.lookupAllSuper(eventClass);
         boolean async = event.isAsync() && !event.isCancellable();
@@ -29,5 +29,9 @@ public class EventDispatcher {
         }));
         event.complete();
         return event;
+    }
+
+    public static void clear() {
+        eventMap.clear();
     }
 }

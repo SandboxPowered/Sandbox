@@ -4,6 +4,7 @@ import com.hrznstudio.sandbox.api.block.state.BlockState;
 import com.hrznstudio.sandbox.api.event.BlockEvent;
 import com.hrznstudio.sandbox.api.util.math.Position;
 import com.hrznstudio.sandbox.api.world.World;
+import com.hrznstudio.sandbox.event.EventDispatcher;
 import com.hrznstudio.sandbox.server.SandboxServer;
 import net.minecraft.server.network.ServerPlayerInteractionManager;
 import net.minecraft.server.world.ServerWorld;
@@ -22,7 +23,7 @@ public class MixinServerPlayerInteractionManager {
 
     @Inject(method = "tryBreakBlock", at = @At("HEAD"), cancellable = true)
     public void tryBreakBlock(BlockPos pos, CallbackInfoReturnable<Boolean> info) {
-        BlockEvent.Break event = SandboxServer.INSTANCE.dispatcher.publish(new BlockEvent.Break(
+        BlockEvent.Break event = EventDispatcher.publish(new BlockEvent.Break(
                 (World) world,
                 (Position) pos,
                 (BlockState) world.getBlockState(pos)

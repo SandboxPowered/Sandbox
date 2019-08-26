@@ -12,8 +12,6 @@ import java.util.function.Predicate;
 
 public abstract class SandboxCommon implements SandboxAPI {
 
-    public EventDispatcher dispatcher;
-
     private Log log = new AddonLog();
 
     protected abstract void setup();
@@ -22,7 +20,7 @@ public abstract class SandboxCommon implements SandboxAPI {
 
     @Override
     public <T extends Event> void on(Class<T> event, Predicate<T> filter, Priority priority, boolean receiveCancelled, Consumer<T> consumer) {
-        dispatcher.on(event, consumer); //TODO: Respect other params
+        EventDispatcher.on(event, consumer); //TODO: Respect other params
     }
 
     @Override
