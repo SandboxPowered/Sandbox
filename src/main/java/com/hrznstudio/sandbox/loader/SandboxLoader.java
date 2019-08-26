@@ -4,6 +4,7 @@ import com.electronwill.nightconfig.core.Config;
 import com.electronwill.nightconfig.toml.TomlParser;
 import com.hrznstudio.sandbox.api.SandboxAPI;
 import com.hrznstudio.sandbox.api.addon.Addon;
+import com.hrznstudio.sandbox.api.addon.AddonSpec;
 import com.hrznstudio.sandbox.security.AddonClassLoader;
 import net.fabricmc.loader.util.UrlUtil;
 import org.apache.commons.io.IOUtils;
@@ -82,16 +83,15 @@ public class SandboxLoader {
                         return;
                     Config config = parser.parse(configStream);
                     getClassLoader().addURL(cURL);
-                    if (config.contains("main-class")) {
-                        Class mainClass = getClassLoader().loadClass(config.get("main-class"));
-                        if (!Addon.class.isAssignableFrom(mainClass)) {
-                            return;
-                        }
-                        Addon addon = (Addon) mainClass.getConstructor().newInstance();
-                        addon.init(api);
-                        if (b)
-                            addon.register();
+                    AddonSpec spec = AddonSpec.from(config);
+                    Class mainClass = getClassLoader().loadClass(spec.getMainClass());
+                    if (!Addon.class.isAssignableFrom(mainClass)) {
+                        return;
                     }
+                    Addon addon = (Addon) mainClass.getConstructor().newInstance();
+                    addon.init(api);
+                    if (b)
+                        addon.register();
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
