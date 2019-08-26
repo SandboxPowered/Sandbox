@@ -41,7 +41,7 @@ public abstract class MixinBlockItem {
         }
     }
 
-    public IBlock sbx$getBlock() {
+    public IBlock sbx$asBlock() {
         return (IBlock) getBlock();
     }
 }
