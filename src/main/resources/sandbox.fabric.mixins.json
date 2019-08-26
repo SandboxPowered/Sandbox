@@ -10,6 +10,8 @@
 
     "block.MixinStateFactory",
 
+    "enchant.MixinEnchantmentHelper",
+
     "networking.MixinServerPlayNetworkHandler",
     "networking.MixinCustomPayloadS2CPacket",
     "networking.MixinCustomPayloadC2SPacket",

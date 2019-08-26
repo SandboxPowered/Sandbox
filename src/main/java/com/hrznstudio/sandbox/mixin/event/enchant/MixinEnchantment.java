@@ -1,5 +1,6 @@
 package com.hrznstudio.sandbox.mixin.event.enchant;
 
+import com.hrznstudio.sandbox.api.enchant.IEnchantment;
 import com.hrznstudio.sandbox.api.event.EnchantmentEvent;
 import com.hrznstudio.sandbox.api.util.InteractionResult;
 import com.hrznstudio.sandbox.event.EventDispatcher;
@@ -15,8 +16,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class MixinEnchantment {
 
     @Inject(method = "isAcceptableItem", at = @At(value = "HEAD"), cancellable = true)
-    public void place(ItemStack stack, CallbackInfoReturnable<Boolean> info) {
-        EnchantmentEvent.AcceptableItem event = EventDispatcher.publish(new EnchantmentEvent.AcceptableItem((com.hrznstudio.sandbox.api.enchant.Enchantment) (Object) this, WrappingUtil.cast(stack, com.hrznstudio.sandbox.api.item.ItemStack.class)));
+    public void isAcceptableItem(ItemStack stack, CallbackInfoReturnable<Boolean> info) {
+        EnchantmentEvent.AcceptableItem event = EventDispatcher.publish(new EnchantmentEvent.AcceptableItem((IEnchantment) this, WrappingUtil.cast(stack, com.hrznstudio.sandbox.api.item.ItemStack.class)));
+        if (event.getResult() != InteractionResult.IGNORE) {
+            info.setReturnValue(event.getResult() == InteractionResult.SUCCESS);
+        }
+    }
+
+    @Inject(method = "isDifferent", at = @At(value = "HEAD"), cancellable = true)
+    public void isDifferent(Enchantment other, CallbackInfoReturnable<Boolean> info) {
+        EnchantmentEvent.Compatible event = EventDispatcher.publish(new EnchantmentEvent.Compatible((IEnchantment) this, (IEnchantment) other));
         if (event.getResult() != InteractionResult.IGNORE) {
             info.setReturnValue(event.getResult() == InteractionResult.SUCCESS);
         }
