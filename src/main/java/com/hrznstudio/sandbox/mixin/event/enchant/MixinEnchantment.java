@@ -7,13 +7,11 @@ import com.hrznstudio.sandbox.util.WrappingUtil;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Enchantment.class)
-@Unique
 public abstract class MixinEnchantment {
 
     @Inject(method = "isAcceptableItem", at = @At(value = "HEAD"), cancellable = true)

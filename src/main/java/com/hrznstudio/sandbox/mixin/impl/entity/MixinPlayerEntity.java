@@ -12,11 +12,12 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(PlayerEntity.class)
 public abstract class MixinPlayerEntity extends LivingEntity implements Player {
-    @Shadow public abstract void addChatMessage(net.minecraft.text.Text text_1, boolean boolean_1);
-
     public MixinPlayerEntity(EntityType<? extends LivingEntity> entityType_1, World world_1) {
         super(entityType_1, world_1);
     }
+
+    @Shadow
+    public abstract void addChatMessage(net.minecraft.text.Text text_1, boolean boolean_1);
 
     @Override
     public void sendChatMessage(Text text) {
