@@ -6,6 +6,7 @@ import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.hrznstudio.sandbox.SandboxCommon;
+import com.hrznstudio.sandbox.SandboxConfig;
 import com.hrznstudio.sandbox.api.SandboxInternal;
 import com.hrznstudio.sandbox.api.util.Side;
 import com.hrznstudio.sandbox.event.EventDispatcher;
@@ -52,7 +53,7 @@ public class SandboxServer extends SandboxCommon {
 
     public Packet createAddonSyncPacket() {
         if (loader.getFileAddons().isEmpty())
-            return new AddonS2CPacket(0, "https://cdn.hrzn.studio/sandbox/addons/", Collections.emptyList());
+            return new AddonS2CPacket(0, SandboxConfig.addonSyncURL.get(), Collections.emptyList());
         List<Pair<String, String>> s = new ArrayList<>();
         loader.getFileAddons().forEach(path -> {
             try {
@@ -62,7 +63,7 @@ public class SandboxServer extends SandboxCommon {
                 e.printStackTrace();
             }
         });
-        return new AddonS2CPacket(s.size(), "https://cdn.hrzn.studio/sandbox/addons/", s);
+        return new AddonS2CPacket(s.size(), SandboxConfig.addonSyncURL.get(), s);
     }
 
     @Override
