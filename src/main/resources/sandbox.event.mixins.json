@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_8",
   "minVersion": "0.7",
   "mixins": [
+    "enchant.MixinEnchantment",
     "entity.MixinPlayerEntity",
     "item.MixinBlockItem",
     "network.MixinServerPlayerInteractionManager"
