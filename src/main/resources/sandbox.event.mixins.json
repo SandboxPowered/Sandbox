@@ -5,7 +5,9 @@
   "minVersion": "0.7",
   "mixins": [
     "enchant.MixinEnchantment",
+    "entity.MixinLivingEntity",
     "entity.MixinPlayerEntity",
+    "entity.MixinServerPlayerEntity",
     "item.MixinBlockItem",
     "network.MixinServerPlayerInteractionManager"
   ],

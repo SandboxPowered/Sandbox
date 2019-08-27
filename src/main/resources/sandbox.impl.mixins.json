@@ -10,6 +10,7 @@
     "block.MixinMaterial",
     "enchant.MixinEnchantment",
     "entity.MixinEntity",
+    "entity.MixinLivingEntity",
     "entity.MixinPlayerEntity",
     "item.MixinBlockItem",
     "item.MixinItem",

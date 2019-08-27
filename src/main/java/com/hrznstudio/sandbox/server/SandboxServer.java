@@ -106,7 +106,7 @@ public class SandboxServer extends SandboxCommon {
         }
         Path uploadDir = Paths.get("upload");
         try {
-            java.nio.file.Files.delete(uploadDir);
+            java.nio.file.Files.deleteIfExists(uploadDir);
             loader.getFileAddons().forEach(path -> {
                 try {
                     String hash = Files.hash(path.toFile(), Hashing.farmHashFingerprint64()).toString();
