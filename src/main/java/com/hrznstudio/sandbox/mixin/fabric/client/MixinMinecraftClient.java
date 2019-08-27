@@ -1,10 +1,7 @@
 package com.hrznstudio.sandbox.mixin.fabric.client;
 
 import com.hrznstudio.sandbox.SandboxHooks;
-import com.hrznstudio.sandbox.client.AddonResourcePack;
-import com.hrznstudio.sandbox.client.PanoramaHandler;
-import com.hrznstudio.sandbox.client.SandboxClient;
-import com.hrznstudio.sandbox.client.SandboxTitleScreen;
+import com.hrznstudio.sandbox.client.*;
 import com.hrznstudio.sandbox.resources.SandboxResourceCreator;
 import net.arikia.dev.drpc.DiscordRPC;
 import net.arikia.dev.drpc.DiscordRichPresence;
@@ -25,6 +22,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -37,8 +38,16 @@ public class MixinMinecraftClient {
 
     private void addonResourcePackModifications(List<ResourcePack> packs) {
         if (SandboxClient.INSTANCE != null) {
-            SandboxClient.INSTANCE.loader.getFileAddons().forEach(info -> {
-                packs.add(new AddonResourcePack(info.toFile()));
+            SandboxClient.INSTANCE.loader.getAddons().forEach(spec -> {
+                try {
+                    Path path = Paths.get(spec.getPath().toURI());
+                    if (Files.isDirectory(path))
+                        packs.add(new AddonFolderResourcePack(path, spec));
+                    else
+                        packs.add(new AddonResourcePack(path.toFile()));
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
             });
         }
     }

@@ -23,6 +23,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -52,15 +53,24 @@ public class SandboxServer extends SandboxCommon {
     }
 
     public Packet createAddonSyncPacket() {
-        if (loader.getFileAddons().isEmpty())
+        if (loader.getAddons().isEmpty())
             return new AddonS2CPacket(0, SandboxConfig.addonSyncURL.get(), Collections.emptyList());
         List<Pair<String, String>> s = new ArrayList<>();
-        loader.getFileAddons().forEach(path -> {
-            try {
-                String hash = Files.hash(path.toFile(), Hashing.farmHashFingerprint64()).toString();
-                s.add(new Pair<>(hash + ".sbx", hash));
-            } catch (IOException e) {
-                e.printStackTrace();
+        loader.getAddons().forEach(spec -> {
+            if(spec.getSide().isClient()) {
+                try {
+                    Path path = Paths.get(spec.getPath().toURI());
+                    if (!java.nio.file.Files.isDirectory(path)) {
+                        try {
+                            String hash = Files.hash(path.toFile(), Hashing.farmHashFingerprint64()).toString();
+                            s.add(new Pair<>(hash + ".sbx", hash));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } catch (URISyntaxException e) {
+                    e.printStackTrace();
+                }
             }
         });
         return new AddonS2CPacket(s.size(), SandboxConfig.addonSyncURL.get(), s);
@@ -107,11 +117,18 @@ public class SandboxServer extends SandboxCommon {
         Path uploadDir = Paths.get("upload");
         try {
             java.nio.file.Files.deleteIfExists(uploadDir);
-            loader.getFileAddons().forEach(path -> {
+            loader.getAddons().forEach(spec -> {
                 try {
-                    String hash = Files.hash(path.toFile(), Hashing.farmHashFingerprint64()).toString();
-                    FileUtils.copyFile(path.toFile(), new File(uploadDir.toFile(), hash + ".sbx"));
-                } catch (IOException e) {
+                    Path path = Paths.get(spec.getPath().toURI());
+                    if (!java.nio.file.Files.isDirectory(path)) {
+                        try {
+                            String hash = Files.hash(path.toFile(), Hashing.farmHashFingerprint64()).toString();
+                            FileUtils.copyFile(path.toFile(), new File(uploadDir.toFile(), hash + ".sbx"));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } catch (URISyntaxException e) {
                     e.printStackTrace();
                 }
             });

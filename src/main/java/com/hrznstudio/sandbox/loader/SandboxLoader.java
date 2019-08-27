@@ -27,15 +27,15 @@ public class SandboxLoader {
     private final List<Path> fileAddonsToLoad;
     private AddonClassLoader loader;
     private Executor executor = Executors.newCachedThreadPool();
-    private List<Path> fileAddons;
+    private List<AddonSpec> addons;
 
     public SandboxLoader(SandboxAPI api, List<Path> fileAddonsToLoad) {
         this.api = api;
         this.fileAddonsToLoad = fileAddonsToLoad;
     }
 
-    public List<Path> getFileAddons() {
-        return fileAddons;
+    public List<AddonSpec> getAddons() {
+        return addons;
     }
 
     public void load() throws IOException {
@@ -44,14 +44,12 @@ public class SandboxLoader {
 
     public void load(boolean b) throws IOException {
         loader = new AddonClassLoader(getClass().getClassLoader());
-        fileAddons = new ArrayList<>();
-        ;
+        addons=new LinkedList<>();
 
         Set<URL> urls = new HashSet<>();
         fileAddonsToLoad.forEach(path -> {
             try {
                 urls.add(path.toUri().toURL());
-                fileAddons.add(path);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -83,11 +81,12 @@ public class SandboxLoader {
                         return;
                     Config config = parser.parse(configStream);
                     getClassLoader().addURL(cURL);
-                    AddonSpec spec = AddonSpec.from(config);
+                    AddonSpec spec = AddonSpec.from(config, cURL);
                     Class mainClass = getClassLoader().loadClass(spec.getMainClass());
                     if (!Addon.class.isAssignableFrom(mainClass)) {
                         return;
                     }
+                    addons.add(spec);
                     Addon addon = (Addon) mainClass.getConstructor().newInstance();
                     addon.init(api);
                     if (b)
