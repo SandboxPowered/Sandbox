@@ -20,7 +20,9 @@ public abstract class SandboxCommon implements SandboxAPI {
 
     @Override
     public <T extends Event> void on(Class<T> event, Predicate<T> filter, Priority priority, boolean receiveCancelled, Consumer<T> consumer) {
-        EventDispatcher.on(event, consumer); //TODO: Respect other params
+        EventDispatcher.on(event, ev -> {
+            if (filter.test(ev) && (!ev.isCancelled() || receiveCancelled)) consumer.accept(ev);
+        }); //TODO: Respect other params
     }
 
     @Override
