@@ -4,7 +4,7 @@ import com.hrznstudio.sandbox.api.SandboxInternal;
 import com.hrznstudio.sandbox.api.block.IBlock;
 import com.hrznstudio.sandbox.api.block.entity.IBlockEntity;
 import com.hrznstudio.sandbox.api.block.state.BlockState;
-import com.hrznstudio.sandbox.api.entity.Entity;
+import com.hrznstudio.sandbox.api.entity.IEntity;
 import com.hrznstudio.sandbox.api.entity.player.Hand;
 import com.hrznstudio.sandbox.api.entity.player.Player;
 import com.hrznstudio.sandbox.api.item.IItem;
@@ -76,7 +76,7 @@ public abstract class MixinBlock {
         return InteractionResult.IGNORE;
     }
 
-    public InteractionResult sbx$onBlockClicked(World world, Position pos, BlockState state, Entity player, Direction side) {
+    public InteractionResult sbx$onBlockClicked(World world, Position pos, BlockState state, IEntity player, Direction side) {
         return InteractionResult.IGNORE;
     }
 
@@ -84,7 +84,7 @@ public abstract class MixinBlock {
         return (IItem) asItem();
     }
 
-    public void sbx$onBlockPlaced(World world, Position position, BlockState state, Entity entity, ItemStack itemStack) {
+    public void sbx$onBlockPlaced(World world, Position position, BlockState state, IEntity entity, ItemStack itemStack) {
         this.onPlaced(
                 WrappingUtil.convert(world),
                 WrappingUtil.convert(position),

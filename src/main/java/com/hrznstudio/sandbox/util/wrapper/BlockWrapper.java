@@ -1,7 +1,7 @@
 package com.hrznstudio.sandbox.util.wrapper;
 
 import com.hrznstudio.sandbox.api.block.IBlock;
-import com.hrznstudio.sandbox.api.entity.Entity;
+import com.hrznstudio.sandbox.api.entity.IEntity;
 import com.hrznstudio.sandbox.api.item.ItemStack;
 import com.hrznstudio.sandbox.api.util.InteractionResult;
 import com.hrznstudio.sandbox.api.util.math.Position;
@@ -61,7 +61,7 @@ public class BlockWrapper extends Block {
                 (com.hrznstudio.sandbox.api.world.World) world_1,
                 (Position) blockPos_1,
                 (com.hrznstudio.sandbox.api.block.state.BlockState) blockPos_1,
-                (Entity) livingEntity_1,
+                (IEntity) livingEntity_1,
                 WrappingUtil.cast(itemStack_1, ItemStack.class)
         );
     }
