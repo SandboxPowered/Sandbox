@@ -1,5 +1,6 @@
 package com.hrznstudio.sandbox.util.wrapper;
 
+import com.hrznstudio.sandbox.api.SandboxInternal;
 import com.hrznstudio.sandbox.api.item.IBlockItem;
 import com.hrznstudio.sandbox.api.item.IItem;
 import com.hrznstudio.sandbox.api.item.ItemStack;
@@ -18,7 +19,7 @@ import javax.annotation.Nullable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ItemWrapper extends Item {
+public class ItemWrapper extends Item implements SandboxInternal.ItemWrapper {
     private IItem iItem;
 
     public ItemWrapper(IItem iItem) {
@@ -32,7 +33,8 @@ public class ItemWrapper extends Item {
         return new ItemWrapper(iItem);
     }
 
-    public IItem getIItem() {
+    @Override
+    public IItem getItem() {
         return iItem;
     }
 
@@ -59,7 +61,7 @@ public class ItemWrapper extends Item {
         super.appendTooltip(itemStack_1, world_1, list_1, tooltipContext_1);
     }
 
-    public static class BlockItemWrapper extends BlockItem {
+    public static class BlockItemWrapper extends BlockItem implements SandboxInternal.ItemWrapper {
         private IBlockItem item;
 
         public BlockItemWrapper(IBlockItem item) {
@@ -68,6 +70,11 @@ public class ItemWrapper extends Item {
         }
 
         public IBlockItem getIBlockItem() {
+            return item;
+        }
+
+        @Override
+        public IItem getItem() {
             return item;
         }
 

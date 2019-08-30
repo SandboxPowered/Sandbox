@@ -28,6 +28,7 @@ public class MixinMinecraftServer {
 
     /**
      * @author Coded
+     * @reason Server system
      */
     @Overwrite
     public String getServerModName() {

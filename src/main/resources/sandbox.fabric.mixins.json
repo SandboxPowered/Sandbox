@@ -8,6 +8,7 @@
     "registry.MixinSimpleRegistry",
     "crash.MixinCrashReport",
 
+    "block.MixinBlock",
     "block.MixinStateFactory",
 
     "enchant.MixinEnchantmentHelper",

@@ -2,6 +2,7 @@ package com.hrznstudio.sandbox.mixin.impl.block;
 
 import com.hrznstudio.sandbox.api.SandboxInternal;
 import com.hrznstudio.sandbox.api.block.IBlock;
+import com.hrznstudio.sandbox.api.block.Material;
 import com.hrznstudio.sandbox.api.block.entity.IBlockEntity;
 import com.hrznstudio.sandbox.api.block.state.BlockState;
 import com.hrznstudio.sandbox.api.entity.IEntity;
@@ -19,6 +20,7 @@ import com.hrznstudio.sandbox.util.WrappingUtil;
 import com.hrznstudio.sandbox.util.wrapper.StateFactoryImpl;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.state.StateFactory;
 import net.minecraft.util.math.BlockPos;
@@ -60,8 +62,8 @@ public abstract class MixinBlock {
         ((SandboxInternal.StateFactory) this.stateFactory).setSboxFactory(sandboxFactory);
     }
 
-    public IBlock.Properties sbx$createProperties() {
-        return null;
+    public IBlock.Properties sbx$getProperties() {
+        return new IBlock.Properties(Material.AIR);
     }
 
     public boolean sbx$isAir(BlockState state) {
@@ -106,5 +108,13 @@ public abstract class MixinBlock {
         if (hasBlockEntity())
             return (IBlockEntity) ((BlockEntityProvider) this).createBlockEntity(WrappingUtil.convert(reader));
         return null;
+    }
+
+    public boolean sbx$isNaturalStone() {
+        return (Object) this == Blocks.STONE || (Object) this == Blocks.GRANITE || (Object) this == Blocks.DIORITE || (Object) this == Blocks.ANDESITE;
+    }
+
+    public boolean sbx$isNaturalDirt() {
+        return (Object) this == Blocks.DIRT || (Object) this == Blocks.COARSE_DIRT || (Object) this == Blocks.PODZOL;
     }
 }

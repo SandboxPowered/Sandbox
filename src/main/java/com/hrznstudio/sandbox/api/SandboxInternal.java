@@ -1,5 +1,6 @@
 package com.hrznstudio.sandbox.api;
 
+import com.hrznstudio.sandbox.api.item.IItem;
 import com.hrznstudio.sandbox.impl.BasicRegistry;
 
 public class SandboxInternal {
@@ -18,5 +19,9 @@ public class SandboxInternal {
         void set(BasicRegistry registry);
 
         BasicRegistry get();
+    }
+
+    public interface ItemWrapper {
+        IItem getItem();
     }
 }

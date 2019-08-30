@@ -1,14 +1,18 @@
 package com.hrznstudio.sandbox.util;
 
+import com.hrznstudio.sandbox.api.SandboxInternal;
 import com.hrznstudio.sandbox.api.block.IBlock;
 import com.hrznstudio.sandbox.api.block.entity.IBlockEntity;
 import com.hrznstudio.sandbox.api.block.state.BlockState;
 import com.hrznstudio.sandbox.api.enchant.Enchantment;
 import com.hrznstudio.sandbox.api.enchant.IEnchantment;
+import com.hrznstudio.sandbox.api.entity.IEntity;
 import com.hrznstudio.sandbox.api.item.IItem;
 import com.hrznstudio.sandbox.api.item.ItemStack;
 import com.hrznstudio.sandbox.api.util.Direction;
 import com.hrznstudio.sandbox.api.util.Identity;
+import com.hrznstudio.sandbox.api.util.Mirror;
+import com.hrznstudio.sandbox.api.util.Rotation;
 import com.hrznstudio.sandbox.api.util.math.Position;
 import com.hrznstudio.sandbox.api.world.BlockFlag;
 import com.hrznstudio.sandbox.api.world.World;
@@ -18,8 +22,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.piston.PistonBehavior;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.text.Text;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
@@ -86,6 +93,13 @@ public class WrappingUtil {
         return castOrWrap(item, net.minecraft.item.Item.class, WrappingUtil::getWrapped);
     }
 
+    public static IItem convert(net.minecraft.item.Item item) {
+        if (item instanceof SandboxInternal.ItemWrapper) {
+            return ((SandboxInternal.ItemWrapper) item).getItem();
+        }
+        return (IItem) item;
+    }
+
     public static PistonBehavior convert(com.hrznstudio.sandbox.api.block.Material.PistonInteraction interaction) {
         return PistonBehavior.values()[interaction.ordinal()];
     }
@@ -150,6 +164,22 @@ public class WrappingUtil {
         return Direction.values()[direction.ordinal()];
     }
 
+    public static Mirror convert(BlockMirror mirror) {
+        return Mirror.values()[mirror.ordinal()];
+    }
+
+    public static BlockMirror convert(Mirror mirror) {
+        return BlockMirror.values()[mirror.ordinal()];
+    }
+
+    public static Rotation convert(BlockRotation rotation) {
+        return Rotation.values()[rotation.ordinal()];
+    }
+
+    public static BlockRotation convert(Rotation rotation) {
+        return BlockRotation.values()[rotation.ordinal()];
+    }
+
     public static BlockView convert(WorldReader reader) {
         return castOrWrap(reader, BlockView.class, read -> null);
     }
@@ -176,5 +206,15 @@ public class WrappingUtil {
 
     public static Text convert(com.hrznstudio.sandbox.api.util.text.Text type) {
         return cast(type, Text.class);
+    }
+
+    public static IBlock convert(Block block) {
+        if (block instanceof BlockWrapper)
+            return ((BlockWrapper) block).getBlock();
+        return (IBlock) block;
+    }
+
+    public static IEntity convert(Entity entity_1) {
+        return (IEntity) entity_1;
     }
 }

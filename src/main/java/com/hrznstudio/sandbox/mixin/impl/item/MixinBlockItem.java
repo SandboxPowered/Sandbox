@@ -2,6 +2,7 @@ package com.hrznstudio.sandbox.mixin.impl.item;
 
 import com.hrznstudio.sandbox.api.block.IBlock;
 import com.hrznstudio.sandbox.api.item.IBlockItem;
+import com.hrznstudio.sandbox.util.WrappingUtil;
 import net.minecraft.item.BlockItem;
 import org.spongepowered.asm.mixin.*;
 
@@ -13,6 +14,6 @@ public abstract class MixinBlockItem {
     public abstract net.minecraft.block.Block getBlock();
 
     public IBlock sbx$asBlock() {
-        return (IBlock) getBlock();
+        return WrappingUtil.convert(getBlock());
     }
 }

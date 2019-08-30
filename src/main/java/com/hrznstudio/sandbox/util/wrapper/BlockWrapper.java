@@ -2,17 +2,25 @@ package com.hrznstudio.sandbox.util.wrapper;
 
 import com.hrznstudio.sandbox.api.block.IBlock;
 import com.hrznstudio.sandbox.api.entity.IEntity;
+import com.hrznstudio.sandbox.api.entity.player.Player;
 import com.hrznstudio.sandbox.api.item.ItemStack;
 import com.hrznstudio.sandbox.api.util.InteractionResult;
 import com.hrznstudio.sandbox.api.util.math.Position;
+import com.hrznstudio.sandbox.api.util.math.Vec3f;
 import com.hrznstudio.sandbox.api.world.WorldReader;
 import com.hrznstudio.sandbox.util.WrappingUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.piston.PistonBehavior;
+import net.minecraft.client.util.math.Vector3f;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.util.BlockMirror;
+import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -27,7 +35,7 @@ public class BlockWrapper extends Block {
     private IBlock block;
 
     public BlockWrapper(IBlock block) {
-        super(WrappingUtil.convert(block.createProperties()));
+        super(WrappingUtil.convert(block.getProperties()));
         this.block = block;
     }
 
@@ -48,10 +56,10 @@ public class BlockWrapper extends Block {
                 (com.hrznstudio.sandbox.api.world.World) world_1,
                 (Position) blockPos_1,
                 (com.hrznstudio.sandbox.api.block.state.BlockState) blockState_1,
-                null,
+                (Player) playerEntity_1,
                 hand_1 == Hand.MAIN_HAND ? com.hrznstudio.sandbox.api.entity.player.Hand.MAIN_HAND : com.hrznstudio.sandbox.api.entity.player.Hand.OFF_HAND,
-                null,
-                null
+                WrappingUtil.convert(blockHitResult_1.getSide()),
+                (Vec3f) (Object) new Vector3f(blockHitResult_1.getPos())
         ) != InteractionResult.IGNORE;
     }
 
@@ -86,6 +94,52 @@ public class BlockWrapper extends Block {
                 (Position) blockPos_2
         ));
     }
+
+    @Override
+    public BlockState rotate(BlockState blockState_1, BlockRotation blockRotation_1) {
+        return WrappingUtil.convert(block.rotate(
+                (com.hrznstudio.sandbox.api.block.state.BlockState) blockState_1,
+                WrappingUtil.convert(blockRotation_1)
+        ));
+    }
+
+    @Override
+    public BlockState mirror(BlockState blockState_1, BlockMirror blockMirror_1) {
+        return WrappingUtil.convert(block.mirror(
+                (com.hrznstudio.sandbox.api.block.state.BlockState) blockState_1,
+                WrappingUtil.convert(blockMirror_1)
+        ));
+    }
+
+    @Override
+    public boolean canReplace(BlockState blockState_1, ItemPlacementContext itemPlacementContext_1) {
+        return block.canReplace((com.hrznstudio.sandbox.api.block.state.BlockState) blockState_1);
+    }
+
+    @Override
+    public boolean isAir(BlockState blockState_1) {
+        return block.isAir((com.hrznstudio.sandbox.api.block.state.BlockState) blockState_1);
+    }
+
+    @Override
+    public void onSteppedOn(World world_1, BlockPos blockPos_1, Entity entity_1) {
+        block.onEntityWalk(
+                (com.hrznstudio.sandbox.api.world.World) world_1,
+                (Position) blockPos_1,
+                WrappingUtil.convert(entity_1)
+        );
+    }
+
+    @Override
+    public PistonBehavior getPistonBehavior(BlockState blockState_1) {
+        return WrappingUtil.convert(block.getPistonInteraction((com.hrznstudio.sandbox.api.block.state.BlockState) blockState_1));
+    }
+
+    @Override
+    public boolean canMobSpawnInside() {
+        return block.canEntitySpawnWithin();
+    }
+
 
     public static class WithBlockEntity extends BlockWrapper implements BlockEntityProvider {
         public WithBlockEntity(IBlock block) {

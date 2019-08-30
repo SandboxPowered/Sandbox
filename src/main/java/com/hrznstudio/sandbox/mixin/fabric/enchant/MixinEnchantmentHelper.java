@@ -18,6 +18,7 @@ public abstract class MixinEnchantmentHelper {
 
     /**
      * @author Coded
+     * @reason mojang was dumb
      */
     @Overwrite
     public static List<InfoEnchantment> getHighestApplicableEnchantmentsAtPower(int int_1, ItemStack itemStack_1, boolean treasureAllowed) {

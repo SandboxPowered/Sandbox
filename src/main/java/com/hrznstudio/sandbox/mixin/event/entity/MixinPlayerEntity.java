@@ -47,6 +47,7 @@ public abstract class MixinPlayerEntity extends LivingEntity {
 
     /**
      * @author Coded
+     * @reason GetArrowType Event
      */
     @Overwrite
     public ItemStack getArrowType(ItemStack weapon) {
