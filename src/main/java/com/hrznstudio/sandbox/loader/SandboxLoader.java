@@ -25,9 +25,9 @@ public class SandboxLoader {
 
     private final SandboxAPI api;
     private final List<Path> fileAddonsToLoad;
-    private AddonClassLoader loader;
-    private Executor executor = Executors.newCachedThreadPool();
-    private List<AddonSpec> addons;
+    private final Executor executor = Executors.newCachedThreadPool();
+    private final Map<String, AddonClassLoader> modidToLoader = new LinkedHashMap<>();
+    private final List<AddonSpec> addons = new LinkedList<>();
 
     public SandboxLoader(SandboxAPI api, List<Path> fileAddonsToLoad) {
         this.api = api;
@@ -43,8 +43,8 @@ public class SandboxLoader {
     }
 
     public void load(boolean b) throws IOException {
-        loader = new AddonClassLoader(getClass().getClassLoader());
-        addons=new LinkedList<>();
+        addons.clear();
+        modidToLoader.clear();
 
         Set<URL> urls = new HashSet<>();
         fileAddonsToLoad.forEach(path -> {
@@ -80,9 +80,9 @@ public class SandboxLoader {
                     if (configStream == null)
                         return;
                     Config config = parser.parse(configStream);
-                    getClassLoader().addURL(cURL);
                     AddonSpec spec = AddonSpec.from(config, cURL);
-                    Class mainClass = getClassLoader().loadClass(spec.getMainClass());
+                    getClassLoader(spec).addURL(cURL);
+                    Class mainClass = getClassLoader(spec).loadClass(spec.getMainClass());
                     if (!Addon.class.isAssignableFrom(mainClass)) {
                         return;
                     }
@@ -100,8 +100,7 @@ public class SandboxLoader {
         });
     }
 
-
-    public AddonClassLoader getClassLoader() {
-        return loader;
+    public AddonClassLoader getClassLoader(AddonSpec spec) {
+        return modidToLoader.computeIfAbsent(spec.getModid(), modid -> new AddonClassLoader(getClass().getClassLoader(), spec));
     }
 }

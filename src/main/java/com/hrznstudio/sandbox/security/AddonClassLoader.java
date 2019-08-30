@@ -1,5 +1,7 @@
 package com.hrznstudio.sandbox.security;
 
+import com.hrznstudio.sandbox.api.addon.AddonSpec;
+
 import java.io.FilePermission;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -14,9 +16,11 @@ public class AddonClassLoader extends SecureClassLoader {
     }
 
     private DynamicURLClassLoader urlClassLoader = (DynamicURLClassLoader) getParent();
+    private final AddonSpec spec;
 
-    public AddonClassLoader(ClassLoader original) {
+    public AddonClassLoader(ClassLoader original, AddonSpec spec) {
         super(new DynamicURLClassLoader(new URL[0], original));
+        this.spec = spec;
     }
 
     public void addURL(URL url) {
@@ -27,7 +31,7 @@ public class AddonClassLoader extends SecureClassLoader {
     protected PermissionCollection getPermissions(CodeSource codesource) {
         Permissions pc = new Permissions();
         pc.add(new FilePermission("-", "read")); // Can read everything from current dir
-        pc.add(new FilePermission("data/-", "read,write,delete")); // Can write everything inside addon data dir, could in future make this block access to data dirs beloning to other addons
+        pc.add(new FilePermission(String.format("data/%s/-", spec.getModid()), "read,write,delete")); // Can write everything inside addon data dir, could in future make this block access to data dirs beloning to other addons
         return pc;
     }
 
