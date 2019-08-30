@@ -21,11 +21,7 @@ public class AddonSecurityPolicy extends Policy {
 
     @Override
     public PermissionCollection getPermissions(CodeSource codesource) {
-        if (false) {
-            return addonPermissions();
-        } else {
-            return applicationPermissions();
-        }
+        return Policy.UNSUPPORTED_EMPTY_COLLECTION; // Only allow protection domain
     }
 
     /**
