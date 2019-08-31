@@ -78,7 +78,7 @@ public abstract class MixinBlock {
         return InteractionResult.IGNORE;
     }
 
-    public InteractionResult sbx$onBlockClicked(World world, Position pos, BlockState state, IEntity player, Direction side) {
+    public InteractionResult sbx$onBlockClicked(World world, Position pos, BlockState state, Player player) {
         return InteractionResult.IGNORE;
     }
 
