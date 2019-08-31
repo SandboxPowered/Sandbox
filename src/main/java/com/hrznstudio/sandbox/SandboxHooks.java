@@ -5,6 +5,7 @@ import com.hrznstudio.sandbox.api.block.IBlock;
 import com.hrznstudio.sandbox.api.block.Material;
 import com.hrznstudio.sandbox.api.block.entity.IBlockEntity;
 import com.hrznstudio.sandbox.api.block.state.Property;
+import com.hrznstudio.sandbox.api.client.Client;
 import com.hrznstudio.sandbox.api.enchant.IEnchantment;
 import com.hrznstudio.sandbox.api.item.IItem;
 import com.hrznstudio.sandbox.api.item.ItemStack;
@@ -86,6 +87,7 @@ public class SandboxHooks {
             ReflectionHelper.setPrivateField(Functions.class, "translatedTextFunction", (Function<String, Text>) s -> (Text) new TranslatableText(s));
             ReflectionHelper.setPrivateField(Functions.class, "compoundTagCreator", (Supplier<CompoundTag>) () -> (CompoundTag) new net.minecraft.nbt.CompoundTag());
             ReflectionHelper.setPrivateField(Functions.class, "propertyFunction", (Function<String, Property>) PropertyUtil::get);
+            ReflectionHelper.setPrivateField(Functions.class, "clientInstance", (Supplier<Client>) ()->SandboxCommon.client);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }

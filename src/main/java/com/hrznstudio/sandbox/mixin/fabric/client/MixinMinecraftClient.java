@@ -1,6 +1,8 @@
 package com.hrznstudio.sandbox.mixin.fabric.client;
 
+import com.hrznstudio.sandbox.SandboxCommon;
 import com.hrznstudio.sandbox.SandboxHooks;
+import com.hrznstudio.sandbox.api.client.Client;
 import com.hrznstudio.sandbox.client.*;
 import com.hrznstudio.sandbox.resources.SandboxResourceCreator;
 import net.arikia.dev.drpc.DiscordRPC;
@@ -54,6 +56,7 @@ public class MixinMinecraftClient {
 
     @Inject(method = "<init>", at = @At("RETURN"))
     public void constructor(CallbackInfo info) {
+        SandboxCommon.client = (Client) this;
         this.resourcePackContainerManager.addCreator(new SandboxResourceCreator());
     }
 
@@ -70,14 +73,10 @@ public class MixinMinecraftClient {
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/GameRenderer;render(FJZ)V", shift = At.Shift.BEFORE))
     public void renderStart(CallbackInfo info) {
         PanoramaHandler.renderTick(true);
-//        if (SandboxClient.INSTANCE != null)
-//            SandboxClient.INSTANCE.getDispatcher().publish(new RenderEvent.Start());
     }
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/toast/ToastManager;draw()V", shift = At.Shift.AFTER))
     public void renderEnd(CallbackInfo info) {
-//        if (SandboxClient.INSTANCE != null)
-//            SandboxClient.INSTANCE.getDispatcher().publish(new RenderEvent.End());
         PanoramaHandler.renderTick(false);
     }
 

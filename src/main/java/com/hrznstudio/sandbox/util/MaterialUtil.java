@@ -4,7 +4,6 @@ import com.hrznstudio.sandbox.api.block.Material;
 
 public class MaterialUtil {
     public static Material from(String s) {
-
         switch (s) {
             default:
                 throw new RuntimeException("Unknown Material " + s);

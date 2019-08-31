@@ -24,4 +24,10 @@ public class SandboxInternal {
     public interface ItemWrapper {
         IItem getItem();
     }
+
+    public interface WrappedInjection {
+        Object getInjectionWrapped();
+
+        void setInjectionWrapped(Object o);
+    }
 }

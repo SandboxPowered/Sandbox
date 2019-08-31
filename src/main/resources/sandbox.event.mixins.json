@@ -12,6 +12,7 @@
     "network.MixinServerPlayerInteractionManager"
   ],
   "client": [
+    "client.MixinMinecraftClient",
     "network.MixinClientPlayerInteractionManager"
   ]
 }

@@ -5,15 +5,18 @@
   "minVersion": "0.7",
   "mixins": [
     "block.MixinBlock",
+    "block.MixinSandboxBlock",
     "block.MixinBlockEntity",
     "block.MixinBlockEntityType",
     "block.MixinMaterial",
+    "enchant.MixinSandboxEnchantment",
     "enchant.MixinEnchantment",
     "entity.MixinEntity",
     "entity.MixinLivingEntity",
     "entity.MixinPlayerEntity",
     "item.MixinBlockItem",
     "item.MixinItem",
+    "item.MixinSandboxItem",
     "item.MixinItemStack",
     "state.MixinBlockState",
     "text.MixinText",
@@ -24,5 +27,10 @@
     "world.MixinBlockView",
     "world.MixinModifiableWorld",
     "world.MixinWorld"
+  ],
+  "client": [
+    "client.MixinMinecraftClient",
+    "client.MixinScreen",
+    "client.MixinSandboxScreen"
   ]
 }

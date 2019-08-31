@@ -20,8 +20,7 @@
     "networking.MixinPlayerManager",
     "networking.MixinLoginQueryResponseC2SPacket",
     "networking.MixinHandshakeC2SPacket",
-    "networking.MixinServerHandshakeNetworkHandler",
-    "networking.MixinClientConnection"
+    "networking.MixinServerHandshakeNetworkHandler"
   ],
   "client": [
     "client.MixinIntegratedServer",
@@ -30,7 +29,8 @@
     "client.MixinKeyboard",
     "client.MixinGameRenderer",
     "client.MixinClientWorld",
-    "networking.MixinClientPlayNetworkHandler"
+    "networking.MixinClientPlayNetworkHandler",
+    "networking.MixinClientConnection"
   ],
   "server": [
     "server.MixinDedicatedServer"

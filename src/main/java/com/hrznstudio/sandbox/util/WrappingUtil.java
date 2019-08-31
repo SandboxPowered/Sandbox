@@ -4,7 +4,7 @@ import com.hrznstudio.sandbox.api.SandboxInternal;
 import com.hrznstudio.sandbox.api.block.IBlock;
 import com.hrznstudio.sandbox.api.block.entity.IBlockEntity;
 import com.hrznstudio.sandbox.api.block.state.BlockState;
-import com.hrznstudio.sandbox.api.enchant.Enchantment;
+import com.hrznstudio.sandbox.api.client.screen.IScreen;
 import com.hrznstudio.sandbox.api.enchant.IEnchantment;
 import com.hrznstudio.sandbox.api.entity.IEntity;
 import com.hrznstudio.sandbox.api.item.IItem;
@@ -22,6 +22,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.piston.PistonBehavior;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.text.Text;
@@ -48,32 +50,33 @@ public class WrappingUtil {
     }
 
     private static Block getWrapped(IBlock block) {
-        if (block instanceof com.hrznstudio.sandbox.api.block.Block) {
-            if (((com.hrznstudio.sandbox.api.block.Block) block).getWrapped() == null) {
-                ((com.hrznstudio.sandbox.api.block.Block) block).setWrapped(BlockWrapper.create(block));
+        if (block instanceof SandboxInternal.WrappedInjection) {
+            if (((SandboxInternal.WrappedInjection) block).getInjectionWrapped() == null) {
+                ((SandboxInternal.WrappedInjection) block).setInjectionWrapped(BlockWrapper.create(block));
             }
-            return (Block) ((com.hrznstudio.sandbox.api.block.Block) block).getWrapped();
+            return (Block) ((SandboxInternal.WrappedInjection) block).getInjectionWrapped();
         }
-        throw new RuntimeException("Unacceptable class " + block);
+        throw new RuntimeException("Unacceptable class " + block.getClass());
     }
 
     private static Item getWrapped(IItem item) {
-        if (item instanceof com.hrznstudio.sandbox.api.item.Item) {
-            if (((com.hrznstudio.sandbox.api.item.Item) item).getWrapped() == null) {
-                ((com.hrznstudio.sandbox.api.item.Item) item).setWrapped(ItemWrapper.create(item));
+        if (item instanceof SandboxInternal.WrappedInjection) {
+            if (((SandboxInternal.WrappedInjection) item).getInjectionWrapped() == null) {
+                ((SandboxInternal.WrappedInjection) item).setInjectionWrapped(ItemWrapper.create(item));
             }
-            return (Item) ((com.hrznstudio.sandbox.api.item.Item) item).getWrapped();
+            return (Item) ((SandboxInternal.WrappedInjection) item).getInjectionWrapped();
         }
-        throw new RuntimeException("Unacceptable class " + item);
+        throw new RuntimeException("Unacceptable class " + item.getClass());
     }
 
     private static net.minecraft.enchantment.Enchantment getWrapped(IEnchantment enchantment) {
-        if (enchantment instanceof Enchantment) {
-            if (((Enchantment) enchantment).getWrapped() == null)
-                ((Enchantment) enchantment).setWrapped(new EnchantmentWrapper(enchantment));
-            return (net.minecraft.enchantment.Enchantment) ((Enchantment) enchantment).getWrapped();
+        if (enchantment instanceof SandboxInternal.WrappedInjection) {
+            if (((SandboxInternal.WrappedInjection) enchantment).getInjectionWrapped() == null) {
+                ((SandboxInternal.WrappedInjection) enchantment).setInjectionWrapped(new EnchantmentWrapper(enchantment));
+            }
+            return (Enchantment) ((SandboxInternal.WrappedInjection) enchantment).getInjectionWrapped();
         }
-        throw new RuntimeException("Unacceptable class " + enchantment);
+        throw new RuntimeException("Unacceptable class " + enchantment.getClass());
     }
 
 
@@ -216,5 +219,25 @@ public class WrappingUtil {
 
     public static IEntity convert(Entity entity_1) {
         return (IEntity) entity_1;
+    }
+
+    public static Screen getWrapped(IScreen screen) {
+        if (screen instanceof SandboxInternal.WrappedInjection) {
+            if (((SandboxInternal.WrappedInjection) screen).getInjectionWrapped() == null) {
+                ((SandboxInternal.WrappedInjection) screen).setInjectionWrapped(ScreenWrapper.create((com.hrznstudio.sandbox.api.client.screen.Screen) screen));
+            }
+            return (Screen) ((SandboxInternal.WrappedInjection) screen).getInjectionWrapped();
+        }
+        throw new RuntimeException("Unacceptable class " + screen.getClass());
+    }
+
+    public static Screen convert(IScreen screen) {
+        return castOrWrap(screen, Screen.class, WrappingUtil::getWrapped);
+    }
+
+    public static IScreen convert(Screen screen) {
+        if (screen instanceof ScreenWrapper)
+            return ((ScreenWrapper) screen).screen;
+        return cast(screen, IScreen.class);
     }
 }

@@ -1,6 +1,7 @@
 package com.hrznstudio.sandbox;
 
 import com.hrznstudio.sandbox.api.SandboxAPI;
+import com.hrznstudio.sandbox.api.client.Client;
 import com.hrznstudio.sandbox.api.event.Event;
 import com.hrznstudio.sandbox.api.event.Priority;
 import com.hrznstudio.sandbox.api.util.Log;
@@ -13,6 +14,7 @@ import java.util.function.Predicate;
 public abstract class SandboxCommon implements SandboxAPI {
 
     private Log log = new AddonLog();
+    public static Client client;
 
     protected abstract void setup();
 
