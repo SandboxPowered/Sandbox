@@ -21,4 +21,9 @@ public class BlockEntityCTXWrapper implements BlockEntityCTX {
     public Position getPosition() {
         return (Position) entity.getPos();
     }
+
+    @Override
+    public void save() {
+        entity.markDirty();
+    }
 }
