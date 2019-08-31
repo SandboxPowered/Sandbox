@@ -4,6 +4,7 @@ import com.hrznstudio.sandbox.api.SandboxInternal;
 import com.hrznstudio.sandbox.api.block.IBlock;
 import com.hrznstudio.sandbox.api.block.Material;
 import com.hrznstudio.sandbox.api.block.entity.IBlockEntity;
+import com.hrznstudio.sandbox.api.block.state.Property;
 import com.hrznstudio.sandbox.api.enchant.IEnchantment;
 import com.hrznstudio.sandbox.api.item.IItem;
 import com.hrznstudio.sandbox.api.item.ItemStack;
@@ -17,6 +18,7 @@ import com.hrznstudio.sandbox.impl.BasicRegistry;
 import com.hrznstudio.sandbox.security.AddonSecurityPolicy;
 import com.hrznstudio.sandbox.server.SandboxServer;
 import com.hrznstudio.sandbox.util.MaterialUtil;
+import com.hrznstudio.sandbox.util.PropertyUtil;
 import com.hrznstudio.sandbox.util.ReflectionHelper;
 import com.hrznstudio.sandbox.util.WrappingUtil;
 import net.fabricmc.loader.api.FabricLoader;
@@ -83,6 +85,7 @@ public class SandboxHooks {
             ReflectionHelper.setPrivateField(Functions.class, "literalTextFunction", (Function<String, Text>) s -> (Text) new LiteralText(s));
             ReflectionHelper.setPrivateField(Functions.class, "translatedTextFunction", (Function<String, Text>) s -> (Text) new TranslatableText(s));
             ReflectionHelper.setPrivateField(Functions.class, "compoundTagCreator", (Supplier<CompoundTag>) () -> (CompoundTag) new net.minecraft.nbt.CompoundTag());
+            ReflectionHelper.setPrivateField(Functions.class, "propertyFunction", (Function<String, Property>) PropertyUtil::get);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
