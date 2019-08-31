@@ -64,6 +64,16 @@ public class BlockWrapper extends Block {
     }
 
     @Override
+    public void onBlockBreakStart(BlockState blockState_1, World world_1, BlockPos blockPos_1, PlayerEntity playerEntity_1) {
+        block.onBlockClicked(
+                (com.hrznstudio.sandbox.api.world.World) world_1,
+                (Position) blockPos_1,
+                (com.hrznstudio.sandbox.api.block.state.BlockState) blockState_1,
+                (Player) playerEntity_1
+        )
+    }
+
+    @Override
     public void onPlaced(World world_1, BlockPos blockPos_1, BlockState blockState_1, @Nullable LivingEntity livingEntity_1, net.minecraft.item.ItemStack itemStack_1) {
         block.onBlockPlaced(
                 (com.hrznstudio.sandbox.api.world.World) world_1,
