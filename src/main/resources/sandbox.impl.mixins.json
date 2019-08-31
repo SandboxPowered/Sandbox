@@ -20,6 +20,8 @@
     "item.MixinItemStack",
     "state.MixinBlockState",
     "text.MixinText",
+    "nbt.MixinTag",
+    "nbt.MixinCompoundTag",
     "util.MixinBlockPos",
     "util.MixinIdentifier",
     "util.MixinVec3i",

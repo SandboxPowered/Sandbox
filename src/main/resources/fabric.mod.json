@@ -2,7 +2,6 @@
   "schemaVersion": 1,
   "id": "sandbox",
   "version": "${version}",
-
   "name": "Sandbox",
   "description": "Javascript mod engine!",
   "authors": [

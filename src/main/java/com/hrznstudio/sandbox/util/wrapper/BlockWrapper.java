@@ -78,7 +78,7 @@ public class BlockWrapper extends Block {
         block.onBlockPlaced(
                 (com.hrznstudio.sandbox.api.world.World) world_1,
                 (Position) blockPos_1,
-                (com.hrznstudio.sandbox.api.block.state.BlockState) blockPos_1,
+                (com.hrznstudio.sandbox.api.block.state.BlockState) blockState_1,
                 (IEntity) livingEntity_1,
                 WrappingUtil.cast(itemStack_1, ItemStack.class)
         );
