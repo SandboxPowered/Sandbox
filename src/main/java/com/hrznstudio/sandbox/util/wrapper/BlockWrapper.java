@@ -70,7 +70,7 @@ public class BlockWrapper extends Block {
                 (Position) blockPos_1,
                 (com.hrznstudio.sandbox.api.block.state.BlockState) blockState_1,
                 (Player) playerEntity_1
-        )
+        );
     }
 
     @Override
