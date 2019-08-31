@@ -10,6 +10,7 @@ import com.hrznstudio.sandbox.api.item.ItemStack;
 import com.hrznstudio.sandbox.api.util.Functions;
 import com.hrznstudio.sandbox.api.util.Identity;
 import com.hrznstudio.sandbox.api.util.Side;
+import com.hrznstudio.sandbox.api.util.nbt.CompoundTag;
 import com.hrznstudio.sandbox.api.util.text.Text;
 import com.hrznstudio.sandbox.client.SandboxClient;
 import com.hrznstudio.sandbox.impl.BasicRegistry;
@@ -81,6 +82,7 @@ public class SandboxHooks {
             ReflectionHelper.setPrivateField(Functions.class, "enchantmentFunction", (Function<String, IEnchantment>) s -> (IEnchantment) Registry.ENCHANTMENT.get(new Identifier(s)));
             ReflectionHelper.setPrivateField(Functions.class, "literalTextFunction", (Function<String, Text>) s -> (Text) new LiteralText(s));
             ReflectionHelper.setPrivateField(Functions.class, "translatedTextFunction", (Function<String, Text>) s -> (Text) new TranslatableText(s));
+            ReflectionHelper.setPrivateField(Functions.class, "compoundTagCreator", (Supplier<CompoundTag>) () -> (CompoundTag) new net.minecraft.nbt.CompoundTag());
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
