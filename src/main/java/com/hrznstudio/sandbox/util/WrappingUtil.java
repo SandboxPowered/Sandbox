@@ -3,7 +3,8 @@ package com.hrznstudio.sandbox.util;
 import com.hrznstudio.sandbox.api.SandboxInternal;
 import com.hrznstudio.sandbox.api.block.IBlock;
 import com.hrznstudio.sandbox.api.block.entity.IBlockEntity;
-import com.hrznstudio.sandbox.api.block.state.BlockState;
+import com.hrznstudio.sandbox.api.fluid.IFluid;
+import com.hrznstudio.sandbox.api.state.BlockState;
 import com.hrznstudio.sandbox.api.client.screen.IScreen;
 import com.hrznstudio.sandbox.api.enchant.IEnchantment;
 import com.hrznstudio.sandbox.api.entity.IEntity;
@@ -25,7 +26,9 @@ import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
+import net.minecraft.state.property.Property;
 import net.minecraft.text.Text;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
@@ -235,9 +238,19 @@ public class WrappingUtil {
         return castOrWrap(screen, Screen.class, WrappingUtil::getWrapped);
     }
 
+    public static Property convert(com.hrznstudio.sandbox.api.state.Property property) {
+        //TODO: Wrapper
+        return (Property) property;
+    }
+
     public static IScreen convert(Screen screen) {
         if (screen instanceof ScreenWrapper)
             return ((ScreenWrapper) screen).screen;
         return cast(screen, IScreen.class);
+    }
+
+    public static IFluid convert(Fluid fluid_1) {
+        //TODO: Wrapper
+        return (IFluid) fluid_1;
     }
 }

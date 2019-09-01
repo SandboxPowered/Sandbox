@@ -1,6 +1,6 @@
 package com.hrznstudio.sandbox.util;
 
-import com.hrznstudio.sandbox.api.block.state.Property;
+import com.hrznstudio.sandbox.api.state.Property;
 import net.minecraft.state.property.Properties;
 
 public class PropertyUtil {

@@ -1,0 +1,28 @@
+{
+    "variants": {
+        "pickles=1": [
+            { "model": "block/dead_sea_pickle" },
+            { "model": "block/dead_sea_pickle", "y": 90 },
+            { "model": "block/dead_sea_pickle", "y": 180 },
+            { "model": "block/dead_sea_pickle", "y": 270 }
+        ],
+        "pickles=2": [
+            { "model": "block/two_dead_sea_pickles" },
+            { "model": "block/two_dead_sea_pickles", "y": 90 },
+            { "model": "block/two_dead_sea_pickles", "y": 180 },
+            { "model": "block/two_dead_sea_pickles", "y": 270 }
+        ],
+        "pickles=3": [
+            { "model": "block/three_dead_sea_pickles" },
+            { "model": "block/three_dead_sea_pickles", "y": 90 },
+            { "model": "block/three_dead_sea_pickles", "y": 180 },
+            { "model": "block/three_dead_sea_pickles", "y": 270 }
+        ],
+        "pickles=4": [
+            { "model": "block/four_dead_sea_pickles" },
+            { "model": "block/four_dead_sea_pickles", "y": 90 },
+            { "model": "block/four_dead_sea_pickles", "y": 180 },
+            { "model": "block/four_dead_sea_pickles", "y": 270 }
+        ]
+  }
+}
