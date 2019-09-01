@@ -1,6 +1,7 @@
 package com.hrznstudio.sandbox.mixin.impl.client;
 
 import com.hrznstudio.sandbox.api.client.Client;
+import com.hrznstudio.sandbox.api.client.TextRenderer;
 import com.hrznstudio.sandbox.api.client.screen.IScreen;
 import com.hrznstudio.sandbox.api.entity.player.Player;
 import com.hrznstudio.sandbox.api.world.World;
@@ -28,6 +29,9 @@ public class MixinMinecraftClient {
     @Nullable
     public Screen currentScreen;
 
+    @Shadow
+    public net.minecraft.client.font.TextRenderer textRenderer;
+
     public Player sbx$getPlayer() {
         return (Player) player;
     }
@@ -39,5 +43,9 @@ public class MixinMinecraftClient {
     @Nullable
     public IScreen sbx$getCurrentScreen() {
         return WrappingUtil.convert(currentScreen);
+    }
+
+    public TextRenderer sbx$getTextRenderer() {
+        return (TextRenderer) textRenderer;
     }
 }

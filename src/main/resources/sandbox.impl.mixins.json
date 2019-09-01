@@ -32,6 +32,7 @@
   ],
   "client": [
     "client.MixinMinecraftClient",
+    "client.MixinTextRenderer",
     "client.MixinScreen",
     "client.MixinSandboxScreen"
   ]
