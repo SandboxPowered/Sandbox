@@ -36,7 +36,7 @@ public abstract class MixinFluidRenderer {
     private ThreadLocal<FluidState> stateThreadLocal = new ThreadLocal<>();
 
     @Inject(at = @At("RETURN"), method = "onResourceReload")
-    public void onResourceReloadReturn(CallbackInfo info) {
+    public void reload(CallbackInfo info) {
         SpriteAtlasTexture spriteAtlasTexture_1 = MinecraftClient.getInstance().getSpriteAtlas();
         spriteMap.clear();
         Registry.FLUID.forEach(fluid -> {
@@ -64,17 +64,17 @@ public abstract class MixinFluidRenderer {
     }
 
     @ModifyVariable(at = @At(value = "INVOKE", target = "net/minecraft/client/render/block/FluidRenderer.isSameFluid(Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;Lnet/minecraft/fluid/FluidState;)Z"), method = "tesselate", ordinal = 0)
-    public boolean modLavaCheck(boolean chk) {
+    public boolean isLava(boolean chk) {
         return chk || (stateThreadLocal.get() != null && !stateThreadLocal.get().matches(FluidTags.WATER));
     }
 
     @Inject(at = @At("RETURN"), method = "tesselate")
-    public void tesselateReturn(ExtendedBlockView view, BlockPos pos, BufferBuilder bufferBuilder, FluidState state, CallbackInfoReturnable<Boolean> info) {
+    public void removeLocal(ExtendedBlockView view, BlockPos pos, BufferBuilder bufferBuilder, FluidState state, CallbackInfoReturnable<Boolean> info) {
         stateThreadLocal.remove();
     }
 
     @ModifyVariable(at = @At(value = "CONSTANT", args = "intValue=16", ordinal = 0, shift = At.Shift.BEFORE), method = "tesselate", ordinal = 0)
-    public int modTintColor(int chk) {
-        return stateThreadLocal.get() == null ? chk : -1;
+    public int tint(int chk) {
+        return !(stateThreadLocal.get().getFluid() instanceof FluidWrapper) ? chk : -1;
     }
 }
