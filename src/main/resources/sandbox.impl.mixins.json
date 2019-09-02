@@ -11,6 +11,7 @@
     "block.MixinBlockEntityType",
     "block.MixinMaterial",
     "fluid.MixinFluid",
+    "fluid.MixinSandboxFluid",
     "fluid.MixinBaseFluid",
     "fluid.MixinFluidState",
     "enchant.MixinSandboxEnchantment",
@@ -23,6 +24,7 @@
     "item.MixinSandboxItem",
     "item.MixinItemStack",
     "state.MixinBlockState",
+    "state.MixinPropertyContainer",
     "state.MixinAbstractPropertyContainer",
     "text.MixinText",
     "nbt.MixinTag",
@@ -31,6 +33,7 @@
     "util.MixinIdentifier",
     "util.MixinVec3i",
     "util.MixinVector3f",
+    "util.MixinProperty",
     "world.MixinBlockView",
     "world.MixinModifiableWorld",
     "world.MixinWorld"

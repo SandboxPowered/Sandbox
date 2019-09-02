@@ -1,5 +1,6 @@
 package com.hrznstudio.sandbox.util.wrapper;
 
+import com.hrznstudio.sandbox.api.state.FluidProperty;
 import net.minecraft.util.registry.Registry;
 
 public class FluidComparability implements Comparable<FluidComparability> {

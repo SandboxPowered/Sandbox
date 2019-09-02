@@ -22,8 +22,7 @@ public interface MixinWaterloggable {
      */
     @Overwrite
     default boolean canFillWithFluid(BlockView blockView_1, BlockPos blockPos_1, BlockState blockState_1, Fluid fluid_1) {
-        FluidState state = blockState_1.get(SandboxProperties.PROPERTY_FLUIDLOGGABLE).getFluidState();
-        return SandboxProperties.PROPERTY_FLUIDLOGGABLE.isValid(fluid_1) && (state.isEmpty() || state.getFluid().matchesType(fluid_1)) && (fluid_1 != Fluids.LAVA || !blockState_1.getMaterial().isBurnable());
+        return SandboxProperties.PROPERTY_FLUIDLOGGABLE.isValid(fluid_1) && blockState_1.get(SandboxProperties.PROPERTY_FLUIDLOGGABLE).getFluidState().isEmpty();
     }
 
     /**

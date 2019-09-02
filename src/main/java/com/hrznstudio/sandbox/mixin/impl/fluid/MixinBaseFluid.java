@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(BaseFluid.class)
-public abstract class MixinBaseFluid extends Fluid {
+public abstract class MixinBaseFluid extends Fluid implements SandboxInternal.BaseFluid{
     @Shadow
     protected abstract FluidState getUpdatedState(ViewableWorld viewableWorld_1, BlockPos blockPos_1, BlockState blockState_1);
 
@@ -29,6 +29,13 @@ public abstract class MixinBaseFluid extends Fluid {
 
     @Shadow
     protected abstract void method_15725(IWorld iWorld_1, BlockPos blockPos_1, FluidState fluidState_1);
+
+    @Shadow protected abstract boolean isInfinite();
+
+    @Override
+    public boolean sandboxinfinite() {
+        return isInfinite();
+    }
 
     /**
      * @author Coded
@@ -48,17 +55,27 @@ public abstract class MixinBaseFluid extends Fluid {
         if (state != null) {
             BlockState s = world_1.getBlockState(blockPos_1);
             int int_1 = this.getNextTickDelay(world_1, blockPos_1, fluidState_1, state);
-            if (s.isAir() || s.getBlock().getStateFactory().getProperty("fluidlogged") == null || (s.getMaterial().isBurnable() && this.matches(FluidTags.LAVA))) {
+            if (s.isAir() || s.getMaterial().isReplaceable()) {
                 world_1.setBlockState(blockPos_1, state.isEmpty() ? Blocks.AIR.getDefaultState() : state.getBlockState(), 3);
                 if (!state.isEmpty()) {
                     world_1.getFluidTickScheduler().schedule(blockPos_1, state.getFluid(), int_1);
                     world_1.updateNeighborsAlways(blockPos_1, s.getBlock());
                 }
             } else {
-                world_1.setBlockState(blockPos_1, s.with(SandboxProperties.PROPERTY_FLUIDLOGGABLE, ((SandboxInternal.FluidStateCompare) state).getComparability()), 3);
-                if (!state.isEmpty()) {
-                    world_1.getFluidTickScheduler().schedule(blockPos_1, state.getFluid(), int_1);
-                    world_1.updateNeighborsAlways(blockPos_1, s.getBlock());
+                if (SandboxProperties.PROPERTY_FLUIDLOGGABLE.isValid(state.getFluid())) {
+                    if (s.getBlock().getStateFactory().getProperty("fluidlogged") == null || (s.getMaterial().isBurnable() && this.matches(FluidTags.LAVA))) {
+                        world_1.setBlockState(blockPos_1, state.isEmpty() ? Blocks.AIR.getDefaultState() : state.getBlockState(), 3);
+                        if (!state.isEmpty()) {
+                            world_1.getFluidTickScheduler().schedule(blockPos_1, state.getFluid(), int_1);
+                            world_1.updateNeighborsAlways(blockPos_1, s.getBlock());
+                        }
+                    } else {
+                        world_1.setBlockState(blockPos_1, s.with(SandboxProperties.PROPERTY_FLUIDLOGGABLE, ((SandboxInternal.FluidStateCompare) state).getComparability()), 3);
+                        if (!state.isEmpty()) {
+                            world_1.getFluidTickScheduler().schedule(blockPos_1, state.getFluid(), int_1);
+                            world_1.updateNeighborsAlways(blockPos_1, s.getBlock());
+                        }
+                    }
                 }
             }
         }

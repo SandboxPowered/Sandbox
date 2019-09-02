@@ -6,6 +6,7 @@ import com.hrznstudio.sandbox.api.block.Material;
 import com.hrznstudio.sandbox.api.block.entity.IBlockEntity;
 import com.hrznstudio.sandbox.api.client.Client;
 import com.hrznstudio.sandbox.api.enchant.IEnchantment;
+import com.hrznstudio.sandbox.api.fluid.IFluid;
 import com.hrznstudio.sandbox.api.item.IItem;
 import com.hrznstudio.sandbox.api.item.ItemStack;
 import com.hrznstudio.sandbox.api.state.Property;
@@ -22,11 +23,11 @@ import com.hrznstudio.sandbox.util.MaterialUtil;
 import com.hrznstudio.sandbox.util.PropertyUtil;
 import com.hrznstudio.sandbox.util.ReflectionHelper;
 import com.hrznstudio.sandbox.util.WrappingUtil;
-import com.hrznstudio.sandbox.util.wrapper.PropertyFluidloggable;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
@@ -79,6 +80,9 @@ public class SandboxHooks {
                 if (cla == IBlockEntity.Type.class) {
                     return ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.BLOCK_ENTITY).get();
                 }
+                if(cla == IFluid.class) {
+                    return ((SandboxInternal.Registry)Registry.FLUID).get();
+                }
                 throw new RuntimeException("Unknown registry " + cla);
             });
             ReflectionHelper.setPrivateField(Functions.class, "blockFunction", (Function<String, IBlock>) s -> (IBlock) net.minecraft.util.registry.Registry.BLOCK.get(new Identifier(s)));
@@ -96,6 +100,7 @@ public class SandboxHooks {
         ((SandboxInternal.Registry) Registry.BLOCK).set(new BasicRegistry<>(Registry.BLOCK, IBlock.class, WrappingUtil::convert, WrappingUtil::convert));
         ((SandboxInternal.Registry) Registry.ITEM).set(new BasicRegistry<>(Registry.ITEM, IItem.class, WrappingUtil::convert, WrappingUtil::convert));
         ((SandboxInternal.Registry) Registry.ENCHANTMENT).set(new BasicRegistry<>((SimpleRegistry<net.minecraft.enchantment.Enchantment>) Registry.ENCHANTMENT, IEnchantment.class, WrappingUtil::convert, b -> (IEnchantment) b));
+        ((SandboxInternal.Registry) Registry.FLUID).set(new BasicRegistry<>(Registry.FLUID, IFluid.class, WrappingUtil::convert, WrappingUtil::convert));
         ((SandboxInternal.Registry) Registry.BLOCK_ENTITY).set(new BasicRegistry((SimpleRegistry) Registry.BLOCK_ENTITY, IBlockEntity.Type.class, (Function<IBlockEntity.Type, BlockEntityType>) WrappingUtil::convert, (Function<BlockEntityType, IBlockEntity.Type>) WrappingUtil::convert, true)); // DONT TOUCH THIS FOR HEAVENS SAKE PLEASE GOD NO
 
         if (Sandbox.SANDBOX.getSide() == Side.CLIENT)

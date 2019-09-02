@@ -38,7 +38,7 @@ import javax.annotation.Nullable;
 @Mixin(net.minecraft.block.Block.class)
 @Implements(@Interface(iface = IBlock.class, prefix = "sbx$"))
 @Unique
-public abstract class MixinBlock {
+public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
     @Shadow
     @Final
     protected StateFactory<Block, net.minecraft.block.BlockState> stateFactory;
@@ -72,8 +72,9 @@ public abstract class MixinBlock {
         return new IBlock.Properties(Material.AIR);
     }
 
-    public com.hrznstudio.sandbox.api.state.StateFactory<IBlock, BlockState> getStateFactory() {
-        return ((SandboxInternal.StateFactory) stateFactory).getSboxFactory();
+    @Override
+    public com.hrznstudio.sandbox.api.state.StateFactory getSandboxStateFactory() {
+        return sandboxFactory;
     }
 
     public boolean sbx$isAir(BlockState state) {

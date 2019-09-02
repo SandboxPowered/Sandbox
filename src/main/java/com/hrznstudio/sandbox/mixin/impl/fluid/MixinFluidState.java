@@ -2,6 +2,7 @@ package com.hrznstudio.sandbox.mixin.impl.fluid;
 
 import com.hrznstudio.sandbox.api.SandboxInternal;
 import com.hrznstudio.sandbox.api.fluid.IFluid;
+import com.hrznstudio.sandbox.api.state.BlockState;
 import com.hrznstudio.sandbox.api.state.FluidState;
 import com.hrznstudio.sandbox.util.WrappingUtil;
 import com.hrznstudio.sandbox.util.wrapper.FluidComparability;
@@ -26,10 +27,19 @@ public abstract class MixinFluidState implements SandboxInternal.FluidStateCompa
     public FluidComparability getComparability() {
         return comparability;
     }
+
     @Shadow
     public abstract Fluid getFluid();
 
     public IFluid sbx$getFluid() {
         return WrappingUtil.convert(getFluid());
+    }
+
+    public BlockState sbx$asBlockState() {
+        return sbx$getFluid().asBlockState((FluidState)this);
+    }
+
+    public boolean sbx$isStill() {
+        return sbx$getFluid().isStill((FluidState)this);
     }
 }

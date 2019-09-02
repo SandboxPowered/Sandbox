@@ -3,13 +3,13 @@ package com.hrznstudio.sandbox.util;
 import com.hrznstudio.sandbox.api.SandboxInternal;
 import com.hrznstudio.sandbox.api.block.IBlock;
 import com.hrznstudio.sandbox.api.block.entity.IBlockEntity;
-import com.hrznstudio.sandbox.api.fluid.IFluid;
-import com.hrznstudio.sandbox.api.state.BlockState;
 import com.hrznstudio.sandbox.api.client.screen.IScreen;
 import com.hrznstudio.sandbox.api.enchant.IEnchantment;
 import com.hrznstudio.sandbox.api.entity.IEntity;
+import com.hrznstudio.sandbox.api.fluid.IFluid;
 import com.hrznstudio.sandbox.api.item.IItem;
 import com.hrznstudio.sandbox.api.item.ItemStack;
+import com.hrznstudio.sandbox.api.state.BlockState;
 import com.hrznstudio.sandbox.api.util.Direction;
 import com.hrznstudio.sandbox.api.util.Identity;
 import com.hrznstudio.sandbox.api.util.Mirror;
@@ -215,8 +215,8 @@ public class WrappingUtil {
     }
 
     public static IBlock convert(Block block) {
-        if (block instanceof BlockWrapper)
-            return ((BlockWrapper) block).getBlock();
+        if (block instanceof SandboxInternal.BlockWrapper)
+            return ((SandboxInternal.BlockWrapper) block).getBlock();
         return (IBlock) block;
     }
 
@@ -250,7 +250,26 @@ public class WrappingUtil {
     }
 
     public static IFluid convert(Fluid fluid_1) {
-        //TODO: Wrapper
+        if (fluid_1 instanceof FluidWrapper)
+            return ((FluidWrapper) fluid_1).fluid;
         return (IFluid) fluid_1;
+    }
+
+    private static Fluid getWrapped(IFluid fluid) {
+        if (fluid instanceof com.hrznstudio.sandbox.api.fluid.Fluid && fluid instanceof SandboxInternal.WrappedInjection) {
+            if (((SandboxInternal.WrappedInjection) fluid).getInjectionWrapped() == null) {
+                ((SandboxInternal.WrappedInjection) fluid).setInjectionWrapped(FluidWrapper.create((com.hrznstudio.sandbox.api.fluid.Fluid) fluid));
+            }
+            return (Fluid) ((SandboxInternal.WrappedInjection) fluid).getInjectionWrapped();
+        }
+        throw new RuntimeException("Unacceptable class " + fluid.getClass());
+    }
+
+    public static Fluid convert(IFluid fluid_1) {
+        return castOrWrap(fluid_1, Fluid.class, WrappingUtil::getWrapped);
+    }
+
+    public static Item.Settings convert(IItem.Properties properties) {
+        return new Item.Settings().maxCount(properties.getStackSize()).maxDamage(properties.getMaxDamage()).recipeRemainder(properties.getRecipeRemainder()==null?null:convert(properties.getRecipeRemainder()));
     }
 }

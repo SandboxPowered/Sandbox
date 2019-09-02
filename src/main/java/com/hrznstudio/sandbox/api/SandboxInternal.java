@@ -1,6 +1,8 @@
 package com.hrznstudio.sandbox.api;
 
+import com.hrznstudio.sandbox.api.block.IBlock;
 import com.hrznstudio.sandbox.api.item.IItem;
+import com.hrznstudio.sandbox.api.state.StateFactory;
 import com.hrznstudio.sandbox.impl.BasicRegistry;
 import com.hrznstudio.sandbox.util.wrapper.FluidComparability;
 
@@ -30,11 +32,20 @@ public class SandboxInternal {
     public interface ItemWrapper {
         IItem getItem();
     }
+    public interface BlockWrapper {
+        IBlock getBlock();
+    }
+    public interface BaseFluid {
+        boolean sandboxinfinite();
+    }
 
     public interface WrappedInjection {
         Object getInjectionWrapped();
 
         void setInjectionWrapped(Object o);
+    }
+    public interface StateFactoryHolder {
+        com.hrznstudio.sandbox.api.state.StateFactory getSandboxStateFactory();
     }
 
     public interface FluidStateCompare {
