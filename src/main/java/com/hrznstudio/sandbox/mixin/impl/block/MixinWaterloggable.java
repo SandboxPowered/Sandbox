@@ -3,6 +3,7 @@ package com.hrznstudio.sandbox.mixin.impl.block;
 import com.hrznstudio.sandbox.Sandbox;
 import com.hrznstudio.sandbox.SandboxProperties;
 import com.hrznstudio.sandbox.api.SandboxInternal;
+import com.hrznstudio.sandbox.util.wrapper.FluidComparability;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Waterloggable;
 import net.minecraft.fluid.Fluid;
@@ -46,6 +47,12 @@ public interface MixinWaterloggable {
      */
     @Overwrite
     default Fluid tryDrainFluid(IWorld iWorld_1, BlockPos blockPos_1, BlockState blockState_1) {
-        return Fluids.EMPTY;
+        FluidState comparability = blockState_1.get(SandboxProperties.PROPERTY_FLUIDLOGGABLE).getFluidState();
+        if (!comparability.isEmpty()) {
+            iWorld_1.setBlockState(blockPos_1, blockState_1.with(SandboxProperties.PROPERTY_FLUIDLOGGABLE, ((SandboxInternal.FluidStateCompare) Fluids.EMPTY.getDefaultState()).getComparability()), 3);
+            return comparability.getFluid();
+        } else {
+            return Fluids.EMPTY;
+        }
     }
 }
