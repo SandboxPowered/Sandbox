@@ -21,7 +21,7 @@ public class AddonFolderResourcePack extends AbstractFileResourcePack {
     private final AddonSpec spec;
 
     public AddonFolderResourcePack(Path basePath, AddonSpec spec) {
-        super(null);
+        super(basePath.toFile());
         this.basePath = basePath.toAbsolutePath().normalize();
         this.separator = basePath.getFileSystem().getSeparator();
         this.spec=spec;
