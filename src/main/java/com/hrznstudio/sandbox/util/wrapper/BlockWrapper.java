@@ -21,7 +21,6 @@ import net.minecraft.fluid.BaseFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.Items;
 import net.minecraft.state.StateFactory;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
@@ -39,7 +38,7 @@ public class BlockWrapper extends Block implements SandboxInternal.BlockWrapper 
     private IBlock block;
 
     public BlockWrapper(IBlock block) {
-        super(WrappingUtil.convert(block.getProperties()));
+        super(WrappingUtil.convert(block.getSettings()));
         this.block = block;
         if (this.block instanceof com.hrznstudio.sandbox.api.block.Block)
             ((com.hrznstudio.sandbox.api.block.Block) this.block).setStateFactory(((SandboxInternal.StateFactoryHolder) this).getSandboxStateFactory());
@@ -55,7 +54,7 @@ public class BlockWrapper extends Block implements SandboxInternal.BlockWrapper 
     public static SandboxInternal.BlockWrapper create(IBlock block) {
         if (block instanceof com.hrznstudio.sandbox.api.block.FluidBlock)
             return new WithFluid((BaseFluid) WrappingUtil.convert(((com.hrznstudio.sandbox.api.block.FluidBlock) block).getFluid()), block);
-        if (block.canContainFluid()) {
+        if (block.canContainFluids()) {
             if (block.hasBlockEntity()) {
                 return new BlockWrapper.WithWaterloggableBlockEntity(block);
             }
@@ -176,7 +175,7 @@ public class BlockWrapper extends Block implements SandboxInternal.BlockWrapper 
         private IBlock block;
 
         public WithFluid(BaseFluid baseFluid_1, IBlock block) {
-            super(baseFluid_1, WrappingUtil.convert(block.getProperties()));
+            super(baseFluid_1, WrappingUtil.convert(block.getSettings()));
             this.block = block;
             if (this.block instanceof com.hrznstudio.sandbox.api.block.Block)
                 ((com.hrznstudio.sandbox.api.block.Block) this.block).setStateFactory(((SandboxInternal.StateFactoryHolder) this).getSandboxStateFactory());
@@ -324,12 +323,21 @@ public class BlockWrapper extends Block implements SandboxInternal.BlockWrapper 
 
         @Override
         public boolean tryFillWithFluid(IWorld iWorld_1, BlockPos blockPos_1, BlockState blockState_1, FluidState fluidState_1) {
-            return false;
+            return getBlock().fillWith(
+                    (com.hrznstudio.sandbox.api.world.World) iWorld_1,
+                    (Position) blockPos_1,
+                    (com.hrznstudio.sandbox.api.state.BlockState) blockState_1,
+                    (com.hrznstudio.sandbox.api.state.FluidState) fluidState_1
+            );
         }
 
         @Override
         public Fluid tryDrainFluid(IWorld iWorld_1, BlockPos blockPos_1, BlockState blockState_1) {
-            return null;
+            return WrappingUtil.convert(getBlock().drainFrom(
+                    (com.hrznstudio.sandbox.api.world.World) iWorld_1,
+                    (Position) blockPos_1,
+                    (com.hrznstudio.sandbox.api.state.BlockState) blockState_1
+            ));
         }
     }
 

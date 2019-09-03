@@ -124,8 +124,8 @@ public class WrappingUtil {
         return wrapper.apply(a);
     }
 
-    public static Block.Settings convert(IBlock.Properties properties) {
-        return castOrWrap(properties, Block.Settings.class, prop -> Block.Settings.of(convert(properties.getMaterial())));
+    public static Block.Settings convert(IBlock.Settings settings) {
+        return castOrWrap(settings, Block.Settings.class, prop -> Block.Settings.of(convert(settings.getMaterial())));
     }
 
     private static Material convert(com.hrznstudio.sandbox.api.block.Material material) {
@@ -269,7 +269,7 @@ public class WrappingUtil {
         return castOrWrap(fluid_1, Fluid.class, WrappingUtil::getWrapped);
     }
 
-    public static Item.Settings convert(IItem.Properties properties) {
-        return new Item.Settings().maxCount(properties.getStackSize()).maxDamage(properties.getMaxDamage()).recipeRemainder(properties.getRecipeRemainder()==null?null:convert(properties.getRecipeRemainder()));
+    public static Item.Settings convert(IItem.Settings settings) {
+        return new Item.Settings().maxCount(settings.getStackSize()).maxDamage(settings.getMaxDamage()).recipeRemainder(settings.getRecipeRemainder()==null?null:convert(settings.getRecipeRemainder()));
     }
 }

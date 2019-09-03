@@ -2,6 +2,7 @@ package com.hrznstudio.sandbox.mixin.impl.state;
 
 import com.hrznstudio.sandbox.api.state.Property;
 import com.hrznstudio.sandbox.util.WrappingUtil;
+import net.minecraft.state.AbstractPropertyContainer;
 import net.minecraft.state.PropertyContainer;
 import org.spongepowered.asm.mixin.*;
 
@@ -21,5 +22,12 @@ public interface MixinPropertyContainer {
 
     default Object sbx$with(Property property, Comparable value) {
         return with(WrappingUtil.convert(property), value);
+    }
+
+    default boolean sbx$contains(Property property) {
+        if (this instanceof AbstractPropertyContainer) {
+            return ((AbstractPropertyContainer) this).contains(WrappingUtil.convert(property));
+        }
+        return false;
     }
 }

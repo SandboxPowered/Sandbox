@@ -24,7 +24,7 @@ public class ItemWrapper extends Item implements SandboxInternal.ItemWrapper {
     private IItem iItem;
 
     public ItemWrapper(IItem iItem) {
-        super(WrappingUtil.convert(iItem.getProperties()));
+        super(WrappingUtil.convert(iItem.getSettings()));
         this.iItem = iItem;
     }
 
@@ -68,7 +68,7 @@ public class ItemWrapper extends Item implements SandboxInternal.ItemWrapper {
         private IBlockItem item;
 
         public BlockItemWrapper(IBlockItem item) {
-            super(WrappingUtil.convert(item.asBlock()), WrappingUtil.convert(item.getProperties()));
+            super(WrappingUtil.convert(item.asBlock()), WrappingUtil.convert(item.getSettings()));
             this.item = item;
         }
 
@@ -111,7 +111,7 @@ public class ItemWrapper extends Item implements SandboxInternal.ItemWrapper {
         private BucketItem item;
 
         public BucketItemWrapper(BucketItem item) {
-            super(WrappingUtil.convert(item.getFluid()), WrappingUtil.convert(item.getProperties()));
+            super(WrappingUtil.convert(item.getFluid()), WrappingUtil.convert(item.getSettings()));
             this.item = item;
         }
 

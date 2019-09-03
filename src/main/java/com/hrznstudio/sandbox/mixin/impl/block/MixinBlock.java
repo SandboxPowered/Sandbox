@@ -1,6 +1,5 @@
 package com.hrznstudio.sandbox.mixin.impl.block;
 
-import com.hrznstudio.sandbox.SandboxProperties;
 import com.hrznstudio.sandbox.api.SandboxInternal;
 import com.hrznstudio.sandbox.api.block.IBlock;
 import com.hrznstudio.sandbox.api.block.Material;
@@ -23,8 +22,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.state.StateFactory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
@@ -68,8 +65,8 @@ public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
         ((SandboxInternal.StateFactory) this.stateFactory).setSboxFactory(sandboxFactory);
     }
 
-    public IBlock.Properties sbx$getProperties() {
-        return new IBlock.Properties(Material.AIR);
+    public IBlock.Settings sbx$getProperties() {
+        return new IBlock.Settings(Material.AIR);
     }
 
     @Override

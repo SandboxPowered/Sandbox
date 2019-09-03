@@ -9,6 +9,8 @@ import com.hrznstudio.sandbox.api.enchant.IEnchantment;
 import com.hrznstudio.sandbox.api.fluid.IFluid;
 import com.hrznstudio.sandbox.api.item.IItem;
 import com.hrznstudio.sandbox.api.item.ItemStack;
+import com.hrznstudio.sandbox.api.state.FluidProperty;
+import com.hrznstudio.sandbox.api.state.FluidState;
 import com.hrznstudio.sandbox.api.state.Property;
 import com.hrznstudio.sandbox.api.util.Functions;
 import com.hrznstudio.sandbox.api.util.Identity;
@@ -93,6 +95,8 @@ public class SandboxHooks {
             ReflectionHelper.setPrivateField(Functions.class, "compoundTagCreator", (Supplier<CompoundTag>) () -> (CompoundTag) new net.minecraft.nbt.CompoundTag());
             ReflectionHelper.setPrivateField(Functions.class, "propertyFunction", (Function<String, Property>) PropertyUtil::get);
             ReflectionHelper.setPrivateField(Functions.class, "clientInstance", (Supplier<Client>) ()->SandboxCommon.client);
+            ReflectionHelper.setPrivateField(Functions.class, "fluidFunction", (Function<String, IFluid>) s -> WrappingUtil.convert(Registry.FLUID.get(new Identifier(s))));
+            ReflectionHelper.setPrivateField(Functions.class, "fluidProperty", (Function<FluidState, FluidProperty>) s -> (FluidProperty)(Object)((SandboxInternal.FluidStateCompare)s).getComparability());
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
