@@ -37,7 +37,7 @@ public class SandboxServer extends SandboxCommon {
     public static SandboxServer INSTANCE;
     public final Map<Block, Item> BLOCK_ITEMS = Maps.newHashMap();
     private final boolean isIntegrated;
-    private SandboxLoader loader;
+    public SandboxLoader loader;
     private MinecraftServer server;
 
     private SandboxServer(MinecraftServer server) {
