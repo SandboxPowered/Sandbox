@@ -13,8 +13,6 @@
     "block.MixinStateFactory",
     "block.MixinStateFactory$MixinStateBuilder",
 
-    "item.MixinBucketItem",
-
     "enchant.MixinEnchantmentHelper",
 
     "networking.MixinServerPlayNetworkHandler",
