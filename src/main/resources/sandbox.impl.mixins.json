@@ -30,6 +30,7 @@
     "util.MixinBlockPos",
     "util.MixinIdentifier",
     "util.MixinVec3i",
+    "util.MixinVec3d",
     "util.MixinVector3f",
     "util.MixinProperty",
     "world.MixinBlockView",

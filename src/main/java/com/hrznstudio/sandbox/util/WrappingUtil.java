@@ -34,6 +34,7 @@ import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BlockView;
 
 import java.util.function.Function;
@@ -270,6 +271,14 @@ public class WrappingUtil {
     }
 
     public static Item.Settings convert(IItem.Settings settings) {
-        return new Item.Settings().maxCount(settings.getStackSize()).maxDamage(settings.getMaxDamage()).recipeRemainder(settings.getRecipeRemainder()==null?null:convert(settings.getRecipeRemainder()));
+        return new Item.Settings().maxCount(settings.getStackSize()).maxDamage(settings.getMaxDamage()).recipeRemainder(settings.getRecipeRemainder() == null ? null : convert(settings.getRecipeRemainder()));
+    }
+
+    public static Vec3d convert(com.hrznstudio.sandbox.api.util.math.Vec3d vec3d) {
+        return cast(vec3d, Vec3d.class);
+    }
+
+    public static com.hrznstudio.sandbox.api.util.math.Vec3d convert(Vec3d vec3d) {
+        return cast(vec3d, com.hrznstudio.sandbox.api.util.math.Vec3d.class);
     }
 }
