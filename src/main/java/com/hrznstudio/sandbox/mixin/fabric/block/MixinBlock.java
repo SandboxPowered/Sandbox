@@ -1,22 +1,16 @@
 package com.hrznstudio.sandbox.mixin.fabric.block;
 
-import com.hrznstudio.sandbox.SandboxProperties;
 import com.hrznstudio.sandbox.util.wrapper.BlockWrapper;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.state.StateFactory;
-import org.spongepowered.asm.mixin.Final;
+import net.minecraft.state.property.Properties;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(Block.class)
 public class MixinBlock {
-
-    @Shadow @Final protected StateFactory<Block, BlockState> stateFactory;
 
     /**
      * @author Coded
@@ -24,8 +18,8 @@ public class MixinBlock {
     @Deprecated
     @Overwrite
     public FluidState getFluidState(net.minecraft.block.BlockState blockState_1) {
-        if (this.stateFactory.getProperty("fluidlogged") != null) {
-            return blockState_1.get(SandboxProperties.PROPERTY_FLUIDLOGGABLE).getFluidState();
+        if (blockState_1.contains(Properties.WATERLOGGED)) {
+            return blockState_1.get(Properties.WATERLOGGED) ? Fluids.WATER.getDefaultState() : Fluids.EMPTY.getDefaultState();
         }
         return Fluids.EMPTY.getDefaultState();
     }

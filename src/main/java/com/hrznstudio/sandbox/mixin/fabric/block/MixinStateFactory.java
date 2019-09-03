@@ -1,13 +1,10 @@
 package com.hrznstudio.sandbox.mixin.fabric.block;
 
-import com.hrznstudio.sandbox.SandboxProperties;
 import com.hrznstudio.sandbox.api.SandboxInternal;
 import com.hrznstudio.sandbox.api.state.StateFactory;
 import com.hrznstudio.sandbox.util.WrappingUtil;
 import com.hrznstudio.sandbox.util.wrapper.StateFactoryImpl;
-import net.minecraft.state.property.Properties;
 import net.minecraft.state.property.Property;
-import org.apache.commons.lang3.ArrayUtils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -39,9 +36,9 @@ public abstract class MixinStateFactory implements SandboxInternal.StateFactory 
 
         @ModifyVariable(method = "add", at = @At("HEAD"), ordinal = 0)
         public Property<?>[] properties(Property<?>[] in) {
-            if (ArrayUtils.contains(in, Properties.WATERLOGGED)) {
-                in=ArrayUtils.add(ArrayUtils.removeElement(in, Properties.WATERLOGGED), SandboxProperties.PROPERTY_FLUIDLOGGABLE);
-            }
+//            if (ArrayUtils.contains(in, Properties.WATERLOGGED)) {
+//                in=ArrayUtils.add(ArrayUtils.removeElement(in, Properties.WATERLOGGED), SandboxProperties.PROPERTY_FLUIDLOGGABLE);
+//            }
             return in;
         }
 

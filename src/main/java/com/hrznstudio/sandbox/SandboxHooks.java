@@ -9,8 +9,6 @@ import com.hrznstudio.sandbox.api.enchant.IEnchantment;
 import com.hrznstudio.sandbox.api.fluid.IFluid;
 import com.hrznstudio.sandbox.api.item.IItem;
 import com.hrznstudio.sandbox.api.item.ItemStack;
-import com.hrznstudio.sandbox.api.state.FluidProperty;
-import com.hrznstudio.sandbox.api.state.FluidState;
 import com.hrznstudio.sandbox.api.state.Property;
 import com.hrznstudio.sandbox.api.util.Functions;
 import com.hrznstudio.sandbox.api.util.Identity;
@@ -29,7 +27,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.fluid.Fluid;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
@@ -96,7 +93,6 @@ public class SandboxHooks {
             ReflectionHelper.setPrivateField(Functions.class, "propertyFunction", (Function<String, Property>) PropertyUtil::get);
             ReflectionHelper.setPrivateField(Functions.class, "clientInstance", (Supplier<Client>) ()->SandboxCommon.client);
             ReflectionHelper.setPrivateField(Functions.class, "fluidFunction", (Function<String, IFluid>) s -> WrappingUtil.convert(Registry.FLUID.get(new Identifier(s))));
-            ReflectionHelper.setPrivateField(Functions.class, "fluidProperty", (Function<FluidState, FluidProperty>) s -> (FluidProperty)(Object)((SandboxInternal.FluidStateCompare)s).getComparability());
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }

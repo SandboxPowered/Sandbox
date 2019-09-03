@@ -1,17 +1,12 @@
 package com.hrznstudio.sandbox.mixin.impl.fluid;
 
-import com.hrznstudio.sandbox.SandboxProperties;
 import com.hrznstudio.sandbox.api.SandboxInternal;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.FireBlock;
 import net.minecraft.fluid.BaseFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.ViewableWorld;
 import net.minecraft.world.World;
@@ -60,22 +55,6 @@ public abstract class MixinBaseFluid extends Fluid implements SandboxInternal.Ba
                 if (!state.isEmpty()) {
                     world_1.getFluidTickScheduler().schedule(blockPos_1, state.getFluid(), int_1);
                     world_1.updateNeighborsAlways(blockPos_1, s.getBlock());
-                }
-            } else {
-                if (SandboxProperties.PROPERTY_FLUIDLOGGABLE.isValid(state.getFluid())) {
-                    if (s.getBlock().getStateFactory().getProperty("fluidlogged") == null || (s.getMaterial().isBurnable() && this.matches(FluidTags.LAVA))) {
-                        world_1.setBlockState(blockPos_1, state.isEmpty() ? Blocks.AIR.getDefaultState() : state.getBlockState(), 3);
-                        if (!state.isEmpty()) {
-                            world_1.getFluidTickScheduler().schedule(blockPos_1, state.getFluid(), int_1);
-                            world_1.updateNeighborsAlways(blockPos_1, s.getBlock());
-                        }
-                    } else {
-                        world_1.setBlockState(blockPos_1, s.with(SandboxProperties.PROPERTY_FLUIDLOGGABLE, ((SandboxInternal.FluidStateCompare) state).getComparability()), 3);
-                        if (!state.isEmpty()) {
-                            world_1.getFluidTickScheduler().schedule(blockPos_1, state.getFluid(), int_1);
-                            world_1.updateNeighborsAlways(blockPos_1, s.getBlock());
-                        }
-                    }
                 }
             }
         }

@@ -2,9 +2,7 @@ package com.hrznstudio.sandbox.api;
 
 import com.hrznstudio.sandbox.api.block.IBlock;
 import com.hrznstudio.sandbox.api.item.IItem;
-import com.hrznstudio.sandbox.api.state.StateFactory;
 import com.hrznstudio.sandbox.impl.BasicRegistry;
-import com.hrznstudio.sandbox.util.wrapper.FluidComparability;
 
 public class SandboxInternal {
 
@@ -46,9 +44,5 @@ public class SandboxInternal {
     }
     public interface StateFactoryHolder {
         com.hrznstudio.sandbox.api.state.StateFactory getSandboxStateFactory();
-    }
-
-    public interface FluidStateCompare {
-        FluidComparability getComparability();
     }
 }

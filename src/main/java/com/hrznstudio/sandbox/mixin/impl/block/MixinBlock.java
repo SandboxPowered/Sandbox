@@ -65,7 +65,7 @@ public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
         ((SandboxInternal.StateFactory) this.stateFactory).setSboxFactory(sandboxFactory);
     }
 
-    public IBlock.Settings sbx$getProperties() {
+    public IBlock.Settings sbx$getSettings() {
         return new IBlock.Settings(Material.AIR);
     }
 

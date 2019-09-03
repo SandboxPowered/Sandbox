@@ -7,7 +7,6 @@ import com.hrznstudio.sandbox.api.state.BlockState;
 import com.hrznstudio.sandbox.api.state.FluidState;
 import com.hrznstudio.sandbox.api.state.StateFactory;
 import com.hrznstudio.sandbox.util.WrappingUtil;
-import com.hrznstudio.sandbox.util.wrapper.FluidComparability;
 import com.hrznstudio.sandbox.util.wrapper.StateFactoryImpl;
 import net.minecraft.fluid.BaseFluid;
 import net.minecraft.fluid.Fluid;
@@ -26,7 +25,6 @@ public abstract class MixinFluid implements SandboxInternal.StateFactoryHolder  
     @Final
     protected net.minecraft.state.StateFactory<Fluid, net.minecraft.fluid.FluidState> stateFactory;
     private com.hrznstudio.sandbox.api.state.StateFactory<IFluid, FluidState> sandboxFactory;
-    private FluidComparability comparability;
 
     @Inject(method = "<init>", at = @At("RETURN"))
     public void constructor(CallbackInfo info) {
