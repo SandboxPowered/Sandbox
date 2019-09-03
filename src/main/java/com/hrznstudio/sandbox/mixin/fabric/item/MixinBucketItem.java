@@ -89,7 +89,7 @@ public abstract class MixinBucketItem extends Item {
                     return new TypedActionResult<>(ActionResult.FAIL, itemStack_1);
                 } else {
                     blockState_1 = world_1.getBlockState(blockPos_1);
-                    BlockPos blockPos_2 = blockState_1.getBlock() instanceof FluidFillable && ((FluidFillable) blockState_1.getBlock()).canFillWithFluid(world_1, blockPos_1, blockState_1, this.fluid) ? blockPos_1 : blockHitResult_1.getBlockPos().offset(blockHitResult_1.getSide());
+                    BlockPos blockPos_2 = blockState_1.getBlock() instanceof FluidFillable && this.fluid == Fluids.WATER && ((FluidFillable) blockState_1.getBlock()).canFillWithFluid(world_1, blockPos_1, blockState_1, this.fluid) ? blockPos_1 : blockHitResult_1.getBlockPos().offset(blockHitResult_1.getSide());
                     if (this.placeFluid(playerEntity_1, world_1, blockPos_2, blockHitResult_1)) {
                         this.onEmptied(world_1, itemStack_1, blockPos_2);
                         if (playerEntity_1 instanceof ServerPlayerEntity) {
@@ -130,7 +130,7 @@ public abstract class MixinBucketItem extends Item {
                     for (int i = 0; i < 8; ++i) {
                         world.addParticle(ParticleTypes.LARGE_SMOKE, (double) posX + Math.random(), (double) posY + Math.random(), (double) posZ + Math.random(), 0.0D, 0.0D, 0.0D);
                     }
-                } else if (state.getBlock() instanceof FluidFillable) {
+                } else if (state.getBlock() instanceof FluidFillable && this.fluid == Fluids.WATER) {
                     if (((FluidFillable) state.getBlock()).tryFillWithFluid(world, pos, state, ((BaseFluid) this.fluid).getStill(false))) {
                         this.playEmptyingSound(player, world, pos);
                     }

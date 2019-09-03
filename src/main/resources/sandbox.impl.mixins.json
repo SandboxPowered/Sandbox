@@ -5,7 +5,6 @@
   "minVersion": "0.7",
   "mixins": [
     "block.MixinBlock",
-    "block.MixinWaterloggable",
     "block.MixinSandboxBlock",
     "block.MixinBlockEntity",
     "block.MixinBlockEntityType",
