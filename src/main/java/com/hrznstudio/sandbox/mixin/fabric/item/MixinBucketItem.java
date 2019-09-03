@@ -58,52 +58,52 @@ public abstract class MixinBucketItem extends Item {
      * @author Coded
      */
     @Overwrite
-    public TypedActionResult<ItemStack> use(World world_1, PlayerEntity playerEntity_1, Hand hand_1) {
-        ItemStack itemStack_1 = playerEntity_1.getStackInHand(hand_1);
-        HitResult hitResult_1 = rayTrace(world_1, playerEntity_1, this.fluid == Fluids.EMPTY ? RayTraceContext.FluidHandling.SOURCE_ONLY : RayTraceContext.FluidHandling.NONE);
-        if (hitResult_1.getType() == HitResult.Type.MISS) {
-            return new TypedActionResult<>(ActionResult.PASS, itemStack_1);
-        } else if (hitResult_1.getType() != HitResult.Type.BLOCK) {
-            return new TypedActionResult<>(ActionResult.PASS, itemStack_1);
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity player, Hand hand) {
+        ItemStack heldStack = player.getStackInHand(hand);
+        HitResult hit = rayTrace(world, player, this.fluid == Fluids.EMPTY ? RayTraceContext.FluidHandling.SOURCE_ONLY : RayTraceContext.FluidHandling.NONE);
+        if (hit.getType() == HitResult.Type.MISS) {
+            return new TypedActionResult<>(ActionResult.PASS, heldStack);
+        } else if (hit.getType() != HitResult.Type.BLOCK) {
+            return new TypedActionResult<>(ActionResult.PASS, heldStack);
         } else {
-            BlockHitResult blockHitResult_1 = (BlockHitResult) hitResult_1;
-            BlockPos blockPos_1 = blockHitResult_1.getBlockPos();
-            if (world_1.canPlayerModifyAt(playerEntity_1, blockPos_1) && playerEntity_1.canPlaceOn(blockPos_1, blockHitResult_1.getSide(), itemStack_1)) {
-                BlockState blockState_1;
+            BlockHitResult blockHit = (BlockHitResult) hit;
+            BlockPos pos = blockHit.getBlockPos();
+            if (world.canPlayerModifyAt(player, pos) && player.canPlaceOn(pos, blockHit.getSide(), heldStack)) {
+                BlockState state;
                 if (this.fluid == Fluids.EMPTY) {
-                    blockState_1 = world_1.getBlockState(blockPos_1);
-                    if (blockState_1.getBlock() instanceof FluidDrainable) {
-                        Fluid fluid_1 = ((FluidDrainable) blockState_1.getBlock()).tryDrainFluid(world_1, blockPos_1, blockState_1);
-                        if (fluid_1 != Fluids.EMPTY) {
-                            playerEntity_1.incrementStat(Stats.USED.getOrCreateStat(this));
-                            playerEntity_1.playSound(fluid_1.matches(FluidTags.LAVA) ? SoundEvents.ITEM_BUCKET_FILL_LAVA : SoundEvents.ITEM_BUCKET_FILL, 1.0F, 1.0F);
-                            ItemStack itemStack_2 = this.getFilledStack(itemStack_1, playerEntity_1, fluid_1.getBucketItem());
-                            if (!world_1.isClient) {
-                                Criterions.FILLED_BUCKET.handle((ServerPlayerEntity) playerEntity_1, new ItemStack(fluid_1.getBucketItem()));
+                    state = world.getBlockState(pos);
+                    if (state.getBlock() instanceof FluidDrainable) {
+                        Fluid drainedFluid = ((FluidDrainable) state.getBlock()).tryDrainFluid(world, pos, state);
+                        if (drainedFluid != Fluids.EMPTY) {
+                            player.incrementStat(Stats.USED.getOrCreateStat(this));
+                            player.playSound(drainedFluid.matches(FluidTags.LAVA) ? SoundEvents.ITEM_BUCKET_FILL_LAVA : SoundEvents.ITEM_BUCKET_FILL, 1.0F, 1.0F);
+                            ItemStack filledStack = this.getFilledStack(heldStack, player, drainedFluid.getBucketItem());
+                            if (!world.isClient) {
+                                Criterions.FILLED_BUCKET.handle((ServerPlayerEntity) player, new ItemStack(drainedFluid.getBucketItem()));
                             }
 
-                            return new TypedActionResult<>(ActionResult.SUCCESS, itemStack_2);
+                            return new TypedActionResult<>(ActionResult.SUCCESS, filledStack);
                         }
                     }
 
-                    return new TypedActionResult<>(ActionResult.FAIL, itemStack_1);
+                    return new TypedActionResult<>(ActionResult.FAIL, heldStack);
                 } else {
-                    blockState_1 = world_1.getBlockState(blockPos_1);
-                    BlockPos blockPos_2 = blockState_1.getBlock() instanceof FluidFillable && this.fluid == Fluids.WATER && ((FluidFillable) blockState_1.getBlock()).canFillWithFluid(world_1, blockPos_1, blockState_1, this.fluid) ? blockPos_1 : blockHitResult_1.getBlockPos().offset(blockHitResult_1.getSide());
-                    if (this.placeFluid(playerEntity_1, world_1, blockPos_2, blockHitResult_1)) {
-                        this.onEmptied(world_1, itemStack_1, blockPos_2);
-                        if (playerEntity_1 instanceof ServerPlayerEntity) {
-                            Criterions.PLACED_BLOCK.handle((ServerPlayerEntity) playerEntity_1, blockPos_2, itemStack_1);
+                    state = world.getBlockState(pos);
+                    BlockPos pos2 = state.getBlock() instanceof FluidFillable && this.fluid == Fluids.WATER && ((FluidFillable) state.getBlock()).canFillWithFluid(world, pos, state, this.fluid) ? pos : blockHit.getBlockPos().offset(blockHit.getSide());
+                    if (this.placeFluid(player, world, pos2, blockHit)) {
+                        this.onEmptied(world, heldStack, pos2);
+                        if (player instanceof ServerPlayerEntity) {
+                            Criterions.PLACED_BLOCK.handle((ServerPlayerEntity) player, pos2, heldStack);
                         }
 
-                        playerEntity_1.incrementStat(Stats.USED.getOrCreateStat(this));
-                        return new TypedActionResult<>(ActionResult.SUCCESS, this.getEmptiedStack(itemStack_1, playerEntity_1));
+                        player.incrementStat(Stats.USED.getOrCreateStat(this));
+                        return new TypedActionResult<>(ActionResult.SUCCESS, this.getEmptiedStack(heldStack, player));
                     } else {
-                        return new TypedActionResult<>(ActionResult.FAIL, itemStack_1);
+                        return new TypedActionResult<>(ActionResult.FAIL, heldStack);
                     }
                 }
             } else {
-                return new TypedActionResult<>(ActionResult.FAIL, itemStack_1);
+                return new TypedActionResult<>(ActionResult.FAIL, heldStack);
             }
         }
     }
