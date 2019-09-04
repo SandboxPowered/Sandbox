@@ -19,10 +19,10 @@ public abstract class MixinFluidState {
     }
 
     public BlockState sbx$asBlockState() {
-        return sbx$getFluid().asBlockState((FluidState)this);
+        return sbx$getFluid().asBlockState((FluidState) this);
     }
 
     public boolean sbx$isStill() {
-        return sbx$getFluid().isStill((FluidState)this);
+        return sbx$getFluid().isStill((FluidState) this);
     }
 }

@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(BaseFluid.class)
-public abstract class MixinBaseFluid extends Fluid implements SandboxInternal.BaseFluid{
+public abstract class MixinBaseFluid extends Fluid implements SandboxInternal.BaseFluid {
     @Shadow
     protected abstract FluidState getUpdatedState(ViewableWorld viewableWorld_1, BlockPos blockPos_1, BlockState blockState_1);
 
@@ -23,7 +23,8 @@ public abstract class MixinBaseFluid extends Fluid implements SandboxInternal.Ba
     @Shadow
     protected abstract void method_15725(IWorld iWorld_1, BlockPos blockPos_1, FluidState fluidState_1);
 
-    @Shadow protected abstract boolean isInfinite();
+    @Shadow
+    protected abstract boolean isInfinite();
 
     @Override
     public boolean sandboxinfinite() {
