@@ -6,21 +6,28 @@ import com.hrznstudio.sandbox.api.item.IItem;
 import com.hrznstudio.sandbox.api.state.BlockState;
 import com.hrznstudio.sandbox.api.state.FluidState;
 import com.hrznstudio.sandbox.api.state.StateFactory;
+import com.hrznstudio.sandbox.api.util.math.Position;
+import com.hrznstudio.sandbox.api.util.math.Vec3d;
+import com.hrznstudio.sandbox.api.world.WorldReader;
 import com.hrznstudio.sandbox.util.WrappingUtil;
 import com.hrznstudio.sandbox.util.wrapper.StateFactoryImpl;
 import net.minecraft.fluid.BaseFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Item;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.BlockView;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Optional;
+
 @Mixin(Fluid.class)
 @Implements(@Interface(iface = IFluid.class, prefix = "sbx$"))
 @Unique
-public abstract class MixinFluid implements SandboxInternal.StateFactoryHolder  {
+public abstract class MixinFluid implements SandboxInternal.StateFactoryHolder {
     @Shadow
     @Final
     protected net.minecraft.state.StateFactory<Fluid, net.minecraft.fluid.FluidState> stateFactory;
@@ -48,6 +55,9 @@ public abstract class MixinFluid implements SandboxInternal.StateFactoryHolder  
 
     @Shadow
     public abstract Item getBucketItem();
+
+    @Shadow
+    protected abstract net.minecraft.util.math.Vec3d getVelocity(BlockView var1, BlockPos var2, net.minecraft.fluid.FluidState var3);
 
     public FluidState sbx$getBaseState() {
         return (FluidState) getDefaultState();
@@ -87,5 +97,13 @@ public abstract class MixinFluid implements SandboxInternal.StateFactoryHolder  
 
     public IItem sbx$asItem() {
         return WrappingUtil.convert(getBucketItem());
+    }
+
+    public Optional<Vec3d> sbx$getVelocity(WorldReader world, Position position, FluidState state) {
+        return Optional.of((Vec3d) getVelocity(
+                (BlockView) world,
+                (BlockPos) position,
+                (net.minecraft.fluid.FluidState) state
+        ));
     }
 }
