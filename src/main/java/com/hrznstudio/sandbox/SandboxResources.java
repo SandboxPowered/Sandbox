@@ -1,5 +1,6 @@
 package com.hrznstudio.sandbox;
 
+import com.google.common.collect.Sets;
 import com.hrznstudio.sandbox.util.Log;
 import net.minecraft.resource.AbstractFileResourcePack;
 import net.minecraft.resource.ResourceType;
@@ -91,7 +92,7 @@ public class SandboxResources extends AbstractFileResourcePack {
 
     @Override
     public Set<String> getNamespaces(ResourceType var1) {
-        return Collections.singleton("sandbox");
+        return Sets.newHashSet("minecraft", "sandbox");
     }
 
     @Override

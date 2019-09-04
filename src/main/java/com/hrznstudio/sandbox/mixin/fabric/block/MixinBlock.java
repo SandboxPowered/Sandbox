@@ -3,11 +3,27 @@ package com.hrznstudio.sandbox.mixin.fabric.block;
 import com.hrznstudio.sandbox.util.wrapper.BlockWrapper;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.state.property.Properties;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 
 @Mixin(Block.class)
 public class MixinBlock {
+
+    /**
+     * @author Coded
+     */
+    @Deprecated
+    @Overwrite
+    public FluidState getFluidState(net.minecraft.block.BlockState blockState_1) {
+        if (blockState_1.contains(Properties.WATERLOGGED)) {
+            return blockState_1.get(Properties.WATERLOGGED) ? Fluids.WATER.getDefaultState() : Fluids.EMPTY.getDefaultState();
+        }
+        return Fluids.EMPTY.getDefaultState();
+    }
+
     /**
      * @author Coded
      * @reason Custom stone

@@ -14,11 +14,7 @@ public class ReflectionHelper {
     }
 
     public static void setPrivateField(Class c, String field, Object val) throws NoSuchFieldException, IllegalAccessException {
-        Field m = c.getDeclaredField(field);
-        m.setAccessible(true);
-        if (Modifier.isFinal(m.getModifiers()))
-            getMods().setInt(m, m.getModifiers() & ~Modifier.FINAL);
-        m.set(null, val);
+        setPrivateField(c, null, field, val);
     }
 
     public static <A> void setPrivateField(Class<A> c, A obj, String field, Object val) throws NoSuchFieldException, IllegalAccessException {

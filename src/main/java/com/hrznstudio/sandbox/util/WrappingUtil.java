@@ -3,12 +3,13 @@ package com.hrznstudio.sandbox.util;
 import com.hrznstudio.sandbox.api.SandboxInternal;
 import com.hrznstudio.sandbox.api.block.IBlock;
 import com.hrznstudio.sandbox.api.block.entity.IBlockEntity;
-import com.hrznstudio.sandbox.api.block.state.BlockState;
 import com.hrznstudio.sandbox.api.client.screen.IScreen;
 import com.hrznstudio.sandbox.api.enchant.IEnchantment;
 import com.hrznstudio.sandbox.api.entity.IEntity;
+import com.hrznstudio.sandbox.api.fluid.IFluid;
 import com.hrznstudio.sandbox.api.item.IItem;
 import com.hrznstudio.sandbox.api.item.ItemStack;
+import com.hrznstudio.sandbox.api.state.BlockState;
 import com.hrznstudio.sandbox.api.util.Direction;
 import com.hrznstudio.sandbox.api.util.Identity;
 import com.hrznstudio.sandbox.api.util.Mirror;
@@ -25,12 +26,15 @@ import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
+import net.minecraft.state.property.Property;
 import net.minecraft.text.Text;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BlockView;
 
 import java.util.function.Function;
@@ -121,8 +125,8 @@ public class WrappingUtil {
         return wrapper.apply(a);
     }
 
-    public static Block.Settings convert(IBlock.Properties properties) {
-        return castOrWrap(properties, Block.Settings.class, prop -> Block.Settings.of(convert(properties.getMaterial())));
+    public static Block.Settings convert(IBlock.Settings settings) {
+        return castOrWrap(settings, Block.Settings.class, prop -> Block.Settings.of(convert(settings.getMaterial())));
     }
 
     private static Material convert(com.hrznstudio.sandbox.api.block.Material material) {
@@ -212,8 +216,8 @@ public class WrappingUtil {
     }
 
     public static IBlock convert(Block block) {
-        if (block instanceof BlockWrapper)
-            return ((BlockWrapper) block).getBlock();
+        if (block instanceof SandboxInternal.BlockWrapper)
+            return ((SandboxInternal.BlockWrapper) block).getBlock();
         return (IBlock) block;
     }
 
@@ -235,9 +239,46 @@ public class WrappingUtil {
         return castOrWrap(screen, Screen.class, WrappingUtil::getWrapped);
     }
 
+    public static Property convert(com.hrznstudio.sandbox.api.state.Property property) {
+        //TODO: Wrapper
+        return (Property) property;
+    }
+
     public static IScreen convert(Screen screen) {
         if (screen instanceof ScreenWrapper)
             return ((ScreenWrapper) screen).screen;
         return cast(screen, IScreen.class);
+    }
+
+    public static IFluid convert(Fluid fluid_1) {
+        if (fluid_1 instanceof FluidWrapper)
+            return ((FluidWrapper) fluid_1).fluid;
+        return (IFluid) fluid_1;
+    }
+
+    private static Fluid getWrapped(IFluid fluid) {
+        if (fluid instanceof com.hrznstudio.sandbox.api.fluid.Fluid && fluid instanceof SandboxInternal.WrappedInjection) {
+            if (((SandboxInternal.WrappedInjection) fluid).getInjectionWrapped() == null) {
+                ((SandboxInternal.WrappedInjection) fluid).setInjectionWrapped(FluidWrapper.create((com.hrznstudio.sandbox.api.fluid.Fluid) fluid));
+            }
+            return (Fluid) ((SandboxInternal.WrappedInjection) fluid).getInjectionWrapped();
+        }
+        throw new RuntimeException("Unacceptable class " + fluid.getClass());
+    }
+
+    public static Fluid convert(IFluid fluid_1) {
+        return castOrWrap(fluid_1, Fluid.class, WrappingUtil::getWrapped);
+    }
+
+    public static Item.Settings convert(IItem.Settings settings) {
+        return new Item.Settings().maxCount(settings.getStackSize()).maxDamage(settings.getMaxDamage()).recipeRemainder(settings.getRecipeRemainder() == null ? null : convert(settings.getRecipeRemainder()));
+    }
+
+    public static Vec3d convert(com.hrznstudio.sandbox.api.util.math.Vec3d vec3d) {
+        return cast(vec3d, Vec3d.class);
+    }
+
+    public static com.hrznstudio.sandbox.api.util.math.Vec3d convert(Vec3d vec3d) {
+        return cast(vec3d, com.hrznstudio.sandbox.api.util.math.Vec3d.class);
     }
 }

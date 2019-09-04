@@ -9,6 +9,10 @@
     "block.MixinBlockEntity",
     "block.MixinBlockEntityType",
     "block.MixinMaterial",
+    "fluid.MixinFluid",
+    "fluid.MixinSandboxFluid",
+    "fluid.MixinBaseFluid",
+    "fluid.MixinFluidState",
     "enchant.MixinSandboxEnchantment",
     "enchant.MixinEnchantment",
     "entity.MixinEntity",
@@ -19,13 +23,16 @@
     "item.MixinSandboxItem",
     "item.MixinItemStack",
     "state.MixinBlockState",
+    "state.MixinPropertyContainer",
     "text.MixinText",
     "nbt.MixinTag",
     "nbt.MixinCompoundTag",
     "util.MixinBlockPos",
     "util.MixinIdentifier",
     "util.MixinVec3i",
+    "util.MixinVec3d",
     "util.MixinVector3f",
+    "util.MixinProperty",
     "world.MixinBlockView",
     "world.MixinModifiableWorld",
     "world.MixinWorld"
@@ -34,6 +41,8 @@
     "client.MixinMinecraftClient",
     "client.MixinTextRenderer",
     "client.MixinScreen",
-    "client.MixinSandboxScreen"
+    "client.MixinSandboxScreen",
+    "client.MixinModelLoader",
+    "client.MixinFluidRenderer"
   ]
 }

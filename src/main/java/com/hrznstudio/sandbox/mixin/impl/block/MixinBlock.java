@@ -4,12 +4,12 @@ import com.hrznstudio.sandbox.api.SandboxInternal;
 import com.hrznstudio.sandbox.api.block.IBlock;
 import com.hrznstudio.sandbox.api.block.Material;
 import com.hrznstudio.sandbox.api.block.entity.IBlockEntity;
-import com.hrznstudio.sandbox.api.block.state.BlockState;
 import com.hrznstudio.sandbox.api.entity.IEntity;
 import com.hrznstudio.sandbox.api.entity.player.Hand;
 import com.hrznstudio.sandbox.api.entity.player.Player;
 import com.hrznstudio.sandbox.api.item.IItem;
 import com.hrznstudio.sandbox.api.item.ItemStack;
+import com.hrznstudio.sandbox.api.state.BlockState;
 import com.hrznstudio.sandbox.api.util.Direction;
 import com.hrznstudio.sandbox.api.util.InteractionResult;
 import com.hrznstudio.sandbox.api.util.math.Position;
@@ -24,6 +24,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.state.StateFactory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IWorld;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -34,11 +35,11 @@ import javax.annotation.Nullable;
 @Mixin(net.minecraft.block.Block.class)
 @Implements(@Interface(iface = IBlock.class, prefix = "sbx$"))
 @Unique
-public abstract class MixinBlock {
+public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
     @Shadow
     @Final
     protected StateFactory<Block, net.minecraft.block.BlockState> stateFactory;
-    private com.hrznstudio.sandbox.api.block.state.StateFactory<IBlock, BlockState> sandboxFactory;
+    private com.hrznstudio.sandbox.api.state.StateFactory<IBlock, BlockState> sandboxFactory;
 
     @Shadow
     public abstract boolean hasBlockEntity();
@@ -56,14 +57,21 @@ public abstract class MixinBlock {
     @Deprecated
     public abstract boolean isAir(net.minecraft.block.BlockState blockState_1);
 
+    @Shadow public abstract void onBroken(IWorld iWorld_1, BlockPos blockPos_1, net.minecraft.block.BlockState blockState_1);
+
     @Inject(method = "<init>", at = @At("RETURN"))
     public void constructor(Block.Settings settings, CallbackInfo info) {
-        sandboxFactory = new StateFactoryImpl<>(this.stateFactory, b -> (IBlock) b, s -> (com.hrznstudio.sandbox.api.block.state.BlockState) s);
+        sandboxFactory = new StateFactoryImpl<>(this.stateFactory, b -> (IBlock) b, s -> (com.hrznstudio.sandbox.api.state.BlockState) s);
         ((SandboxInternal.StateFactory) this.stateFactory).setSboxFactory(sandboxFactory);
     }
 
-    public IBlock.Properties sbx$getProperties() {
-        return new IBlock.Properties(Material.AIR);
+    public IBlock.Settings sbx$getSettings() {
+        return new IBlock.Settings(Material.AIR);
+    }
+
+    @Override
+    public com.hrznstudio.sandbox.api.state.StateFactory getSandboxStateFactory() {
+        return sandboxFactory;
     }
 
     public boolean sbx$isAir(BlockState state) {

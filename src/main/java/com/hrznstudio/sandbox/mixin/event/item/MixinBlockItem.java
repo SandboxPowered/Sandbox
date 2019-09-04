@@ -4,7 +4,6 @@ import com.hrznstudio.sandbox.api.event.BlockEvent;
 import com.hrznstudio.sandbox.api.util.math.Position;
 import com.hrznstudio.sandbox.api.world.World;
 import com.hrznstudio.sandbox.event.EventDispatcher;
-import com.hrznstudio.sandbox.server.SandboxServer;
 import com.hrznstudio.sandbox.util.WrappingUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.BlockItem;
@@ -24,7 +23,7 @@ public abstract class MixinBlockItem {
         BlockEvent.Place event = EventDispatcher.publish(new BlockEvent.Place(
                 (World) context.getWorld(),
                 (Position) context.getBlockPos(),
-                (com.hrznstudio.sandbox.api.block.state.BlockState) state
+                (com.hrznstudio.sandbox.api.state.BlockState) state
         ));
         BlockState state2 = WrappingUtil.convert(event.getState());
         if (event.isCancelled()) {

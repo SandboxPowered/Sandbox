@@ -1,6 +1,6 @@
 package com.hrznstudio.sandbox.util;
 
-import com.hrznstudio.sandbox.api.block.state.Property;
+import com.hrznstudio.sandbox.api.state.Property;
 import net.minecraft.state.property.Properties;
 
 public class PropertyUtil {
@@ -63,6 +63,10 @@ public class PropertyUtil {
             return (Property) Properties.UNSTABLE;
         if (s.equals("waterlogged"))
             return (Property) Properties.WATERLOGGED;
+        if (s.equals("fluidlevel"))
+            return (Property) Properties.LEVEL_1_8;
+        if (s.equals("level_15"))
+            return (Property) Properties.LEVEL_15;
         return null;
     }
 }

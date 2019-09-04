@@ -9,7 +9,9 @@
     "crash.MixinCrashReport",
 
     "block.MixinBlock",
+    "block.MixinBlockState",
     "block.MixinStateFactory",
+    "block.MixinStateFactory$MixinStateBuilder",
 
     "enchant.MixinEnchantmentHelper",
 
