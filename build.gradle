@@ -1,6 +1,7 @@
 plugins {
 	id 'fabric-loom' version '0.2.3-SNAPSHOT'
 	id 'maven-publish'
+	id 'java-library'
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
@@ -27,7 +28,7 @@ dependencies {
 	implementation 'com.electronwill.night-config:toml:3.6.0'
 	implementation 'com.github.zafarkhaja:java-semver:0.9.0'
 
-	compile project(':SandboxAPI')
+	implementation project(':SandboxAPI')
 	runtime project(':TestMod')
 }
 

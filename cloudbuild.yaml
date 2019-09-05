@@ -1,18 +1,18 @@
 steps:
-- name: 'adoptopenjdk/openjdk8-openj9'
-  args:
-    - './gradlew'
-    - 'build'
-    - 'publish'
-  env:
-  - 'BUILD=$BUILD_ID'
-  - 'PROJECT=$PROJECT_ID'
-  - 'REPO=$REPO_NAME'
-  - 'BRANCH=$BRANCH_NAME'
-  - 'COMMIT=$SHORT_SHA'
-  secretEnv:
-  - 'AWS_ACCESS_KEY_ID'
-  - 'AWS_SECRET_ACCESS_KEY'
+  - name: 'adoptopenjdk/openjdk8-openj9'
+    args:
+      - './gradlew'
+      - 'build'
+      - 'publish'
+    env:
+      - 'BUILD=$BUILD_ID'
+      - 'PROJECT=$PROJECT_ID'
+      - 'REPO=$REPO_NAME'
+      - 'BRANCH=$BRANCH_NAME'
+      - 'COMMIT=$SHORT_SHA'
+    secretEnv:
+      - 'AWS_ACCESS_KEY_ID'
+      - 'AWS_SECRET_ACCESS_KEY'
 secrets:
   - kmsKeyName: projects/hrznfactory/locations/global/keyRings/keyring/cryptoKeys/key
     secretEnv:

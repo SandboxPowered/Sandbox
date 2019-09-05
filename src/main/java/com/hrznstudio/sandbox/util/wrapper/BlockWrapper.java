@@ -107,7 +107,7 @@ public class BlockWrapper extends Block implements SandboxInternal.BlockWrapper 
 
     @Override
     public void onBroken(IWorld iWorld_1, BlockPos blockPos_1, BlockState blockState_1) {
-        block.onBlockDestroyed(
+        block.onBlockBroken(
                 (com.hrznstudio.sandbox.api.world.World) iWorld_1.getWorld(),
                 (Position) blockPos_1,
                 (com.hrznstudio.sandbox.api.state.BlockState) blockState_1
@@ -229,7 +229,7 @@ public class BlockWrapper extends Block implements SandboxInternal.BlockWrapper 
 
         @Override
         public void onBroken(IWorld iWorld_1, BlockPos blockPos_1, BlockState blockState_1) {
-            block.onBlockDestroyed(
+            block.onBlockBroken(
                     (com.hrznstudio.sandbox.api.world.World) iWorld_1.getWorld(),
                     (Position) blockPos_1,
                     (com.hrznstudio.sandbox.api.state.BlockState) blockState_1
