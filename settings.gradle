@@ -10,5 +10,5 @@ pluginManagement {
 }
 
 include 'SandboxAPI'
-include 'ExampleAddon'
+include 'TestMod'
 rootProject.name="fabric"
