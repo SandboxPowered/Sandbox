@@ -81,8 +81,8 @@ public class MixinMinecraftClient {
     }
 
     @Inject(method = "init", at = @At("HEAD"))
-    public void initGlobal(CallbackInfo info) {
-        SandboxHooks.setupGlobal();
+    public void initStart(CallbackInfo info) {
+
     }
 
     @Inject(method = "close", at = @At("HEAD"))

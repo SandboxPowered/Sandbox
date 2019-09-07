@@ -104,7 +104,7 @@ public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
         );
     }
 
-    public void sbx$onBlockDestroyed(World world, Position position, BlockState state) {
+    public void sbx$onBlockBroken(World world, Position position, BlockState state) {
 
     }
 

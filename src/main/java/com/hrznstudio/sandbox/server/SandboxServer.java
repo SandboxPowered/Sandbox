@@ -13,6 +13,7 @@ import com.hrznstudio.sandbox.event.EventDispatcher;
 import com.hrznstudio.sandbox.loader.SandboxLoader;
 import com.hrznstudio.sandbox.network.AddonS2CPacket;
 import com.hrznstudio.sandbox.network.Packet;
+import com.hrznstudio.sandbox.util.FileUtil;
 import com.hrznstudio.sandbox.util.Log;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -116,7 +117,7 @@ public class SandboxServer extends SandboxCommon {
         }
         Path uploadDir = Paths.get("upload");
         try {
-            java.nio.file.Files.deleteIfExists(uploadDir);
+            FileUtils.deleteDirectory(uploadDir.toFile());
             loader.getAddons().forEach(spec -> {
                 try {
                     Path path = Paths.get(spec.getPath().toURI());
