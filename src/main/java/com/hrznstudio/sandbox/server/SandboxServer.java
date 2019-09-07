@@ -97,7 +97,9 @@ public class SandboxServer extends SandboxCommon {
     protected void load() {
         List<Path> fileAddons = new ArrayList<>();
         try {
-            java.nio.file.Files.walk(Paths.get("addons"), 1)
+            Path addonPath = Paths.get("addons");
+            if (!addonPath.toFile().exists() || !addonPath.toFile().isDirectory()) addonPath.toFile().mkdir();
+            java.nio.file.Files.walk(addonPath, 1)
                     .filter(path -> path.toString().endsWith(".sbx"))
                     .forEach(path -> {
                         try {

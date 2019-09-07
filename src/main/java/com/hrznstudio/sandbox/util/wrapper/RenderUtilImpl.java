@@ -37,4 +37,9 @@ public class RenderUtilImpl implements RenderUtil {
         bufferBuilder_1.vertex(x, y, 0.0D).texture(u/256f, v/256f).color(255, 255, 255, 255).next();
         tessellator_1.draw();
     }
+
+    @Override
+    public void drawRepeating(int x, int y, int u, int v, int width, int height, float repeatWidth, float repeatHeight, int texWidth, int texHeight) {
+        //TODO: implement
+    }
 }
