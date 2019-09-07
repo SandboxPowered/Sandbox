@@ -19,7 +19,7 @@ public class MixinBlock {
      */
     @Deprecated
     @Inject(method = "getFluidState", at = @At("HEAD"), cancellable = true)
-    private static void getWaterloggedFluidState(BlockState state, CallbackInfoReturnable<FluidState> info) {
+    private void getWaterloggedFluidState(BlockState state, CallbackInfoReturnable<FluidState> info) {
         if (state.contains(Properties.WATERLOGGED))  info.setReturnValue(state.get(Properties.WATERLOGGED)? Fluids.WATER.getDefaultState() : Fluids.EMPTY.getDefaultState());
     }
 
