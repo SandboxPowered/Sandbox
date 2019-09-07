@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -42,11 +43,10 @@ public class MixinMinecraftServer {
     }
 
     /**
-     * @author Coded
-     * @reason Server system
+     * @author B0undarybreaker
      */
-    @Overwrite
-    public String getServerModName() {
+    @ModifyConstant(method = "getServerModName")
+    public String getServerModName(String original) {
         return "Sandbox";
     }
 }

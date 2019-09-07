@@ -2,51 +2,40 @@ package com.hrznstudio.sandbox.mixin.fabric.block;
 
 import com.hrznstudio.sandbox.util.wrapper.BlockWrapper;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
+import net.minecraft.block.BlockState;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.state.property.Properties;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Block.class)
 public class MixinBlock {
 
     /**
-     * @author Coded
+     * @author B0undarybreaker
      */
     @Deprecated
-    @Overwrite
-    public FluidState getFluidState(net.minecraft.block.BlockState blockState_1) {
-        if (blockState_1.contains(Properties.WATERLOGGED)) {
-            return blockState_1.get(Properties.WATERLOGGED) ? Fluids.WATER.getDefaultState() : Fluids.EMPTY.getDefaultState();
-        }
-        return Fluids.EMPTY.getDefaultState();
+    @Inject(method = "getFluidState", at = @At("HEAD"), cancellable = true)
+    private static void getWaterloggedFluidState(BlockState state, CallbackInfoReturnable<FluidState> info) {
+        if (state.contains(Properties.WATERLOGGED))  info.setReturnValue(state.get(Properties.WATERLOGGED)? Fluids.WATER.getDefaultState() : Fluids.EMPTY.getDefaultState());
     }
 
     /**
-     * @author Coded
-     * @reason Custom stone
+     * @author B0undarybreaker
      */
-    @Overwrite
-    public static boolean isNaturalStone(Block block_1) {
-        if (block_1 == Blocks.STONE || block_1 == Blocks.GRANITE || block_1 == Blocks.DIORITE || block_1 == Blocks.ANDESITE)
-            return true;
-        if (block_1 instanceof BlockWrapper)
-            return ((BlockWrapper) block_1).getBlock().isNaturalStone();
-        return false;
+    @Inject(method = "isNaturalStone", at = @At("HEAD"), cancellable = true)
+    private static void getExtraNaturalStone(Block block, CallbackInfoReturnable<Boolean> info) {
+        if (block instanceof BlockWrapper) info.setReturnValue(((BlockWrapper)block).getBlock().isNaturalStone());
     }
 
     /**
-     * @author Coded
-     * @reason Custom dirt
+     * @author B0undarybreaker
      */
-    @Overwrite
-    public static boolean isNaturalDirt(Block block_1) {
-        if (block_1 == Blocks.DIRT || block_1 == Blocks.COARSE_DIRT || block_1 == Blocks.PODZOL)
-            return true;
-        if (block_1 instanceof BlockWrapper)
-            return ((BlockWrapper) block_1).getBlock().isNaturalDirt();
-        return false;
+    @Inject(method = "isNaturalDirt", at = @At("HEAD"), cancellable = true)
+    private static void getExtraNaturalDirt(Block block, CallbackInfoReturnable<Boolean> info) {
+        if (block instanceof BlockWrapper) info.setReturnValue(((BlockWrapper)block).getBlock().isNaturalDirt());
     }
 }

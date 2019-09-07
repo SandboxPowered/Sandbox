@@ -21,18 +21,14 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.function.Predicate;
 
 @Mixin(PlayerEntity.class)
 public abstract class MixinPlayerEntity extends LivingEntity {
-    @Shadow
-    @Final
-    public PlayerAbilities abilities;
-    @Shadow
-    @Final
-    public PlayerInventory inventory;
 
     public MixinPlayerEntity(EntityType<? extends LivingEntity> entityType_1, World world_1) {
         super(entityType_1, world_1);
@@ -46,38 +42,14 @@ public abstract class MixinPlayerEntity extends LivingEntity {
     }
 
     /**
-     * @author Coded
-     * @reason GetArrowType Event
+     * @author B0undarybreaker
      */
-    @Overwrite
-    public ItemStack getArrowType(ItemStack weapon) {
+    @Inject(method = "getArrowType", at = @At("RETURN"))
+    public void getModifiedArrowType(ItemStack weapon, CallbackInfoReturnable<ItemStack> info) {
         ItemEvent.GetArrowType event = EventDispatcher.publish(new ItemEvent.GetArrowType(
                 WrappingUtil.cast(weapon, com.hrznstudio.sandbox.api.item.ItemStack.class),
-                WrappingUtil.cast(getVanillaArrowType(weapon), com.hrznstudio.sandbox.api.item.ItemStack.class)
+                WrappingUtil.cast(info.getReturnValue(), com.hrznstudio.sandbox.api.item.ItemStack.class)
         ));
-        return WrappingUtil.convert(event.getArrow());
-    }
-
-    private ItemStack getVanillaArrowType(ItemStack weapon) {
-        if (!(weapon.getItem() instanceof RangedWeaponItem)) {
-            return ItemStack.EMPTY;
-        } else {
-            Predicate<ItemStack> predicate_1 = ((RangedWeaponItem) weapon.getItem()).getHeldProjectiles();
-            ItemStack itemStack_2 = RangedWeaponItem.getHeldProjectile(this, predicate_1);
-            if (!itemStack_2.isEmpty()) {
-                return itemStack_2;
-            } else {
-                predicate_1 = ((RangedWeaponItem) weapon.getItem()).getProjectiles();
-
-                for (int int_1 = 0; int_1 < this.inventory.getInvSize(); ++int_1) {
-                    ItemStack itemStack_3 = this.inventory.getInvStack(int_1);
-                    if (predicate_1.test(itemStack_3)) {
-                        return itemStack_3;
-                    }
-                }
-
-                return abilities.creativeMode ? new ItemStack(Items.ARROW) : ItemStack.EMPTY;
-            }
-        }
+        info.setReturnValue(WrappingUtil.convert(event.getArrow()));
     }
 }
