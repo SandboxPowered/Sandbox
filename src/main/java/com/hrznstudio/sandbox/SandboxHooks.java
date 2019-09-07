@@ -5,6 +5,7 @@ import com.hrznstudio.sandbox.api.block.IBlock;
 import com.hrznstudio.sandbox.api.block.Material;
 import com.hrznstudio.sandbox.api.block.entity.IBlockEntity;
 import com.hrznstudio.sandbox.api.client.Client;
+import com.hrznstudio.sandbox.api.client.render.RenderUtil;
 import com.hrznstudio.sandbox.api.enchant.IEnchantment;
 import com.hrznstudio.sandbox.api.fluid.IFluid;
 import com.hrznstudio.sandbox.api.item.IItem;
@@ -13,6 +14,7 @@ import com.hrznstudio.sandbox.api.state.Property;
 import com.hrznstudio.sandbox.api.util.Functions;
 import com.hrznstudio.sandbox.api.util.Identity;
 import com.hrznstudio.sandbox.api.util.Side;
+import com.hrznstudio.sandbox.api.util.math.Position;
 import com.hrznstudio.sandbox.api.util.nbt.CompoundTag;
 import com.hrznstudio.sandbox.api.util.text.Text;
 import com.hrznstudio.sandbox.client.SandboxClient;
@@ -23,6 +25,7 @@ import com.hrznstudio.sandbox.util.MaterialUtil;
 import com.hrznstudio.sandbox.util.PropertyUtil;
 import com.hrznstudio.sandbox.util.ReflectionHelper;
 import com.hrznstudio.sandbox.util.WrappingUtil;
+import com.hrznstudio.sandbox.util.wrapper.RenderUtilImpl;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.ModMetadata;
@@ -30,6 +33,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.SimpleRegistry;
 
@@ -59,6 +63,8 @@ public class SandboxHooks {
         }
         Policy.setPolicy(new AddonSecurityPolicy());
         try {
+            ReflectionHelper.setPrivateField(Functions.class, "positionFunction", (Function<int[], Position>) (arr) -> (Position) new BlockPos(arr[0], arr[1], arr[2]));
+            ReflectionHelper.setPrivateField(Functions.class, "mutablePositionFunction", (Function<int[], Position.Mutable>) (arr) -> (Position.Mutable) new BlockPos.Mutable(arr[0], arr[1], arr[2]));
             ReflectionHelper.setPrivateField(Functions.class, "identityFunction", (Function<String, Identity>) s -> (Identity) new Identifier(s));
             ReflectionHelper.setPrivateField(Functions.class, "materialFunction", (Function<String, Material>) MaterialUtil::from);
             ReflectionHelper.setPrivateField(Functions.class, "blockEntityTypeFunction", (BiFunction<Supplier<IBlockEntity>, IBlock[], IBlockEntity.Type>) (s, b) -> {
@@ -79,8 +85,8 @@ public class SandboxHooks {
                 if (cla == IBlockEntity.Type.class) {
                     return ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.BLOCK_ENTITY).get();
                 }
-                if(cla == IFluid.class) {
-                    return ((SandboxInternal.Registry)Registry.FLUID).get();
+                if (cla == IFluid.class) {
+                    return ((SandboxInternal.Registry) Registry.FLUID).get();
                 }
                 throw new RuntimeException("Unknown registry " + cla);
             });
@@ -91,8 +97,9 @@ public class SandboxHooks {
             ReflectionHelper.setPrivateField(Functions.class, "translatedTextFunction", (Function<String, Text>) s -> (Text) new TranslatableText(s));
             ReflectionHelper.setPrivateField(Functions.class, "compoundTagCreator", (Supplier<CompoundTag>) () -> (CompoundTag) new net.minecraft.nbt.CompoundTag());
             ReflectionHelper.setPrivateField(Functions.class, "propertyFunction", (Function<String, Property>) PropertyUtil::get);
-            ReflectionHelper.setPrivateField(Functions.class, "clientInstance", (Supplier<Client>) ()->SandboxCommon.client);
+            ReflectionHelper.setPrivateField(Functions.class, "clientInstance", (Supplier<Client>) () -> SandboxCommon.client);
             ReflectionHelper.setPrivateField(Functions.class, "fluidFunction", (Function<String, IFluid>) s -> WrappingUtil.convert(Registry.FLUID.get(new Identifier(s))));
+            ReflectionHelper.setPrivateField(Functions.class, "renderUtil", (Supplier<RenderUtil>) () -> RenderUtilImpl.INSTANCE);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }

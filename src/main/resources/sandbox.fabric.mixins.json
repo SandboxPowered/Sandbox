@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_8",
   "minVersion": "0.7",
   "mixins": [
+    "MixinBootstrap",
     "server.MixinMinecraftServer",
     "registry.MixinSimpleRegistry",
     "crash.MixinCrashReport",

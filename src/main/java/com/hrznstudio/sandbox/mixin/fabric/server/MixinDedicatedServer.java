@@ -20,7 +20,6 @@ public class MixinDedicatedServer extends MixinMinecraftServer {
             cancellable = true
     )
     public void setupServer(CallbackInfoReturnable<Boolean> info) throws ScriptException {
-        SandboxHooks.setupGlobal();
         SandboxServer.constructAndSetup((MinecraftServer) (Object) this);
     }
 }
