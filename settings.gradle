@@ -10,5 +10,7 @@ pluginManagement {
 }
 
 include 'SandboxAPI'
-include 'TestMod'
+if(!System.getenv("COMMIT")) {
+    include 'TestMod'
+}
 rootProject.name="fabric"

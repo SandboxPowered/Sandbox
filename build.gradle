@@ -8,7 +8,7 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 archivesBaseName = project.archives_base_name
-version = project.sandbox_version
+version = System.getenv("COMMIT") ? "${project.sandbox_version}-${System.getenv("COMMIT")}" : "${project.sandbox_version}"
 group = project.maven_group
 
 minecraft {
@@ -16,6 +16,7 @@ minecraft {
 
 repositories {
 	maven { url 'https://jitpack.io' }
+	maven { url 'https://cdn.hrzn.studio/maven' }
 }
 
 dependencies {
@@ -28,8 +29,12 @@ dependencies {
 	implementation 'com.electronwill.night-config:toml:3.6.0'
 	implementation 'com.github.zafarkhaja:java-semver:0.9.0'
 
-	implementation project(':SandboxAPI')
-	runtime project(':TestMod')
+	if(System.getenv("COMMIT")) {
+		implementation 'com.hrznstudio.sandbox:sandbox-api:+'
+	} else {
+		implementation project(':SandboxAPI')
+		runtime project(':TestMod')
+	}
 }
 
 processResources {
