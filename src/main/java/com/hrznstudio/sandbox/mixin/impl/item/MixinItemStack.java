@@ -44,6 +44,9 @@ public abstract class MixinItemStack {
     public abstract net.minecraft.nbt.CompoundTag getTag();
 
     @Shadow
+    public abstract void setTag(@Nullable net.minecraft.nbt.CompoundTag compoundTag_1);
+
+    @Shadow
     public abstract net.minecraft.nbt.CompoundTag getOrCreateTag();
 
     @Shadow
@@ -52,9 +55,6 @@ public abstract class MixinItemStack {
 
     @Shadow
     public abstract net.minecraft.nbt.CompoundTag getOrCreateSubTag(String string_1);
-
-    @Shadow
-    public abstract void setTag(@Nullable net.minecraft.nbt.CompoundTag compoundTag_1);
 
     public boolean sbx$isEmpty() {
         return this.isEmpty();

@@ -21,6 +21,12 @@ public class BlockEntityWrapper extends BlockEntity {
         }
     }
 
+    public static BlockEntityWrapper create(IBlockEntity blockEntity) {
+        if (blockEntity instanceof IBlockEntity.Tickable)
+            return new BlockEntityWrapper.Ticking((IBlockEntity.Tickable) blockEntity);
+        return new BlockEntityWrapper(blockEntity);
+    }
+
     @Override
     public void fromTag(CompoundTag compoundTag_1) {
         super.fromTag(compoundTag_1);
@@ -32,12 +38,6 @@ public class BlockEntityWrapper extends BlockEntity {
         super.toTag(compoundTag_1);
         blockEntity.write((WritableCompoundTag) compoundTag_1);
         return compoundTag_1;
-    }
-
-    public static BlockEntityWrapper create(IBlockEntity blockEntity) {
-        if (blockEntity instanceof IBlockEntity.Tickable)
-            return new BlockEntityWrapper.Ticking((IBlockEntity.Tickable) blockEntity);
-        return new BlockEntityWrapper(blockEntity);
     }
 
     public static class Ticking extends BlockEntityWrapper implements Tickable {

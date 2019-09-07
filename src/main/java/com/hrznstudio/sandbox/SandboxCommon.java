@@ -13,8 +13,8 @@ import java.util.function.Predicate;
 
 public abstract class SandboxCommon implements SandboxAPI {
 
-    private Log log = new AddonLog();
     public static Client client;
+    private Log log = new AddonLog();
 
     protected abstract void setup();
 

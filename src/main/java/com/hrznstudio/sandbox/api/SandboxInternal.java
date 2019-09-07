@@ -11,6 +11,7 @@ public class SandboxInternal {
 
         void setSboxFactory(com.hrznstudio.sandbox.api.state.StateFactory factory);
     }
+
     public interface StateFactoryBuilder {
         com.hrznstudio.sandbox.api.state.StateFactory.Builder getSboxBuilder();
 
@@ -30,9 +31,11 @@ public class SandboxInternal {
     public interface ItemWrapper {
         IItem getItem();
     }
+
     public interface BlockWrapper {
         IBlock getBlock();
     }
+
     public interface BaseFluid {
         boolean sandboxinfinite();
     }
@@ -42,6 +45,7 @@ public class SandboxInternal {
 
         void setInjectionWrapped(Object o);
     }
+
     public interface StateFactoryHolder {
         com.hrznstudio.sandbox.api.state.StateFactory getSandboxStateFactory();
     }

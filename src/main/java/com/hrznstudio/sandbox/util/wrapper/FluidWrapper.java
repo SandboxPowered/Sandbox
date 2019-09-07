@@ -15,7 +15,6 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.FluidStateImpl;
 import net.minecraft.item.Item;
 import net.minecraft.state.StateFactory;
-import net.minecraft.tag.Tag;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
@@ -46,15 +45,15 @@ public class FluidWrapper extends BaseFluid {
         this.setDefaultState((FluidState) this.stateFactory.getDefaultState());
     }
 
+    public static FluidWrapper create(Fluid fluid) {
+        return new FluidWrapper(fluid);
+    }
+
     @Override
     protected void appendProperties(StateFactory.Builder<net.minecraft.fluid.Fluid, FluidState> stateFactory$Builder_1) {
         super.appendProperties(stateFactory$Builder_1);
         if (fluid != null)
             fluid.appendProperties(((SandboxInternal.StateFactoryBuilder) stateFactory$Builder_1).getSboxBuilder());
-    }
-
-    public static FluidWrapper create(Fluid fluid) {
-        return new FluidWrapper(fluid);
     }
 
     @Override

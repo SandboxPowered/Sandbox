@@ -13,7 +13,6 @@ import com.hrznstudio.sandbox.event.EventDispatcher;
 import com.hrznstudio.sandbox.loader.SandboxLoader;
 import com.hrznstudio.sandbox.network.AddonS2CPacket;
 import com.hrznstudio.sandbox.network.Packet;
-import com.hrznstudio.sandbox.util.FileUtil;
 import com.hrznstudio.sandbox.util.Log;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -58,7 +57,7 @@ public class SandboxServer extends SandboxCommon {
             return new AddonS2CPacket(0, SandboxConfig.addonSyncURL.get(), Collections.emptyList());
         List<Pair<String, String>> s = new ArrayList<>();
         loader.getAddons().forEach(spec -> {
-            if(spec.getSide().isClient()) {
+            if (spec.getSide().isClient()) {
                 try {
                     Path path = Paths.get(spec.getPath().toURI());
                     if (!java.nio.file.Files.isDirectory(path)) {

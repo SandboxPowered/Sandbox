@@ -1,7 +1,6 @@
 package com.hrznstudio.sandbox.util.wrapper;
 
 import com.hrznstudio.sandbox.api.client.Client;
-import com.hrznstudio.sandbox.api.client.screen.IScreen;
 import com.hrznstudio.sandbox.util.WrappingUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;

@@ -1,7 +1,7 @@
 package com.hrznstudio.sandbox.mixin.event.network;
 
-import com.hrznstudio.sandbox.api.state.BlockState;
 import com.hrznstudio.sandbox.api.event.BlockEvent;
+import com.hrznstudio.sandbox.api.state.BlockState;
 import com.hrznstudio.sandbox.api.util.math.Position;
 import com.hrznstudio.sandbox.api.world.World;
 import com.hrznstudio.sandbox.event.EventDispatcher;

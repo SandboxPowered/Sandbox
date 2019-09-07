@@ -9,10 +9,10 @@ import org.spongepowered.asm.mixin.*;
 @Unique
 public abstract class MixinLivingEntity {
     @Shadow
-    public abstract void setHealth(float float_1);
+    public abstract float getHealth();
 
     @Shadow
-    public abstract float getHealth();
+    public abstract void setHealth(float float_1);
 
     public void sbx$setHealth(float health) {
         this.setHealth(health);

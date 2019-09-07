@@ -1,6 +1,5 @@
 package com.hrznstudio.sandbox.mixin.fabric.server;
 
-import com.hrznstudio.sandbox.SandboxHooks;
 import com.hrznstudio.sandbox.server.SandboxServer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.dedicated.MinecraftDedicatedServer;

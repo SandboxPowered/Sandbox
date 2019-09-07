@@ -40,12 +40,12 @@ public class SandboxClient extends SandboxCommon {
         //Init client engine
         Log.info("Setting up Clientside Sandbox environment");
         DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("In Private Session")
-                .setBigImage("gm_debug", String.format("Playing %s", "Debug"))
+                        .setBigImage("gm_debug", String.format("Playing %s", "Debug"))
 //                .setSecrets("wah", "")
 //                .setParty("wah2", 5, 12)
-                .setStartTimestamps(System.currentTimeMillis() / 1000)
-                .setDetails("Playing on 'world'")
-                .build()
+                        .setStartTimestamps(System.currentTimeMillis() / 1000)
+                        .setDetails("Playing on 'world'")
+                        .build()
         );
     }
 

@@ -9,12 +9,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class SandboxConfig {
-    private static Config config;
-
     public static ConfigValue<Boolean> enchantmentDecimal;
     public static ConfigValue<Boolean> velocity;
     public static ConfigValue<String> velocityKey;
     public static ConfigValue<String> addonSyncURL;
+    private static Config config;
 
     static {
         try {

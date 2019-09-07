@@ -15,8 +15,8 @@ public class AddonClassLoader extends SecureClassLoader {
         registerAsParallelCapable();
     }
 
-    private DynamicURLClassLoader urlClassLoader = (DynamicURLClassLoader) getParent();
     private final AddonSpec spec;
+    private DynamicURLClassLoader urlClassLoader = (DynamicURLClassLoader) getParent();
 
     public AddonClassLoader(ClassLoader original, AddonSpec spec) {
         super(new DynamicURLClassLoader(new URL[0], original));

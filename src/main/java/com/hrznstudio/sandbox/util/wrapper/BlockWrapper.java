@@ -44,13 +44,6 @@ public class BlockWrapper extends Block implements SandboxInternal.BlockWrapper 
             ((com.hrznstudio.sandbox.api.block.Block) this.block).setStateFactory(((SandboxInternal.StateFactoryHolder) this).getSandboxStateFactory());
     }
 
-    @Override
-    protected void appendProperties(StateFactory.Builder<Block, BlockState> stateFactory$Builder_1) {
-        super.appendProperties(stateFactory$Builder_1);
-        if(block instanceof com.hrznstudio.sandbox.api.block.Block)
-            ((com.hrznstudio.sandbox.api.block.Block) block).appendProperties(((SandboxInternal.StateFactoryBuilder)stateFactory$Builder_1).getSboxBuilder());
-    }
-
     public static SandboxInternal.BlockWrapper create(IBlock block) {
         if (block instanceof com.hrznstudio.sandbox.api.block.FluidBlock)
             return new WithFluid((BaseFluid) WrappingUtil.convert(((com.hrznstudio.sandbox.api.block.FluidBlock) block).getFluid()), block);
@@ -64,6 +57,13 @@ public class BlockWrapper extends Block implements SandboxInternal.BlockWrapper 
             return new BlockWrapper.WithBlockEntity(block);
         }
         return new BlockWrapper(block);
+    }
+
+    @Override
+    protected void appendProperties(StateFactory.Builder<Block, BlockState> stateFactory$Builder_1) {
+        super.appendProperties(stateFactory$Builder_1);
+        if (block instanceof com.hrznstudio.sandbox.api.block.Block)
+            ((com.hrznstudio.sandbox.api.block.Block) block).appendProperties(((SandboxInternal.StateFactoryBuilder) stateFactory$Builder_1).getSboxBuilder());
     }
 
     @Override
@@ -184,8 +184,8 @@ public class BlockWrapper extends Block implements SandboxInternal.BlockWrapper 
         @Override
         protected void appendProperties(StateFactory.Builder<Block, BlockState> stateFactory$Builder_1) {
             super.appendProperties(stateFactory$Builder_1);
-            if(block instanceof com.hrznstudio.sandbox.api.block.FluidBlock)
-                ((com.hrznstudio.sandbox.api.block.Block) block).appendProperties(((SandboxInternal.StateFactoryBuilder)stateFactory$Builder_1).getSboxBuilder());
+            if (block instanceof com.hrznstudio.sandbox.api.block.FluidBlock)
+                ((com.hrznstudio.sandbox.api.block.Block) block).appendProperties(((SandboxInternal.StateFactoryBuilder) stateFactory$Builder_1).getSboxBuilder());
         }
 
         @Override

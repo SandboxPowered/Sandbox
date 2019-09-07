@@ -24,6 +24,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.state.StateFactory;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.IWorld;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -57,7 +58,11 @@ public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
     @Deprecated
     public abstract boolean isAir(net.minecraft.block.BlockState blockState_1);
 
-    @Shadow public abstract void onBroken(IWorld iWorld_1, BlockPos blockPos_1, net.minecraft.block.BlockState blockState_1);
+    @Shadow
+    public abstract void onBroken(IWorld iWorld_1, BlockPos blockPos_1, net.minecraft.block.BlockState blockState_1);
+
+    @Shadow
+    public abstract net.minecraft.item.ItemStack getPickStack(BlockView blockView_1, BlockPos blockPos_1, net.minecraft.block.BlockState blockState_1);
 
     @Inject(method = "<init>", at = @At("RETURN"))
     public void constructor(Block.Settings settings, CallbackInfo info) {
@@ -105,13 +110,14 @@ public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
     }
 
     public void sbx$onBlockBroken(World world, Position position, BlockState state) {
-
+        this.onBroken((net.minecraft.world.World) world, (BlockPos) position, (net.minecraft.block.BlockState) state);
     }
 
     public boolean sbx$hasBlockEntity() {
         return this.hasBlockEntity();
     }
 
+    @Nullable
     public IBlockEntity sbx$createBlockEntity(WorldReader reader) {
         if (hasBlockEntity())
             return (IBlockEntity) ((BlockEntityProvider) this).createBlockEntity(WrappingUtil.convert(reader));
@@ -124,5 +130,13 @@ public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
 
     public boolean sbx$isNaturalDirt() {
         return (Object) this == Blocks.DIRT || (Object) this == Blocks.COARSE_DIRT || (Object) this == Blocks.PODZOL;
+    }
+
+    public ItemStack sbx$getPickStack(WorldReader reader, Position position, BlockState state) {
+        return WrappingUtil.cast(getPickStack(
+                (BlockView) reader,
+                (BlockPos) position,
+                (net.minecraft.block.BlockState) state
+        ), ItemStack.class);
     }
 }

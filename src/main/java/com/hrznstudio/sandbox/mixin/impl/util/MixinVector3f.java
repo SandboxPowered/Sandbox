@@ -1,7 +1,6 @@
 package com.hrznstudio.sandbox.mixin.impl.util;
 
 import net.minecraft.client.util.math.Vector3f;
-import net.minecraft.util.math.Vec3i;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(Vector3f.class)

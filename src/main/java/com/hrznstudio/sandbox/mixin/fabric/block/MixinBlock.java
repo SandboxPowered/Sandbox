@@ -17,18 +17,9 @@ public class MixinBlock {
     /**
      * @author B0undarybreaker
      */
-    @Deprecated
-    @Inject(method = "getFluidState", at = @At("HEAD"), cancellable = true)
-    private void getWaterloggedFluidState(BlockState state, CallbackInfoReturnable<FluidState> info) {
-        if (state.contains(Properties.WATERLOGGED))  info.setReturnValue(state.get(Properties.WATERLOGGED)? Fluids.WATER.getDefaultState() : Fluids.EMPTY.getDefaultState());
-    }
-
-    /**
-     * @author B0undarybreaker
-     */
     @Inject(method = "isNaturalStone", at = @At("HEAD"), cancellable = true)
     private static void getExtraNaturalStone(Block block, CallbackInfoReturnable<Boolean> info) {
-        if (block instanceof BlockWrapper) info.setReturnValue(((BlockWrapper)block).getBlock().isNaturalStone());
+        if (block instanceof BlockWrapper) info.setReturnValue(((BlockWrapper) block).getBlock().isNaturalStone());
     }
 
     /**
@@ -36,6 +27,16 @@ public class MixinBlock {
      */
     @Inject(method = "isNaturalDirt", at = @At("HEAD"), cancellable = true)
     private static void getExtraNaturalDirt(Block block, CallbackInfoReturnable<Boolean> info) {
-        if (block instanceof BlockWrapper) info.setReturnValue(((BlockWrapper)block).getBlock().isNaturalDirt());
+        if (block instanceof BlockWrapper) info.setReturnValue(((BlockWrapper) block).getBlock().isNaturalDirt());
+    }
+
+    /**
+     * @author B0undarybreaker
+     */
+    @Deprecated
+    @Inject(method = "getFluidState", at = @At("HEAD"), cancellable = true)
+    private void getWaterloggedFluidState(BlockState state, CallbackInfoReturnable<FluidState> info) {
+        if (state.contains(Properties.WATERLOGGED))
+            info.setReturnValue(state.get(Properties.WATERLOGGED) ? Fluids.WATER.getDefaultState() : Fluids.EMPTY.getDefaultState());
     }
 }
