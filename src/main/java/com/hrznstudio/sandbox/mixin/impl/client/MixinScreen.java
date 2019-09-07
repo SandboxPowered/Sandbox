@@ -2,6 +2,7 @@ package com.hrznstudio.sandbox.mixin.impl.client;
 
 import com.hrznstudio.sandbox.api.client.Client;
 import com.hrznstudio.sandbox.api.client.screen.IScreen;
+import com.hrznstudio.sandbox.api.util.Identity;
 import net.minecraft.client.MinecraftClient;
 import org.spongepowered.asm.mixin.*;
 
@@ -24,4 +25,7 @@ public abstract class MixinScreen {
         render(mouseX, mouseY, partialTicks);
     }
 
+    public Identity sbx$getScreenId() {
+        return Identity.of("minecraft", getClass().getName().toLowerCase());
+    }
 }
