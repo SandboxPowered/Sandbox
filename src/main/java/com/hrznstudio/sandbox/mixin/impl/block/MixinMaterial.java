@@ -6,7 +6,7 @@ import net.minecraft.block.piston.PistonBehavior;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(net.minecraft.block.Material.class)
-@Implements(@Interface(iface = Material.class, prefix = "sbx$"))
+@Implements(@Interface(iface = Material.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public abstract class MixinMaterial {
 

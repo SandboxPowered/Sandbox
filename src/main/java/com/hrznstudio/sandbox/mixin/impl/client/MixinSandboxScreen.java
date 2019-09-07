@@ -5,7 +5,7 @@ import com.hrznstudio.sandbox.api.client.screen.Screen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
-@Mixin(Screen.class)
+@Mixin(value = Screen.class, remap = false)
 @Unique
 public abstract class MixinSandboxScreen implements SandboxInternal.WrappedInjection {
     private Object sandboxWrappedInjection;

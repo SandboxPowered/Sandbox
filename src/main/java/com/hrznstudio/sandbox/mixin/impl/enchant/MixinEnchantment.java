@@ -7,7 +7,7 @@ import net.minecraft.enchantment.Enchantment;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(Enchantment.class)
-@Implements(@Interface(iface = IEnchantment.class, prefix = "sbx$"))
+@Implements(@Interface(iface = IEnchantment.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public abstract class MixinEnchantment {
 

@@ -5,7 +5,7 @@ import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(Text.class)
-@Implements(@Interface(iface = com.hrznstudio.sandbox.api.util.text.Text.class, prefix = "sbx$"))
+@Implements(@Interface(iface = com.hrznstudio.sandbox.api.util.text.Text.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public interface MixinText {
 

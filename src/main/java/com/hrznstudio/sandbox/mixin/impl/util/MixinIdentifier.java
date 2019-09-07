@@ -5,7 +5,7 @@ import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(Identifier.class)
-@Implements(@Interface(iface = Identity.class, prefix = "sbx$"))
+@Implements(@Interface(iface = Identity.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public abstract class MixinIdentifier {
     @Shadow

@@ -7,7 +7,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(TextRenderer.class)
-@Implements(@Interface(iface = com.hrznstudio.sandbox.api.client.TextRenderer.class, prefix = "sbx$"))
+@Implements(@Interface(iface = com.hrznstudio.sandbox.api.client.TextRenderer.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public abstract class MixinTextRenderer {
     @Shadow

@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Optional;
 
 @Mixin(Fluid.class)
-@Implements(@Interface(iface = IFluid.class, prefix = "sbx$"))
+@Implements(@Interface(iface = IFluid.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public abstract class MixinFluid implements SandboxInternal.StateFactoryHolder {
     @Shadow

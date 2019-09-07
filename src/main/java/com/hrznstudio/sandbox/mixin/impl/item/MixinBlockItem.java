@@ -7,7 +7,7 @@ import net.minecraft.item.BlockItem;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(BlockItem.class)
-@Implements(@Interface(iface = IBlockItem.class, prefix = "sbx$"))
+@Implements(@Interface(iface = IBlockItem.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public abstract class MixinBlockItem {
     @Shadow

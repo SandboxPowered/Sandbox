@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(net.minecraft.item.Item.class)
-@Implements(@Interface(iface = IItem.class, prefix = "sbx$"))
+@Implements(@Interface(iface = IItem.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public class MixinItem {
 

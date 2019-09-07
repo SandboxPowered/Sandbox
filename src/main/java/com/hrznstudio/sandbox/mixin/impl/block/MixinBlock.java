@@ -34,7 +34,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import javax.annotation.Nullable;
 
 @Mixin(net.minecraft.block.Block.class)
-@Implements(@Interface(iface = IBlock.class, prefix = "sbx$"))
+@Implements(@Interface(iface = IBlock.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
     @Shadow

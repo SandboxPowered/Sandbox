@@ -9,7 +9,7 @@ import net.minecraft.util.math.Vec3i;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(BlockPos.class)
-@Implements(@Interface(iface = Position.class, prefix = "sbx$"))
+@Implements(@Interface(iface = Position.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public abstract class MixinBlockPos extends Vec3i {
     public MixinBlockPos() {

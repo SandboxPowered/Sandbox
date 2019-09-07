@@ -5,7 +5,7 @@ import net.minecraft.entity.LivingEntity;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(LivingEntity.class)
-@Implements(@Interface(iface = ILivingEntity.class, prefix = "sbx$"))
+@Implements(@Interface(iface = ILivingEntity.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public abstract class MixinLivingEntity {
     @Shadow

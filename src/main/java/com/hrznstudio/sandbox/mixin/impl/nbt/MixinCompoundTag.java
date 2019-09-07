@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Mixin(CompoundTag.class)
-@Implements(@Interface(iface = com.hrznstudio.sandbox.api.util.nbt.CompoundTag.class, prefix = "sbx$"))
+@Implements(@Interface(iface = com.hrznstudio.sandbox.api.util.nbt.CompoundTag.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public abstract class MixinCompoundTag implements Tag {
 

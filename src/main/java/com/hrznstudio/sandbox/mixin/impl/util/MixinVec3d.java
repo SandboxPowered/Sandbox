@@ -4,7 +4,7 @@ import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(Vec3d.class)
-@Implements(@Interface(iface = com.hrznstudio.sandbox.api.util.math.Vec3d.class, prefix = "sbx$"))
+@Implements(@Interface(iface = com.hrznstudio.sandbox.api.util.math.Vec3d.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public abstract class MixinVec3d {
     @Shadow

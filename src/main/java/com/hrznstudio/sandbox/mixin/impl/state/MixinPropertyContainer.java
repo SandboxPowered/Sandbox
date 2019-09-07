@@ -7,7 +7,7 @@ import net.minecraft.state.PropertyContainer;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(PropertyContainer.class)
-@Implements(@Interface(iface = com.hrznstudio.sandbox.api.state.PropertyContainer.class, prefix = "sbx$"))
+@Implements(@Interface(iface = com.hrznstudio.sandbox.api.state.PropertyContainer.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public interface MixinPropertyContainer {
     @Shadow

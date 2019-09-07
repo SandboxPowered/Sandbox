@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.*;
 import javax.annotation.Nullable;
 
 @Mixin(net.minecraft.item.ItemStack.class)
-@Implements(@Interface(iface = ItemStack.class, prefix = "sbx$"))
+@Implements(@Interface(iface = ItemStack.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public abstract class MixinItemStack {
 

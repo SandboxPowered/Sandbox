@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.*;
 import javax.annotation.Nullable;
 
 @Mixin(net.minecraft.block.entity.BlockEntity.class)
-@Implements(@Interface(iface = IBlockEntity.class, prefix = "sbx$"))
+@Implements(@Interface(iface = IBlockEntity.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public abstract class MixinBlockEntity {
     @Shadow

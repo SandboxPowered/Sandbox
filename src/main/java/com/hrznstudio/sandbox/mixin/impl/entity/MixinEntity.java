@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(Entity.class)
-@Implements(@Interface(iface = IEntity.class, prefix = "sbx$"))
+@Implements(@Interface(iface = IEntity.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public abstract class MixinEntity {
 }

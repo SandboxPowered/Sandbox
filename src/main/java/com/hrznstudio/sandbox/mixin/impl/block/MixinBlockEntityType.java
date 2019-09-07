@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(BlockEntityType.class)
-@Implements(@Interface(iface = IBlockEntity.Type.class, prefix = "sbx$"))
+@Implements(@Interface(iface = IBlockEntity.Type.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public class MixinBlockEntityType {
 

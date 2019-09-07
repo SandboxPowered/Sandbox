@@ -7,7 +7,7 @@ import java.util.Collection;
 import java.util.Optional;
 
 @Mixin(net.minecraft.state.property.Property.class)
-@Implements(@Interface(iface = Property.class, prefix = "sbx$"))
+@Implements(@Interface(iface = Property.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public abstract interface MixinProperty {
     @Shadow

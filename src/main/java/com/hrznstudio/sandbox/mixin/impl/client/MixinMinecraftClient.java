@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.*;
 import javax.annotation.Nullable;
 
 @Mixin(MinecraftClient.class)
-@Implements(@Interface(iface = Client.class, prefix = "sbx$"))
+@Implements(@Interface(iface = Client.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public class MixinMinecraftClient {
 

@@ -7,7 +7,7 @@ import net.minecraft.client.MinecraftClient;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(net.minecraft.client.gui.screen.Screen.class)
-@Implements(@Interface(iface = IScreen.class, prefix = "sbx$"))
+@Implements(@Interface(iface = IScreen.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public abstract class MixinScreen {
 

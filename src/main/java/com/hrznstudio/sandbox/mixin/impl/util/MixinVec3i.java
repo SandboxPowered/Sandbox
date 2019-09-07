@@ -4,7 +4,7 @@ import net.minecraft.util.math.Vec3i;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(Vec3i.class)
-@Implements(@Interface(iface = com.hrznstudio.sandbox.api.util.math.Vec3i.class, prefix = "sbx$"))
+@Implements(@Interface(iface = com.hrznstudio.sandbox.api.util.math.Vec3i.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public abstract class MixinVec3i {
     @Shadow
