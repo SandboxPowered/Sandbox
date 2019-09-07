@@ -1,9 +1,23 @@
 steps:
+  - name: 'gcr.io/cloud-builders/git'
+    args:
+      - 'clone'
+      - '--recurse-submodules'
+      - '-b'
+      - '$BRANCH_NAME'
+      - 'https://github.com/OpenModLoader/Sandbox.git'
+      - 'sbxclone'
+  - name: 'ubuntu'
+    args:
+      - 'ls'
+      - '-R'
+      - 'sbxclone'
   - name: 'adoptopenjdk/openjdk8-openj9'
     args:
-      - './gradlew'
+      - './sbxclone/gradlew'
       - 'build'
       - 'publish'
+      - '--no-daemon'
     env:
       - 'BUILD=$BUILD_ID'
       - 'PROJECT=$PROJECT_ID'
