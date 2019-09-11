@@ -56,6 +56,14 @@ public abstract class MixinItemStack {
     @Shadow
     public abstract net.minecraft.nbt.CompoundTag getOrCreateSubTag(String string_1);
 
+    @Shadow
+    public abstract int getMaxCount();
+
+    @Shadow
+    public abstract boolean isItemEqual(net.minecraft.item.ItemStack itemStack_1);
+
+    @Shadow public abstract net.minecraft.item.ItemStack copy();
+
     public boolean sbx$isEmpty() {
         return this.isEmpty();
     }
@@ -109,5 +117,21 @@ public abstract class MixinItemStack {
 
     public CompoundTag sbx$getOrCreateTag() {
         return (CompoundTag) getOrCreateTag();
+    }
+
+    public int sbx$getMaxCount() {
+        return getMaxCount();
+    }
+
+    public ItemStack sbx$copy() {
+        return WrappingUtil.cast(copy(), ItemStack.class);
+    }
+
+    public boolean sbx$isEqualTo(ItemStack stack) {
+        if (this == stack) {
+            return true;
+        } else {
+            return (!this.sbx$isEmpty() && !stack.isEmpty()) && isItemEqual(WrappingUtil.cast(stack, net.minecraft.item.ItemStack.class));
+        }
     }
 }

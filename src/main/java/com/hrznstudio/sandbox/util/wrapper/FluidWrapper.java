@@ -2,6 +2,7 @@ package com.hrznstudio.sandbox.util.wrapper;
 
 import com.hrznstudio.sandbox.api.SandboxInternal;
 import com.hrznstudio.sandbox.api.fluid.Fluid;
+import com.hrznstudio.sandbox.api.util.Mono;
 import com.hrznstudio.sandbox.api.util.math.Position;
 import com.hrznstudio.sandbox.api.world.WorldReader;
 import com.hrznstudio.sandbox.util.ReflectionHelper;
@@ -23,7 +24,6 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.ViewableWorld;
 
 import java.lang.reflect.Field;
-import java.util.Optional;
 
 public class FluidWrapper extends BaseFluid {
     public static Field whatever;
@@ -79,7 +79,7 @@ public class FluidWrapper extends BaseFluid {
 
     @Override
     public Vec3d getVelocity(BlockView blockView_1, BlockPos blockPos_1, FluidState fluidState_1) {
-        Optional<com.hrznstudio.sandbox.api.util.math.Vec3d> optional = fluid.getVelocity(
+        Mono<com.hrznstudio.sandbox.api.util.math.Vec3d> optional = fluid.getVelocity(
                 (WorldReader) blockView_1,
                 (Position) blockPos_1,
                 (com.hrznstudio.sandbox.api.state.FluidState) fluidState_1

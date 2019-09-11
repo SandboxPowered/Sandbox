@@ -28,6 +28,7 @@ public interface MixinBlockView extends WorldReader {
     }
 
     @Override
+    @Nullable
     default IBlockEntity getBlockEntity(Position position) {
         return (IBlockEntity) this.getBlockEntity(WrappingUtil.convert(position));
     }

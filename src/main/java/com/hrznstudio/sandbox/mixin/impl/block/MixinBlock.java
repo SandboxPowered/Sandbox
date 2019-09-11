@@ -4,6 +4,8 @@ import com.hrznstudio.sandbox.api.SandboxInternal;
 import com.hrznstudio.sandbox.api.block.IBlock;
 import com.hrznstudio.sandbox.api.block.Material;
 import com.hrznstudio.sandbox.api.block.entity.IBlockEntity;
+import com.hrznstudio.sandbox.api.component.Component;
+import com.hrznstudio.sandbox.api.component.Components;
 import com.hrznstudio.sandbox.api.entity.IEntity;
 import com.hrznstudio.sandbox.api.entity.player.Hand;
 import com.hrznstudio.sandbox.api.entity.player.Player;
@@ -12,16 +14,23 @@ import com.hrznstudio.sandbox.api.item.ItemStack;
 import com.hrznstudio.sandbox.api.state.BlockState;
 import com.hrznstudio.sandbox.api.util.Direction;
 import com.hrznstudio.sandbox.api.util.InteractionResult;
+import com.hrznstudio.sandbox.api.util.Mono;
 import com.hrznstudio.sandbox.api.util.math.Position;
 import com.hrznstudio.sandbox.api.util.math.Vec3f;
 import com.hrznstudio.sandbox.api.world.World;
 import com.hrznstudio.sandbox.api.world.WorldReader;
 import com.hrznstudio.sandbox.util.WrappingUtil;
+import com.hrznstudio.sandbox.util.wrapper.SidedRespective;
 import com.hrznstudio.sandbox.util.wrapper.StateFactoryImpl;
+import com.hrznstudio.sandbox.util.wrapper.V2SInventory;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.InventoryProvider;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.SidedInventory;
 import net.minecraft.state.StateFactory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
@@ -115,6 +124,24 @@ public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
 
     public boolean sbx$hasBlockEntity() {
         return this.hasBlockEntity();
+    }
+
+    public <X> Mono<X> sbx$getComponent(WorldReader reader, Position position, BlockState state, Component<X> component, Mono<Direction> side) {
+        if (component == Components.INVENTORY_COMPONENT) {
+            if (this instanceof InventoryProvider) {
+                SidedInventory inventory = ((InventoryProvider) this).getInventory((net.minecraft.block.BlockState) state, (IWorld) reader, (BlockPos) position);
+                if (side.isPresent())
+                    return Mono.of(new SidedRespective(inventory, side.get())).cast();
+                return Mono.of(new V2SInventory(inventory)).cast();
+            }
+            BlockEntity entity = ((BlockView) reader).getBlockEntity((BlockPos) position);
+            if (entity instanceof Inventory) {
+                if (side.isPresent() && entity instanceof SidedInventory)
+                    return Mono.of(new SidedRespective((SidedInventory) entity, side.get())).cast();
+                return Mono.of(new V2SInventory((Inventory) entity)).cast();
+            }
+        }
+        return Mono.empty();
     }
 
     @Nullable

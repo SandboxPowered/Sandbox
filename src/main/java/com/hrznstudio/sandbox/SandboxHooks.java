@@ -6,6 +6,7 @@ import com.hrznstudio.sandbox.api.block.Material;
 import com.hrznstudio.sandbox.api.block.entity.IBlockEntity;
 import com.hrznstudio.sandbox.api.client.Client;
 import com.hrznstudio.sandbox.api.client.render.RenderUtil;
+import com.hrznstudio.sandbox.api.component.Component;
 import com.hrznstudio.sandbox.api.enchant.IEnchantment;
 import com.hrznstudio.sandbox.api.fluid.IFluid;
 import com.hrznstudio.sandbox.api.item.IItem;
@@ -15,6 +16,7 @@ import com.hrznstudio.sandbox.api.util.Functions;
 import com.hrznstudio.sandbox.api.util.Identity;
 import com.hrznstudio.sandbox.api.util.Side;
 import com.hrznstudio.sandbox.api.util.math.Position;
+import com.hrznstudio.sandbox.api.util.math.Vec3i;
 import com.hrznstudio.sandbox.api.util.nbt.CompoundTag;
 import com.hrznstudio.sandbox.api.util.text.Text;
 import com.hrznstudio.sandbox.client.SandboxClient;
@@ -63,6 +65,7 @@ public class SandboxHooks {
         }
         Policy.setPolicy(new AddonSecurityPolicy());
         try {
+            ReflectionHelper.setPrivateField(Functions.class, "vec3iFunction", (Function<int[], Vec3i>) (arr) -> (Vec3i) new net.minecraft.util.math.Vec3i(arr[0], arr[1], arr[2]));
             ReflectionHelper.setPrivateField(Functions.class, "positionFunction", (Function<int[], Position>) (arr) -> (Position) new BlockPos(arr[0], arr[1], arr[2]));
             ReflectionHelper.setPrivateField(Functions.class, "mutablePositionFunction", (Function<int[], Position.Mutable>) (arr) -> (Position.Mutable) new BlockPos.Mutable(arr[0], arr[1], arr[2]));
             ReflectionHelper.setPrivateField(Functions.class, "identityFunction", (Function<String, Identity>) s -> (Identity) new Identifier(s));
@@ -100,6 +103,7 @@ public class SandboxHooks {
             ReflectionHelper.setPrivateField(Functions.class, "clientInstance", (Supplier<Client>) () -> SandboxCommon.client);
             ReflectionHelper.setPrivateField(Functions.class, "fluidFunction", (Function<String, IFluid>) s -> WrappingUtil.convert(Registry.FLUID.get(new Identifier(s))));
             ReflectionHelper.setPrivateField(Functions.class, "renderUtil", (Supplier<RenderUtil>) () -> RenderUtilImpl.INSTANCE);
+            ReflectionHelper.setPrivateField(Functions.class, "componentFunction", (Function<Class, Component>) SandboxComponents::getComponent);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
