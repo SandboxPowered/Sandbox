@@ -51,9 +51,9 @@ public abstract class MixinHopperBlockEntity extends BlockEntity {
                         }
                     }
                 }
+                info.setReturnValue(false);
             }
         }
-        info.setReturnValue(false);
     }
 
     @Inject(method = "extract(Lnet/minecraft/block/entity/Hopper;)Z", at = @At("HEAD"), cancellable = true)
