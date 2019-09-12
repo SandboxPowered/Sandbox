@@ -198,6 +198,11 @@ public class WrappingUtil {
     public static net.minecraft.block.entity.BlockEntity convert(IBlockEntity entity) {
         return castOrWrap(entity, net.minecraft.block.entity.BlockEntity.class, read -> BlockEntityWrapper.create(entity));
     }
+    public static IBlockEntity convert(net.minecraft.block.entity.BlockEntity entity) {
+        if (entity instanceof BlockEntityWrapper)
+            return ((BlockEntityWrapper) entity).getBlockEntity();
+        return (IBlockEntity) entity;
+    }
 
     public static net.minecraft.item.ItemStack convert(ItemStack itemStack) {
         return cast(itemStack, net.minecraft.item.ItemStack.class);

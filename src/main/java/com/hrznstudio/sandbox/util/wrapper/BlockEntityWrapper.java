@@ -21,6 +21,10 @@ public class BlockEntityWrapper extends BlockEntity {
         }
     }
 
+    public IBlockEntity getBlockEntity() {
+        return blockEntity;
+    }
+
     public static BlockEntityWrapper create(IBlockEntity blockEntity) {
         if (blockEntity instanceof IBlockEntity.Tickable)
             return new BlockEntityWrapper.Ticking((IBlockEntity.Tickable) blockEntity);
