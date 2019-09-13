@@ -36,7 +36,8 @@
     "util.MixinProperty",
     "world.MixinBlockView",
     "world.MixinModifiableWorld",
-    "world.MixinWorld"
+    "world.MixinWorld",
+    "server.MixinMinecraftServer"
   ],
   "client": [
     "client.MixinMinecraftClient",
