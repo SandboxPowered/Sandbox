@@ -62,7 +62,8 @@ public abstract class MixinItemStack {
     @Shadow
     public abstract boolean isItemEqual(net.minecraft.item.ItemStack itemStack_1);
 
-    @Shadow public abstract net.minecraft.item.ItemStack copy();
+    @Shadow
+    public abstract net.minecraft.item.ItemStack copy();
 
     public boolean sbx$isEmpty() {
         return this.isEmpty();

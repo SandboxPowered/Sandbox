@@ -54,13 +54,13 @@ public class MixinMinecraftClient {
         }
     }
 
-    @Inject(method = "<init>", at = @At("RETURN"))
+    @Inject(method = "<init>", at = @At("RETURN"), remap = false)
     public void constructor(CallbackInfo info) {
         SandboxCommon.client = (Client) this;
         this.resourcePackContainerManager.addCreator(new SandboxResourceCreator());
     }
 
-    @Inject(method = "init", at = @At(value = "INVOKE", target = "Ljava/util/List;iterator()Ljava/util/Iterator;", ordinal = 0, shift = At.Shift.BY, by = -2), locals = LocalCapture.CAPTURE_FAILHARD)
+    @Inject(method = "init", at = @At(value = "INVOKE", target = "Ljava/util/List;iterator()Ljava/util/Iterator;", ordinal = 0, shift = At.Shift.BY, by = -2, remap = false), locals = LocalCapture.CAPTURE_FAILHARD)
     public void initResources(CallbackInfo info, List<ResourcePack> list) {
         addonResourcePackModifications(list);
     }

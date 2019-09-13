@@ -24,38 +24,6 @@ public abstract class MixinHopperBlockEntity extends BlockEntity {
         super(blockEntityType_1);
     }
 
-    @Inject(method = "insert", at = @At("HEAD"), cancellable = true)
-    public void insert(CallbackInfoReturnable<Boolean> info) {
-        World world = (World) this.getWorld();
-        Position position = (Position) getPos();
-        if (world == null) {
-            info.setReturnValue(false);
-            return;
-        }
-        BlockState state = (BlockState) getCachedState();
-        Direction direction = WrappingUtil.convert(getCachedState().get(HopperBlock.FACING));
-        Inventory hopperInventory = state.getComponent(world, position, Components.INVENTORY_COMPONENT).orElse(null);
-        if (hopperInventory != null) {
-            Position offset = position.offset(direction);
-            BlockState other = world.getBlockState(offset);
-            Mono<Inventory> mono = other.getComponent(world, offset, Components.INVENTORY_COMPONENT, direction.getOppositeDirection());
-            if (mono.isPresent()) {
-                Inventory inputInv = mono.get();
-                for (int slot : hopperInventory) {
-                    ItemStack input = hopperInventory.extract(slot, 1, true);
-                    if (!input.isEmpty()) {
-                        if (inputInv.insert(input, true).isEmpty()) {
-                            inputInv.insert(hopperInventory.extract(slot, 1));
-                            info.setReturnValue(true);
-                            return;
-                        }
-                    }
-                }
-                info.setReturnValue(false);
-            }
-        }
-    }
-
     @Inject(method = "extract(Lnet/minecraft/block/entity/Hopper;)Z", at = @At("HEAD"), cancellable = true)
     private static void extract(Hopper hopper, CallbackInfoReturnable<Boolean> info) {
         World world = (World) hopper.getWorld();
@@ -98,5 +66,37 @@ public abstract class MixinHopperBlockEntity extends BlockEntity {
             }
         }
         info.setReturnValue(false);
+    }
+
+    @Inject(method = "insert", at = @At("HEAD"), cancellable = true)
+    public void insert(CallbackInfoReturnable<Boolean> info) {
+        World world = (World) this.getWorld();
+        Position position = (Position) getPos();
+        if (world == null) {
+            info.setReturnValue(false);
+            return;
+        }
+        BlockState state = (BlockState) getCachedState();
+        Direction direction = WrappingUtil.convert(getCachedState().get(HopperBlock.FACING));
+        Inventory hopperInventory = state.getComponent(world, position, Components.INVENTORY_COMPONENT).orElse(null);
+        if (hopperInventory != null) {
+            Position offset = position.offset(direction);
+            BlockState other = world.getBlockState(offset);
+            Mono<Inventory> mono = other.getComponent(world, offset, Components.INVENTORY_COMPONENT, direction.getOppositeDirection());
+            if (mono.isPresent()) {
+                Inventory inputInv = mono.get();
+                for (int slot : hopperInventory) {
+                    ItemStack input = hopperInventory.extract(slot, 1, true);
+                    if (!input.isEmpty()) {
+                        if (inputInv.insert(input, true).isEmpty()) {
+                            inputInv.insert(hopperInventory.extract(slot, 1));
+                            info.setReturnValue(true);
+                            return;
+                        }
+                    }
+                }
+                info.setReturnValue(false);
+            }
+        }
     }
 }
