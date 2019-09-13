@@ -79,12 +79,12 @@ public class FluidWrapper extends BaseFluid {
 
     @Override
     public Vec3d getVelocity(BlockView blockView_1, BlockPos blockPos_1, FluidState fluidState_1) {
-        Mono<com.hrznstudio.sandbox.api.util.math.Vec3d> optional = fluid.getVelocity(
+        Mono<com.hrznstudio.sandbox.api.util.math.Vec3d> mono = fluid.getVelocity(
                 (WorldReader) blockView_1,
                 (Position) blockPos_1,
                 (com.hrznstudio.sandbox.api.state.FluidState) fluidState_1
         );
-        return optional.map(WrappingUtil::convert).orElseGet(() -> super.getVelocity(blockView_1, blockPos_1, fluidState_1));
+        return mono.map(WrappingUtil::convert).orElseGet(() -> super.getVelocity(blockView_1, blockPos_1, fluidState_1));
     }
 
     @Override
