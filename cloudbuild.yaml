@@ -12,12 +12,11 @@ steps:
       - 'ls'
       - '-R'
       - 'sbxclone'
-  - name: 'adoptopenjdk/openjdk8-openj9'
+  - name: 'adoptopenjdk/openjdk8'
     args:
       - './sbxclone/gradlew'
       - 'build'
       - 'publish'
-      - '--no-daemon'
     env:
       - 'BUILD=$BUILD_ID'
       - 'PROJECT=$PROJECT_ID'

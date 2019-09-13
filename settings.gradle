@@ -13,4 +13,4 @@ include 'SandboxAPI'
 if(!System.getenv("COMMIT")) {
     include 'TestMod'
 }
-rootProject.name="fabric"
+rootProject.name="sandbox-fabric"
