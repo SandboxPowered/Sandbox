@@ -1,6 +1,6 @@
 [submodule "SandboxAPI"]
 	path = SandboxAPI
-	url = https://github.com/OpenModLoader/SandboxAPI.git
+	url = https://github.com/SandboxPowered/SandboxAPI.git
 [submodule "TestMod"]
 	path = TestMod
-	url = https://github.com/OpenModLoader/Sandbox-Test-Mod.git
+	url = https://github.com/SandboxPowered/Sandbox-Test-Mod.git
