@@ -17,6 +17,7 @@ steps:
       - './sbxclone/gradlew'
       - 'build'
       - 'publish'
+      - '--stacktrace'
     env:
       - 'BUILD=$BUILD_ID'
       - 'PROJECT=$PROJECT_ID'
