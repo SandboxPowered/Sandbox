@@ -28,6 +28,7 @@ dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}"
 	modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
+	implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.2'
 	shade project(':discord-rpc')
 
 	shade project(':SandboxAPI')
