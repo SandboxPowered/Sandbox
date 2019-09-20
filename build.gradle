@@ -78,6 +78,13 @@ publishing {
 			artifact(sourcesJar) {
 				builtBy remapSourcesJar
 			}
+			pom.withXml {
+				asNode().dependencies.'*'.findAll() {
+					it.artifactId.text() == 'fabric-loader'
+				}.each() {
+					it.parent().remove(it)
+				}
+			}
 		}
 	}
 	repositories {
