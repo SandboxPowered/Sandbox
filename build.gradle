@@ -25,7 +25,7 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}"
 	modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
 	implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.2'
-	implementation 'com.github.Vatuu:discord-rpc:1.6.2'
+	implementation project(':discord-rpc')
 	implementation 'com.electronwill.night-config:core:3.6.0'
 	implementation 'com.electronwill.night-config:toml:3.6.0'
 	implementation 'com.github.zafarkhaja:java-semver:0.9.0'
@@ -33,6 +33,12 @@ dependencies {
 	implementation project(':SandboxAPI')
 	if(!System.getenv("COMMIT")) {
 		runtime project(':TestMod')
+	}
+}
+
+jar {
+	from {
+		configurations.implementation.collect { it.isDirectory() ? it : zipTree(it) }
 	}
 }
 

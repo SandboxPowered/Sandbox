@@ -4,3 +4,6 @@
 [submodule "TestMod"]
 	path = TestMod
 	url = https://github.com/SandboxPowered/Sandbox-Test-Mod.git
+[submodule "discord-rpc"]
+	path = discord-rpc
+	url = https://github.com/SandboxPowered/discord-rpc.git

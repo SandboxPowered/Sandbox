@@ -13,4 +13,5 @@ include 'SandboxAPI'
 if(!System.getenv("COMMIT")) {
     include 'TestMod'
 }
+include 'discord-rpc'
 rootProject.name="sandbox-fabric"
