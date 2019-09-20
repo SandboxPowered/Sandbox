@@ -6,6 +6,7 @@ import com.hrznstudio.sandbox.api.item.IItem;
 import com.hrznstudio.sandbox.api.state.BlockState;
 import com.hrznstudio.sandbox.api.state.FluidState;
 import com.hrznstudio.sandbox.api.state.StateFactory;
+import com.hrznstudio.sandbox.api.util.Mono;
 import com.hrznstudio.sandbox.api.util.math.Position;
 import com.hrznstudio.sandbox.api.util.math.Vec3d;
 import com.hrznstudio.sandbox.api.world.WorldReader;
@@ -99,8 +100,8 @@ public abstract class MixinFluid implements SandboxInternal.StateFactoryHolder {
         return WrappingUtil.convert(getBucketItem());
     }
 
-    public Optional<Vec3d> sbx$getVelocity(WorldReader world, Position position, FluidState state) {
-        return Optional.of((Vec3d) getVelocity(
+    public Mono<Vec3d> sbx$getVelocity(WorldReader world, Position position, FluidState state) {
+        return Mono.of((Vec3d) getVelocity(
                 (BlockView) world,
                 (BlockPos) position,
                 (net.minecraft.fluid.FluidState) state

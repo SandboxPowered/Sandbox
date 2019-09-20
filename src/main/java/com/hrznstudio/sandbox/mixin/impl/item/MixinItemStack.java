@@ -65,6 +65,12 @@ public abstract class MixinItemStack {
     @Shadow
     public abstract net.minecraft.item.ItemStack copy();
 
+    @Shadow
+    public abstract boolean isItemEqualIgnoreDamage(net.minecraft.item.ItemStack itemStack_1);
+
+    @Shadow
+    public abstract net.minecraft.nbt.CompoundTag toTag(net.minecraft.nbt.CompoundTag compoundTag_1);
+
     public boolean sbx$isEmpty() {
         return this.isEmpty();
     }
@@ -134,5 +140,26 @@ public abstract class MixinItemStack {
         } else {
             return (!this.sbx$isEmpty() && !stack.isEmpty()) && isItemEqual(WrappingUtil.cast(stack, net.minecraft.item.ItemStack.class));
         }
+    }
+
+    public boolean sbx$isEqualToIgnoreDurability(ItemStack stack) {
+        if (this == stack) {
+            return true;
+        } else {
+            return (!this.sbx$isEmpty() && !stack.isEmpty()) && isItemEqualIgnoreDamage(WrappingUtil.cast(stack, net.minecraft.item.ItemStack.class));
+        }
+    }
+
+    public boolean sbx$areTagsEqual(ItemStack stack) {
+        if (this == stack) {
+            return true;
+        } else if ((sbx$isEmpty() || stack.isEmpty()) || (!hasTag() || stack.hasTag())) {
+            return false;
+        }
+        return getTag().equals(stack.getTag());
+    }
+
+    public CompoundTag sbx$asTag() {
+        return (CompoundTag) toTag(new net.minecraft.nbt.CompoundTag());
     }
 }

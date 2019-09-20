@@ -1,8 +1,10 @@
 package com.hrznstudio.sandbox.mixin.impl.server;
 
 import com.hrznstudio.sandbox.SandboxCommon;
+import com.hrznstudio.sandbox.api.game.GameMode;
 import com.hrznstudio.sandbox.api.server.Server;
 import com.hrznstudio.sandbox.api.util.Identity;
+import com.hrznstudio.sandbox.api.util.Mono;
 import com.hrznstudio.sandbox.api.world.World;
 import com.hrznstudio.sandbox.util.WrappingUtil;
 import net.minecraft.server.MinecraftServer;
@@ -27,5 +29,9 @@ public abstract class MixinMinecraftServer {
 
     public World sbx$getWorld(Identity identity) {
         return (World) getWorld(DimensionType.byId(WrappingUtil.convert(identity)));
+    }
+
+    public Mono<GameMode> sbx$getGameMode() {
+        return Mono.empty();
     }
 }

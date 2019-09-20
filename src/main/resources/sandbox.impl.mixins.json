@@ -19,6 +19,7 @@
     "entity.MixinEntity",
     "entity.MixinLivingEntity",
     "entity.MixinPlayerEntity",
+    "entity.MixinServerPlayerEntity",
     "item.MixinBlockItem",
     "item.MixinItem",
     "item.MixinSandboxItem",

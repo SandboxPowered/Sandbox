@@ -7,6 +7,7 @@ import com.hrznstudio.sandbox.api.block.entity.IBlockEntity;
 import com.hrznstudio.sandbox.api.client.Client;
 import com.hrznstudio.sandbox.api.client.render.RenderUtil;
 import com.hrznstudio.sandbox.api.component.Component;
+import com.hrznstudio.sandbox.api.container.ContainerFactory;
 import com.hrznstudio.sandbox.api.enchant.IEnchantment;
 import com.hrznstudio.sandbox.api.fluid.IFluid;
 import com.hrznstudio.sandbox.api.item.IItem;
@@ -74,6 +75,7 @@ public class SandboxHooks {
             ReflectionHelper.setPrivateField(Functions.class, "blockEntityTypeFunction", (BiFunction<Supplier<IBlockEntity>, IBlock[], IBlockEntity.Type>) (s, b) -> {
                 return (IBlockEntity.Type) BlockEntityType.Builder.create((Supplier) () -> WrappingUtil.convert(s.get()), WrappingUtil.convert(b)).build(null);
             });
+            ReflectionHelper.setPrivateField(Functions.class, "itemStackFromTagFunction", (Function<CompoundTag, ItemStack>) (tag) -> WrappingUtil.cast(net.minecraft.item.ItemStack.fromTag((net.minecraft.nbt.CompoundTag) tag), ItemStack.class));
             ReflectionHelper.setPrivateField(Functions.class, "itemStackFunction", (BiFunction<IItem, Integer, ItemStack>) (item, count) -> {
                 if (item == null || count == 0)
                     return WrappingUtil.cast(net.minecraft.item.ItemStack.EMPTY, ItemStack.class);
@@ -91,6 +93,12 @@ public class SandboxHooks {
                 }
                 if (cla == IFluid.class) {
                     return ((SandboxInternal.Registry) Registry.FLUID).get();
+                }
+                if (cla == IEnchantment.class) {
+                    return ((SandboxInternal.Registry) Registry.ENCHANTMENT).get();
+                }
+                if (cla == ContainerFactory.class) {
+                    return ((SandboxInternal.Registry) SandboxRegistries.CONTAINER_FACTORIES).get();
                 }
                 throw new RuntimeException("Unknown registry " + cla);
             });
@@ -110,11 +118,14 @@ public class SandboxHooks {
             throw new RuntimeException(e);
         }
 
+        Registry.REGISTRIES.add(new Identifier("sandbox", "container"), SandboxRegistries.CONTAINER_FACTORIES);
+
         ((SandboxInternal.Registry) Registry.BLOCK).set(new BasicRegistry<>(Registry.BLOCK, IBlock.class, WrappingUtil::convert, WrappingUtil::convert));
         ((SandboxInternal.Registry) Registry.ITEM).set(new BasicRegistry<>(Registry.ITEM, IItem.class, WrappingUtil::convert, WrappingUtil::convert));
         ((SandboxInternal.Registry) Registry.ENCHANTMENT).set(new BasicRegistry<>((SimpleRegistry<net.minecraft.enchantment.Enchantment>) Registry.ENCHANTMENT, IEnchantment.class, WrappingUtil::convert, b -> (IEnchantment) b));
         ((SandboxInternal.Registry) Registry.FLUID).set(new BasicRegistry<>(Registry.FLUID, IFluid.class, WrappingUtil::convert, WrappingUtil::convert));
         ((SandboxInternal.Registry) Registry.BLOCK_ENTITY).set(new BasicRegistry((SimpleRegistry) Registry.BLOCK_ENTITY, IBlockEntity.Type.class, (Function<IBlockEntity.Type, BlockEntityType>) WrappingUtil::convert, (Function<BlockEntityType, IBlockEntity.Type>) WrappingUtil::convert, true)); // DONT TOUCH THIS FOR HEAVENS SAKE PLEASE GOD NO
+        ((SandboxInternal.Registry) SandboxRegistries.CONTAINER_FACTORIES).set(new BasicRegistry<>(SandboxRegistries.CONTAINER_FACTORIES, ContainerFactory.class, a -> a, a -> a));
 
         if (Sandbox.SANDBOX.getSide() == Side.CLIENT)
             SandboxDiscord.start();

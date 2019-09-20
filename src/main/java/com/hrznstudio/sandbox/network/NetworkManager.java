@@ -6,6 +6,7 @@ import com.hrznstudio.sandbox.server.SandboxServer;
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.packet.CustomPayloadS2CPacket;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.network.packet.CustomPayloadC2SPacket;
 import net.minecraft.util.Identifier;
@@ -18,6 +19,7 @@ public class NetworkManager {
 
     static {
         add(new Identifier("sandbox", "addon_sync"), AddonS2CPacket.class);
+        add(new Identifier("sandbox", "container_open"), ContainerOpenPacket.class);
     }
 
     public static <T extends Packet> void add(Identifier id, Class<T> packetClass) {
@@ -36,6 +38,11 @@ public class NetworkManager {
     public static void sendToAll(Packet packet) {
         Identifier id = getId(packet);
         SandboxServer.INSTANCE.getServer().getPlayerManager().sendToAll(s2c(id, packet));
+    }
+
+    public static void sendTo(Packet packet, PlayerEntity player) {
+        if (player instanceof ServerPlayerEntity)
+            sendTo(packet, (ServerPlayerEntity) player);
     }
 
     public static void sendTo(Packet packet, ServerPlayerEntity player) {

@@ -4,7 +4,6 @@ import com.hrznstudio.sandbox.api.component.Inventory;
 import com.hrznstudio.sandbox.api.item.ItemStack;
 import com.hrznstudio.sandbox.util.WrappingUtil;
 
-import java.util.Iterator;
 import java.util.function.Predicate;
 
 public class V2SInventory implements Inventory {
@@ -64,28 +63,7 @@ public class V2SInventory implements Inventory {
     }
 
     @Override
-    public Iterator<Integer> iterator() {
-        return new IntegerRangeIterator(0, getSize());
-    }
-
-    private static class IntegerRangeIterator implements Iterator<Integer> {
-        private final int start, end;
-        private int current;
-
-        public IntegerRangeIterator(int start, int end) {
-            this.start = start;
-            this.current = start;
-            this.end = end;
-        }
-
-        @Override
-        public boolean hasNext() {
-            return current < end;
-        }
-
-        @Override
-        public Integer next() {
-            return current++;
-        }
+    public void setStack(int slot, ItemStack stack) {
+        inventory.setInvStack(slot, WrappingUtil.cast(stack, net.minecraft.item.ItemStack.class));
     }
 }

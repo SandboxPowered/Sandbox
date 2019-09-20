@@ -1,6 +1,9 @@
 package com.hrznstudio.sandbox.mixin.impl.entity;
 
 import com.hrznstudio.sandbox.api.entity.player.Player;
+import com.hrznstudio.sandbox.api.util.Identity;
+import com.hrznstudio.sandbox.api.util.Mono;
+import com.hrznstudio.sandbox.api.util.nbt.CompoundTag;
 import com.hrznstudio.sandbox.api.util.text.Text;
 import com.hrznstudio.sandbox.util.WrappingUtil;
 import net.minecraft.entity.EntityType;
@@ -27,5 +30,10 @@ public abstract class MixinPlayerEntity extends LivingEntity implements Player {
     @Override
     public void sendOverlayMessage(Text text) {
         this.addChatMessage(WrappingUtil.convert(text), true);
+    }
+
+    @Override
+    public void openContainer(Identity id, Mono<CompoundTag> data) {
+        // NO-OP
     }
 }

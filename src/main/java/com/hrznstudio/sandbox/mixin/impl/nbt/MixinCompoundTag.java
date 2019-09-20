@@ -1,10 +1,15 @@
 package com.hrznstudio.sandbox.mixin.impl.nbt;
 
+import com.hrznstudio.sandbox.api.util.Identity;
+import com.hrznstudio.sandbox.api.util.math.Position;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import org.spongepowered.asm.mixin.*;
 
+import javax.annotation.Nullable;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -78,6 +83,13 @@ public abstract class MixinCompoundTag implements Tag {
 
     @Shadow
     public abstract UUID getUuid(String string_1);
+
+    @Shadow
+    @Nullable
+    public abstract Tag put(String string_1, Tag tag_1);
+
+    @Shadow
+    public abstract ListTag getList(String string_1, int int_1);
 
     public int sbx$size() {
         return getSize();
@@ -181,5 +193,45 @@ public abstract class MixinCompoundTag implements Tag {
             return false;
         remove(key);
         return true;
+    }
+
+    public void sbx$setIdentity(String key, Identity identity) {
+        sbx$setString(key + "_namespace", identity.getNamespace());
+        sbx$setString(key + "_path", identity.getPath());
+    }
+
+    public Identity sbx$getIdentity(String key) {
+        return Identity.of(sbx$getString(key + "_namespace"), sbx$getString(key + "_path"));
+    }
+
+    public void sbx$setPosition(String key, Position position) {
+        sbx$setInt(key + "_x", position.getX());
+        sbx$setInt(key + "_y", position.getY());
+        sbx$setInt(key + "_z", position.getZ());
+    }
+
+    public Position sbx$getPosition(String key) {
+        return Position.create(sbx$getInt(key + "_x"), sbx$getInt(key + "_z"), sbx$getInt(key + "_y"));
+    }
+
+    public void sbx$setList(String key, List<? extends com.hrznstudio.sandbox.api.util.nbt.Tag> list) {
+        ListTag tag;
+        if ((Object)list instanceof ListTag) {
+            tag = (ListTag)(Object) list;
+        } else {
+            tag = new ListTag();
+            tag.addAll((Collection<? extends Tag>) list);
+        }
+        put(key, tag);
+    }
+
+    public <T> List<T> sbx$getList(String key, Class<T> tagType) {
+        int id = 0;
+        if (tagType == com.hrznstudio.sandbox.api.util.nbt.CompoundTag.class) {
+            id = 10;
+        }
+        //TODO
+        ListTag tag = getList(key, id);
+        return (List<T>) tag;
     }
 }

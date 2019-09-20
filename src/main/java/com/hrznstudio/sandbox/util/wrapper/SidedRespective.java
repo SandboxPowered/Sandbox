@@ -45,4 +45,10 @@ public class SidedRespective extends V2SInventory {
             return super.insert(slot, stack, simulate);
         return stack;
     }
+
+    @Override
+    public void setStack(int slot, ItemStack stack) {
+        if (ArrayUtils.contains(inventory.getInvAvailableSlots(WrappingUtil.convert(direction)), slot))
+            super.setStack(slot, stack);
+    }
 }

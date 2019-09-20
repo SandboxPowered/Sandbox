@@ -1,4 +1,8 @@
 steps:
+  - name: 'ubuntu'
+    args:
+      - 'bash'
+      - './cleardir'
   - name: 'gcr.io/cloud-builders/git'
     args:
       - 'clone'
@@ -9,15 +13,15 @@ steps:
       - 'sbxclone'
   - name: 'ubuntu'
     args:
-      - 'ls'
-      - '-R'
-      - 'sbxclone'
+      - 'bash'
+      - './movedir'
   - name: 'adoptopenjdk/openjdk8'
     args:
-      - './sbxclone/gradlew'
+      - './gradlew'
+      - 'discord-rpc:build'
+      - 'sandboxapi:build'
       - 'build'
       - 'publish'
-      - '--stacktrace'
     env:
       - 'BUILD=$BUILD_ID'
       - 'PROJECT=$PROJECT_ID'
