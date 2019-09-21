@@ -31,7 +31,7 @@ dependencies {
 	implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.2'
 	shade project(':discord-rpc')
 
-	shade project(':SandboxAPI')
+	implementation project(':SandboxAPI')
 	if(!System.getenv("COMMIT")) {
 		runtime project(':TestMod')
 	}
