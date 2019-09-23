@@ -1,24 +1,15 @@
-buildscript {
-	repositories {
-		mavenCentral()
-	}
-	dependencies {
-		classpath group: 'com.cinnober.gradle', name: 'semver-git', version: '2.4.0'
-	}
-}
 plugins {
 	id 'fabric-loom' version '0.2.5-SNAPSHOT'
 	id 'maven-publish'
 	id 'java-library'
 	id 'java'
 }
-ext.nextVersion="patch"
-apply plugin: 'com.cinnober.gradle.semver-git'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 archivesBaseName = project.archives_base_name
+version = System.getenv("COMMIT") ? "${project.sandbox_version}-${System.getenv("COMMIT")}" : "${project.sandbox_version}"
 group = project.maven_group
 
 minecraft {
