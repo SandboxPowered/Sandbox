@@ -15,6 +15,7 @@ import net.minecraft.resource.ResourcePack;
 import net.minecraft.resource.ResourcePackContainerManager;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -108,10 +109,11 @@ public class MixinMinecraftClient {
     }
 
     /**
-     * @author B0undarybreaker
+     * @reason Sandbox Client Branding
+     * @author Coded
      */
-    @ModifyConstant(method = "getVersionType")
-    public String getVersionType(String original) {
-        return "Sandbox 1.0.0";
+    @Overwrite
+    public String getVersionType() {
+        return "Sandbox";
     }
 }
