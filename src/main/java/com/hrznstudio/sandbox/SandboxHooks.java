@@ -62,7 +62,7 @@ public class SandboxHooks {
                 .stream()
                 .map(ModContainer::getMetadata)
                 .map(ModMetadata::getId)
-                .anyMatch(id -> !id.equals("sandbox") && !id.equals("fabricloader"))) {
+                .anyMatch(id -> !id.equals("sandbox") && !id.equals("sandboxapi") && !id.equals("fabricloader"))) {
             Sandbox.unsupportedModsLoaded = true;
         }
         Policy.setPolicy(new AddonSecurityPolicy());

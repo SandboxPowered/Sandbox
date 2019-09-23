@@ -15,7 +15,7 @@ steps:
     args:
       - 'bash'
       - './movedir'
-  - name: 'adoptopenjdk/openjdk8'
+  - name: 'gcr.io/hrznfactory/java-cloudbuild'
     args:
       - './gradlew'
       - 'discord-rpc:build'
