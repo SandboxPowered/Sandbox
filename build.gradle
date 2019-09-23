@@ -19,11 +19,8 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 archivesBaseName = project.archives_base_name
-if(System.getenv("BRANCH") && System.getenv("BRANCH") != "master") {
-	group = project.maven_group+"."+System.getenv("BRANCH").replaceFirst("feature/", "")
-} else {
-	group = project.maven_group
-}
+group = project.maven_group
+
 minecraft {
 }
 
@@ -106,11 +103,15 @@ publishing {
 		}
 	}
 	repositories {
-		maven {
-			url "s3://cdn.hrzn.studio/maven"
-			authentication {
-				awsIm(AwsImAuthentication)
+		if (System.getenv("BRANCH") == "master") {
+			maven {
+				url "s3://cdn.hrzn.studio/maven"
+				authentication {
+					awsIm(AwsImAuthentication)
+				}
 			}
+		} else {
+			mavenLocal()
 		}
 	}
 }
