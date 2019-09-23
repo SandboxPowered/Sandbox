@@ -3,24 +3,18 @@
   "id": "sandbox",
   "version": "${version}",
   "name": "Sandbox",
-  "description": "Javascript mod engine!",
+  "description": "Minecraft mod engine!",
   "authors": [
-    "Invisible",
-    "OpenModLoader",
-    "Horizon Studios"
+    "SandboxPowered",
+    "Horizon Studio"
   ],
   "contact": {
-    "homepage": "https://hrznstudio.com/sandbox/",
-    "sources": "https://github.com/OpenModLoader/Sandbox"
+    "homepage": "https://sandboxpowered.org",
+    "sources": "https://github.com/SandboxPowered/Sandbox"
   },
   "license": "ARR",
   "icon": "assets/sandbox/icon.png",
   "environment": "*",
-  "entrypoints": {
-    "main": [
-      "com.hrznstudio.sandbox.SandboxIgnore"
-    ]
-  },
   "mixins": [
     "sandbox.event.mixins.json",
     "sandbox.fabric.mixins.json",
