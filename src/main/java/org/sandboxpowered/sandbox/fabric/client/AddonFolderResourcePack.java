@@ -1,13 +1,13 @@
 package org.sandboxpowered.sandbox.fabric.client;
 
 import com.google.common.collect.Sets;
-import org.sandboxpowered.sandbox.api.addon.AddonSpec;
-import org.sandboxpowered.sandbox.fabric.util.Log;
 import net.minecraft.resource.AbstractFileResourcePack;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.InvalidIdentifierException;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
+import org.sandboxpowered.sandbox.api.addon.AddonSpec;
+import org.sandboxpowered.sandbox.fabric.util.Log;
 
 import java.io.*;
 import java.nio.file.Files;

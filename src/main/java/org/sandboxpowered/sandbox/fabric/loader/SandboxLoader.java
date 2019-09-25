@@ -2,12 +2,12 @@ package org.sandboxpowered.sandbox.fabric.loader;
 
 import com.electronwill.nightconfig.core.Config;
 import com.electronwill.nightconfig.toml.TomlParser;
+import net.fabricmc.loader.util.UrlUtil;
+import org.apache.commons.io.IOUtils;
 import org.sandboxpowered.sandbox.api.SandboxAPI;
 import org.sandboxpowered.sandbox.api.addon.Addon;
 import org.sandboxpowered.sandbox.api.addon.AddonSpec;
 import org.sandboxpowered.sandbox.fabric.security.AddonClassLoader;
-import net.fabricmc.loader.util.UrlUtil;
-import org.apache.commons.io.IOUtils;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,13 +1,13 @@
 package org.sandboxpowered.sandbox.fabric.mixin.event.entity;
 
-import org.sandboxpowered.sandbox.api.entity.LivingEntity;
-import org.sandboxpowered.sandbox.api.event.entity.LivingEvent;
-import org.sandboxpowered.sandbox.fabric.event.EventDispatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
+import org.sandboxpowered.sandbox.api.entity.LivingEntity;
+import org.sandboxpowered.sandbox.api.event.entity.LivingEvent;
+import org.sandboxpowered.sandbox.fabric.event.EventDispatcher;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

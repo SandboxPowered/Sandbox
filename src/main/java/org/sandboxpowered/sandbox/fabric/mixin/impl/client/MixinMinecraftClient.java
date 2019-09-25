@@ -1,14 +1,14 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.client;
 
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.world.ClientWorld;
 import org.sandboxpowered.sandbox.api.client.Client;
 import org.sandboxpowered.sandbox.api.client.TextRenderer;
 import org.sandboxpowered.sandbox.api.client.screen.Screen;
 import org.sandboxpowered.sandbox.api.entity.player.PlayerEntity;
 import org.sandboxpowered.sandbox.api.world.World;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.world.ClientWorld;
 import org.spongepowered.asm.mixin.*;
 
 import javax.annotation.Nullable;

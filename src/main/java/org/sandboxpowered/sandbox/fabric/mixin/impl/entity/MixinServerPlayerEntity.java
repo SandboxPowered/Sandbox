@@ -21,12 +21,12 @@ public abstract class MixinServerPlayerEntity extends net.minecraft.entity.playe
     @Shadow
     private int containerSyncId;
 
-    @Shadow
-    protected abstract void incrementContainerSyncId();
-
     public MixinServerPlayerEntity(World world_1, GameProfile gameProfile_1) {
         super(world_1, gameProfile_1);
     }
+
+    @Shadow
+    protected abstract void incrementContainerSyncId();
 
     @Override
     public void openContainer(Identity id, Mono<CompoundTag> dataMono) {

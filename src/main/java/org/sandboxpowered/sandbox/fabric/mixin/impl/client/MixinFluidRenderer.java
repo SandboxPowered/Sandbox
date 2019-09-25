@@ -1,8 +1,5 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.client;
 
-import org.sandboxpowered.sandbox.api.fluid.Fluid;
-import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
-import org.sandboxpowered.sandbox.fabric.util.wrapper.FluidWrapper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.block.FluidRenderer;
@@ -13,6 +10,9 @@ import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.ExtendedBlockView;
+import org.sandboxpowered.sandbox.api.fluid.Fluid;
+import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
+import org.sandboxpowered.sandbox.fabric.util.wrapper.FluidWrapper;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

@@ -1,9 +1,9 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.state;
 
-import org.sandboxpowered.sandbox.api.state.Property;
-import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import net.minecraft.state.AbstractPropertyContainer;
 import net.minecraft.state.PropertyContainer;
+import org.sandboxpowered.sandbox.api.state.Property;
+import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(PropertyContainer.class)

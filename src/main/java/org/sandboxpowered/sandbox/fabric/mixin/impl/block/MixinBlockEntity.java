@@ -1,10 +1,10 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.block;
 
+import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.util.math.BlockPos;
 import org.sandboxpowered.sandbox.api.block.entity.BlockEntity;
 import org.sandboxpowered.sandbox.api.util.math.Position;
 import org.sandboxpowered.sandbox.api.world.World;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.util.math.BlockPos;
 import org.spongepowered.asm.mixin.*;
 
 import javax.annotation.Nullable;

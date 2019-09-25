@@ -1,8 +1,8 @@
 package org.sandboxpowered.sandbox.fabric.container;
 
-import org.sandboxpowered.sandbox.api.container.Container;
 import net.minecraft.container.ContainerType;
 import net.minecraft.entity.player.PlayerEntity;
+import org.sandboxpowered.sandbox.api.container.Container;
 
 import javax.annotation.Nullable;
 

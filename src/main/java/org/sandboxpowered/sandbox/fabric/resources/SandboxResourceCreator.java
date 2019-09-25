@@ -1,9 +1,9 @@
 package org.sandboxpowered.sandbox.fabric.resources;
 
-import org.sandboxpowered.sandbox.fabric.SandboxResources;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resource.ResourcePackContainer;
 import net.minecraft.resource.ResourcePackCreator;
+import org.sandboxpowered.sandbox.fabric.SandboxResources;
 
 import java.util.Map;
 

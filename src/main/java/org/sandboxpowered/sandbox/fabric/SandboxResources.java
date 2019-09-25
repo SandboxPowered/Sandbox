@@ -1,11 +1,11 @@
 package org.sandboxpowered.sandbox.fabric;
 
 import com.google.common.collect.Sets;
-import org.sandboxpowered.sandbox.fabric.util.Log;
 import net.minecraft.resource.AbstractFileResourcePack;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.InvalidIdentifierException;
+import org.sandboxpowered.sandbox.fabric.util.Log;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

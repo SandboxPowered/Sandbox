@@ -1,7 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.client;
 
 import com.google.common.util.concurrent.Runnables;
-import org.sandboxpowered.sandbox.fabric.Sandbox;
 import com.mojang.blaze3d.platform.GLX;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.fabricmc.api.EnvType;
@@ -28,6 +27,7 @@ import net.minecraft.util.SystemUtil;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.level.LevelProperties;
 import net.minecraft.world.level.storage.LevelStorage;
+import org.sandboxpowered.sandbox.fabric.Sandbox;
 
 import javax.annotation.Nullable;
 import java.util.Iterator;

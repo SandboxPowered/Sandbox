@@ -1,8 +1,8 @@
 package org.sandboxpowered.sandbox.fabric.client;
 
-import org.sandboxpowered.sandbox.fabric.server.SandboxServer;
 import net.minecraft.resource.ResourcePackContainer;
 import net.minecraft.resource.ResourcePackCreator;
+import org.sandboxpowered.sandbox.fabric.server.SandboxServer;
 
 import java.net.URISyntaxException;
 import java.nio.file.Files;

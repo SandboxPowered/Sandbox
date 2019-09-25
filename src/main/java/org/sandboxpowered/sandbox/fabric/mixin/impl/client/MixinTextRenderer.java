@@ -1,9 +1,9 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.client;
 
-import org.sandboxpowered.sandbox.api.client.TextRenderer.Alignment;
-import org.sandboxpowered.sandbox.api.client.TextRenderer.Option;
 import net.minecraft.client.font.TextRenderer;
 import org.apache.commons.lang3.ArrayUtils;
+import org.sandboxpowered.sandbox.api.client.TextRenderer.Alignment;
+import org.sandboxpowered.sandbox.api.client.TextRenderer.Option;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(TextRenderer.class)

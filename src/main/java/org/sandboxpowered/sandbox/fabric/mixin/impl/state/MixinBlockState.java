@@ -1,11 +1,11 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.state;
 
 import com.google.common.collect.ImmutableMap;
-import org.sandboxpowered.sandbox.api.block.Block;
-import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.state.AbstractPropertyContainer;
 import net.minecraft.state.property.Property;
+import org.sandboxpowered.sandbox.api.block.Block;
+import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(BlockState.class)

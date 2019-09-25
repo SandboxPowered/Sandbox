@@ -1,10 +1,10 @@
 package org.sandboxpowered.sandbox.fabric.mixin.fabric.networking;
 
-import org.sandboxpowered.sandbox.fabric.network.NetworkManager;
-import org.sandboxpowered.sandbox.fabric.server.SandboxServer;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
+import org.sandboxpowered.sandbox.fabric.network.NetworkManager;
+import org.sandboxpowered.sandbox.fabric.server.SandboxServer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

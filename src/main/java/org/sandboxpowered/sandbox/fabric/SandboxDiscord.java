@@ -1,6 +1,5 @@
 package org.sandboxpowered.sandbox.fabric;
 
-import org.sandboxpowered.sandbox.fabric.util.Log;
 import net.arikia.dev.drpc.DiscordEventHandlers;
 import net.arikia.dev.drpc.DiscordRPC;
 import net.arikia.dev.drpc.DiscordRichPresence;
@@ -8,6 +7,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ConnectScreen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import org.apache.commons.codec.binary.Base64;
+import org.sandboxpowered.sandbox.fabric.util.Log;
 
 public class SandboxDiscord {
 

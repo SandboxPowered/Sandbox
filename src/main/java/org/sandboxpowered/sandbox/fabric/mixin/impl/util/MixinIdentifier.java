@@ -1,7 +1,7 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.util;
 
-import org.sandboxpowered.sandbox.api.util.Identity;
 import net.minecraft.util.Identifier;
+import org.sandboxpowered.sandbox.api.util.Identity;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(Identifier.class)

@@ -1,6 +1,5 @@
 package org.sandboxpowered.sandbox.fabric.client;
 
-import org.sandboxpowered.sandbox.fabric.util.Log;
 import net.minecraft.client.gui.screen.DisconnectedScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ClientLoginNetworkHandler;
@@ -11,6 +10,7 @@ import net.minecraft.server.network.packet.LoginHelloC2SPacket;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.UncaughtExceptionLogger;
+import org.sandboxpowered.sandbox.fabric.util.Log;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

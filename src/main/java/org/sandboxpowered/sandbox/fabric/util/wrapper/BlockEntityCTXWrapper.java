@@ -1,9 +1,9 @@
 package org.sandboxpowered.sandbox.fabric.util.wrapper;
 
+import net.minecraft.block.entity.BlockEntity;
 import org.sandboxpowered.sandbox.api.block.entity.BlockEntityContext;
 import org.sandboxpowered.sandbox.api.util.math.Position;
 import org.sandboxpowered.sandbox.api.world.World;
-import net.minecraft.block.entity.BlockEntity;
 
 public class BlockEntityCTXWrapper implements BlockEntityContext {
     private BlockEntity entity;

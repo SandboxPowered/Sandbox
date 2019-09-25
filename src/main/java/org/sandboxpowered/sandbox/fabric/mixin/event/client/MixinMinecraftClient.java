@@ -28,7 +28,7 @@ public class MixinMinecraftClient {
             return null;
         } else {
             ScreenEvent.Open open = EventDispatcher.publish(new ScreenEvent.Open(WrappingUtil.convert(screen)));
-            if(open.isCancelled())
+            if (open.isCancelled())
                 return currentScreen;
             return WrappingUtil.convert(open.getScreen());
         }

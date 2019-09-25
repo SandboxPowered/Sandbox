@@ -1,7 +1,7 @@
 package org.sandboxpowered.sandbox.fabric.util;
 
-import org.sandboxpowered.sandbox.api.state.Property;
 import net.minecraft.state.property.Properties;
+import org.sandboxpowered.sandbox.api.state.Property;
 
 public class PropertyUtil {
     public static Property get(String s) {

@@ -1,7 +1,7 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.world;
 
-import org.sandboxpowered.sandbox.api.util.Side;
 import net.minecraft.world.World;
+import org.sandboxpowered.sandbox.api.util.Side;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(World.class)

@@ -1,9 +1,9 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.client;
 
+import net.minecraft.client.MinecraftClient;
 import org.sandboxpowered.sandbox.api.client.Client;
 import org.sandboxpowered.sandbox.api.client.screen.Screen;
 import org.sandboxpowered.sandbox.api.util.Identity;
-import net.minecraft.client.MinecraftClient;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(net.minecraft.client.gui.screen.Screen.class)

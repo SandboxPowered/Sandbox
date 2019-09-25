@@ -2,7 +2,6 @@ package org.sandboxpowered.sandbox.fabric.network;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import org.sandboxpowered.sandbox.fabric.server.SandboxServer;
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.packet.CustomPayloadS2CPacket;
@@ -11,6 +10,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.network.packet.CustomPayloadC2SPacket;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.PacketByteBuf;
+import org.sandboxpowered.sandbox.fabric.server.SandboxServer;
 
 public class NetworkManager {
 

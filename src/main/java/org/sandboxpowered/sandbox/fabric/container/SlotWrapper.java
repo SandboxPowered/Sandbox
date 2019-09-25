@@ -1,9 +1,9 @@
 package org.sandboxpowered.sandbox.fabric.container;
 
+import net.minecraft.item.ItemStack;
 import org.sandboxpowered.sandbox.api.container.Slot;
 import org.sandboxpowered.sandbox.api.entity.player.PlayerEntity;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
-import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nullable;
 

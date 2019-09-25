@@ -1,7 +1,7 @@
 package org.sandboxpowered.sandbox.fabric.mixin.fabric.client;
 
-import org.sandboxpowered.sandbox.fabric.client.PanoramaHandler;
 import net.minecraft.client.render.GameRenderer;
+import org.sandboxpowered.sandbox.fabric.client.PanoramaHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

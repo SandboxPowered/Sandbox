@@ -1,6 +1,5 @@
 package org.sandboxpowered.sandbox.fabric.mixin.fabric.client;
 
-import org.sandboxpowered.sandbox.fabric.client.PanoramaHandler;
 import net.minecraft.client.Keyboard;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.GlFramebuffer;
@@ -11,6 +10,7 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import org.lwjgl.glfw.GLFW;
+import org.sandboxpowered.sandbox.fabric.client.PanoramaHandler;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

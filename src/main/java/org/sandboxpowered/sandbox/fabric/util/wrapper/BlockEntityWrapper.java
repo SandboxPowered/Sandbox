@@ -1,12 +1,12 @@
 package org.sandboxpowered.sandbox.fabric.util.wrapper;
 
-import org.sandboxpowered.sandbox.api.block.entity.BlockEntity;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.Tickable;
 import org.sandboxpowered.sandbox.api.block.entity.BaseBlockEntity;
+import org.sandboxpowered.sandbox.api.block.entity.BlockEntity;
 import org.sandboxpowered.sandbox.api.util.nbt.ReadableCompoundTag;
 import org.sandboxpowered.sandbox.api.util.nbt.WritableCompoundTag;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.Tickable;
 
 import javax.annotation.Nonnull;
 

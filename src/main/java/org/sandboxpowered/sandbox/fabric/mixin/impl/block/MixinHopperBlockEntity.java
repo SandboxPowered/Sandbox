@@ -1,5 +1,9 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.block;
 
+import net.minecraft.block.HopperBlock;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.block.entity.Hopper;
 import org.sandboxpowered.sandbox.api.component.Components;
 import org.sandboxpowered.sandbox.api.component.Inventory;
 import org.sandboxpowered.sandbox.api.item.ItemStack;
@@ -9,10 +13,6 @@ import org.sandboxpowered.sandbox.api.util.Mono;
 import org.sandboxpowered.sandbox.api.util.math.Position;
 import org.sandboxpowered.sandbox.api.world.World;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
-import net.minecraft.block.HopperBlock;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.block.entity.Hopper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

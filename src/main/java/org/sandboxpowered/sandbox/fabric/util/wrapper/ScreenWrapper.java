@@ -1,14 +1,14 @@
 package org.sandboxpowered.sandbox.fabric.util.wrapper;
 
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.ingame.AbstractContainerScreen;
+import net.minecraft.entity.player.PlayerInventory;
 import org.sandboxpowered.sandbox.api.client.Client;
 import org.sandboxpowered.sandbox.api.client.screen.BaseScreen;
 import org.sandboxpowered.sandbox.api.client.screen.ContainerScreen;
 import org.sandboxpowered.sandbox.fabric.container.ContainerWrapper;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.AbstractContainerScreen;
-import net.minecraft.entity.player.PlayerInventory;
 
 public class ScreenWrapper extends Screen {
     public BaseScreen screen;

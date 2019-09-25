@@ -1,14 +1,5 @@
 package org.sandboxpowered.sandbox.fabric.client;
 
-import org.sandboxpowered.sandbox.fabric.SandboxCommon;
-import org.sandboxpowered.sandbox.api.game.GameMode;
-import org.sandboxpowered.sandbox.api.util.Mono;
-import org.sandboxpowered.sandbox.api.util.Side;
-import org.sandboxpowered.sandbox.fabric.client.overlay.LoadingOverlay;
-import org.sandboxpowered.sandbox.fabric.event.EventDispatcher;
-import org.sandboxpowered.sandbox.fabric.loader.SandboxLoader;
-import org.sandboxpowered.sandbox.fabric.server.SandboxServer;
-import org.sandboxpowered.sandbox.fabric.util.Log;
 import net.arikia.dev.drpc.DiscordRPC;
 import net.arikia.dev.drpc.DiscordRichPresence;
 import net.minecraft.client.MinecraftClient;
@@ -16,6 +7,15 @@ import net.minecraft.client.options.ServerEntry;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Pair;
 import org.apache.commons.codec.binary.Base64;
+import org.sandboxpowered.sandbox.api.game.GameMode;
+import org.sandboxpowered.sandbox.api.util.Mono;
+import org.sandboxpowered.sandbox.api.util.Side;
+import org.sandboxpowered.sandbox.fabric.SandboxCommon;
+import org.sandboxpowered.sandbox.fabric.client.overlay.LoadingOverlay;
+import org.sandboxpowered.sandbox.fabric.event.EventDispatcher;
+import org.sandboxpowered.sandbox.fabric.loader.SandboxLoader;
+import org.sandboxpowered.sandbox.fabric.server.SandboxServer;
+import org.sandboxpowered.sandbox.fabric.util.Log;
 
 import java.io.IOException;
 import java.nio.file.Path;

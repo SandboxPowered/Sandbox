@@ -1,8 +1,8 @@
 package org.sandboxpowered.sandbox.fabric.network;
 
-import org.sandboxpowered.sandbox.fabric.Sandbox;
 import net.minecraft.util.PacketByteBuf;
 import net.minecraft.util.Pair;
+import org.sandboxpowered.sandbox.fabric.Sandbox;
 
 import java.util.ArrayList;
 import java.util.Collections;

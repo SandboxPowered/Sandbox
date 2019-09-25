@@ -1,10 +1,10 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.nbt;
 
-import org.sandboxpowered.sandbox.api.util.Identity;
-import org.sandboxpowered.sandbox.api.util.math.Position;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import org.sandboxpowered.sandbox.api.util.Identity;
+import org.sandboxpowered.sandbox.api.util.math.Position;
 import org.spongepowered.asm.mixin.*;
 
 import javax.annotation.Nullable;
@@ -216,8 +216,8 @@ public abstract class MixinCompoundTag implements Tag {
 
     public void sbx$setList(String key, List<? extends org.sandboxpowered.sandbox.api.util.nbt.Tag> list) {
         ListTag tag;
-        if ((Object)list instanceof ListTag) {
-            tag = (ListTag)(Object) list;
+        if ((Object) list instanceof ListTag) {
+            tag = (ListTag) (Object) list;
         } else {
             tag = new ListTag();
             tag.addAll((Collection<? extends Tag>) list);

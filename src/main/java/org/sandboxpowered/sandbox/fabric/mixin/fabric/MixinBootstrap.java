@@ -1,7 +1,7 @@
 package org.sandboxpowered.sandbox.fabric.mixin.fabric;
 
-import org.sandboxpowered.sandbox.fabric.SandboxHooks;
 import net.minecraft.Bootstrap;
+import org.sandboxpowered.sandbox.fabric.SandboxHooks;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;

@@ -1,10 +1,10 @@
 package org.sandboxpowered.sandbox.fabric.util.wrapper;
 
-import org.sandboxpowered.sandbox.api.enchant.Enchantment;
-import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
+import org.sandboxpowered.sandbox.api.enchant.Enchantment;
+import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 
 public class EnchantmentWrapper extends net.minecraft.enchantment.Enchantment {
     private final Enchantment enchantment;

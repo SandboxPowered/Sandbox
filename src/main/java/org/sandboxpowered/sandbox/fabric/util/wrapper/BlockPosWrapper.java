@@ -1,7 +1,7 @@
 package org.sandboxpowered.sandbox.fabric.util.wrapper;
 
-import org.sandboxpowered.sandbox.api.util.math.Position;
 import net.minecraft.util.math.BlockPos;
+import org.sandboxpowered.sandbox.api.util.math.Position;
 
 public class BlockPosWrapper extends BlockPos {
     private final Position position;

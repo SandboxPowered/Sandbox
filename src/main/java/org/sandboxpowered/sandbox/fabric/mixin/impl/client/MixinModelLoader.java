@@ -1,7 +1,5 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.client;
 
-import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
-import org.sandboxpowered.sandbox.fabric.util.wrapper.FluidWrapper;
 import net.minecraft.client.render.model.ModelLoader;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.fluid.Fluid;
@@ -9,6 +7,8 @@ import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
 import net.minecraft.util.registry.Registry;
+import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
+import org.sandboxpowered.sandbox.fabric.util.wrapper.FluidWrapper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;

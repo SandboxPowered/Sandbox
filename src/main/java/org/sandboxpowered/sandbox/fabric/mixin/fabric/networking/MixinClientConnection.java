@@ -1,7 +1,7 @@
 package org.sandboxpowered.sandbox.fabric.mixin.fabric.networking;
 
-import org.sandboxpowered.sandbox.fabric.internal.ClientConnectionInternal;
 import net.minecraft.network.ClientConnection;
+import org.sandboxpowered.sandbox.fabric.internal.ClientConnectionInternal;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 

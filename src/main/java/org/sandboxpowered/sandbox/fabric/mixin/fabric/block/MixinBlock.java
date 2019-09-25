@@ -1,11 +1,11 @@
 package org.sandboxpowered.sandbox.fabric.mixin.fabric.block;
 
-import org.sandboxpowered.sandbox.fabric.util.wrapper.BlockWrapper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.state.property.Properties;
+import org.sandboxpowered.sandbox.fabric.util.wrapper.BlockWrapper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

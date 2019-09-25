@@ -1,7 +1,7 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.text;
 
-import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import net.minecraft.text.Text;
+import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(Text.class)

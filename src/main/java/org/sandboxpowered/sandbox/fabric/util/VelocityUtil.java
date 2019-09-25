@@ -1,13 +1,13 @@
 package org.sandboxpowered.sandbox.fabric.util;
 
 import com.google.common.net.InetAddresses;
-import org.sandboxpowered.sandbox.fabric.SandboxConfig;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import io.netty.buffer.Unpooled;
 import net.minecraft.client.network.packet.LoginQueryRequestS2CPacket;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.PacketByteBuf;
+import org.sandboxpowered.sandbox.fabric.SandboxConfig;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;

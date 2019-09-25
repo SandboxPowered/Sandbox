@@ -1,11 +1,11 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.util;
 
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
 import org.sandboxpowered.sandbox.api.util.Direction;
 import org.sandboxpowered.sandbox.api.util.math.Position;
 import org.sandboxpowered.sandbox.api.util.math.Position.Mutable;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(BlockPos.class)
