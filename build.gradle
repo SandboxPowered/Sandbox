@@ -19,33 +19,24 @@ repositories {
 	maven { url 'https://cdn.hrzn.studio/maven' }
 }
 
-configurations {
-	shade
-	implementation.extendsFrom shade
-}
-
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}"
 	modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
 	implementation group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.2'
-	shade project(':discord-rpc')
 
-	shade project(':SandboxAPI')
+    implementation project(':discord-rpc')
+	include(project(':discord-rpc')) {
+        transitive = false
+    }
+
+    implementation project(':SandboxAPI')
+    include(project(':SandboxAPI')) {
+        transitive = false
+    }
+
 	if(!System.getenv("COMMIT")) {
 		runtime project(':TestMod')
-	}
-}
-
-jar {
-	from {
-		configurations.shade.collect({
-			if (!it.path.contains("com.google") && !it.path.contains("org.apache") && !it.path.contains("net.java.dev.jna"))
-				it.isDirectory() ? it : zipTree(it)
-			else {
-				null
-			}
-		})
 	}
 }
 
