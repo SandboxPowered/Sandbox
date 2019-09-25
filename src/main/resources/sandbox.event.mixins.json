@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "com.hrznstudio.sandbox.mixin.event",
+  "package": "org.sandboxpowered.sandbox.fabric.mixin.event",
   "compatibilityLevel": "JAVA_8",
   "minVersion": "0.7",
   "mixins": [
