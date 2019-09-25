@@ -1,9 +1,11 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.entity;
 
+import com.mojang.authlib.GameProfile;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.world.World;
 import org.sandboxpowered.sandbox.api.Registries;
-import org.sandboxpowered.sandbox.api.container.ContainerFactory;
 import org.sandboxpowered.sandbox.api.container.Container;
-import org.sandboxpowered.sandbox.api.entity.player.Player;
+import org.sandboxpowered.sandbox.api.entity.player.PlayerEntity;
 import org.sandboxpowered.sandbox.api.util.Identity;
 import org.sandboxpowered.sandbox.api.util.Mono;
 import org.sandboxpowered.sandbox.api.util.nbt.CompoundTag;
@@ -11,15 +13,11 @@ import org.sandboxpowered.sandbox.fabric.container.ContainerWrapper;
 import org.sandboxpowered.sandbox.fabric.network.ContainerOpenPacket;
 import org.sandboxpowered.sandbox.fabric.network.NetworkManager;
 import org.sandboxpowered.sandbox.fabric.util.wrapper.V2SInventory;
-import com.mojang.authlib.GameProfile;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(ServerPlayerEntity.class)
-public abstract class MixinServerPlayerEntity extends PlayerEntity implements Player {
+public abstract class MixinServerPlayerEntity extends net.minecraft.entity.player.PlayerEntity implements PlayerEntity {
     @Shadow
     private int containerSyncId;
 
@@ -39,10 +37,11 @@ public abstract class MixinServerPlayerEntity extends PlayerEntity implements Pl
         ContainerOpenPacket packet = new ContainerOpenPacket(id, syncId, data);
         NetworkManager.sendTo(packet, this);
 
-        ContainerFactory factory = Registries.CONTAINER.get(id);
-        Container container = factory.create(id, new V2SInventory(inventory), data);
+        Registries.CONTAINER.get(id).ifPresent(factory -> {
+            Container container = factory.create(id, new V2SInventory(inventory), data);
 
-        this.container = new ContainerWrapper(null, syncId, container);
-        this.container.addListener((ServerPlayerEntity) (Object) this);
+            this.container = new ContainerWrapper(null, syncId, container);
+            this.container.addListener((ServerPlayerEntity) (Object) this);
+        });
     }
 }

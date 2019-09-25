@@ -1,18 +1,18 @@
 package org.sandboxpowered.sandbox.fabric.util.wrapper;
 
-import org.sandboxpowered.sandbox.api.SandboxInternal;
-import org.sandboxpowered.sandbox.api.item.BucketItem;
+import net.minecraft.client.item.TooltipContext;
+import net.minecraft.item.ItemUsageContext;
+import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
 import org.sandboxpowered.sandbox.api.item.BlockItem;
+import org.sandboxpowered.sandbox.api.item.BucketItem;
 import org.sandboxpowered.sandbox.api.item.Item;
 import org.sandboxpowered.sandbox.api.item.ItemStack;
 import org.sandboxpowered.sandbox.api.util.InteractionResult;
 import org.sandboxpowered.sandbox.api.util.math.Position;
 import org.sandboxpowered.sandbox.api.world.World;
+import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
-import net.minecraft.client.item.TooltipContext;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
 
 import javax.annotation.Nullable;
 import java.util.LinkedList;

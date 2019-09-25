@@ -1,13 +1,13 @@
 package org.sandboxpowered.sandbox.fabric.client.overlay;
 
-import org.sandboxpowered.sandbox.api.IDownloadIndicator;
-import org.sandboxpowered.sandbox.fabric.client.SandboxClient;
-import org.sandboxpowered.sandbox.fabric.util.FileUtil;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Overlay;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
+import org.sandboxpowered.sandbox.fabric.client.SandboxClient;
+import org.sandboxpowered.sandbox.fabric.internal.IDownloadIndicator;
+import org.sandboxpowered.sandbox.fabric.util.FileUtil;
 
 import java.awt.*;
 import java.net.MalformedURLException;

@@ -3,7 +3,7 @@ package org.sandboxpowered.sandbox.fabric.mixin.impl.client;
 import org.sandboxpowered.sandbox.api.client.Client;
 import org.sandboxpowered.sandbox.api.client.TextRenderer;
 import org.sandboxpowered.sandbox.api.client.screen.Screen;
-import org.sandboxpowered.sandbox.api.entity.player.Player;
+import org.sandboxpowered.sandbox.api.entity.player.PlayerEntity;
 import org.sandboxpowered.sandbox.api.world.World;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import net.minecraft.client.MinecraftClient;
@@ -31,8 +31,8 @@ public class MixinMinecraftClient {
     @Shadow
     public net.minecraft.client.font.TextRenderer textRenderer;
 
-    public Player sbx$getPlayer() {
-        return (Player) player;
+    public PlayerEntity sbx$getPlayer() {
+        return (PlayerEntity) player;
     }
 
     public World sbx$getWorld() {

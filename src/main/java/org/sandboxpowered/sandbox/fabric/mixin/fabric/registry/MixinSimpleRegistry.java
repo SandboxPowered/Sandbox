@@ -1,9 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.mixin.fabric.registry;
 
 import com.google.common.collect.BiMap;
-import org.sandboxpowered.sandbox.api.SandboxInternal;
-import org.sandboxpowered.sandbox.fabric.impl.BasicRegistry;
-import org.sandboxpowered.sandbox.fabric.util.Log;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -11,6 +8,9 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Int2ObjectBiMap;
 import net.minecraft.util.registry.MutableRegistry;
 import net.minecraft.util.registry.SimpleRegistry;
+import org.sandboxpowered.sandbox.fabric.impl.BasicRegistry;
+import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
+import org.sandboxpowered.sandbox.fabric.util.Log;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

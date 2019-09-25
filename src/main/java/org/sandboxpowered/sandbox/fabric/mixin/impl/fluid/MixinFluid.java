@@ -1,6 +1,9 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.fluid;
 
-import org.sandboxpowered.sandbox.api.SandboxInternal;
+import net.minecraft.fluid.BaseFluid;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.BlockView;
 import org.sandboxpowered.sandbox.api.fluid.Fluid;
 import org.sandboxpowered.sandbox.api.item.Item;
 import org.sandboxpowered.sandbox.api.state.BlockState;
@@ -10,12 +13,9 @@ import org.sandboxpowered.sandbox.api.util.Mono;
 import org.sandboxpowered.sandbox.api.util.math.Position;
 import org.sandboxpowered.sandbox.api.util.math.Vec3d;
 import org.sandboxpowered.sandbox.api.world.WorldReader;
+import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.sandboxpowered.sandbox.fabric.util.wrapper.StateFactoryImpl;
-import net.minecraft.fluid.BaseFluid;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

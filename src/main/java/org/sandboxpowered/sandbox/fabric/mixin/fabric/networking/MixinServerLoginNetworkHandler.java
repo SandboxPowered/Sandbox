@@ -1,9 +1,5 @@
 package org.sandboxpowered.sandbox.fabric.mixin.fabric.networking;
 
-import org.sandboxpowered.sandbox.fabric.SandboxConfig;
-import org.sandboxpowered.sandbox.fabric.internal.ClientConnectionInternal;
-import org.sandboxpowered.sandbox.api.CustomPayloadPacket;
-import org.sandboxpowered.sandbox.fabric.util.VelocityUtil;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.network.packet.LoginQueryRequestS2CPacket;
 import net.minecraft.network.ClientConnection;
@@ -12,6 +8,10 @@ import net.minecraft.server.network.packet.LoginQueryResponseC2SPacket;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.PacketByteBuf;
+import org.sandboxpowered.sandbox.fabric.SandboxConfig;
+import org.sandboxpowered.sandbox.fabric.internal.ClientConnectionInternal;
+import org.sandboxpowered.sandbox.fabric.internal.CustomPayloadPacket;
+import org.sandboxpowered.sandbox.fabric.util.VelocityUtil;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

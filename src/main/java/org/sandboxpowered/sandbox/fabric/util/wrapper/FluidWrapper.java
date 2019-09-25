@@ -1,12 +1,5 @@
 package org.sandboxpowered.sandbox.fabric.util.wrapper;
 
-import org.sandboxpowered.sandbox.api.SandboxInternal;
-import org.sandboxpowered.sandbox.api.fluid.BaseFluid;
-import org.sandboxpowered.sandbox.api.util.Mono;
-import org.sandboxpowered.sandbox.api.util.math.Position;
-import org.sandboxpowered.sandbox.api.world.WorldReader;
-import org.sandboxpowered.sandbox.fabric.util.ReflectionHelper;
-import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderLayer;
 import net.minecraft.block.BlockState;
@@ -21,6 +14,13 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.ViewableWorld;
+import org.sandboxpowered.sandbox.api.fluid.BaseFluid;
+import org.sandboxpowered.sandbox.api.util.Mono;
+import org.sandboxpowered.sandbox.api.util.math.Position;
+import org.sandboxpowered.sandbox.api.world.WorldReader;
+import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
+import org.sandboxpowered.sandbox.fabric.util.ReflectionHelper;
+import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 
 import java.lang.reflect.Field;
 
@@ -103,7 +103,7 @@ public class FluidWrapper extends net.minecraft.fluid.BaseFluid {
 
     @Override
     public Item getBucketItem() {
-        return WrappingUtil.convert(fluid.asItem());
+        return WrappingUtil.convert(fluid.asBucket());
     }
 
     @Override

@@ -1,11 +1,5 @@
 package org.sandboxpowered.sandbox.fabric.mixin.fabric.client;
 
-import org.sandboxpowered.sandbox.fabric.SandboxCommon;
-import org.sandboxpowered.sandbox.fabric.SandboxHooks;
-import org.sandboxpowered.sandbox.api.client.Client;
-import com.hrznstudio.sandbox.client.*;
-import org.sandboxpowered.sandbox.fabric.client.*;
-import org.sandboxpowered.sandbox.fabric.resources.SandboxResourceCreator;
 import net.arikia.dev.drpc.DiscordRPC;
 import net.arikia.dev.drpc.DiscordRichPresence;
 import net.minecraft.client.MinecraftClient;
@@ -14,6 +8,11 @@ import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.resource.ClientResourcePackContainer;
 import net.minecraft.resource.ResourcePack;
 import net.minecraft.resource.ResourcePackContainerManager;
+import org.sandboxpowered.sandbox.api.client.Client;
+import org.sandboxpowered.sandbox.fabric.SandboxCommon;
+import org.sandboxpowered.sandbox.fabric.SandboxHooks;
+import org.sandboxpowered.sandbox.fabric.client.*;
+import org.sandboxpowered.sandbox.fabric.resources.SandboxResourceCreator;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;

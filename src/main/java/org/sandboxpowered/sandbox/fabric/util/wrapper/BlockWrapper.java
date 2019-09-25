@@ -1,22 +1,13 @@
 package org.sandboxpowered.sandbox.fabric.util.wrapper;
 
-import org.sandboxpowered.sandbox.api.SandboxInternal;
-import org.sandboxpowered.sandbox.api.block.Block;
-import org.sandboxpowered.sandbox.api.block.BaseBlock;
-import org.sandboxpowered.sandbox.api.entity.Entity;
-import org.sandboxpowered.sandbox.api.entity.player.Player;
-import org.sandboxpowered.sandbox.api.item.ItemStack;
-import org.sandboxpowered.sandbox.api.util.InteractionResult;
-import org.sandboxpowered.sandbox.api.util.math.Position;
-import org.sandboxpowered.sandbox.api.util.math.Vec3f;
-import org.sandboxpowered.sandbox.api.world.WorldReader;
-import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
-import net.minecraft.block.*;
+import net.minecraft.block.BlockEntityProvider;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.FluidBlock;
+import net.minecraft.block.Waterloggable;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.BaseFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
@@ -31,6 +22,18 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import org.sandboxpowered.sandbox.api.block.BaseBlock;
+import org.sandboxpowered.sandbox.api.block.Block;
+import org.sandboxpowered.sandbox.api.block.FluidContainer;
+import org.sandboxpowered.sandbox.api.entity.Entity;
+import org.sandboxpowered.sandbox.api.entity.player.PlayerEntity;
+import org.sandboxpowered.sandbox.api.item.ItemStack;
+import org.sandboxpowered.sandbox.api.util.InteractionResult;
+import org.sandboxpowered.sandbox.api.util.math.Position;
+import org.sandboxpowered.sandbox.api.util.math.Vec3f;
+import org.sandboxpowered.sandbox.api.world.WorldReader;
+import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
+import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 
 import javax.annotation.Nullable;
 
@@ -47,7 +50,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
     public static SandboxInternal.BlockWrapper create(Block block) {
         if (block instanceof org.sandboxpowered.sandbox.api.block.FluidBlock)
             return new WithFluid((BaseFluid) WrappingUtil.convert(((org.sandboxpowered.sandbox.api.block.FluidBlock) block).getFluid()), block);
-        if (block.canContainFluids()) {
+        if (block instanceof FluidContainer) {
             if (block.hasBlockEntity()) {
                 return new BlockWrapper.WithWaterloggableBlockEntity(block);
             }
@@ -72,12 +75,12 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
     }
 
     @Override
-    public boolean activate(BlockState blockState_1, World world_1, BlockPos blockPos_1, PlayerEntity playerEntity_1, Hand hand_1, BlockHitResult blockHitResult_1) {
+    public boolean activate(BlockState blockState_1, World world_1, BlockPos blockPos_1, net.minecraft.entity.player.PlayerEntity playerEntity_1, Hand hand_1, BlockHitResult blockHitResult_1) {
         return block.onBlockUsed(
                 (org.sandboxpowered.sandbox.api.world.World) world_1,
                 (Position) blockPos_1,
                 (org.sandboxpowered.sandbox.api.state.BlockState) blockState_1,
-                (Player) playerEntity_1,
+                (PlayerEntity) playerEntity_1,
                 hand_1 == Hand.MAIN_HAND ? org.sandboxpowered.sandbox.api.entity.player.Hand.MAIN_HAND : org.sandboxpowered.sandbox.api.entity.player.Hand.OFF_HAND,
                 WrappingUtil.convert(blockHitResult_1.getSide()),
                 (Vec3f) (Object) new Vector3f(blockHitResult_1.getPos())
@@ -85,12 +88,12 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
     }
 
     @Override
-    public void onBlockBreakStart(BlockState blockState_1, World world_1, BlockPos blockPos_1, PlayerEntity playerEntity_1) {
+    public void onBlockBreakStart(BlockState blockState_1, World world_1, BlockPos blockPos_1, net.minecraft.entity.player.PlayerEntity playerEntity_1) {
         block.onBlockClicked(
                 (org.sandboxpowered.sandbox.api.world.World) world_1,
                 (Position) blockPos_1,
                 (org.sandboxpowered.sandbox.api.state.BlockState) blockState_1,
-                (Player) playerEntity_1
+                (PlayerEntity) playerEntity_1
         );
     }
 
@@ -194,12 +197,12 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
         }
 
         @Override
-        public boolean activate(BlockState blockState_1, World world_1, BlockPos blockPos_1, PlayerEntity playerEntity_1, Hand hand_1, BlockHitResult blockHitResult_1) {
+        public boolean activate(BlockState blockState_1, World world_1, BlockPos blockPos_1, net.minecraft.entity.player.PlayerEntity playerEntity_1, Hand hand_1, BlockHitResult blockHitResult_1) {
             return block.onBlockUsed(
                     (org.sandboxpowered.sandbox.api.world.World) world_1,
                     (Position) blockPos_1,
                     (org.sandboxpowered.sandbox.api.state.BlockState) blockState_1,
-                    (Player) playerEntity_1,
+                    (PlayerEntity) playerEntity_1,
                     hand_1 == Hand.MAIN_HAND ? org.sandboxpowered.sandbox.api.entity.player.Hand.MAIN_HAND : org.sandboxpowered.sandbox.api.entity.player.Hand.OFF_HAND,
                     WrappingUtil.convert(blockHitResult_1.getSide()),
                     (Vec3f) (Object) new Vector3f(blockHitResult_1.getPos())
@@ -207,12 +210,12 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
         }
 
         @Override
-        public void onBlockBreakStart(BlockState blockState_1, World world_1, BlockPos blockPos_1, PlayerEntity playerEntity_1) {
+        public void onBlockBreakStart(BlockState blockState_1, World world_1, BlockPos blockPos_1, net.minecraft.entity.player.PlayerEntity playerEntity_1) {
             block.onBlockClicked(
                     (org.sandboxpowered.sandbox.api.world.World) world_1,
                     (Position) blockPos_1,
                     (org.sandboxpowered.sandbox.api.state.BlockState) blockState_1,
-                    (Player) playerEntity_1
+                    (PlayerEntity) playerEntity_1
             );
         }
 
@@ -307,13 +310,16 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
     }
 
     public static class WithWaterloggable extends BlockWrapper implements Waterloggable {
+        private FluidContainer container;
+
         public WithWaterloggable(Block block) {
             super(block);
+            this.container = (FluidContainer) block;
         }
 
         @Override
         public boolean canFillWithFluid(BlockView blockView_1, BlockPos blockPos_1, BlockState blockState_1, Fluid fluid_1) {
-            return getBlock().canContainFluid(
+            return container.canContainFluid(
                     (WorldReader) blockView_1,
                     (Position) blockPos_1,
                     (org.sandboxpowered.sandbox.api.state.BlockState) blockState_1,
@@ -323,7 +329,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
 
         @Override
         public boolean tryFillWithFluid(IWorld iWorld_1, BlockPos blockPos_1, BlockState blockState_1, FluidState fluidState_1) {
-            return getBlock().fillWith(
+            return container.fillWith(
                     (org.sandboxpowered.sandbox.api.world.World) iWorld_1,
                     (Position) blockPos_1,
                     (org.sandboxpowered.sandbox.api.state.BlockState) blockState_1,
@@ -333,7 +339,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
 
         @Override
         public Fluid tryDrainFluid(IWorld iWorld_1, BlockPos blockPos_1, BlockState blockState_1) {
-            return WrappingUtil.convert(getBlock().drainFrom(
+            return WrappingUtil.convert(container.drainFrom(
                     (org.sandboxpowered.sandbox.api.world.World) iWorld_1,
                     (Position) blockPos_1,
                     (org.sandboxpowered.sandbox.api.state.BlockState) blockState_1

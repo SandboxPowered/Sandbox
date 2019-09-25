@@ -1,14 +1,14 @@
 package org.sandboxpowered.sandbox.fabric.mixin.fabric.networking;
 
-import org.sandboxpowered.sandbox.api.CustomPayloadPacket;
-import org.sandboxpowered.sandbox.fabric.network.NetworkManager;
-import org.sandboxpowered.sandbox.fabric.network.Packet;
 import net.minecraft.network.NetworkThreadUtils;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.network.packet.CustomPayloadC2SPacket;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.PacketByteBuf;
+import org.sandboxpowered.sandbox.fabric.internal.CustomPayloadPacket;
+import org.sandboxpowered.sandbox.fabric.network.NetworkManager;
+import org.sandboxpowered.sandbox.fabric.network.Packet;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;

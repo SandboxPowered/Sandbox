@@ -1,11 +1,11 @@
 package org.sandboxpowered.sandbox.fabric.client;
 
-import org.sandboxpowered.sandbox.api.IDownloadIndicator;
-import org.sandboxpowered.sandbox.fabric.util.FileUtil;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Identifier;
+import org.sandboxpowered.sandbox.fabric.internal.IDownloadIndicator;
+import org.sandboxpowered.sandbox.fabric.util.FileUtil;
 
 import java.awt.*;
 import java.net.MalformedURLException;

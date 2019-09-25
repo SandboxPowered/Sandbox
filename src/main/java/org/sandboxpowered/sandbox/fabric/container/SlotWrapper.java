@@ -1,9 +1,8 @@
 package org.sandboxpowered.sandbox.fabric.container;
 
 import org.sandboxpowered.sandbox.api.container.Slot;
-import org.sandboxpowered.sandbox.api.entity.player.Player;
+import org.sandboxpowered.sandbox.api.entity.player.PlayerEntity;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nullable;
@@ -22,8 +21,8 @@ public class SlotWrapper extends net.minecraft.container.Slot {
     }
 
     @Override
-    public boolean canTakeItems(PlayerEntity playerEntity_1) {
-        return slot.canExtract((Player) playerEntity_1);
+    public boolean canTakeItems(net.minecraft.entity.player.PlayerEntity playerEntity_1) {
+        return slot.canExtract((PlayerEntity) playerEntity_1);
     }
 
     @Override

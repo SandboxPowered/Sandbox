@@ -1,9 +1,10 @@
 package org.sandboxpowered.sandbox.fabric.impl;
 
-import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import net.minecraft.util.registry.SimpleRegistry;
 import org.sandboxpowered.sandbox.api.registry.Registry;
 import org.sandboxpowered.sandbox.api.util.Identity;
+import org.sandboxpowered.sandbox.api.util.Mono;
+import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -35,8 +36,11 @@ public class BasicRegistry<A, B> implements Registry<A> {
     }
 
     @Override
-    public A get(Identity identity) {
-        return convertBA.apply(vanilla.get(WrappingUtil.convert(identity)));
+    public Mono<A> get(Identity identity) {
+        B b = vanilla.get(WrappingUtil.convert(identity));
+        if (b == null)
+            return Mono.empty();
+        return Mono.of(convertBA.apply(b));
     }
 
     @Override

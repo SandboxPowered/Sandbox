@@ -1,28 +1,5 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.block;
 
-import org.sandboxpowered.sandbox.api.SandboxInternal;
-import org.sandboxpowered.sandbox.api.block.Block;
-import org.sandboxpowered.sandbox.api.block.Material;
-import org.sandboxpowered.sandbox.api.block.entity.BlockEntity;
-import org.sandboxpowered.sandbox.api.component.Component;
-import org.sandboxpowered.sandbox.api.component.Components;
-import org.sandboxpowered.sandbox.api.entity.Entity;
-import org.sandboxpowered.sandbox.api.entity.player.Hand;
-import org.sandboxpowered.sandbox.api.entity.player.Player;
-import org.sandboxpowered.sandbox.api.item.Item;
-import org.sandboxpowered.sandbox.api.item.ItemStack;
-import org.sandboxpowered.sandbox.api.state.BlockState;
-import org.sandboxpowered.sandbox.api.util.Direction;
-import org.sandboxpowered.sandbox.api.util.InteractionResult;
-import org.sandboxpowered.sandbox.api.util.Mono;
-import org.sandboxpowered.sandbox.api.util.math.Position;
-import org.sandboxpowered.sandbox.api.util.math.Vec3f;
-import org.sandboxpowered.sandbox.api.world.World;
-import org.sandboxpowered.sandbox.api.world.WorldReader;
-import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
-import org.sandboxpowered.sandbox.fabric.util.wrapper.SidedRespective;
-import org.sandboxpowered.sandbox.fabric.util.wrapper.StateFactoryImpl;
-import org.sandboxpowered.sandbox.fabric.util.wrapper.V2SInventory;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.InventoryProvider;
@@ -33,6 +10,30 @@ import net.minecraft.state.StateFactory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.IWorld;
+import org.sandboxpowered.sandbox.api.block.Block;
+import org.sandboxpowered.sandbox.api.block.Material;
+import org.sandboxpowered.sandbox.api.block.entity.BlockEntity;
+import org.sandboxpowered.sandbox.api.component.Component;
+import org.sandboxpowered.sandbox.api.component.Components;
+import org.sandboxpowered.sandbox.api.entity.Entity;
+import org.sandboxpowered.sandbox.api.entity.player.Hand;
+import org.sandboxpowered.sandbox.api.entity.player.PlayerEntity;
+import org.sandboxpowered.sandbox.api.item.Item;
+import org.sandboxpowered.sandbox.api.item.ItemStack;
+import org.sandboxpowered.sandbox.api.item.Items;
+import org.sandboxpowered.sandbox.api.state.BlockState;
+import org.sandboxpowered.sandbox.api.util.Direction;
+import org.sandboxpowered.sandbox.api.util.InteractionResult;
+import org.sandboxpowered.sandbox.api.util.Mono;
+import org.sandboxpowered.sandbox.api.util.math.Position;
+import org.sandboxpowered.sandbox.api.util.math.Vec3f;
+import org.sandboxpowered.sandbox.api.world.World;
+import org.sandboxpowered.sandbox.api.world.WorldReader;
+import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
+import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
+import org.sandboxpowered.sandbox.fabric.util.wrapper.SidedRespective;
+import org.sandboxpowered.sandbox.fabric.util.wrapper.StateFactoryImpl;
+import org.sandboxpowered.sandbox.fabric.util.wrapper.V2SInventory;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -94,16 +95,19 @@ public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
         return (BlockState) this.getDefaultState();
     }
 
-    public InteractionResult sbx$onBlockUsed(World world, Position pos, BlockState state, Player player, Hand hand, Direction side, Vec3f hit) {
+    public InteractionResult sbx$onBlockUsed(World world, Position pos, BlockState state, PlayerEntity player, Hand hand, Direction side, Vec3f hit) {
         return InteractionResult.IGNORE;
     }
 
-    public InteractionResult sbx$onBlockClicked(World world, Position pos, BlockState state, Player player) {
+    public InteractionResult sbx$onBlockClicked(World world, Position pos, BlockState state, PlayerEntity player) {
         return InteractionResult.IGNORE;
     }
 
-    public Item sbx$asItem() {
-        return (Item) asItem();
+    public Mono<Item> sbx$asItem() {
+        Item item = (Item) asItem();
+        if (item == Items.AIR)
+            return Mono.empty();
+        return Mono.of(item);
     }
 
     public void sbx$onBlockPlaced(World world, Position position, BlockState state, Entity entity, ItemStack itemStack) {

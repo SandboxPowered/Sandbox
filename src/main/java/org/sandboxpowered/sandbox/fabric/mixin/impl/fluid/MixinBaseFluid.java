@@ -1,6 +1,5 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.fluid;
 
-import org.sandboxpowered.sandbox.api.SandboxInternal;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.BaseFluid;
 import net.minecraft.fluid.Fluid;
@@ -9,6 +8,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.ViewableWorld;
 import net.minecraft.world.World;
+import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 

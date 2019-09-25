@@ -1,8 +1,9 @@
 package org.sandboxpowered.sandbox.fabric.network;
 
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.util.PacketByteBuf;
 import org.sandboxpowered.sandbox.api.Registries;
 import org.sandboxpowered.sandbox.api.client.screen.ContainerScreen;
-import org.sandboxpowered.sandbox.api.container.ContainerFactory;
 import org.sandboxpowered.sandbox.api.container.Container;
 import org.sandboxpowered.sandbox.api.util.Identity;
 import org.sandboxpowered.sandbox.api.util.nbt.CompoundTag;
@@ -10,8 +11,6 @@ import org.sandboxpowered.sandbox.fabric.container.ContainerWrapper;
 import org.sandboxpowered.sandbox.fabric.util.Log;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.sandboxpowered.sandbox.fabric.util.wrapper.V2SInventory;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.util.PacketByteBuf;
 
 public class ContainerOpenPacket implements Packet {
     private Identity id;
@@ -44,17 +43,14 @@ public class ContainerOpenPacket implements Packet {
     @Override
     public void apply() {
         MinecraftClient.getInstance().execute(() -> {
-            ContainerFactory factory = Registries.CONTAINER.get(id);
-            if (factory == null) {
-                Log.error("No Container factory found for " + id.toString() + "!");
-                return;
-            }
-            Container container = factory.create(id, new V2SInventory(MinecraftClient.getInstance().player.inventory), data);
-            if(container!=null) {
-                ContainerScreen screen = factory.create(container);
-                MinecraftClient.getInstance().player.container = new ContainerWrapper(null, syncId, container);
-                MinecraftClient.getInstance().openScreen(WrappingUtil.convert(screen));
-            }
+            Registries.CONTAINER.get(id).ifPresent(factory -> {
+                Container container = factory.create(id, new V2SInventory(MinecraftClient.getInstance().player.inventory), data);
+                if (container != null) {
+                    ContainerScreen screen = factory.create(container);
+                    MinecraftClient.getInstance().player.container = new ContainerWrapper(null, syncId, container);
+                    MinecraftClient.getInstance().openScreen(WrappingUtil.convert(screen));
+                }
+            }, () -> Log.error("No Container factory found for " + id.toString() + "!"));
         });
     }
 }

@@ -1,10 +1,10 @@
 package org.sandboxpowered.sandbox.fabric.mixin.fabric.block;
 
-import org.sandboxpowered.sandbox.api.SandboxInternal;
+import net.minecraft.state.property.Property;
 import org.sandboxpowered.sandbox.api.state.StateFactory;
+import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.sandboxpowered.sandbox.fabric.util.wrapper.StateFactoryImpl;
-import net.minecraft.state.property.Property;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

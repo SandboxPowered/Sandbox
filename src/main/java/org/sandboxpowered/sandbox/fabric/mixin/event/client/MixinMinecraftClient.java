@@ -1,10 +1,10 @@
 package org.sandboxpowered.sandbox.fabric.mixin.event.client;
 
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import org.sandboxpowered.sandbox.api.event.ScreenEvent;
 import org.sandboxpowered.sandbox.fabric.event.EventDispatcher;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -28,6 +28,8 @@ public class MixinMinecraftClient {
             return null;
         } else {
             ScreenEvent.Open open = EventDispatcher.publish(new ScreenEvent.Open(WrappingUtil.convert(screen)));
+            if(open.isCancelled())
+                return currentScreen;
             return WrappingUtil.convert(open.getScreen());
         }
     }

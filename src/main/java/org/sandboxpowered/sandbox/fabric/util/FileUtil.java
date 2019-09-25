@@ -1,7 +1,7 @@
 package org.sandboxpowered.sandbox.fabric.util;
 
-import org.sandboxpowered.sandbox.api.IDownloadIndicator;
 import org.apache.commons.io.output.CountingOutputStream;
+import org.sandboxpowered.sandbox.fabric.internal.IDownloadIndicator;
 
 import java.io.File;
 import java.io.FilenameFilter;
