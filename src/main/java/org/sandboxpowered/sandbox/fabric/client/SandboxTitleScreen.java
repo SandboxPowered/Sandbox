@@ -17,7 +17,6 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ChatUtil;
@@ -62,8 +61,8 @@ public class SandboxTitleScreen extends Screen {
         this.field_17776 = (double) (new Random()).nextFloat() < 1.0E-4D;
         if (Sandbox.unsupportedModsLoaded) {
             this.warning = new Warning(
-                    new LiteralText("Unsupported Mods Loaded").formatted(Formatting.RED).formatted(Formatting.BOLD),
-                    new LiteralText("Installing other mods on top of sandbox is not supported").formatted(Formatting.RED),
+                    new TranslatableText("warning.sandbox.unsupported_mods_1").formatted(Formatting.RED, Formatting.BOLD),
+                    new TranslatableText("warning.sandbox.unsupported_mods_2").formatted(Formatting.RED),
                     "https://hrzn.atlassian.net/servicedesk/customer/portal/3"
             );
         }
