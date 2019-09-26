@@ -1,5 +1,6 @@
 package org.sandboxpowered.sandbox.fabric;
 
+import com.google.common.collect.Sets;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.ModMetadata;
@@ -42,8 +43,10 @@ import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.sandboxpowered.sandbox.fabric.util.wrapper.RenderUtilImpl;
 
 import java.security.Policy;
+import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 public class SandboxHooks {
@@ -58,13 +61,11 @@ public class SandboxHooks {
     }
 
     public static void setupGlobal() {
-        if (FabricLoader.getInstance().getAllMods()
-                .stream()
-                .map(ModContainer::getMetadata)
-                .map(ModMetadata::getId)
-                .anyMatch(id -> !id.equals("sandbox") && !id.equals("sandboxapi") && !id.equals("fabricloader"))) {
-            Sandbox.unsupportedModsLoaded = true;
-        }
+        Set<String> supportedMods = Sets.newHashSet("sandbox", "sandboxapi", "fabricloader");
+        Sandbox.unsupportedModsLoaded = FabricLoader.getInstance().getAllMods().stream()
+            .map(ModContainer::getMetadata)
+            .map(ModMetadata::getId)
+            .anyMatch(((Predicate<String>) supportedMods::contains).negate());
         Policy.setPolicy(new AddonSecurityPolicy());
         try {
             ReflectionHelper.setPrivateField(Functions.class, "vec3iFunction", (Function<int[], Vec3i>) (arr) -> (Vec3i) new net.minecraft.util.math.Vec3i(arr[0], arr[1], arr[2]));
