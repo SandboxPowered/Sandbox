@@ -61,7 +61,7 @@ public class SandboxHooks {
     }
 
     public static void setupGlobal() {
-        Set<String> supportedMods = Sets.newHashSet("sandbox", "sandboxapi", "fabricloader");
+        Set<String> supportedMods = Sets.newHashSet("minecraft", "sandbox", "sandboxapi", "fabricloader");
         Sandbox.unsupportedModsLoaded = FabricLoader.getInstance().getAllMods().stream()
             .map(ModContainer::getMetadata)
             .map(ModMetadata::getId)
