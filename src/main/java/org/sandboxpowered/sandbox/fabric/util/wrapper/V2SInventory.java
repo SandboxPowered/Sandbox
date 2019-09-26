@@ -58,6 +58,13 @@ public class V2SInventory implements Inventory {
                 inventory.setInvStack(slot, WrappingUtil.cast(original, net.minecraft.item.ItemStack.class));
             }
             return stack.copy().setCount(original.getCount() - originalCount);
+        } else if (original.isEmpty() && inventory.isValidInvStack(slot, WrappingUtil.cast(stack, net.minecraft.item.ItemStack.class))) {
+            ItemStack toInsert = stack.copy();
+            toInsert.setCount(Math.min(toInsert.getCount(), getMaxStackSize(slot)));
+            if (!simulate) {
+                inventory.setInvStack(slot, WrappingUtil.cast(toInsert, net.minecraft.item.ItemStack.class));
+            }
+            return stack.copy().setCount(stack.getCount() - toInsert.getCount());
         }
         return stack;
     }
