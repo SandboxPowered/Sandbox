@@ -1,6 +1,9 @@
 package org.sandboxpowered.sandbox.fabric.client;
 
 import com.google.common.collect.Sets;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import net.minecraft.resource.AbstractFileResourcePack;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
@@ -10,12 +13,15 @@ import org.sandboxpowered.sandbox.api.addon.AddonSpec;
 import org.sandboxpowered.sandbox.fabric.util.Log;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Predicate;
 
 public class AddonFolderResourcePack extends AbstractFileResourcePack {
+
+    private static final Gson GSON = new GsonBuilder().create();
     private final Path basePath;
     private final String separator;
     private final AddonSpec spec;
@@ -38,17 +44,26 @@ public class AddonFolderResourcePack extends AbstractFileResourcePack {
     }
 
     @Override
-    protected InputStream openFile(String var1) throws IOException {
-        Path path = getPath(var1);
+    protected InputStream openFile(String filename) throws IOException {
+        Path path = getPath(filename);
         if (path != null && Files.isRegularFile(path)) {
             return Files.newInputStream(path);
         }
+        else if("pack.mcmeta".equals(filename)) { //file not found, substitute one by using the addon spec description
+            JsonObject meta = new JsonObject();
+            JsonObject pack = new JsonObject();
+            pack.addProperty("pack_format", 4);
+            pack.addProperty("description", spec.getDescription());
+            meta.add("pack", pack);
+            return new ByteArrayInputStream(GSON.toJson(meta).getBytes(StandardCharsets.UTF_8));
+        }
 
-        throw new FileNotFoundException(var1);
+        throw new FileNotFoundException(String.format("'%s' in ResourcePack '%s'", basePath, filename)); //mirror MC's ResourceNotFoundException
     }
 
     @Override
     protected boolean containsFile(String filename) {
+        if("pack.mcmeta".equals(filename)) return true; //return early because we are going to substitute a dummy file if it doesn't exist
         Path path = getPath(filename);
         return path != null && Files.isRegularFile(path);
     }
