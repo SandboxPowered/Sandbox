@@ -92,7 +92,7 @@ public abstract class MixinFluid implements SandboxInternal.StateFactoryHolder {
         return false;
     }
 
-    public Item sbx$asItem() {
+    public Item sbx$asBucket() {
         return WrappingUtil.convert(getBucketItem());
     }
 
