@@ -21,6 +21,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@SuppressWarnings("ConstantConditions")
 @Mixin(net.minecraft.fluid.Fluid.class)
 @Implements(@Interface(iface = Fluid.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
@@ -31,8 +32,8 @@ public abstract class MixinFluid implements SandboxInternal.StateFactoryHolder {
     private StateFactory<Fluid, FluidState> sandboxFactory;
 
     @Inject(method = "<init>", at = @At("RETURN"))
-    public void constructor(CallbackInfo info) {
-        sandboxFactory = new StateFactoryImpl<>(this.stateFactory, b -> (Fluid) b, s -> (FluidState) s);
+    private void constructor(CallbackInfo info) {
+        sandboxFactory = new StateFactoryImpl<>(this.stateFactory, Fluid.class::cast, FluidState.class::cast);
         ((SandboxInternal.StateFactory) this.stateFactory).setSboxFactory(sandboxFactory);
     }
 
@@ -60,6 +61,7 @@ public abstract class MixinFluid implements SandboxInternal.StateFactoryHolder {
         return (FluidState) getDefaultState();
     }
 
+    @SuppressWarnings("unchecked")
     public StateFactory<Fluid, FluidState> sbx$getStateFactory() {
         return ((SandboxInternal.StateFactory) stateFactory).getSboxFactory();
     }
