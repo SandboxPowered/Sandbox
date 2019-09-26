@@ -25,7 +25,7 @@ public abstract class MixinScreen {
         render(mouseX, mouseY, partialTicks);
     }
 
-    public Identity sbx$getScreenId() {
+    public Identity sbx$getId() {
         return Identity.of("minecraft", getClass().getName().toLowerCase());
     }
 }
