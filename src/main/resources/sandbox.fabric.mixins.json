@@ -4,7 +4,6 @@
   "compatibilityLevel": "JAVA_8",
   "minVersion": "0.7",
   "mixins": [
-    "MixinBootstrap",
     "server.MixinMinecraftServer",
     "registry.MixinSimpleRegistry",
     "crash.MixinCrashReport",
@@ -26,9 +25,9 @@
     "networking.MixinServerHandshakeNetworkHandler"
   ],
   "client": [
+    "MixinBootstrapClient",
     "client.MixinIntegratedServer",
     "client.MixinMinecraftClient",
-    "client.MixinMain",
     "client.MixinScreen",
     "client.MixinKeyboard",
     "client.MixinGameRenderer",
@@ -37,6 +36,7 @@
     "networking.MixinClientConnection"
   ],
   "server": [
+    "MixinBootstrapServer",
     "server.MixinDedicatedServer"
   ]
 }

@@ -19,6 +19,7 @@ import java.util.Map;
 
 public class SentryUtil {
     private static final boolean doDevCrash = false;
+
     public static void initSentry() {
         Sentry.init();
         if (SandboxCommon.client != null) {
