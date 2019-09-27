@@ -24,8 +24,12 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}"
 	modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
 	compileOnly "com.google.code.findbugs:jsr305:3.0.2"
+	compile 'io.sentry:sentry:1.7.27'
+	compile('org.apache.logging.log4j:og4j-slf4j-impl:2.8.1') {
+		transitive = false
+	}
 
-    implementation project(':discord-rpc')
+	implementation project(':discord-rpc')
 	include(project(':discord-rpc')) {
         transitive = false
     }

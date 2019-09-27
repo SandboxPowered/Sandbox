@@ -4,10 +4,12 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import org.sandboxpowered.sandbox.api.client.Client;
+import org.sandboxpowered.sandbox.api.client.Session;
 import org.sandboxpowered.sandbox.api.client.TextRenderer;
 import org.sandboxpowered.sandbox.api.client.screen.Screen;
 import org.sandboxpowered.sandbox.api.entity.player.PlayerEntity;
 import org.sandboxpowered.sandbox.api.world.World;
+import org.sandboxpowered.sandbox.fabric.util.SessionImpl;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.spongepowered.asm.mixin.*;
 
@@ -23,6 +25,8 @@ public class MixinMinecraftClient {
 
     @Shadow
     public ClientWorld world;
+
+    private Session sandbox_Session = new SessionImpl((MinecraftClient) (Object) this);
 
     @Shadow
     @Nullable
@@ -46,5 +50,9 @@ public class MixinMinecraftClient {
 
     public TextRenderer sbx$getTextRenderer() {
         return (TextRenderer) textRenderer;
+    }
+
+    public Session sbx$getSession() {
+        return sandbox_Session;
     }
 }

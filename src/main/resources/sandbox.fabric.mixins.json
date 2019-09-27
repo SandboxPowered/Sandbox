@@ -28,6 +28,7 @@
   "client": [
     "client.MixinIntegratedServer",
     "client.MixinMinecraftClient",
+    "client.MixinMain",
     "client.MixinScreen",
     "client.MixinKeyboard",
     "client.MixinGameRenderer",
