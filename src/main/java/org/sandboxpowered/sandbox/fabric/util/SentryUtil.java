@@ -12,6 +12,7 @@ import org.sandboxpowered.sandbox.fabric.Sandbox;
 import org.sandboxpowered.sandbox.fabric.SandboxCommon;
 import org.sandboxpowered.sandbox.fabric.SandboxConfig;
 import org.sandboxpowered.sandbox.fabric.client.SandboxClient;
+import org.sandboxpowered.sandbox.fabric.security.AddonClassLoader;
 import org.sandboxpowered.sandbox.fabric.server.SandboxServer;
 
 import java.util.Date;
@@ -35,6 +36,15 @@ public class SentryUtil {
         if (!SandboxConfig.disableAutoCrashSending.get() && (doDevCrash || !FabricLoader.getInstance().isDevelopmentEnvironment())) {
             Sentry.capture(e);
         }
+    }
+
+    public static boolean scan(StackTraceElement[] elements) {
+        for (StackTraceElement traceElement : elements) {
+            if (traceElement.getClass().getClassLoader() instanceof AddonClassLoader) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static EventBuilder create(String message, Event.Level level, Throwable throwable) {
