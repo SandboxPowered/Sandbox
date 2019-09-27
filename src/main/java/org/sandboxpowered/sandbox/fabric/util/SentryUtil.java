@@ -39,10 +39,8 @@ public class SentryUtil {
     }
 
     public static boolean scan(StackTraceElement[] elements) {
-        for (StackTraceElement traceElement : elements) {
-            if (traceElement.getClass().getClassLoader() instanceof AddonClassLoader) {
-                return true;
-            }
+        if (elements[0].getClass().getClassLoader() instanceof AddonClassLoader) {
+            return true;
         }
         return false;
     }
