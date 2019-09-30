@@ -9,7 +9,7 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 archivesBaseName = project.archives_base_name
-version = System.getenv("COMMIT") ? "${project.sandbox_version}-${System.getenv("COMMIT")}" : "${project.sandbox_version}"
+version = "${project.sandbox_version}-SNAPSHOT"
 group = project.maven_group
 
 minecraft {
