@@ -13,6 +13,7 @@ public class SandboxConfig {
     public static ConfigValue<Boolean> velocity;
     public static ConfigValue<String> velocityKey;
     public static ConfigValue<String> addonSyncURL;
+    public static ConfigValue<Boolean> disableAutoCrashSending;
     private static Config config;
 
     static {
@@ -33,6 +34,9 @@ public class SandboxConfig {
             addonSyncURL = config.get("server.sync.url");
             addonSyncURL.add("https://example.com");
             addonSyncURL.setComment(" URL Prefix for the client to download server addons");
+            disableAutoCrashSending = config.get("crash.auto-send");
+            disableAutoCrashSending.add(false);
+            disableAutoCrashSending.setComment(" Disables Sandbox automatically reporting crashes to the developers");
             config.save();
         } catch (IOException e) {
             e.printStackTrace();

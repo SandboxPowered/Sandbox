@@ -1,5 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.util;
 
+import io.sentry.event.Event;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,6 +21,40 @@ public class Log {
 
     public static void error(String s, Throwable e) {
         LOG.error("[Sandbox] " + s, e);
+        if (!SentryUtil.scan(e.getStackTrace()))
+            SentryUtil.record(SentryUtil.create(s, Event.Level.ERROR, e));
+    }
+
+    public static void error(String s, Object... objs) {
+        LOG.error("[Sandbox] " + s, objs);
+    }
+
+    public static void warn(String s) {
+        LOG.warn("[Sandbox] " + s);
+    }
+
+    public static void warn(String s, Throwable e) {
+        LOG.warn("[Sandbox] " + s, e);
+        if (!SentryUtil.scan(e.getStackTrace()))
+            SentryUtil.record(SentryUtil.create(s, Event.Level.WARNING, e));
+    }
+
+    public static void warn(String s, Object... objs) {
+        LOG.warn("[Sandbox] " + s, objs);
+    }
+
+    public static void fatal(String s) {
+        LOG.fatal("[Sandbox] " + s);
+    }
+
+    public static void fatal(String s, Throwable e) {
+        LOG.fatal("[Sandbox] " + s, e);
+        if (!SentryUtil.scan(e.getStackTrace()))
+            SentryUtil.record(SentryUtil.create(s, Event.Level.FATAL, e));
+    }
+
+    public static void fatal(String s, Object... objs) {
+        LOG.fatal("[Sandbox] " + s, objs);
     }
 
     public static void debug(String s) {

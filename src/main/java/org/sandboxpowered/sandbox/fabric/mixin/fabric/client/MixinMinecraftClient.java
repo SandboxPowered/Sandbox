@@ -8,11 +8,14 @@ import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.resource.ClientResourcePackContainer;
 import net.minecraft.resource.ResourcePack;
 import net.minecraft.resource.ResourcePackContainerManager;
+import net.minecraft.util.crash.CrashReport;
+import org.apache.logging.log4j.Logger;
 import org.sandboxpowered.sandbox.api.client.Client;
 import org.sandboxpowered.sandbox.fabric.SandboxCommon;
 import org.sandboxpowered.sandbox.fabric.SandboxHooks;
 import org.sandboxpowered.sandbox.fabric.client.*;
 import org.sandboxpowered.sandbox.fabric.resources.SandboxResourceCreator;
+import org.sandboxpowered.sandbox.fabric.util.Log;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -20,6 +23,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
@@ -32,7 +36,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Mixin(MinecraftClient.class)
-public class MixinMinecraftClient {
+public abstract class MixinMinecraftClient {
 
     @Shadow
     @Final
@@ -56,13 +60,23 @@ public class MixinMinecraftClient {
 
     @Inject(method = "<init>", at = @At("RETURN"), remap = false)
     public void constructor(CallbackInfo info) {
-        SandboxCommon.client = (Client) this;
         this.resourcePackContainerManager.addCreator(new SandboxResourceCreator());
     }
 
     @Inject(method = "init", at = @At(value = "INVOKE", target = "Ljava/util/List;iterator()Ljava/util/Iterator;", ordinal = 0, shift = At.Shift.BY, by = -2, remap = false), locals = LocalCapture.CAPTURE_FAILHARD)
     public void initResources(CallbackInfo info, List<ResourcePack> list) {
         addonResourcePackModifications(list);
+    }
+
+    @Redirect(method = "start", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/crash/CrashReport;create(Ljava/lang/Throwable;Ljava/lang/String;)Lnet/minecraft/util/crash/CrashReport;"))
+    private CrashReport create(Throwable throwable_1, String string_1) {
+        Log.fatal(string_1, throwable_1);
+        return CrashReport.create(throwable_1, string_1);
+    }
+
+    @Redirect(method = "start", at = @At(value = "INVOKE", target = "Lorg/apache/logging/log4j/Logger;fatal(Ljava/lang/String;Ljava/lang/Throwable;)V"))
+    private void fatal(Logger logger, String message, Throwable t) {
+        Log.fatal(message, t);
     }
 
     @Inject(method = "startIntegratedServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/integrated/IntegratedServer;start()V"))
