@@ -21,7 +21,7 @@ public class Log {
 
     public static void error(String s, Throwable e) {
         LOG.error("[Sandbox] " + s, e);
-        if (!SentryUtil.scan(e.getStackTrace()))
+        if (SentryUtil.scan(e.getStackTrace()))
             SentryUtil.record(SentryUtil.create(s, Event.Level.ERROR, e));
     }
 
@@ -35,7 +35,7 @@ public class Log {
 
     public static void warn(String s, Throwable e) {
         LOG.warn("[Sandbox] " + s, e);
-        if (!SentryUtil.scan(e.getStackTrace()))
+        if (SentryUtil.scan(e.getStackTrace()))
             SentryUtil.record(SentryUtil.create(s, Event.Level.WARNING, e));
     }
 
@@ -49,7 +49,7 @@ public class Log {
 
     public static void fatal(String s, Throwable e) {
         LOG.fatal("[Sandbox] " + s, e);
-        if (!SentryUtil.scan(e.getStackTrace()))
+        if (SentryUtil.scan(e.getStackTrace()))
             SentryUtil.record(SentryUtil.create(s, Event.Level.FATAL, e));
     }
 

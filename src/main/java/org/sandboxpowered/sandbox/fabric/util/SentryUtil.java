@@ -1,6 +1,7 @@
 package org.sandboxpowered.sandbox.fabric.util;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Sets;
 import io.sentry.Sentry;
 import io.sentry.event.Event;
 import io.sentry.event.EventBuilder;
@@ -12,11 +13,11 @@ import org.sandboxpowered.sandbox.fabric.Sandbox;
 import org.sandboxpowered.sandbox.fabric.SandboxCommon;
 import org.sandboxpowered.sandbox.fabric.SandboxConfig;
 import org.sandboxpowered.sandbox.fabric.client.SandboxClient;
-import org.sandboxpowered.sandbox.fabric.security.AddonClassLoader;
 import org.sandboxpowered.sandbox.fabric.server.SandboxServer;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.Set;
 
 public class SentryUtil {
     private static final boolean doDevCrash = false;
@@ -32,17 +33,16 @@ public class SentryUtil {
         }
     }
 
-    public static void record(EventBuilder e) {
+    static void record(EventBuilder e) {
         if (!SandboxConfig.disableAutoCrashSending.get() && (doDevCrash || !FabricLoader.getInstance().isDevelopmentEnvironment())) {
             Sentry.capture(e);
         }
     }
 
-    public static boolean scan(StackTraceElement[] elements) {
-        if (elements[0].getClass().getClassLoader() instanceof AddonClassLoader) {
-            return true;
-        }
-        return false;
+    private static Set<String> prefixes = Sets.newHashSet("org.sandboxpowered.fabric", "org.sandboxpowered.api", "net.minecraft", "net.fabricmc");
+
+    static boolean scan(StackTraceElement[] elements) {
+        return prefixes.stream().noneMatch(pre -> elements[0].getClassName().startsWith(pre));
     }
 
     public static EventBuilder create(String message, Event.Level level, Throwable throwable) {
