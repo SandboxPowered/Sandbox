@@ -69,9 +69,6 @@ public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
     @Shadow
     public abstract void onBroken(IWorld iWorld_1, BlockPos blockPos_1, net.minecraft.block.BlockState blockState_1);
 
-    @Shadow
-    public abstract net.minecraft.item.ItemStack getPickStack(BlockView blockView_1, BlockPos blockPos_1, net.minecraft.block.BlockState blockState_1);
-
     @Inject(method = "<init>", at = @At("RETURN"))
     public void constructor(net.minecraft.block.Block.Settings settings, CallbackInfo info) {
         sandboxFactory = new StateFactoryImpl<>(this.stateFactory, b -> (Block) b, s -> (BlockState) s);
@@ -159,13 +156,5 @@ public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
 
     public boolean sbx$isNaturalDirt() {
         return (Object) this == Blocks.DIRT || (Object) this == Blocks.COARSE_DIRT || (Object) this == Blocks.PODZOL;
-    }
-
-    public ItemStack sbx$getPickStack(WorldReader reader, Position position, BlockState state) {
-        return WrappingUtil.cast(getPickStack(
-                (BlockView) reader,
-                (BlockPos) position,
-                (net.minecraft.block.BlockState) state
-        ), ItemStack.class);
     }
 }

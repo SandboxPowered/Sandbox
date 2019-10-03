@@ -46,6 +46,7 @@
     "client.MixinScreen",
     "client.MixinSandboxScreen",
     "client.MixinModelLoader",
-    "client.MixinFluidRenderer"
+    "client.MixinFluidRenderer",
+    "block.MixinBlockClient"
   ]
 }
