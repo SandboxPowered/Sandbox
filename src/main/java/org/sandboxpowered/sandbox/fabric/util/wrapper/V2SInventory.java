@@ -50,23 +50,28 @@ public class V2SInventory implements Inventory {
 
     @Override
     public ItemStack insert(int slot, ItemStack stack, boolean simulate) {
-        ItemStack original = get(slot).copy();
-        if (original.isEqualTo(stack)) {
-            int originalCount = original.getCount();
-            original.setCount(Math.min(getMaxStackSize(slot), originalCount + stack.getCount()));
-            if (!simulate) {
-                inventory.setInvStack(slot, WrappingUtil.cast(original, net.minecraft.item.ItemStack.class));
+        ItemStack in = get(slot);
+        int max = getMaxStackSize(slot);
+        if (in.isEmpty()) {
+            ItemStack coming = stack.copy();
+            if (coming.getCount() > max) {
+                coming.setCount(max);
             }
-            return stack.copy().setCount(original.getCount() - originalCount);
-        } else if (original.isEmpty() && inventory.isValidInvStack(slot, WrappingUtil.cast(stack, net.minecraft.item.ItemStack.class))) {
-            ItemStack toInsert = stack.copy();
-            toInsert.setCount(Math.min(toInsert.getCount(), getMaxStackSize(slot)));
-            if (!simulate) {
-                inventory.setInvStack(slot, WrappingUtil.cast(toInsert, net.minecraft.item.ItemStack.class));
+            if (!simulate)
+                setStack(slot, coming);
+            return stack.copy().shrink(coming.getCount());
+        } else {
+            int count = in.getCount();
+            if (count >= max || !in.isEqualTo(stack) || !in.areTagsEqual(stack))
+                return stack;
+            ItemStack coming = stack.copy();
+            if (count + coming.getCount() > max) {
+                coming.setCount(max - count);
             }
-            return stack.copy().setCount(stack.getCount() - toInsert.getCount());
+            if (!simulate)
+                setStack(slot, in.copy().grow(coming.getCount()));
+            return stack.copy().shrink(coming.getCount());
         }
-        return stack;
     }
 
     @Override

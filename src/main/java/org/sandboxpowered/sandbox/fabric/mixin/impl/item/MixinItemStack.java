@@ -153,7 +153,7 @@ public abstract class MixinItemStack {
     public boolean sbx$areTagsEqual(ItemStack stack) {
         if (this == stack) {
             return true;
-        } else if ((sbx$isEmpty() || stack.isEmpty()) || (!hasTag() || stack.hasTag())) {
+        } else if ((sbx$isEmpty() || stack.isEmpty()) || (!hasTag() && stack.hasTag())) {
             return false;
         }
         return getTag().equals(stack.getTag());
