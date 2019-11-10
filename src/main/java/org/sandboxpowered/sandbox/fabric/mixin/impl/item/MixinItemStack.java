@@ -151,12 +151,12 @@ public abstract class MixinItemStack {
     }
 
     public boolean sbx$areTagsEqual(ItemStack stack) {
-        if (this == stack || (!sbx$hasTag() && !stack.hasTag())) {
+        if (this == stack) {
             return true;
         } else if ((sbx$isEmpty() || stack.isEmpty()) || (!hasTag() && stack.hasTag())) {
             return false;
         }
-        return getTag().equals(stack.getTag());
+        return (!sbx$hasTag() && !stack.hasTag()) || getTag().equals(stack.getTag());
     }
 
     public CompoundTag sbx$asTag() {

@@ -123,8 +123,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
                 (org.sandboxpowered.sandbox.api.state.BlockState) blockState_1,
                 WrappingUtil.convert(direction_1),
                 (org.sandboxpowered.sandbox.api.state.BlockState) blockState_2,
-                (org.sandboxpowered.sandbox.api.world.World) iWorld_1.getWorld(),
-                (Position) blockPos_1,
+                (org.sandboxpowered.sandbox.api.world.World) iWorld_1.getWorld(), (Position) blockPos_1,
                 (Position) blockPos_2
         ));
     }
@@ -242,10 +241,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
         @Override
         public BlockState getStateForNeighborUpdate(BlockState blockState_1, Direction direction_1, BlockState blockState_2, IWorld iWorld_1, BlockPos blockPos_1, BlockPos blockPos_2) {
             return WrappingUtil.convert(block.updateOnNeighborChanged(
-                    (org.sandboxpowered.sandbox.api.state.BlockState) blockState_1,
-                    WrappingUtil.convert(direction_1),
-                    (org.sandboxpowered.sandbox.api.state.BlockState) blockState_2,
-                    (org.sandboxpowered.sandbox.api.world.World) iWorld_1.getWorld(),
+                    (org.sandboxpowered.sandbox.api.state.BlockState) blockState_1, WrappingUtil.convert(direction_1), (org.sandboxpowered.sandbox.api.state.BlockState) blockState_2, (org.sandboxpowered.sandbox.api.world.World) iWorld_1.getWorld(),
                     (Position) blockPos_1,
                     (Position) blockPos_2
             ));

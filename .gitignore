@@ -25,3 +25,4 @@ run/*
 
 
 !run/addons/test/*
+logs/
