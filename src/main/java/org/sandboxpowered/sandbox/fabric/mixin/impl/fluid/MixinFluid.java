@@ -28,13 +28,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinFluid implements SandboxInternal.StateFactoryHolder {
     @Shadow
     @Final
-    protected net.minecraft.state.StateFactory<net.minecraft.fluid.Fluid, net.minecraft.fluid.FluidState> stateFactory;
+    protected net.minecraft.state.StateManager<net.minecraft.fluid.Fluid, net.minecraft.fluid.FluidState> stateManager;
     private StateFactory<Fluid, FluidState> sandboxFactory;
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void constructor(CallbackInfo info) {
-        sandboxFactory = new StateFactoryImpl<>(this.stateFactory, Fluid.class::cast, FluidState.class::cast);
-        ((SandboxInternal.StateFactory) this.stateFactory).setSboxFactory(sandboxFactory);
+        sandboxFactory = new StateFactoryImpl<>(this.stateManager, Fluid.class::cast, FluidState.class::cast);
+        ((SandboxInternal.StateFactory) this.stateManager).setSboxFactory(sandboxFactory);
     }
 
     @Override
@@ -63,7 +63,7 @@ public abstract class MixinFluid implements SandboxInternal.StateFactoryHolder {
 
     @SuppressWarnings("unchecked")
     public StateFactory<Fluid, FluidState> sbx$getStateFactory() {
-        return ((SandboxInternal.StateFactory) stateFactory).getSboxFactory();
+        return ((SandboxInternal.StateFactory) stateManager).getSboxFactory();
     }
 
     public boolean sbx$isStill(FluidState state) {

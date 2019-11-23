@@ -1,19 +1,18 @@
 package org.sandboxpowered.sandbox.fabric.util.wrapper;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderLayer;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.FluidStateImpl;
 import net.minecraft.item.Item;
-import net.minecraft.state.StateFactory;
+import net.minecraft.state.StateManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.ViewableWorld;
+import net.minecraft.world.WorldView;
 import org.sandboxpowered.sandbox.api.fluid.BaseFluid;
 import org.sandboxpowered.sandbox.api.util.Mono;
 import org.sandboxpowered.sandbox.api.util.math.Position;
@@ -32,7 +31,7 @@ public class FluidWrapper extends net.minecraft.fluid.BaseFluid {
     public FluidWrapper(BaseFluid fluid) {
         super();
         this.fluid = fluid;
-        StateFactory.Builder<net.minecraft.fluid.Fluid, FluidState> stateFactory$Builder_1 = new StateFactory.Builder<>(this);
+        StateManager.Builder<net.minecraft.fluid.Fluid, FluidState> stateFactory$Builder_1 = new StateManager.Builder<>(this);
         this.appendProperties(stateFactory$Builder_1);
         try {
             ReflectionHelper.setPrivateField(net.minecraft.fluid.Fluid.class, this, "stateFactory", stateFactory$Builder_1.build(FluidStateImpl::new));
@@ -41,7 +40,7 @@ public class FluidWrapper extends net.minecraft.fluid.BaseFluid {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        this.setDefaultState((FluidState) this.stateFactory.getDefaultState());
+        this.setDefaultState((FluidState) this.getStateManager().getDefaultState());
     }
 
     public static FluidWrapper create(BaseFluid fluid) {
@@ -49,7 +48,7 @@ public class FluidWrapper extends net.minecraft.fluid.BaseFluid {
     }
 
     @Override
-    protected void appendProperties(StateFactory.Builder<net.minecraft.fluid.Fluid, FluidState> stateFactory$Builder_1) {
+    protected void appendProperties(StateManager.Builder<net.minecraft.fluid.Fluid, FluidState> stateFactory$Builder_1) {
         super.appendProperties(stateFactory$Builder_1);
         if (fluid != null)
             fluid.appendProperties(((SandboxInternal.StateFactoryBuilder) stateFactory$Builder_1).getSboxBuilder());
@@ -87,19 +86,20 @@ public class FluidWrapper extends net.minecraft.fluid.BaseFluid {
     }
 
     @Override
-    protected int method_15733(ViewableWorld var1) {
+    protected int method_15733(WorldView var1) {
         return 4;
     }
 
     @Override
-    protected int getLevelDecreasePerBlock(ViewableWorld var1) {
+    protected int getLevelDecreasePerBlock(WorldView var1) {
         return 1;
     }
-
-    @Override
-    protected BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.TRANSLUCENT;
-    }
+// TODO
+//
+//    @Override
+//    protected RenderLayer getRenderLayer() {
+//        return RenderLayer.TRANSLUCENT;
+//    }
 
     @Override
     public Item getBucketItem() {
@@ -112,7 +112,7 @@ public class FluidWrapper extends net.minecraft.fluid.BaseFluid {
     }
 
     @Override
-    public int getTickRate(ViewableWorld var1) {
+    public int getTickRate(WorldView var1) {
         return fluid.getTickRate((WorldReader) var1);
     }
 

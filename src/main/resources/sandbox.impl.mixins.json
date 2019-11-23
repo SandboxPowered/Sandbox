@@ -25,7 +25,7 @@
     "item.MixinSandboxItem",
     "item.MixinItemStack",
     "state.MixinBlockState",
-    "state.MixinPropertyContainer",
+    "state.MixinState",
     "text.MixinText",
     "nbt.MixinTag",
     "nbt.MixinCompoundTag",

@@ -69,35 +69,33 @@ public class AddonFolderResourcePack extends AbstractFileResourcePack {
     }
 
     @Override
-    public Collection<Identifier> findResources(ResourceType type, String path, int depth, Predicate<String> predicate) {
+    public Collection<Identifier> findResources(ResourceType type, String namespace, String path, int depth, Predicate<String> predicate) {
         List<Identifier> ids = new ArrayList<>();
         String nioPath = path.replace("/", separator);
 
-        for (String namespace : getNamespaces(type)) {
-            Path namespacePath = getPath(type.getName() + "/" + namespace);
-            if (namespacePath != null) {
-                Path searchPath = namespacePath.resolve(nioPath).toAbsolutePath().normalize();
+        Path namespacePath = getPath(type.getDirectory() + "/" + namespace);
+        if (namespacePath != null) {
+            Path searchPath = namespacePath.resolve(nioPath).toAbsolutePath().normalize();
 
-                if (Files.exists(searchPath)) {
-                    try {
-                        Files.walk(searchPath, depth)
-                                .filter(Files::isRegularFile)
-                                .filter((p) -> {
-                                    String filename = p.getFileName().toString();
-                                    return !filename.endsWith(".mcmeta") && predicate.test(filename);
-                                })
-                                .map(namespacePath::relativize)
-                                .map((p) -> p.toString().replace(separator, "/"))
-                                .forEach((s) -> {
-                                    try {
-                                        ids.add(new Identifier(namespace, s));
-                                    } catch (InvalidIdentifierException e) {
-                                        Log.error("Encountered an error loading sandbox resources", e);
-                                    }
-                                });
-                    } catch (IOException e) {
-                        Log.error("findResources at " + path + " in namespace " + namespace + " failed!", e);
-                    }
+            if (Files.exists(searchPath)) {
+                try {
+                    Files.walk(searchPath, depth)
+                            .filter(Files::isRegularFile)
+                            .filter((p) -> {
+                                String filename = p.getFileName().toString();
+                                return !filename.endsWith(".mcmeta") && predicate.test(filename);
+                            })
+                            .map(namespacePath::relativize)
+                            .map((p) -> p.toString().replace(separator, "/"))
+                            .forEach((s) -> {
+                                try {
+                                    ids.add(new Identifier(namespace, s));
+                                } catch (InvalidIdentifierException e) {
+                                    Log.error("Encountered an error loading sandbox resources", e);
+                                }
+                            });
+                } catch (IOException e) {
+                    Log.error("findResources at " + path + " in namespace " + namespace + " failed!", e);
                 }
             }
         }
@@ -108,7 +106,7 @@ public class AddonFolderResourcePack extends AbstractFileResourcePack {
     @Override
     public Set<String> getNamespaces(ResourceType type) {
         Set<String> namespaces = Sets.newHashSet();
-        File baseFile = new File(this.base, type.getName());
+        File baseFile = new File(this.base, type.getDirectory());
         File[] files = baseFile.listFiles((FilenameFilter) DirectoryFileFilter.DIRECTORY);
         if (files != null) {
             for (File file : files) {

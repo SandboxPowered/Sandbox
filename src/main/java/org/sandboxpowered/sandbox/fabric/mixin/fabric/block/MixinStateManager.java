@@ -11,8 +11,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(net.minecraft.state.StateFactory.class)
-public abstract class MixinStateFactory implements SandboxInternal.StateFactory {
+@Mixin(net.minecraft.state.StateManager.class)
+public abstract class MixinStateManager implements SandboxInternal.StateFactory {
     private StateFactory sandboxFactory;
 
     @Override
@@ -25,13 +25,13 @@ public abstract class MixinStateFactory implements SandboxInternal.StateFactory 
         this.sandboxFactory = factory;
     }
 
-    @Mixin(net.minecraft.state.StateFactory.Builder.class)
+    @Mixin(net.minecraft.state.StateManager.Builder.class)
     public static abstract class MixinStateBuilder implements SandboxInternal.StateFactoryBuilder {
         private StateFactory.Builder sandboxBuilder;
 
         @Inject(method = "<init>", at = @At("RETURN"))
         public void inject(CallbackInfo info) {
-            setSboxBuilder(new StateFactoryImpl.BuilderImpl(WrappingUtil.cast(this, net.minecraft.state.StateFactory.Builder.class)));
+            setSboxBuilder(new StateFactoryImpl.BuilderImpl(WrappingUtil.cast(this, net.minecraft.state.StateManager.Builder.class)));
         }
 
         @ModifyVariable(method = "add", at = @At("HEAD"), ordinal = 0)

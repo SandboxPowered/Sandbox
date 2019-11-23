@@ -57,12 +57,10 @@ public class SandboxResources extends AbstractFileResourcePack {
     }
 
     @Override
-    public Collection<Identifier> findResources(ResourceType type, String path, int depth, Predicate<String> predicate) {
+    public Collection<Identifier> findResources(ResourceType type, String namespace, String path, int depth, Predicate<String> predicate) {
         List<Identifier> ids = new ArrayList<>();
         String nioPath = path.replace("/", separator);
-
-        for (String namespace : getNamespaces(type)) {
-            Path namespacePath = getPath(type.getName() + "/" + namespace);
+            Path namespacePath = getPath(type.getDirectory() + "/" + namespace);
             if (namespacePath != null) {
                 Path searchPath = namespacePath.resolve(nioPath).toAbsolutePath().normalize();
 
@@ -88,7 +86,6 @@ public class SandboxResources extends AbstractFileResourcePack {
                     }
                 }
             }
-        }
 
         return ids;
     }

@@ -12,7 +12,8 @@ import net.minecraft.fluid.BaseFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.state.StateFactory;
+import net.minecraft.state.StateManager;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Hand;
@@ -63,7 +64,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
     }
 
     @Override
-    protected void appendProperties(StateFactory.Builder<net.minecraft.block.Block, BlockState> stateFactory$Builder_1) {
+    protected void appendProperties(StateManager.Builder<net.minecraft.block.Block, BlockState> stateFactory$Builder_1) {
         super.appendProperties(stateFactory$Builder_1);
         if (block instanceof BaseBlock)
             ((BaseBlock) block).appendProperties(((SandboxInternal.StateFactoryBuilder) stateFactory$Builder_1).getSboxBuilder());
@@ -75,8 +76,8 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
     }
 
     @Override
-    public boolean activate(BlockState blockState_1, World world_1, BlockPos blockPos_1, net.minecraft.entity.player.PlayerEntity playerEntity_1, Hand hand_1, BlockHitResult blockHitResult_1) {
-        return block.onBlockUsed(
+    public ActionResult onUse(BlockState blockState_1, World world_1, BlockPos blockPos_1, net.minecraft.entity.player.PlayerEntity playerEntity_1, Hand hand_1, BlockHitResult blockHitResult_1) {
+        InteractionResult result = block.onBlockUsed(
                 (org.sandboxpowered.sandbox.api.world.World) world_1,
                 (Position) blockPos_1,
                 (org.sandboxpowered.sandbox.api.state.BlockState) blockState_1,
@@ -84,7 +85,9 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
                 hand_1 == Hand.MAIN_HAND ? org.sandboxpowered.sandbox.api.entity.player.Hand.MAIN_HAND : org.sandboxpowered.sandbox.api.entity.player.Hand.OFF_HAND,
                 WrappingUtil.convert(blockHitResult_1.getSide()),
                 (Vec3f) (Object) new Vector3f(blockHitResult_1.getPos())
-        ) != InteractionResult.IGNORE;
+        );
+        //TODO: Fix
+        return result == InteractionResult.IGNORE ? ActionResult.PASS : result == InteractionResult.SUCCESS ? ActionResult.SUCCESS : ActionResult.FAIL;
     }
 
     @Override
@@ -184,7 +187,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
         }
 
         @Override
-        protected void appendProperties(StateFactory.Builder<net.minecraft.block.Block, BlockState> stateFactory$Builder_1) {
+        protected void appendProperties(StateManager.Builder<net.minecraft.block.Block, BlockState> stateFactory$Builder_1) {
             super.appendProperties(stateFactory$Builder_1);
             if (block instanceof org.sandboxpowered.sandbox.api.block.FluidBlock)
                 ((BaseBlock) block).appendProperties(((SandboxInternal.StateFactoryBuilder) stateFactory$Builder_1).getSboxBuilder());
@@ -196,8 +199,8 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
         }
 
         @Override
-        public boolean activate(BlockState blockState_1, World world_1, BlockPos blockPos_1, net.minecraft.entity.player.PlayerEntity playerEntity_1, Hand hand_1, BlockHitResult blockHitResult_1) {
-            return block.onBlockUsed(
+        public ActionResult onUse(BlockState blockState_1, World world_1, BlockPos blockPos_1, net.minecraft.entity.player.PlayerEntity playerEntity_1, Hand hand_1, BlockHitResult blockHitResult_1) {
+            InteractionResult result = block.onBlockUsed(
                     (org.sandboxpowered.sandbox.api.world.World) world_1,
                     (Position) blockPos_1,
                     (org.sandboxpowered.sandbox.api.state.BlockState) blockState_1,
@@ -205,7 +208,9 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
                     hand_1 == Hand.MAIN_HAND ? org.sandboxpowered.sandbox.api.entity.player.Hand.MAIN_HAND : org.sandboxpowered.sandbox.api.entity.player.Hand.OFF_HAND,
                     WrappingUtil.convert(blockHitResult_1.getSide()),
                     (Vec3f) (Object) new Vector3f(blockHitResult_1.getPos())
-            ) != InteractionResult.IGNORE;
+            );
+            //TODO: Fix
+            return result == InteractionResult.IGNORE ? ActionResult.PASS : result == InteractionResult.SUCCESS ? ActionResult.SUCCESS : ActionResult.FAIL;
         }
 
         @Override
