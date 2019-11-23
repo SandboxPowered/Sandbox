@@ -5,6 +5,7 @@
   "minVersion": "0.7",
   "mixins": [
     "enchant.MixinEnchantment",
+    "entity.MixinFallingBlockEntity",
     "entity.MixinLivingEntity",
     "entity.MixinPlayerEntity",
     "entity.MixinServerPlayerEntity",

@@ -40,6 +40,9 @@ public class WrappingUtil {
     public static BlockPos convert(Position position) {
         return castOrWrap(position, BlockPos.class, p -> new BlockPosWrapper(position));
     }
+    public static Position convert(BlockPos position) {
+        return cast(position, Position.class);
+    }
 
     public static net.minecraft.block.BlockState convert(BlockState state) {
         return castOrWrap(state, net.minecraft.block.BlockState.class, s -> null);
@@ -189,6 +192,9 @@ public class WrappingUtil {
 
     public static net.minecraft.world.World convert(World reader) {
         return castOrWrap(reader, net.minecraft.world.World.class, read -> null);
+    }
+    public static World convert(net.minecraft.world.World world) {
+        return castOrWrap(world, World.class, read -> null);
     }
 
     public static net.minecraft.block.entity.BlockEntity convert(BlockEntity entity) {
