@@ -72,7 +72,7 @@ public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implemen
                 ((BlockItem) object).appendBlocks(Item.BLOCK_ITEMS, (BlockItem) object);
             }
             if (object instanceof Block) {
-                ((Block) object).getStateFactory().getStates().forEach(Block.STATE_IDS::add);
+                ((Block) object).getStateManager().getStates().forEach(Block.STATE_IDS::add);
                 //TODO: Also need to reset the state ids
             }
         }

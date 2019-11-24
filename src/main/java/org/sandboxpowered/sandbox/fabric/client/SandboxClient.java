@@ -3,7 +3,7 @@ package org.sandboxpowered.sandbox.fabric.client;
 import net.arikia.dev.drpc.DiscordRPC;
 import net.arikia.dev.drpc.DiscordRichPresence;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.options.ServerEntry;
+import net.minecraft.client.network.ServerInfo;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Pair;
 import org.apache.commons.codec.binary.Base64;
@@ -49,7 +49,7 @@ public class SandboxClient extends SandboxCommon {
         builder = new DiscordRichPresence.Builder("In Game");
         builder.setStartTimestamps(System.currentTimeMillis() / 1000);
         if (MinecraftClient.getInstance().getCurrentServerEntry() != null) {
-            ServerEntry entry = MinecraftClient.getInstance().getCurrentServerEntry();
+            ServerInfo entry = MinecraftClient.getInstance().getCurrentServerEntry();
             String[] str = Formatting.strip(entry.playerCountLabel).split("/");
             if (str.length == 2) {
                 int i = Integer.parseInt(str[0]);

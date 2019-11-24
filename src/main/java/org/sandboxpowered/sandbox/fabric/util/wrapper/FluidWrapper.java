@@ -34,7 +34,7 @@ public class FluidWrapper extends net.minecraft.fluid.BaseFluid {
         StateManager.Builder<net.minecraft.fluid.Fluid, FluidState> stateFactory$Builder_1 = new StateManager.Builder<>(this);
         this.appendProperties(stateFactory$Builder_1);
         try {
-            ReflectionHelper.setPrivateField(net.minecraft.fluid.Fluid.class, this, "stateFactory", stateFactory$Builder_1.build(FluidStateImpl::new));
+            ReflectionHelper.setPrivateField(net.minecraft.fluid.Fluid.class, this, "stateManager", stateFactory$Builder_1.build(FluidStateImpl::new));
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -94,6 +94,7 @@ public class FluidWrapper extends net.minecraft.fluid.BaseFluid {
     protected int getLevelDecreasePerBlock(WorldView var1) {
         return 1;
     }
+
 // TODO
 //
 //    @Override

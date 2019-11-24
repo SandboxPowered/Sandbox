@@ -14,23 +14,23 @@ public abstract interface MixinProperty {
     String getName();
 
     @Shadow
-    String getName(Comparable var1);
-
-    @Shadow
     Collection<Comparable> getValues();
 
     @Shadow
-    Class<Comparable> getValueType();
+    String name(Comparable var1);
 
     @Shadow
-    Optional<Comparable> getValue(String var1);
+    Class<Comparable> getType();
+
+    @Shadow
+    Optional<Comparable> parse(String var1);
 
     default String sbx$getName() {
         return getName();
     }
 
     default String sbx$getName(Comparable value) {
-        return getName(value);
+        return name(value);
     }
 
     default Collection<Comparable> sbx$getValues() {
@@ -38,10 +38,10 @@ public abstract interface MixinProperty {
     }
 
     default Class<Comparable> sbx$getValueType() {
-        return getValueType();
+        return getType();
     }
 
     default Optional<Comparable> sbx$getValue(String name) {
-        return getValue(name);
+        return parse(name);
     }
 }

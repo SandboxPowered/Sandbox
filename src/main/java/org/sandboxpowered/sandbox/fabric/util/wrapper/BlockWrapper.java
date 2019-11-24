@@ -86,8 +86,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
                 WrappingUtil.convert(blockHitResult_1.getSide()),
                 (Vec3f) (Object) new Vector3f(blockHitResult_1.getPos())
         );
-        //TODO: Fix
-        return result == InteractionResult.IGNORE ? ActionResult.PASS : result == InteractionResult.SUCCESS ? ActionResult.SUCCESS : ActionResult.FAIL;
+        return WrappingUtil.convert(result);
     }
 
     @Override
@@ -209,8 +208,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
                     WrappingUtil.convert(blockHitResult_1.getSide()),
                     (Vec3f) (Object) new Vector3f(blockHitResult_1.getPos())
             );
-            //TODO: Fix
-            return result == InteractionResult.IGNORE ? ActionResult.PASS : result == InteractionResult.SUCCESS ? ActionResult.SUCCESS : ActionResult.FAIL;
+            return WrappingUtil.convert(result);
         }
 
         @Override

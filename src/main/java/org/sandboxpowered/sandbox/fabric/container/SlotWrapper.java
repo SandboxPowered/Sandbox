@@ -1,6 +1,8 @@
 package org.sandboxpowered.sandbox.fabric.container;
 
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
 import org.sandboxpowered.sandbox.api.container.Slot;
 import org.sandboxpowered.sandbox.api.entity.player.PlayerEntity;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
@@ -57,7 +59,8 @@ public class SlotWrapper extends net.minecraft.container.Slot {
 
     @Nullable
     @Override
-    public String getBackgroundSprite() {
-        return slot.getBackgroundSprite().orElse(null);
+    public Pair<Identifier, Identifier> getBackgroundSprite() {
+//        return slot.getBackgroundSprite().orElse(null); TODO: Change API
+        return null;
     }
 }

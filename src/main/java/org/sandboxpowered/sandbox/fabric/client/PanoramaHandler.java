@@ -1,7 +1,7 @@
 package org.sandboxpowered.sandbox.fabric.client;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gl.GlFramebuffer;
+import net.minecraft.client.gl.Framebuffer;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.util.ScreenshotUtils;
 import net.minecraft.text.ClickEvent;
@@ -68,13 +68,13 @@ public class PanoramaHandler {
             if (start) {
                 if (panoramaStep == 0) {
                     mc.options.hudHidden = true;
-                    currentWidth = mc.window.getWidth();
-                    currentHeight = mc.window.getHeight();
+                    currentWidth = mc.getWindow().getWidth();
+                    currentHeight = mc.getWindow().getHeight();
                     rotationYaw = mc.player.yaw;
                     rotationPitch = mc.player.pitch;
 
                     if (!fullscreen)
-                        GLFW.glfwSetWindowSize(MinecraftClient.getInstance().window.getHandle(), panoramaSize, panoramaSize);
+                        GLFW.glfwSetWindowSize(MinecraftClient.getInstance().getWindow().getHandle(), panoramaSize, panoramaSize);
                 }
 
                 switch (panoramaStep) {
@@ -107,7 +107,7 @@ public class PanoramaHandler {
                 mc.player.prevPitch = mc.player.pitch;
             } else {
                 if (panoramaStep > 0)
-                    saveScreenshot(currentDir, "panorama_" + (panoramaStep - 1) + ".png", mc.window.getWidth(), mc.window.getHeight(), mc.getFramebuffer());
+                    saveScreenshot(currentDir, "panorama_" + (panoramaStep - 1) + ".png", mc.getWindow().getWidth(), mc.getWindow().getHeight(), mc.getFramebuffer());
                 panoramaStep++;
                 if (panoramaStep == 7) {
                     mc.options.hudHidden = false;
@@ -118,15 +118,15 @@ public class PanoramaHandler {
                     mc.player.prevYaw = mc.player.yaw;
                     mc.player.prevPitch = mc.player.pitch;
 
-                    GLFW.glfwSetWindowSize(MinecraftClient.getInstance().window.getHandle(), currentWidth, currentHeight);
+                    GLFW.glfwSetWindowSize(MinecraftClient.getInstance().getWindow().getHandle(), currentWidth, currentHeight);
                 }
             }
         }
     }
 
-    private static void saveScreenshot(File dir, String screenshotName, int width, int height, GlFramebuffer buffer) {
+    private static void saveScreenshot(File dir, String screenshotName, int width, int height, Framebuffer buffer) {
         try {
-            NativeImage bufferedimage = ScreenshotUtils.method_1663(width, height, buffer);
+            NativeImage bufferedimage = ScreenshotUtils.takeScreenshot(width, height, buffer);
             File file2 = new File(dir, screenshotName);
 
             bufferedimage.writeFile(file2);

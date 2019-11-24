@@ -12,7 +12,7 @@ public class ContainerWrapper extends net.minecraft.container.Container {
     public ContainerWrapper(@Nullable ContainerType<?> containerType_1, int int_1, Container container) {
         super(containerType_1, int_1);
         this.container = container;
-        container.getSlots().stream().map(SlotWrapper::new).forEach(this::addSlot);
+        this.container.getSlots().stream().map(SlotWrapper::new).forEach(this::addSlot);
     }
 
     @Override

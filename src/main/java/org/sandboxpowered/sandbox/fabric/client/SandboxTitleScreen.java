@@ -1,7 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.client;
 
 import com.google.common.util.concurrent.Runnables;
-import com.mojang.blaze3d.platform.GLX;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -11,6 +10,8 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.RotatingCubeMapRenderer;
 import net.minecraft.client.gui.screen.*;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
+import net.minecraft.client.gui.screen.options.AccessibilityScreen;
+import net.minecraft.client.gui.screen.options.LanguageOptionsScreen;
 import net.minecraft.client.gui.screen.world.SelectWorldScreen;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -22,7 +23,7 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ChatUtil;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.SystemUtil;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.level.LevelProperties;
 import net.minecraft.world.level.storage.LevelStorage;
@@ -65,9 +66,6 @@ public class SandboxTitleScreen extends Screen {
                     new TranslatableText("warning.sandbox.unsupported_mods_2").formatted(Formatting.RED),
                     "https://hrzn.atlassian.net/servicedesk/customer/portal/3"
             );
-        }
-        if (!GLX.supportsOpenGL2() && !GLX.isNextGen()) {
-            this.warning = new SandboxTitleScreen.Warning((new TranslatableText("title.oldgl.eol.line1")).formatted(Formatting.RED).formatted(Formatting.BOLD), (new TranslatableText("title.oldgl.eol.line2")).formatted(Formatting.RED).formatted(Formatting.BOLD), "https://help.mojang.com/customer/portal/articles/325948?ref=game");
         }
     }
 
@@ -142,16 +140,16 @@ public class SandboxTitleScreen extends Screen {
 
     public void render(int int_1, int int_2, float float_1) {
         if (this.backgroundFadeStart == 0L && this.doBackgroundFade) {
-            this.backgroundFadeStart = SystemUtil.getMeasuringTimeMs();
+            this.backgroundFadeStart = Util.getMeasuringTimeMs();
         }
 
-        float float_2 = this.doBackgroundFade ? (float) (SystemUtil.getMeasuringTimeMs() - this.backgroundFadeStart) / 1000.0F : 1.0F;
+        float float_2 = this.doBackgroundFade ? (float) (Util.getMeasuringTimeMs() - this.backgroundFadeStart) / 1000.0F : 1.0F;
         fill(0, 0, this.width, this.height, -1);
         this.backgroundRenderer.render(float_1, MathHelper.clamp(float_2, 0.0F, 1.0F));
         int int_4 = this.width / 2 - 137;
         this.minecraft.getTextureManager().bindTexture(PANORAMA_OVERLAY);
         GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA.value, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA.value);
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, this.doBackgroundFade ? (float) MathHelper.ceil(MathHelper.clamp(float_2, 0.0F, 1.0F)) : 1.0F);
         blit(0, 0, this.width, this.height, 0.0F, 0.0F, 16, 128, 16, 128);
         float float_3 = this.doBackgroundFade ? MathHelper.clamp(float_2 - 1.0F, 0.0F, 1.0F) : 1.0F;
@@ -176,7 +174,7 @@ public class SandboxTitleScreen extends Screen {
                 GlStateManager.pushMatrix();
                 GlStateManager.translatef((float) (this.width / 2 + 90), 70.0F, 0.0F);
                 GlStateManager.rotatef(-20.0F, 0.0F, 0.0F, 1.0F);
-                float float_4 = 1.8F - MathHelper.abs(MathHelper.sin((float) (SystemUtil.getMeasuringTimeMs() % 1000L) / 1000.0F * 6.2831855F) * 0.1F);
+                float float_4 = 1.8F - MathHelper.abs(MathHelper.sin((float) (Util.getMeasuringTimeMs() % 1000L) / 1000.0F * 6.2831855F) * 0.1F);
                 float_4 = float_4 * 100.0F / (float) (this.font.getStringWidth(this.splashText) + 32);
                 GlStateManager.scalef(float_4, float_4, float_4);
                 this.drawCenteredString(this.font, this.splashText, 0, -8, 16776960 | int_6);
@@ -219,7 +217,7 @@ public class SandboxTitleScreen extends Screen {
             return true;
         } else {
             if (double_1 > (double) this.copyrightTextX && double_1 < (double) (this.copyrightTextX + this.copyrightTextWidth) && double_2 > (double) (this.height - 10) && double_2 < (double) this.height) {
-                this.minecraft.openScreen(new EndCreditsScreen(false, Runnables.doNothing()));
+                this.minecraft.openScreen(new CreditsScreen(false, Runnables.doNothing()));
             }
 
             return false;
@@ -272,7 +270,7 @@ public class SandboxTitleScreen extends Screen {
             if (!ChatUtil.isEmpty(this.helpUrl) && double_1 >= (double) this.startX && double_1 <= (double) this.endX && double_2 >= (double) this.startY && double_2 <= (double) this.endY) {
                 SandboxTitleScreen.this.minecraft.openScreen(new ConfirmChatLinkScreen((boolean_1) -> {
                     if (boolean_1) {
-                        SystemUtil.getOperatingSystem().open(this.helpUrl);
+                        Util.getOperatingSystem().open(this.helpUrl);
                     }
 
                     SandboxTitleScreen.this.minecraft.openScreen(SandboxTitleScreen.this);

@@ -5,6 +5,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.state.property.Property;
 import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
@@ -22,10 +23,7 @@ import org.sandboxpowered.sandbox.api.fluid.Fluid;
 import org.sandboxpowered.sandbox.api.item.Item;
 import org.sandboxpowered.sandbox.api.item.ItemStack;
 import org.sandboxpowered.sandbox.api.state.BlockState;
-import org.sandboxpowered.sandbox.api.util.Direction;
-import org.sandboxpowered.sandbox.api.util.Identity;
-import org.sandboxpowered.sandbox.api.util.Mirror;
-import org.sandboxpowered.sandbox.api.util.Rotation;
+import org.sandboxpowered.sandbox.api.util.*;
 import org.sandboxpowered.sandbox.api.util.math.Position;
 import org.sandboxpowered.sandbox.api.world.BlockFlag;
 import org.sandboxpowered.sandbox.api.world.World;
@@ -40,6 +38,7 @@ public class WrappingUtil {
     public static BlockPos convert(Position position) {
         return castOrWrap(position, BlockPos.class, p -> new BlockPosWrapper(position));
     }
+
     public static Position convert(BlockPos position) {
         return cast(position, Position.class);
     }
@@ -193,6 +192,7 @@ public class WrappingUtil {
     public static net.minecraft.world.World convert(World reader) {
         return castOrWrap(reader, net.minecraft.world.World.class, read -> null);
     }
+
     public static World convert(net.minecraft.world.World world) {
         return castOrWrap(world, World.class, read -> null);
     }
@@ -288,5 +288,33 @@ public class WrappingUtil {
 
     public static org.sandboxpowered.sandbox.api.util.math.Vec3d convert(Vec3d vec3d) {
         return cast(vec3d, org.sandboxpowered.sandbox.api.util.math.Vec3d.class);
+    }
+
+    public static ActionResult convert(InteractionResult result) {
+        switch (result) {
+            case SUCCESS:
+                return ActionResult.SUCCESS;
+            case CONSUME:
+                return ActionResult.CONSUME;
+            case FAILURE:
+                return ActionResult.FAIL;
+            default:
+            case IGNORE:
+                return ActionResult.PASS;
+        }
+    }
+
+    public static InteractionResult convert(ActionResult result) {
+        switch (result) {
+            case SUCCESS:
+                return InteractionResult.SUCCESS;
+            case CONSUME:
+                return InteractionResult.CONSUME;
+            case FAIL:
+                return InteractionResult.FAILURE;
+            default:
+            case PASS:
+                return InteractionResult.IGNORE;
+        }
     }
 }

@@ -74,8 +74,8 @@ public class DownloadScreen extends Screen {
         GlStateManager.enableAlphaTest();
         minecraft.getTextureManager().bindTexture(new Identifier("sandbox", "textures/gui/sandbox.png"));
         GlStateManager.color4f(1, 1, 1, 1);
-        int int_6 = (this.minecraft.window.getScaledWidth() - 256) / 2;
-        int int_8 = (this.minecraft.window.getScaledHeight() - 256) / 2;
+        int int_6 = (this.minecraft.getWindow().getScaledWidth() - 256) / 2;
+        int int_8 = (this.minecraft.getWindow().getScaledHeight() - 256) / 2;
         this.blit(int_6, int_8, 0, 0, 256, 256);
         GlStateManager.popMatrix();
         drawCenteredString(font, "Connecting to Sandbox", (int) (width / 2f), (int) ((height / 2f) + (width / 3) / 2) - 20, WHITE.getRGB());

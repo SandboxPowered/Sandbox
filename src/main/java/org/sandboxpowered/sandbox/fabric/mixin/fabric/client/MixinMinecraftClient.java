@@ -11,13 +11,12 @@ import net.minecraft.resource.ResourcePackManager;
 import org.sandboxpowered.sandbox.fabric.SandboxHooks;
 import org.sandboxpowered.sandbox.fabric.client.*;
 import org.sandboxpowered.sandbox.fabric.resources.SandboxResourceCreator;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
@@ -31,8 +30,6 @@ import java.util.concurrent.CompletableFuture;
 
 @Mixin(MinecraftClient.class)
 public abstract class MixinMinecraftClient {
-
-    @Shadow @Final private ResourcePackManager<ClientResourcePackProfile> resourcePackManager;
 
     private void addonResourcePackModifications(List<ResourcePack> packs) {
         if (SandboxClient.INSTANCE != null) {
@@ -50,9 +47,10 @@ public abstract class MixinMinecraftClient {
         }
     }
 
-    @Inject(method = "<init>", at = @At("RETURN"), remap = false)
-    public void constructor(CallbackInfo info) {
-        this.resourcePackManager.registerProvider(new SandboxResourceCreator());
+    @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/ResourcePackManager;scanPacks()V"))
+    public void constructor(ResourcePackManager<ClientResourcePackProfile> manager) {
+        manager.registerProvider(new SandboxResourceCreator());
+        manager.scanPacks();
     }
 
 // TODO: Fix crash stuff

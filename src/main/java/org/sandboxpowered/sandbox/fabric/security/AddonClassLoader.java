@@ -30,8 +30,8 @@ public class AddonClassLoader extends SecureClassLoader {
     @Override
     protected PermissionCollection getPermissions(CodeSource codesource) {
         Permissions pc = new Permissions();
-        pc.add(new FilePermission("-", "read")); // Can read everything from current dir
-        pc.add(new FilePermission(String.format("data/%s/-", spec.getModid()), "read,write,delete")); // Can write everything inside addon data dir, could in future make this block access to data dirs beloning to other addons
+        pc.add(new FilePermission("data/-", "read")); // Can read everything from data dir
+        pc.add(new FilePermission(String.format("data/%s/-", spec.getModid()), "read,write,delete")); // Can write everything inside addon data dir
         return pc;
     }
 

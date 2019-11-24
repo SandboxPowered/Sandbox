@@ -16,9 +16,6 @@ public abstract class MixinBlockPos extends Vec3i {
         super(0, 0, 0);
     }
 
-    @Shadow
-    public abstract BlockPos offset(net.minecraft.util.math.Direction direction_1, int int_1);
-
     public Mutable sbx$toMutable() {
         return (Mutable) new BlockPos.Mutable((BlockPos) (Object) this);
     }
