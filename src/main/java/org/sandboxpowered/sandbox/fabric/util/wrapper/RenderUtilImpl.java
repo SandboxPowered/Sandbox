@@ -31,10 +31,10 @@ public class RenderUtilImpl implements RenderUtil {
         BufferBuilder bufferBuilder_1 = tessellator_1.getBuffer();
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         bufferBuilder_1.begin(7, VertexFormats.POSITION_COLOR_TEXTURE);
-        bufferBuilder_1.vertex(x, y + height, 0.0D).texture(u / (float) texWidth, (v + repeatHeight) / (float) texHeight).color(255, 255, 255, 255).next();
-        bufferBuilder_1.vertex(x + width, y + height, 0.0D).texture((u + repeatWidth) / (float) texWidth, (float) (v + repeatHeight) / (float) texHeight).color(255, 255, 255, 255).next();
-        bufferBuilder_1.vertex(x + width, y, 0.0D).texture((u + repeatWidth) / (float) texWidth, v / (float) texHeight).color(255, 255, 255, 255).next();
-        bufferBuilder_1.vertex(x, y, 0.0D).texture(u / (float) texWidth, v / (float) texHeight).color(255, 255, 255, 255).next();
+        bufferBuilder_1.vertex(x, y + height, 0.0D).color(255, 255, 255, 255).texture(u / (float) texWidth, (v + repeatHeight) / (float) texHeight).next();
+        bufferBuilder_1.vertex(x + width, y + height, 0.0D).color(255, 255, 255, 255).texture((u + repeatWidth) / (float) texWidth, (float) (v + repeatHeight) / (float) texHeight).next();
+        bufferBuilder_1.vertex(x + width, y, 0.0D).color(255, 255, 255, 255).texture((u + repeatWidth) / (float) texWidth, v / (float) texHeight).next();
+        bufferBuilder_1.vertex(x, y, 0.0D).color(255, 255, 255, 255).texture(u / (float) texWidth, v / (float) texHeight).next();
         tessellator_1.draw();
     }
 }
