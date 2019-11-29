@@ -5,7 +5,9 @@ import org.sandboxpowered.sandbox.api.state.PropertyContainer;
 import org.sandboxpowered.sandbox.api.state.StateFactory;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 
+import java.util.Collection;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class StateFactoryImpl<T, S extends PropertyContainer<S>, V, A extends net.minecraft.state.State<A>> implements StateFactory<T, S> {
     private net.minecraft.state.StateManager<V, A> vanilla;
@@ -26,6 +28,11 @@ public class StateFactoryImpl<T, S extends PropertyContainer<S>, V, A extends ne
     @Override
     public T getBaseObject() {
         return vTS.apply(vanilla.getOwner());
+    }
+
+    @Override
+    public Collection<S> getValidStates() {
+        return vanilla.getStates().stream().map(v -> aTS.apply(v)).collect(Collectors.toList());
     }
 
     public static class BuilderImpl<T, S extends PropertyContainer<S>, V, A extends net.minecraft.state.State<A>> implements StateFactory.Builder<T, S> {
