@@ -5,6 +5,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
 import org.sandboxpowered.sandbox.api.Registries;
 import org.sandboxpowered.sandbox.api.container.Container;
+import org.sandboxpowered.sandbox.api.entity.Entity;
 import org.sandboxpowered.sandbox.api.entity.player.PlayerEntity;
 import org.sandboxpowered.sandbox.api.util.Identity;
 import org.sandboxpowered.sandbox.api.util.Mono;
@@ -13,11 +14,14 @@ import org.sandboxpowered.sandbox.fabric.container.ContainerWrapper;
 import org.sandboxpowered.sandbox.fabric.network.ContainerOpenPacket;
 import org.sandboxpowered.sandbox.fabric.network.NetworkManager;
 import org.sandboxpowered.sandbox.fabric.util.wrapper.V2SInventory;
+import org.spongepowered.asm.mixin.Implements;
+import org.spongepowered.asm.mixin.Interface;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(ServerPlayerEntity.class)
-public abstract class MixinServerPlayerEntity extends net.minecraft.entity.player.PlayerEntity implements PlayerEntity {
+@Implements(@Interface(iface = PlayerEntity.class, prefix = "sbx$"))
+public abstract class MixinServerPlayerEntity extends net.minecraft.entity.player.PlayerEntity {
     @Shadow
     private int containerSyncId;
 
@@ -28,8 +32,7 @@ public abstract class MixinServerPlayerEntity extends net.minecraft.entity.playe
     @Shadow
     protected abstract void incrementContainerSyncId();
 
-    @Override
-    public void openContainer(Identity id, Mono<CompoundTag> dataMono) {
+    public void sbx$openContainer(Identity id, Mono<CompoundTag> dataMono) {
         incrementContainerSyncId();
         int syncId = containerSyncId;
         CompoundTag data = dataMono.orElseGet(CompoundTag::create);

@@ -1,7 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.block;
 
 import net.minecraft.block.BlockEntityProvider;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.InventoryProvider;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.Inventory;
@@ -147,13 +146,5 @@ public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
         if (hasBlockEntity())
             return (BlockEntity) ((BlockEntityProvider) this).createBlockEntity(WrappingUtil.convert(reader));
         return null;
-    }
-
-    public boolean sbx$isNaturalStone() {
-        return (Object) this == Blocks.STONE || (Object) this == Blocks.GRANITE || (Object) this == Blocks.DIORITE || (Object) this == Blocks.ANDESITE;
-    }
-
-    public boolean sbx$isNaturalDirt() {
-        return (Object) this == Blocks.DIRT || (Object) this == Blocks.COARSE_DIRT || (Object) this == Blocks.PODZOL;
     }
 }

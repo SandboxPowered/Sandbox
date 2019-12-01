@@ -17,6 +17,7 @@
     "enchant.MixinSandboxEnchantment",
     "enchant.MixinEnchantment",
     "entity.MixinEntity",
+    "entity.MixinEntityType",
     "entity.MixinLivingEntity",
     "entity.MixinPlayerEntity",
     "entity.MixinServerPlayerEntity",
