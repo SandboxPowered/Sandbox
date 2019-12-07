@@ -1,7 +1,5 @@
 package org.sandboxpowered.sandbox.fabric.mixin.fabric.client;
 
-import net.arikia.dev.drpc.DiscordRPC;
-import net.arikia.dev.drpc.DiscordRichPresence;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
@@ -94,10 +92,6 @@ public abstract class MixinMinecraftClient {
     @ModifyVariable(method = "openScreen", at = @At("HEAD"), ordinal = 0)
     public Screen openScreen(Screen screen) {
         if (screen instanceof TitleScreen || (screen == null && MinecraftClient.getInstance().world == null)) {
-            DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("In Menu")
-                    .setBigImage("logo", "")
-                    .build()
-            );
             screen = new SandboxTitleScreen();
         }
         return screen;

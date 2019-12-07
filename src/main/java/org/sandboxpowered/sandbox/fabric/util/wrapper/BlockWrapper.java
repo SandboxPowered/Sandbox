@@ -77,11 +77,15 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
 
     @Override
     public ActionResult onUse(BlockState blockState_1, World world_1, BlockPos blockPos_1, net.minecraft.entity.player.PlayerEntity playerEntity_1, Hand hand_1, BlockHitResult blockHitResult_1) {
+        return statisOnUse((org.sandboxpowered.sandbox.api.state.BlockState) blockState_1, (org.sandboxpowered.sandbox.api.world.World) world_1, (Position) blockPos_1, (PlayerEntity) playerEntity_1, hand_1, blockHitResult_1, block);
+    }
+
+    private static ActionResult statisOnUse(org.sandboxpowered.sandbox.api.state.BlockState blockState_1, org.sandboxpowered.sandbox.api.world.World world_1, Position blockPos_1, PlayerEntity playerEntity_1, Hand hand_1, BlockHitResult blockHitResult_1, Block block) {
         InteractionResult result = block.onBlockUsed(
-                (org.sandboxpowered.sandbox.api.world.World) world_1,
-                (Position) blockPos_1,
-                (org.sandboxpowered.sandbox.api.state.BlockState) blockState_1,
-                (PlayerEntity) playerEntity_1,
+                world_1,
+                blockPos_1,
+                blockState_1,
+                playerEntity_1,
                 hand_1 == Hand.MAIN_HAND ? org.sandboxpowered.sandbox.api.entity.player.Hand.MAIN_HAND : org.sandboxpowered.sandbox.api.entity.player.Hand.OFF_HAND,
                 WrappingUtil.convert(blockHitResult_1.getSide()),
                 (Vec3f) (Object) new Vector3f(blockHitResult_1.getPos())
@@ -199,16 +203,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
 
         @Override
         public ActionResult onUse(BlockState blockState_1, World world_1, BlockPos blockPos_1, net.minecraft.entity.player.PlayerEntity playerEntity_1, Hand hand_1, BlockHitResult blockHitResult_1) {
-            InteractionResult result = block.onBlockUsed(
-                    (org.sandboxpowered.sandbox.api.world.World) world_1,
-                    (Position) blockPos_1,
-                    (org.sandboxpowered.sandbox.api.state.BlockState) blockState_1,
-                    (PlayerEntity) playerEntity_1,
-                    hand_1 == Hand.MAIN_HAND ? org.sandboxpowered.sandbox.api.entity.player.Hand.MAIN_HAND : org.sandboxpowered.sandbox.api.entity.player.Hand.OFF_HAND,
-                    WrappingUtil.convert(blockHitResult_1.getSide()),
-                    (Vec3f) (Object) new Vector3f(blockHitResult_1.getPos())
-            );
-            return WrappingUtil.convert(result);
+            return statisOnUse((org.sandboxpowered.sandbox.api.state.BlockState) blockState_1, (org.sandboxpowered.sandbox.api.world.World) world_1, (Position) blockPos_1, (PlayerEntity) playerEntity_1, hand_1, blockHitResult_1, block);
         }
 
         @Override

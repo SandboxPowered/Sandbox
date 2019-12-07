@@ -39,10 +39,6 @@ public class SandboxLoader {
     }
 
     public void load() throws IOException {
-        load(true);
-    }
-
-    public void load(boolean b) throws IOException {
         addons.clear();
         modidToLoader.clear();
 
@@ -89,8 +85,6 @@ public class SandboxLoader {
                     addons.add(spec);
                     Addon addon = (Addon) mainClass.getConstructor().newInstance();
                     addon.init(api);
-                    if (b)
-                        addon.register();
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {

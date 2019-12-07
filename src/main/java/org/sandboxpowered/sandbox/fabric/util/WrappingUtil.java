@@ -3,6 +3,8 @@ package org.sandboxpowered.sandbox.fabric.util;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.piston.PistonBehavior;
+import net.minecraft.entity.EntityType;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.state.property.Property;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
@@ -25,6 +27,7 @@ import org.sandboxpowered.sandbox.api.item.ItemStack;
 import org.sandboxpowered.sandbox.api.state.BlockState;
 import org.sandboxpowered.sandbox.api.util.*;
 import org.sandboxpowered.sandbox.api.util.math.Position;
+import org.sandboxpowered.sandbox.api.util.nbt.ReadableCompoundTag;
 import org.sandboxpowered.sandbox.api.world.BlockFlag;
 import org.sandboxpowered.sandbox.api.world.World;
 import org.sandboxpowered.sandbox.api.world.WorldReader;
@@ -214,6 +217,12 @@ public class WrappingUtil {
     public static BlockEntityType convert(BlockEntity.Type type) {
         return cast(type, BlockEntityType.class);
     }
+    public static EntityType convert(Entity.Type type) {
+        return cast(type, EntityType.class);
+    }
+    public static Entity.Type convert(EntityType type) {
+        return cast(type, Entity.Type.class);
+    }
 
     public static BlockEntity.Type convert(BlockEntityType type) {
         return cast(type, BlockEntity.Type.class);
@@ -231,6 +240,9 @@ public class WrappingUtil {
 
     public static Entity convert(net.minecraft.entity.Entity entity_1) {
         return (Entity) entity_1;
+    }
+    public static net.minecraft.entity.Entity convert(Entity entity_1) {
+        return (net.minecraft.entity.Entity) entity_1;
     }
 
     public static net.minecraft.client.gui.screen.Screen getWrapped(Screen screen) {
@@ -316,5 +328,9 @@ public class WrappingUtil {
             case PASS:
                 return InteractionResult.IGNORE;
         }
+    }
+
+    public static CompoundTag convert(ReadableCompoundTag tag) {
+        return (net.minecraft.nbt.CompoundTag) tag;
     }
 }

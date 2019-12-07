@@ -1,6 +1,7 @@
 package org.sandboxpowered.sandbox.fabric.impl;
 
 import net.minecraft.util.registry.SimpleRegistry;
+import org.sandboxpowered.sandbox.api.content.Content;
 import org.sandboxpowered.sandbox.api.registry.Registry;
 import org.sandboxpowered.sandbox.api.util.Identity;
 import org.sandboxpowered.sandbox.api.util.Mono;
@@ -10,7 +11,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.function.Function;
 
-public class BasicRegistry<A, B> implements Registry<A> {
+public class BasicRegistry<A extends Content<A>, B> implements Registry<A> {
     private final Function<A, B> convertAB;
     private final Function<B, A> convertBA;
     private final SimpleRegistry<B> vanilla;
