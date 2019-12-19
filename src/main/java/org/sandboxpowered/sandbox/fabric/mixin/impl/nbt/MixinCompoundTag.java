@@ -73,9 +73,6 @@ public abstract class MixinCompoundTag implements Tag {
     public abstract void putDouble(String string_1, double double_1);
 
     @Shadow
-    public abstract boolean containsKey(String string_1);
-
-    @Shadow
     public abstract void remove(String string_1);
 
     @Shadow
@@ -90,6 +87,8 @@ public abstract class MixinCompoundTag implements Tag {
 
     @Shadow
     public abstract ListTag getList(String string_1, int int_1);
+
+    @Shadow public abstract boolean contains(String string_1);
 
     public int sbx$size() {
         return getSize();
@@ -189,7 +188,7 @@ public abstract class MixinCompoundTag implements Tag {
     }
 
     public boolean sbx$remove(String key) {
-        if (containsKey(key))
+        if (contains(key))
             return false;
         remove(key);
         return true;

@@ -10,8 +10,8 @@
 
     "block.MixinBlock",
     "block.MixinBlockState",
-    "block.MixinStateFactory",
-    "block.MixinStateFactory$MixinStateBuilder",
+    "block.MixinStateManager",
+    "block.MixinStateManager$MixinStateBuilder",
 
     "enchant.MixinEnchantmentHelper",
 

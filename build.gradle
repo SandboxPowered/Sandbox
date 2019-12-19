@@ -32,11 +32,6 @@ dependencies {
 		transitive = false
 	}
 
-	implementation project(':discord-rpc')
-	include(project(':discord-rpc')) {
-        transitive = false
-    }
-
     implementation project(':SandboxAPI')
     include(project(':SandboxAPI')) {
         transitive = false

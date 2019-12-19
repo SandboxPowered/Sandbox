@@ -66,8 +66,8 @@ public class LoadingOverlay extends Overlay {
 
     @Override
     public void render(int mouseX, int mouseY, float partialTicks) {
-        int width = this.client.window.getScaledWidth();
-        int height = this.client.window.getScaledHeight();
+        int width = this.client.getWindow().getScaledWidth();
+        int height = this.client.getWindow().getScaledHeight();
         String right = "Preparing Addon " + addon + " of " + addons.size();
         String right2 = "";
         if (dl == null) {
@@ -96,8 +96,8 @@ public class LoadingOverlay extends Overlay {
         GlStateManager.enableAlphaTest();
         client.getTextureManager().bindTexture(new Identifier("sandbox", "textures/gui/sandbox.png"));
         GlStateManager.color4f(1, 1, 1, 1);
-        int int_6 = (this.client.window.getScaledWidth() - 256) / 2;
-        int int_8 = (this.client.window.getScaledHeight() - 256) / 2;
+        int int_6 = (this.client.getWindow().getScaledWidth() - 256) / 2;
+        int int_8 = (this.client.getWindow().getScaledHeight() - 256) / 2;
         this.blit(int_6, int_8, 0, 0, 256, 256);
         GlStateManager.popMatrix();
         drawCenteredString(client.textRenderer, "Connecting to Sandbox", (int) (width / 2f), (int) ((height / 2f) + (width / 3) / 2) - 20, WHITE.getRGB());

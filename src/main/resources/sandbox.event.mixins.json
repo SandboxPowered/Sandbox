@@ -10,7 +10,8 @@
     "entity.MixinPlayerEntity",
     "entity.MixinServerPlayerEntity",
     "item.MixinBlockItem",
-    "network.MixinServerPlayerInteractionManager"
+    "network.MixinServerPlayerInteractionManager",
+    "world.MixinServerWorld"
   ],
   "client": [
     "client.MixinMinecraftClient",

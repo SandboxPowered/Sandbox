@@ -1,12 +1,11 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.block;
 
 import net.minecraft.block.BlockEntityProvider;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.InventoryProvider;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SidedInventory;
-import net.minecraft.state.StateFactory;
+import net.minecraft.state.StateManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.IWorld;
@@ -45,9 +44,6 @@ import javax.annotation.Nullable;
 @Implements(@Interface(iface = Block.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
-    @Shadow
-    @Final
-    protected StateFactory<net.minecraft.block.Block, net.minecraft.block.BlockState> stateFactory;
     private org.sandboxpowered.sandbox.api.state.StateFactory<Block, BlockState> sandboxFactory;
 
     @Shadow
@@ -69,10 +65,12 @@ public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
     @Shadow
     public abstract void onBroken(IWorld iWorld_1, BlockPos blockPos_1, net.minecraft.block.BlockState blockState_1);
 
+    @Shadow @Final protected StateManager<net.minecraft.block.Block, net.minecraft.block.BlockState> stateManager;
+
     @Inject(method = "<init>", at = @At("RETURN"))
     public void constructor(net.minecraft.block.Block.Settings settings, CallbackInfo info) {
-        sandboxFactory = new StateFactoryImpl<>(this.stateFactory, b -> (Block) b, s -> (BlockState) s);
-        ((SandboxInternal.StateFactory) this.stateFactory).setSboxFactory(sandboxFactory);
+        sandboxFactory = new StateFactoryImpl<>(this.stateManager, b -> (Block) b, s -> (BlockState) s);
+        ((SandboxInternal.StateFactory) this.stateManager).setSboxFactory(sandboxFactory);
     }
 
     public Block.Settings sbx$getSettings() {
@@ -148,13 +146,5 @@ public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
         if (hasBlockEntity())
             return (BlockEntity) ((BlockEntityProvider) this).createBlockEntity(WrappingUtil.convert(reader));
         return null;
-    }
-
-    public boolean sbx$isNaturalStone() {
-        return (Object) this == Blocks.STONE || (Object) this == Blocks.GRANITE || (Object) this == Blocks.DIORITE || (Object) this == Blocks.ANDESITE;
-    }
-
-    public boolean sbx$isNaturalDirt() {
-        return (Object) this == Blocks.DIRT || (Object) this == Blocks.COARSE_DIRT || (Object) this == Blocks.PODZOL;
     }
 }

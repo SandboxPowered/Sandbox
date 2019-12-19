@@ -14,21 +14,23 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Block.class)
 public class MixinBlock {
 
-    /**
-     * @author B0undarybreaker
-     */
-    @Inject(method = "isNaturalStone", at = @At("HEAD"), cancellable = true)
-    private static void getExtraNaturalStone(Block block, CallbackInfoReturnable<Boolean> info) {
-        if (block instanceof BlockWrapper) info.setReturnValue(((BlockWrapper) block).getBlock().isNaturalStone());
-    }
-
-    /**
-     * @author B0undarybreaker
-     */
-    @Inject(method = "isNaturalDirt", at = @At("HEAD"), cancellable = true)
-    private static void getExtraNaturalDirt(Block block, CallbackInfoReturnable<Boolean> info) {
-        if (block instanceof BlockWrapper) info.setReturnValue(((BlockWrapper) block).getBlock().isNaturalDirt());
-    }
+// TODO: See if applicable anymore
+//
+//    /**
+//     * @author B0undarybreaker
+//     */
+//    @Inject(method = "isNaturalStone", at = @At("HEAD"), cancellable = true)
+//    private static void getExtraNaturalStone(Block block, CallbackInfoReturnable<Boolean> info) {
+//        if (block instanceof BlockWrapper) info.setReturnValue(((BlockWrapper) block).getBlock().isNaturalStone());
+//    }
+//
+//    /**
+//     * @author B0undarybreaker
+//     */
+//    @Inject(method = "isNaturalDirt", at = @At("HEAD"), cancellable = true)
+//    private static void getExtraNaturalDirt(Block block, CallbackInfoReturnable<Boolean> info) {
+//        if (block instanceof BlockWrapper) info.setReturnValue(((BlockWrapper) block).getBlock().isNaturalDirt());
+//    }
 
     /**
      * @author B0undarybreaker

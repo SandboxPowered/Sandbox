@@ -1,25 +1,16 @@
 package org.sandboxpowered.sandbox.fabric.mixin.fabric.client;
 
-import net.arikia.dev.drpc.DiscordRPC;
-import net.arikia.dev.drpc.DiscordRichPresence;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
-import net.minecraft.client.resource.ClientResourcePackContainer;
+import net.minecraft.client.resource.ClientResourcePackProfile;
 import net.minecraft.resource.ResourcePack;
-import net.minecraft.resource.ResourcePackContainerManager;
-import net.minecraft.util.crash.CrashReport;
-import org.apache.logging.log4j.Logger;
-import org.sandboxpowered.sandbox.api.client.Client;
-import org.sandboxpowered.sandbox.fabric.SandboxCommon;
+import net.minecraft.resource.ResourcePackManager;
 import org.sandboxpowered.sandbox.fabric.SandboxHooks;
 import org.sandboxpowered.sandbox.fabric.client.*;
 import org.sandboxpowered.sandbox.fabric.resources.SandboxResourceCreator;
-import org.sandboxpowered.sandbox.fabric.util.Log;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
@@ -38,10 +29,6 @@ import java.util.concurrent.CompletableFuture;
 @Mixin(MinecraftClient.class)
 public abstract class MixinMinecraftClient {
 
-    @Shadow
-    @Final
-    private ResourcePackContainerManager<ClientResourcePackContainer> resourcePackContainerManager;
-
     private void addonResourcePackModifications(List<ResourcePack> packs) {
         if (SandboxClient.INSTANCE != null) {
             SandboxClient.INSTANCE.loader.getAddons().forEach(spec -> {
@@ -58,26 +45,24 @@ public abstract class MixinMinecraftClient {
         }
     }
 
-    @Inject(method = "<init>", at = @At("RETURN"), remap = false)
-    public void constructor(CallbackInfo info) {
-        this.resourcePackContainerManager.addCreator(new SandboxResourceCreator());
+    @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/ResourcePackManager;scanPacks()V"))
+    public void constructor(ResourcePackManager<ClientResourcePackProfile> manager) {
+        manager.registerProvider(new SandboxResourceCreator());
+        manager.scanPacks();
     }
 
-    @Inject(method = "init", at = @At(value = "INVOKE", target = "Ljava/util/List;iterator()Ljava/util/Iterator;", ordinal = 0, shift = At.Shift.BY, by = -2, remap = false), locals = LocalCapture.CAPTURE_FAILHARD)
-    public void initResources(CallbackInfo info, List<ResourcePack> list) {
-        addonResourcePackModifications(list);
-    }
-
-    @Redirect(method = "start", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/crash/CrashReport;create(Ljava/lang/Throwable;Ljava/lang/String;)Lnet/minecraft/util/crash/CrashReport;"))
-    private CrashReport create(Throwable throwable_1, String string_1) {
-        Log.fatal(string_1, throwable_1);
-        return CrashReport.create(throwable_1, string_1);
-    }
-
-    @Redirect(method = "start", at = @At(value = "INVOKE", target = "Lorg/apache/logging/log4j/Logger;fatal(Ljava/lang/String;Ljava/lang/Throwable;)V"))
-    private void fatal(Logger logger, String message, Throwable t) {
-        Log.fatal(message, t);
-    }
+// TODO: Fix crash stuff
+//
+//    @Redirect(method = "start", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/crash/CrashReport;create(Ljava/lang/Throwable;Ljava/lang/String;)Lnet/minecraft/util/crash/CrashReport;"))
+//    private CrashReport create(Throwable throwable_1, String string_1) {
+//        Log.fatal(string_1, throwable_1);
+//        return CrashReport.create(throwable_1, string_1);
+//    }
+//
+//    @Redirect(method = "start", at = @At(value = "INVOKE", target = "Lorg/apache/logging/log4j/Logger;fatal(Ljava/lang/String;Ljava/lang/Throwable;)V"))
+//    private void fatal(Logger logger, String message, Throwable t) {
+//        Log.fatal(message, t);
+//    }
 
     @Inject(method = "startIntegratedServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/integrated/IntegratedServer;start()V"))
     public void clientSetup(CallbackInfo info) {
@@ -94,11 +79,6 @@ public abstract class MixinMinecraftClient {
         PanoramaHandler.renderTick(false);
     }
 
-    @Inject(method = "init", at = @At("HEAD"))
-    public void initStart(CallbackInfo info) {
-
-    }
-
     @Inject(method = "close", at = @At("HEAD"))
     public void shutdownGlobal(CallbackInfo info) {
         SandboxHooks.shutdownGlobal();
@@ -112,10 +92,6 @@ public abstract class MixinMinecraftClient {
     @ModifyVariable(method = "openScreen", at = @At("HEAD"), ordinal = 0)
     public Screen openScreen(Screen screen) {
         if (screen instanceof TitleScreen || (screen == null && MinecraftClient.getInstance().world == null)) {
-            DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("In Menu")
-                    .setBigImage("logo", "")
-                    .build()
-            );
             screen = new SandboxTitleScreen();
         }
         return screen;

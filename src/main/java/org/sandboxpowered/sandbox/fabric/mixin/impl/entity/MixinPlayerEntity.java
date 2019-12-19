@@ -9,11 +9,14 @@ import org.sandboxpowered.sandbox.api.util.Mono;
 import org.sandboxpowered.sandbox.api.util.nbt.CompoundTag;
 import org.sandboxpowered.sandbox.api.util.text.Text;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
+import org.spongepowered.asm.mixin.Implements;
+import org.spongepowered.asm.mixin.Interface;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(net.minecraft.entity.player.PlayerEntity.class)
-public abstract class MixinPlayerEntity extends LivingEntity implements PlayerEntity {
+@Implements(@Interface(iface = PlayerEntity.class, prefix = "sbx$"))
+public abstract class MixinPlayerEntity extends LivingEntity  {
     public MixinPlayerEntity(EntityType<? extends LivingEntity> entityType_1, World world_1) {
         super(entityType_1, world_1);
     }
@@ -21,18 +24,15 @@ public abstract class MixinPlayerEntity extends LivingEntity implements PlayerEn
     @Shadow
     public abstract void addChatMessage(net.minecraft.text.Text text_1, boolean boolean_1);
 
-    @Override
-    public void sendChatMessage(Text text) {
+    public void sbx$sendChatMessage(Text text) {
         this.addChatMessage(WrappingUtil.convert(text), false);
     }
 
-    @Override
-    public void sendOverlayMessage(Text text) {
+    public void sbx$sendOverlayMessage(Text text) {
         this.addChatMessage(WrappingUtil.convert(text), true);
     }
 
-    @Override
-    public void openContainer(Identity id, Mono<CompoundTag> data) {
+    public void sbx$openContainer(Identity id, Mono<CompoundTag> data) {
         // NO-OP
     }
 }

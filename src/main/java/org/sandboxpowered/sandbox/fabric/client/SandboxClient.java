@@ -1,14 +1,10 @@
 package org.sandboxpowered.sandbox.fabric.client;
 
-import net.arikia.dev.drpc.DiscordRPC;
-import net.arikia.dev.drpc.DiscordRichPresence;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.options.ServerEntry;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Pair;
-import org.apache.commons.codec.binary.Base64;
-import org.sandboxpowered.sandbox.api.game.GameMode;
-import org.sandboxpowered.sandbox.api.util.Mono;
+import org.sandboxpowered.sandbox.api.Registries;
+import org.sandboxpowered.sandbox.api.content.Content;
+import org.sandboxpowered.sandbox.api.util.Identity;
 import org.sandboxpowered.sandbox.api.util.Side;
 import org.sandboxpowered.sandbox.fabric.SandboxCommon;
 import org.sandboxpowered.sandbox.fabric.client.overlay.LoadingOverlay;
@@ -44,29 +40,12 @@ public class SandboxClient extends SandboxCommon {
     protected void setup() {
         //Init client engine
         Log.info("Setting up Clientside Sandbox environment");
-        Mono<GameMode> mono = server.getGameMode();
-        DiscordRichPresence.Builder builder;
-        builder = new DiscordRichPresence.Builder("In Game");
-        builder.setStartTimestamps(System.currentTimeMillis() / 1000);
-        if (MinecraftClient.getInstance().getCurrentServerEntry() != null) {
-            ServerEntry entry = MinecraftClient.getInstance().getCurrentServerEntry();
-            String[] str = Formatting.strip(entry.playerCountLabel).split("/");
-            if (str.length == 2) {
-                int i = Integer.parseInt(str[0]);
-                int i1 = Integer.parseInt(str[1]);
-                builder.setDetails("In Multiplayer");
-                builder.setParty(Base64.encodeBase64String(entry.address.getBytes()), i, i1);
-            }
-        } else {
-            builder.setDetails("In Singleplayer");
-        }
+    }
 
-        mono.ifPresent(
-                mode -> builder.setBigImage(mode.getRichImage().orElse("logo"), String.format("Playing %s", mode.getDisplayName())),
-                () -> builder.setBigImage("logo", "Playing Sandbox")
-        );
-
-        DiscordRPC.discordUpdatePresence(builder.build());
+    @Override
+    public <T extends Content<T>> void register(Identity identity, T content) {
+        if (SandboxServer.INSTANCE == null)
+            Registries.getRegistry(content.getContentType()).register(identity, content);
     }
 
     @Override
@@ -87,7 +66,7 @@ public class SandboxClient extends SandboxCommon {
     public void load(List<Path> addons) {
         loader = new SandboxLoader(this, addons);
         try {
-            loader.load(SandboxServer.INSTANCE == null);
+            loader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }

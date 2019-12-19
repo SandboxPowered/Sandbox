@@ -1,7 +1,7 @@
 package org.sandboxpowered.sandbox.fabric.mixin.fabric.server;
 
-import net.minecraft.resource.ResourcePackContainer;
-import net.minecraft.resource.ResourcePackContainerManager;
+import net.minecraft.resource.ResourcePackManager;
+import net.minecraft.resource.ResourcePackProfile;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.LevelProperties;
 import org.sandboxpowered.sandbox.fabric.client.AddonResourceCreator;
@@ -20,9 +20,8 @@ import java.io.File;
 
 @Mixin(MinecraftServer.class)
 public class MixinMinecraftServer {
-    @Shadow
-    @Final
-    private ResourcePackContainerManager<ResourcePackContainer> dataPackContainerManager;
+
+    @Shadow @Final private ResourcePackManager<ResourcePackProfile> dataPackManager;
 
     @ModifyVariable(method = "main", at = @At("HEAD"), ordinal = 0)
     private static String[] main(String[] args) {
@@ -38,9 +37,9 @@ public class MixinMinecraftServer {
         SandboxServer.INSTANCE.shutdown();
     }
 
-    @Inject(method = "loadWorldDataPacks", at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/ResourcePackContainerManager;callCreators()V", shift = At.Shift.BEFORE))
+    @Inject(method = "loadWorldDataPacks", at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/ResourcePackManager;scanPacks()V", shift = At.Shift.BEFORE))
     public void loadDatapacks(File file_1, LevelProperties levelProperties_1, CallbackInfo info) {
-        this.dataPackContainerManager.addCreator(new AddonResourceCreator());
+        this.dataPackManager.registerProvider(new AddonResourceCreator());
     }
 
     /**
