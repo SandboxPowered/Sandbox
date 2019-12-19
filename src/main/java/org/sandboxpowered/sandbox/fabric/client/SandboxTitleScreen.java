@@ -149,7 +149,7 @@ public class SandboxTitleScreen extends Screen {
         int int_4 = this.width / 2 - 137;
         this.minecraft.getTextureManager().bindTexture(PANORAMA_OVERLAY);
         GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA.value, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA.value);
+        GlStateManager.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA.value, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA.value);
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, this.doBackgroundFade ? (float) MathHelper.ceil(MathHelper.clamp(float_2, 0.0F, 1.0F)) : 1.0F);
         blit(0, 0, this.width, this.height, 0.0F, 0.0F, 16, 128, 16, 128);
         float float_3 = this.doBackgroundFade ? MathHelper.clamp(float_2 - 1.0F, 0.0F, 1.0F) : 1.0F;
