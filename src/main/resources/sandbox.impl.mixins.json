@@ -4,6 +4,7 @@
   "compatibilityLevel": "JAVA_8",
   "minVersion": "0.7",
   "mixins": [
+    "MixinFunctions",
     "block.MixinBlock",
     "block.MixinSandboxBlock",
     "block.MixinBlockEntity",

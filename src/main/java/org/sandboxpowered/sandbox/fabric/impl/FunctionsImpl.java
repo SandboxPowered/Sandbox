@@ -40,6 +40,8 @@ import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import java.util.function.Supplier;
 
 public class FunctionsImpl implements Functions {
+    public static Functions INSTANCE = new FunctionsImpl();
+
     @Override
     public Identity createIdentityFromString(String name, String path) {
         return (Identity) new Identifier(name, path);
