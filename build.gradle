@@ -1,6 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.2.5-SNAPSHOT'
-	id 'maven-publish'
+	id 'fabric-loom' version '0.2.7-SNAPSHOT'
 	id 'java-library'
 	id 'java'
 }
@@ -13,10 +12,6 @@ version = "${project.sandbox_version}-SNAPSHOT"
 group = project.maven_group
 
 minecraft {
-}
-
-repositories {
-	maven { url 'https://cdn.hrzn.studio/maven' }
 }
 
 dependencies {
@@ -37,7 +32,7 @@ dependencies {
         transitive = false
     }
 
-	if(!System.getenv("COMMIT")) {
+	if(!System.getenv("CI")) {
 		runtime project(':TestMod')
 	}
 }
@@ -66,34 +61,4 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 
 jar {
 	from "LICENSE"
-}
-
-publishing {
-	publications {
-		mavenJava(MavenPublication) {
-			artifact(remapJar)
-			artifact(sourcesJar) {
-				builtBy remapSourcesJar
-			}
-			pom.withXml {
-				asNode().dependencies.'*'.findAll() {
-					it.artifactId.text() == 'fabric-loader'
-				}.each() {
-					it.parent().remove(it)
-				}
-			}
-		}
-	}
-	repositories {
-		if (System.getenv("BRANCH") == "master") {
-			maven {
-				url "s3://cdn.hrzn.studio/maven"
-				authentication {
-					awsIm(AwsImAuthentication)
-				}
-			}
-		} else {
-			mavenLocal()
-		}
-	}
 }

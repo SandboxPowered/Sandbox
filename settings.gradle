@@ -10,7 +10,7 @@ pluginManagement {
 }
 
 include 'SandboxAPI'
-if(!System.getenv("COMMIT")) {
+if(!System.getenv("CI")) {
     include 'TestMod'
 }
 rootProject.name="sandbox-fabric"
