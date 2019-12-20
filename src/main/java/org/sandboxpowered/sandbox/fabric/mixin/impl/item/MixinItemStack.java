@@ -71,6 +71,18 @@ public abstract class MixinItemStack {
     @Shadow
     public abstract net.minecraft.nbt.CompoundTag toTag(net.minecraft.nbt.CompoundTag compoundTag_1);
 
+    @Shadow
+    public abstract boolean isDamaged();
+
+    @Shadow
+    public abstract boolean isDamageable();
+
+    @Shadow
+    public abstract int getMaxDamage();
+
+    @Shadow
+    public abstract int getDamage();
+
     public boolean sbx$isEmpty() {
         return this.isEmpty();
     }
@@ -161,5 +173,21 @@ public abstract class MixinItemStack {
 
     public CompoundTag sbx$asTag() {
         return (CompoundTag) toTag(new net.minecraft.nbt.CompoundTag());
+    }
+
+    public boolean sbx$isDamaged() {
+        return isDamaged();
+    }
+
+    public boolean sbx$isDamageable() {
+        return isDamageable();
+    }
+
+    public int sbx$getMaxDamage() {
+        return getMaxDamage();
+    }
+
+    public int sbx$getDamage() {
+        return getDamage();
     }
 }

@@ -88,7 +88,8 @@ public abstract class MixinCompoundTag implements Tag {
     @Shadow
     public abstract ListTag getList(String string_1, int int_1);
 
-    @Shadow public abstract boolean contains(String string_1);
+    @Shadow
+    public abstract boolean contains(String string_1);
 
     public int sbx$size() {
         return getSize();
@@ -232,5 +233,9 @@ public abstract class MixinCompoundTag implements Tag {
         //TODO
         ListTag tag = getList(key, id);
         return (List<T>) tag;
+    }
+
+    public boolean sbx$contains(String key) {
+        return contains(key);
     }
 }

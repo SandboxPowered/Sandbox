@@ -10,6 +10,7 @@
     "entity.MixinPlayerEntity",
     "entity.MixinServerPlayerEntity",
     "item.MixinBlockItem",
+    "item.MixinItemStack",
     "network.MixinServerPlayerInteractionManager",
     "world.MixinServerWorld"
   ],
