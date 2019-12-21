@@ -20,19 +20,12 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}"
 	modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
 	compileOnly "com.google.code.findbugs:jsr305:3.0.2"
-	implementation 'io.sentry:sentry:1.7.27'
-	include('io.sentry:sentry:1.7.27') {
-		transitive = false
-	}
 	runtime('org.apache.logging.log4j:log4j-slf4j-impl:2.8.1') {
 		transitive = false
 	}
 
     implementation project(':SandboxAPI')
-    include(project(':SandboxAPI')) {
-        transitive = false
-    }
-
+	
 	if(!System.getenv("CI")) {
 		runtime project(':TestMod')
 	}

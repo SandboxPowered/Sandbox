@@ -1,1 +1,0 @@
-ls | grep -v movedir | xargs rm -rf
