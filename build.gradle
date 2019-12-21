@@ -1,6 +1,7 @@
 plugins {
 	id 'fabric-loom' version '0.2.7-SNAPSHOT'
 	id 'java-library'
+	id 'maven'
 	id 'maven-publish'
 	id 'java'
 }
@@ -59,16 +60,9 @@ jar {
 
 publishing {
 	publications {
-		mavenJava(MavenPublication) {
+		maven(MavenPublication) {
 			artifact jar
 			artifact sourcesJar
-
-			pom.withXml {
-				Node pomNode = asNode()
-				pomNode.dependencies.'*'.findAll().each() {
-					it.parent().remove(it)
-				}
-			}
 		}
 	}
 	repositories {
