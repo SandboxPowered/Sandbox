@@ -62,6 +62,13 @@ publishing {
 		mavenJava(MavenPublication) {
 			artifact jar
 			artifact sourcesJar
+
+			pom.withXml {
+				Node pomNode = asNode()
+				pomNode.dependencies.'*'.findAll().each() {
+					it.parent().remove(it)
+				}
+			}
 		}
 	}
 	repositories {
