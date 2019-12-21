@@ -1,6 +1,7 @@
 plugins {
 	id 'fabric-loom' version '0.2.7-SNAPSHOT'
 	id 'java-library'
+	id 'maven-publish'
 	id 'java'
 }
 
@@ -61,4 +62,27 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 
 jar {
 	from "LICENSE"
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			artifact jar
+			artifact sourcesJar
+		}
+	}
+	repositories {
+		if (System.getenv("mvn_username")) {
+			maven {
+				name = "Maven"
+				url = uri("sftp://maven.sandboxpowered.org:22/sbxmvn/")
+				credentials {
+					username = System.getenv("mvn_username")
+					password = System.getenv("mvn_password")
+				}
+			}
+		} else {
+			mavenLocal()
+		}
+	}
 }
