@@ -8,6 +8,7 @@ import org.sandboxpowered.sandbox.api.state.BlockState;
 import org.sandboxpowered.sandbox.api.util.math.Position;
 import org.sandboxpowered.sandbox.api.world.World;
 import org.sandboxpowered.sandbox.fabric.event.EventDispatcher;
+import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -27,8 +28,8 @@ public class MixinClientPlayerInteractionManager {
         BlockEvent.Break event = EventDispatcher.publish(new BlockEvent.Break(
                 (World) this.client.world,
                 (Position) pos,
-                (BlockState) this.client.world.getBlockState(pos)
-        ));
+                (BlockState) this.client.world.getBlockState(pos),
+                WrappingUtil.convert(this.client.player)));
         if (event.isCancelled()) {
             info.setReturnValue(false);
         }

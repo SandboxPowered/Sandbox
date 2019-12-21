@@ -25,9 +25,12 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import org.sandboxpowered.sandbox.api.block.BaseBlock;
 import org.sandboxpowered.sandbox.api.block.Block;
-import org.sandboxpowered.sandbox.api.block.FluidContainer;
+import org.sandboxpowered.sandbox.api.component.Components;
+import org.sandboxpowered.sandbox.api.component.FluidContainer;
 import org.sandboxpowered.sandbox.api.entity.Entity;
 import org.sandboxpowered.sandbox.api.entity.player.PlayerEntity;
+import org.sandboxpowered.sandbox.api.fluid.FluidStack;
+import org.sandboxpowered.sandbox.api.fluid.Fluids;
 import org.sandboxpowered.sandbox.api.item.ItemStack;
 import org.sandboxpowered.sandbox.api.util.InteractionResult;
 import org.sandboxpowered.sandbox.api.util.math.Position;
@@ -313,31 +316,41 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
 
         @Override
         public boolean canFillWithFluid(BlockView blockView_1, BlockPos blockPos_1, BlockState blockState_1, Fluid fluid_1) {
-            return container.canContainFluid(
-                    (WorldReader) blockView_1,
-                    (Position) blockPos_1,
-                    (org.sandboxpowered.sandbox.api.state.BlockState) blockState_1,
-                    WrappingUtil.convert(fluid_1)
-            );
+            return ((org.sandboxpowered.sandbox.api.world.WorldReader) blockView_1).getComponentFromPosition(
+                    Components.FLUID_COMPONENT,
+                    (Position) blockPos_1
+            ).map(container ->
+                    container.insert(FluidStack.of(WrappingUtil.convert(fluid_1), 1000), true).isEmpty()
+            ).orElse(false);
         }
 
         @Override
         public boolean tryFillWithFluid(IWorld iWorld_1, BlockPos blockPos_1, BlockState blockState_1, FluidState fluidState_1) {
-            return container.fillWith(
-                    (org.sandboxpowered.sandbox.api.world.World) iWorld_1,
-                    (Position) blockPos_1,
-                    (org.sandboxpowered.sandbox.api.state.BlockState) blockState_1,
-                    (org.sandboxpowered.sandbox.api.state.FluidState) fluidState_1
-            );
+            return ((org.sandboxpowered.sandbox.api.world.World) iWorld_1).getComponentFromPosition(
+                    Components.FLUID_COMPONENT,
+                    (Position) blockPos_1
+            ).map(container -> {
+                FluidStack filled = FluidStack.of(WrappingUtil.convert(fluidState_1.getFluid()), 1000);
+                FluidStack ret = container.insert(filled, true);
+                if (ret.isEmpty()) {
+                    container.insert(filled);
+                    return true;
+                } else {
+                    return false;
+                }
+            }).orElse(false);
         }
 
         @Override
         public Fluid tryDrainFluid(IWorld iWorld_1, BlockPos blockPos_1, BlockState blockState_1) {
-            return WrappingUtil.convert(container.drainFrom(
-                    (org.sandboxpowered.sandbox.api.world.World) iWorld_1,
-                    (Position) blockPos_1,
-                    (org.sandboxpowered.sandbox.api.state.BlockState) blockState_1
-            ));
+            return WrappingUtil.convert(
+                    ((org.sandboxpowered.sandbox.api.world.World) iWorld_1).getComponentFromPosition(
+                            Components.FLUID_COMPONENT,
+                            (Position) blockPos_1
+                    ).map(container ->
+                            container.extract(1000).getFluid()
+                    ).orElse(Fluids.EMPTY)
+            );
         }
     }
 

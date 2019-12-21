@@ -6,6 +6,7 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import org.sandboxpowered.sandbox.api.Registries;
 import org.sandboxpowered.sandbox.api.block.Block;
 import org.sandboxpowered.sandbox.api.block.Material;
 import org.sandboxpowered.sandbox.api.block.entity.BlockEntity;
@@ -17,6 +18,7 @@ import org.sandboxpowered.sandbox.api.content.Content;
 import org.sandboxpowered.sandbox.api.enchant.Enchantment;
 import org.sandboxpowered.sandbox.api.entity.Entity;
 import org.sandboxpowered.sandbox.api.fluid.Fluid;
+import org.sandboxpowered.sandbox.api.fluid.FluidStack;
 import org.sandboxpowered.sandbox.api.item.Item;
 import org.sandboxpowered.sandbox.api.item.ItemStack;
 import org.sandboxpowered.sandbox.api.registry.Registry;
@@ -106,8 +108,8 @@ public class FunctionsImpl implements Functions {
     }
 
     @Override
-    public <T extends Content> Registry<T> registryTypeFunction(Class<T> c) {
-        return null;
+    public <T extends Content> Registry<T> registryTypeFunction(Class<T> cla) {
+        return registryFunction(cla);
     }
 
     @Override
@@ -158,5 +160,15 @@ public class FunctionsImpl implements Functions {
     @Override
     public Entity.Type entityTypeEntityFunction(Entity e) {
         return (Entity.Type) EntityType.fromTag(WrappingUtil.convert(e).toTag(new net.minecraft.nbt.CompoundTag())).orElse(null);
+    }
+
+    @Override
+    public FluidStack fluidStackFunction(Fluid fluid, int amount) {
+        return null;
+    }
+
+    @Override
+    public FluidStack fluidStackFromTagFunction(ReadableCompoundTag tag) {
+        return null;
     }
 }
