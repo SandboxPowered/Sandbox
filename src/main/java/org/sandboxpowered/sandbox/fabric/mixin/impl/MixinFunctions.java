@@ -12,7 +12,7 @@ public interface MixinFunctions {
     /**
      * @author Coded
      */
-    @Overwrite
+    @Overwrite(remap = false)
     @Nonnull
     static Functions getInstance() {
         return FunctionsImpl.INSTANCE;
