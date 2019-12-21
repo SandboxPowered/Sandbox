@@ -11,6 +11,7 @@
     "block.MixinBlockEntityType",
     "block.MixinHopperBlockEntity",
     "block.MixinMaterial",
+    "block.MixinWaterlogged",
     "fluid.MixinFluid",
     "fluid.MixinSandboxFluid",
     "fluid.MixinBaseFluid",

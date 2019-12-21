@@ -49,6 +49,11 @@ public class FunctionsImpl implements Functions {
     }
 
     @Override
+    public Identity createIdentityFromString(String identity) {
+        return (Identity) new Identifier(identity);
+    }
+
+    @Override
     public Text createLiteralText(String text) {
         return (Text) new LiteralText(text);
     }
@@ -163,11 +168,11 @@ public class FunctionsImpl implements Functions {
 
     @Override
     public FluidStack fluidStackFunction(Fluid fluid, int amount) {
-        return null;
+        return new FluidStackImpl(fluid, amount);
     }
 
     @Override
     public FluidStack fluidStackFromTagFunction(ReadableCompoundTag tag) {
-        return null;
+        return new FluidStackImpl(tag);
     }
 }
