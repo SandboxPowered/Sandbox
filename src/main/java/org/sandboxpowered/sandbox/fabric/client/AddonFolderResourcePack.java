@@ -48,8 +48,7 @@ public class AddonFolderResourcePack extends AbstractFileResourcePack {
         Path path = getPath(filename);
         if (path != null && Files.isRegularFile(path)) {
             return Files.newInputStream(path);
-        }
-        else if("pack.mcmeta".equals(filename)) { //file not found, substitute one by using the addon spec description
+        } else if ("pack.mcmeta".equals(filename)) { //file not found, substitute one by using the addon spec description
             JsonObject meta = new JsonObject();
             JsonObject pack = new JsonObject();
             pack.addProperty("pack_format", 4);
@@ -63,7 +62,8 @@ public class AddonFolderResourcePack extends AbstractFileResourcePack {
 
     @Override
     protected boolean containsFile(String filename) {
-        if("pack.mcmeta".equals(filename)) return true; //return early because we are going to substitute a dummy file if it doesn't exist
+        if ("pack.mcmeta".equals(filename))
+            return true; //return early because we are going to substitute a dummy file if it doesn't exist
         Path path = getPath(filename);
         return path != null && Files.isRegularFile(path);
     }

@@ -21,7 +21,9 @@ import java.io.File;
 @Mixin(MinecraftServer.class)
 public class MixinMinecraftServer {
 
-    @Shadow @Final private ResourcePackManager<ResourcePackProfile> dataPackManager;
+    @Shadow
+    @Final
+    private ResourcePackManager<ResourcePackProfile> dataPackManager;
 
     @ModifyVariable(method = "main", at = @At("HEAD"), ordinal = 0)
     private static String[] main(String[] args) {

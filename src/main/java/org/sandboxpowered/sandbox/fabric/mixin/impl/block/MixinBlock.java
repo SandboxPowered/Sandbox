@@ -44,6 +44,9 @@ import javax.annotation.Nullable;
 @Implements(@Interface(iface = Block.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
+    @Shadow
+    @Final
+    protected StateManager<net.minecraft.block.Block, net.minecraft.block.BlockState> stateManager;
     private org.sandboxpowered.sandbox.api.state.StateFactory<Block, BlockState> sandboxFactory;
 
     @Shadow
@@ -64,8 +67,6 @@ public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
 
     @Shadow
     public abstract void onBroken(IWorld iWorld_1, BlockPos blockPos_1, net.minecraft.block.BlockState blockState_1);
-
-    @Shadow @Final protected StateManager<net.minecraft.block.Block, net.minecraft.block.BlockState> stateManager;
 
     @Inject(method = "<init>", at = @At("RETURN"))
     public void constructor(net.minecraft.block.Block.Settings settings, CallbackInfo info) {

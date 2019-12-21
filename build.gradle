@@ -25,7 +25,7 @@ dependencies {
 	}
 
     implementation project(':SandboxAPI')
-	
+
 	if(!System.getenv("CI")) {
 		runtime project(':TestMod')
 	}

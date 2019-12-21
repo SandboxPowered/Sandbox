@@ -25,15 +25,12 @@ public class MixinMinecraftClient {
 
     @Shadow
     public ClientWorld world;
-
-    private Session sandbox_Session = new SessionImpl((MinecraftClient) (Object) this);
-
     @Shadow
     @Nullable
     public net.minecraft.client.gui.screen.Screen currentScreen;
-
     @Shadow
     public net.minecraft.client.font.TextRenderer textRenderer;
+    private Session sandbox_Session = new SessionImpl((MinecraftClient) (Object) this);
 
     public PlayerEntity sbx$getPlayer() {
         return (PlayerEntity) player;

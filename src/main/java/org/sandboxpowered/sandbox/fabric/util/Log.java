@@ -1,6 +1,5 @@
 package org.sandboxpowered.sandbox.fabric.util;
 
-import io.sentry.event.Event;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -6,7 +6,6 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import org.sandboxpowered.sandbox.api.Registries;
 import org.sandboxpowered.sandbox.api.block.Block;
 import org.sandboxpowered.sandbox.api.block.Material;
 import org.sandboxpowered.sandbox.api.block.entity.BlockEntity;

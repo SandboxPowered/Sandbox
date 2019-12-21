@@ -5,7 +5,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
 import org.sandboxpowered.sandbox.api.Registries;
 import org.sandboxpowered.sandbox.api.container.Container;
-import org.sandboxpowered.sandbox.api.entity.Entity;
 import org.sandboxpowered.sandbox.api.entity.player.PlayerEntity;
 import org.sandboxpowered.sandbox.api.util.Identity;
 import org.sandboxpowered.sandbox.api.util.Mono;

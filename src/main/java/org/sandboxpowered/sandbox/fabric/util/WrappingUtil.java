@@ -217,9 +217,11 @@ public class WrappingUtil {
     public static BlockEntityType convert(BlockEntity.Type type) {
         return cast(type, BlockEntityType.class);
     }
+
     public static EntityType convert(Entity.Type type) {
         return cast(type, EntityType.class);
     }
+
     public static Entity.Type convert(EntityType type) {
         return cast(type, Entity.Type.class);
     }
@@ -241,6 +243,7 @@ public class WrappingUtil {
     public static Entity convert(net.minecraft.entity.Entity entity_1) {
         return (Entity) entity_1;
     }
+
     public static net.minecraft.entity.Entity convert(Entity entity_1) {
         return (net.minecraft.entity.Entity) entity_1;
     }

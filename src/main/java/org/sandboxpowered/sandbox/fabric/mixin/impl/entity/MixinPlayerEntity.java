@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(net.minecraft.entity.player.PlayerEntity.class)
 @Implements(@Interface(iface = PlayerEntity.class, prefix = "sbx$"))
-public abstract class MixinPlayerEntity extends LivingEntity  {
+public abstract class MixinPlayerEntity extends LivingEntity {
     public MixinPlayerEntity(EntityType<? extends LivingEntity> entityType_1, World world_1) {
         super(entityType_1, world_1);
     }

@@ -8,10 +8,11 @@ import org.spongepowered.asm.mixin.*;
 @Implements(@Interface(iface = Entity.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public abstract class MixinEntity {
-    
-    @Shadow public abstract EntityType<?> getType();
+
+    @Shadow
+    public abstract EntityType<?> getType();
 
     public Entity.Type sbx$getType() {
-        return (Entity.Type)getType();
+        return (Entity.Type) getType();
     }
 }
