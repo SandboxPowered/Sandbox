@@ -33,6 +33,7 @@ import org.sandboxpowered.sandbox.api.fluid.FluidStack;
 import org.sandboxpowered.sandbox.api.fluid.Fluids;
 import org.sandboxpowered.sandbox.api.item.ItemStack;
 import org.sandboxpowered.sandbox.api.util.InteractionResult;
+import org.sandboxpowered.sandbox.api.util.Mono;
 import org.sandboxpowered.sandbox.api.util.math.Position;
 import org.sandboxpowered.sandbox.api.util.math.Vec3f;
 import org.sandboxpowered.sandbox.api.world.WorldReader;
@@ -316,9 +317,10 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
 
         @Override
         public boolean canFillWithFluid(BlockView blockView_1, BlockPos blockPos_1, BlockState blockState_1, Fluid fluid_1) {
-            return ((org.sandboxpowered.sandbox.api.world.WorldReader) blockView_1).getComponentFromPosition(
-                    Components.FLUID_COMPONENT,
-                    (Position) blockPos_1
+            return ((org.sandboxpowered.sandbox.api.state.BlockState) blockState_1).getComponent(
+                    WrappingUtil.convert(blockView_1),
+                    (Position) blockPos_1,
+                    Components.FLUID_COMPONENT
             ).map(container ->
                     container.insert(FluidStack.of(WrappingUtil.convert(fluid_1), 1000), true).isEmpty()
             ).orElse(false);
@@ -326,9 +328,10 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
 
         @Override
         public boolean tryFillWithFluid(IWorld iWorld_1, BlockPos blockPos_1, BlockState blockState_1, FluidState fluidState_1) {
-            return ((org.sandboxpowered.sandbox.api.world.World) iWorld_1).getComponentFromPosition(
-                    Components.FLUID_COMPONENT,
-                    (Position) blockPos_1
+            return ((org.sandboxpowered.sandbox.api.state.BlockState) blockState_1).getComponent(
+                    WrappingUtil.convert(iWorld_1),
+                    (Position) blockPos_1,
+                    Components.FLUID_COMPONENT
             ).map(container -> {
                 FluidStack filled = FluidStack.of(WrappingUtil.convert(fluidState_1.getFluid()), 1000);
                 FluidStack ret = container.insert(filled, true);
@@ -344,9 +347,10 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
         @Override
         public Fluid tryDrainFluid(IWorld iWorld_1, BlockPos blockPos_1, BlockState blockState_1) {
             return WrappingUtil.convert(
-                    ((org.sandboxpowered.sandbox.api.world.World) iWorld_1).getComponentFromPosition(
-                            Components.FLUID_COMPONENT,
-                            (Position) blockPos_1
+                    ((org.sandboxpowered.sandbox.api.state.BlockState) blockState_1).getComponent(
+                            WrappingUtil.convert(iWorld_1),
+                            (Position) blockPos_1,
+                            Components.FLUID_COMPONENT
                     ).map(container ->
                             container.extract(1000).getFluid()
                     ).orElse(Fluids.EMPTY)

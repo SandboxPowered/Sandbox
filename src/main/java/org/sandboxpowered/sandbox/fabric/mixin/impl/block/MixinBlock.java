@@ -1,7 +1,9 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.block;
 
 import net.minecraft.block.BlockEntityProvider;
+import net.minecraft.block.CauldronBlock;
 import net.minecraft.block.InventoryProvider;
+import net.minecraft.block.Waterloggable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SidedInventory;
@@ -10,10 +12,12 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.IWorld;
 import org.sandboxpowered.sandbox.api.block.Block;
+import org.sandboxpowered.sandbox.api.block.FluidLoggable;
 import org.sandboxpowered.sandbox.api.block.Material;
 import org.sandboxpowered.sandbox.api.block.entity.BlockEntity;
 import org.sandboxpowered.sandbox.api.component.Component;
 import org.sandboxpowered.sandbox.api.component.Components;
+import org.sandboxpowered.sandbox.api.component.fluid.FluidLoggingContainer;
 import org.sandboxpowered.sandbox.api.entity.Entity;
 import org.sandboxpowered.sandbox.api.entity.player.Hand;
 import org.sandboxpowered.sandbox.api.entity.player.PlayerEntity;
@@ -137,6 +141,12 @@ public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
                 if (side.isPresent() && entity instanceof SidedInventory)
                     return Mono.of(new SidedRespective((SidedInventory) entity, side.get())).cast();
                 return Mono.of(new V2SInventory((Inventory) entity)).cast();
+            }
+        }
+        if (component == Components.FLUID_COMPONENT) {
+            if (this instanceof Waterloggable) {
+                FluidLoggingContainer container = new FluidLoggingContainer((FluidLoggable) this, reader, position, state, side);
+                return Mono.of(container).cast();
             }
         }
         return Mono.empty();

@@ -18,7 +18,7 @@ import org.sandboxpowered.sandbox.api.block.Block;
 import org.sandboxpowered.sandbox.api.block.entity.BlockEntity;
 import org.sandboxpowered.sandbox.api.client.screen.BaseScreen;
 import org.sandboxpowered.sandbox.api.client.screen.Screen;
-import org.sandboxpowered.sandbox.api.enchant.Enchantment;
+import org.sandboxpowered.sandbox.api.enchantment.Enchantment;
 import org.sandboxpowered.sandbox.api.entity.Entity;
 import org.sandboxpowered.sandbox.api.fluid.BaseFluid;
 import org.sandboxpowered.sandbox.api.fluid.Fluid;
@@ -127,7 +127,10 @@ public class WrappingUtil {
     }
 
     public static net.minecraft.block.Block.Settings convert(Block.Settings settings) {
-        return castOrWrap(settings, net.minecraft.block.Block.Settings.class, prop -> net.minecraft.block.Block.Settings.of(convert(settings.getMaterial())));
+        return castOrWrap(settings, net.minecraft.block.Block.Settings.class, prop -> {
+            net.minecraft.block.Block.Settings vs = net.minecraft.block.Block.Settings.of(convert(settings.getMaterial()));
+            return vs;
+        });
     }
 
     private static Material convert(org.sandboxpowered.sandbox.api.block.Material material) {
@@ -335,5 +338,9 @@ public class WrappingUtil {
 
     public static CompoundTag convert(ReadableCompoundTag tag) {
         return (net.minecraft.nbt.CompoundTag) tag;
+    }
+
+    public static WorldReader convert(BlockView view) {
+        return cast(view,WorldReader.class);
     }
 }

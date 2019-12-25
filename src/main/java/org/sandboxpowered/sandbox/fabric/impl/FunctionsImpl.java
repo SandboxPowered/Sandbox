@@ -14,7 +14,7 @@ import org.sandboxpowered.sandbox.api.client.render.RenderUtil;
 import org.sandboxpowered.sandbox.api.component.Component;
 import org.sandboxpowered.sandbox.api.container.ContainerFactory;
 import org.sandboxpowered.sandbox.api.content.Content;
-import org.sandboxpowered.sandbox.api.enchant.Enchantment;
+import org.sandboxpowered.sandbox.api.enchantment.Enchantment;
 import org.sandboxpowered.sandbox.api.entity.Entity;
 import org.sandboxpowered.sandbox.api.fluid.Fluid;
 import org.sandboxpowered.sandbox.api.fluid.FluidStack;
