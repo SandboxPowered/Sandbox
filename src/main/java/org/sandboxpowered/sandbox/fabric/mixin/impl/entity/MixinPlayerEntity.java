@@ -10,13 +10,11 @@ import org.sandboxpowered.sandbox.api.util.math.Position;
 import org.sandboxpowered.sandbox.api.util.nbt.CompoundTag;
 import org.sandboxpowered.sandbox.api.util.text.Text;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
-import org.spongepowered.asm.mixin.Implements;
-import org.spongepowered.asm.mixin.Interface;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.*;
 
 @Mixin(net.minecraft.entity.player.PlayerEntity.class)
 @Implements(@Interface(iface = PlayerEntity.class, prefix = "sbx$"))
+@Unique
 public abstract class MixinPlayerEntity extends LivingEntity {
     public MixinPlayerEntity(EntityType<? extends LivingEntity> entityType_1, World world_1) {
         super(entityType_1, world_1);
@@ -39,9 +37,5 @@ public abstract class MixinPlayerEntity extends LivingEntity {
 
     public Mono<Position> sbx$getSleepingPosition() {
         return Mono.ofNullable((Position) getSleepingPosition().orElse(null));
-    }
-
-    public boolean sbx$isSneaking() {
-        return isSneaking();
     }
 }

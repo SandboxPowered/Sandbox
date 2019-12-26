@@ -1,7 +1,9 @@
 package org.sandboxpowered.sandbox.fabric.util.wrapper;
 
 import net.minecraft.enchantment.EnchantmentTarget;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import org.sandboxpowered.sandbox.api.enchantment.Enchantment;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
@@ -37,5 +39,30 @@ public class EnchantmentWrapper extends net.minecraft.enchantment.Enchantment {
     @Override
     public boolean isCursed() {
         return enchantment.isCurse();
+    }
+
+    @Override
+    public Weight getWeight() {
+        switch (enchantment.getWeight()) {
+            case VERY_RARE:
+                return Weight.VERY_RARE;
+            case UNCOMMON:
+                return Weight.UNCOMMON;
+            case RARE:
+                return Weight.RARE;
+            default:
+            case COMMON:
+                return Weight.COMMON;
+        }
+    }
+
+    @Override
+    public void onTargetDamaged(LivingEntity livingEntity, Entity entity, int i) {
+        enchantment.onTargetDamage((org.sandboxpowered.sandbox.api.entity.LivingEntity) WrappingUtil.convert(livingEntity), WrappingUtil.convert(entity), i);
+    }
+
+    @Override
+    public void onUserDamaged(LivingEntity livingEntity, Entity entity, int i) {
+        enchantment.onUserDamage((org.sandboxpowered.sandbox.api.entity.LivingEntity) WrappingUtil.convert(livingEntity), WrappingUtil.convert(entity), i);
     }
 }
