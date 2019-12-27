@@ -37,6 +37,7 @@ import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.util.MaterialUtil;
 import org.sandboxpowered.sandbox.fabric.util.PropertyUtil;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
+import org.sandboxpowered.sandbox.fabric.util.wrapper.RenderUtilImpl;
 
 import java.util.function.Supplier;
 
@@ -148,7 +149,7 @@ public class FunctionsImpl implements Functions {
 
     @Override
     public RenderUtil renderUtilInstance() {
-        return RenderUtil.instance();
+        return RenderUtilImpl.INSTANCE;
     }
 
     @Override
