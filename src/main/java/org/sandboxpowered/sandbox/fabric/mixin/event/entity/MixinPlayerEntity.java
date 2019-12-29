@@ -23,13 +23,6 @@ public abstract class MixinPlayerEntity extends net.minecraft.entity.LivingEntit
         super(entityType_1, world_1);
     }
 
-    @Inject(method = "onDeath", at = @At("HEAD"), cancellable = true)
-    public void onDeath(DamageSource source, CallbackInfo info) {
-        LivingEvent.Death event = EventDispatcher.publish(new LivingEvent.Death((LivingEntity) this));
-        if (event.isCancelled())
-            info.cancel();
-    }
-
     /**
      * @author B0undarybreaker
      */

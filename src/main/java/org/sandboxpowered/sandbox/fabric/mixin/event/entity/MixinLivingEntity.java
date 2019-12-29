@@ -21,10 +21,8 @@ public abstract class MixinLivingEntity extends Entity {
 
     @Inject(method = "onDeath", at = @At("HEAD"), cancellable = true)
     public void onDeath(DamageSource source, CallbackInfo info) {
-        if ((Object) this instanceof PlayerEntity) { // Prevent the event running twice for no reason
-            LivingEvent.Death event = EventDispatcher.publish(new LivingEvent.Death((LivingEntity) this));
-            if (event.isCancelled())
-                info.cancel();
-        }
+        LivingEvent.Death event = EventDispatcher.publish(new LivingEvent.Death((LivingEntity) this));
+        if (event.isCancelled())
+            info.cancel();
     }
 }

@@ -4,8 +4,11 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.resource.ClientResourcePackProfile;
+import net.minecraft.resource.ReloadableResourceManager;
 import net.minecraft.resource.ResourcePack;
 import net.minecraft.resource.ResourcePackManager;
+import net.minecraft.resource.ResourceReloadMonitor;
+import net.minecraft.util.Unit;
 import org.sandboxpowered.sandbox.fabric.SandboxHooks;
 import org.sandboxpowered.sandbox.fabric.client.*;
 import org.sandboxpowered.sandbox.fabric.resources.SandboxResourceCreator;
@@ -25,6 +28,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
 @Mixin(MinecraftClient.class)
 public abstract class MixinMinecraftClient {
@@ -84,10 +88,13 @@ public abstract class MixinMinecraftClient {
         SandboxHooks.shutdownGlobal();
     }
 
-    @Inject(method = "reloadResources", at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/ReloadableResourceManager;beginMonitoredReload(Ljava/util/concurrent/Executor;Ljava/util/concurrent/Executor;Ljava/util/concurrent/CompletableFuture;Ljava/util/List;)Lnet/minecraft/resource/ResourceReloadMonitor;", ordinal = 0), locals = LocalCapture.CAPTURE_FAILHARD)
-    public void reloadResources(CallbackInfoReturnable<CompletableFuture> info, CompletableFuture<java.lang.Void> cf, List<ResourcePack> list) {
-        addonResourcePackModifications(list);
+    @Redirect(method = "reloadResources", at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/ReloadableResourceManager;beginMonitoredReload(Ljava/util/concurrent/Executor;Ljava/util/concurrent/Executor;Ljava/util/concurrent/CompletableFuture;Ljava/util/List;)Lnet/minecraft/resource/ResourceReloadMonitor;"))
+    public ResourceReloadMonitor reloadResources(ReloadableResourceManager manager, Executor var1, Executor var2, CompletableFuture<Unit> var3, List<ResourcePack> var4) {
+        addonResourcePackModifications(var4);
+        System.out.println(var4);
+        return manager.beginMonitoredReload(var1, var2, var3, var4);
     }
+
 
     @ModifyVariable(method = "openScreen", at = @At("HEAD"), ordinal = 0)
     public Screen openScreen(Screen screen) {
