@@ -129,12 +129,22 @@ public class WrappingUtil {
     public static net.minecraft.block.Block.Settings convert(Block.Settings settings) {
         return castOrWrap(settings, net.minecraft.block.Block.Settings.class, prop -> {
             net.minecraft.block.Block.Settings vs = net.minecraft.block.Block.Settings.of(convert(settings.getMaterial()));
+            SandboxInternal.MaterialInternal ms = (SandboxInternal.MaterialInternal) vs;
+            vs.velocityMultiplier(settings.getVelocity());
+            vs.jumpVelocityMultiplier(settings.getJumpVelocity());
+            vs.slipperiness(settings.getSlipperiness());
+            vs.strength(settings.getHardness(), settings.getResistance());
+            ms.sbxsetlevel(settings.getLuminance());
             return vs;
         });
     }
 
-    private static Material convert(org.sandboxpowered.sandbox.api.block.Material material) {
+    public static Material convert(org.sandboxpowered.sandbox.api.block.Material material) {
         return castOrWrap(material, Material.class, m -> null);
+    }
+
+    public static org.sandboxpowered.sandbox.api.block.Material convert(Material material) {
+        return castOrWrap(material, org.sandboxpowered.sandbox.api.block.Material.class, m -> null);
     }
 
     public static int convert(BlockFlag[] flags) {

@@ -9,6 +9,7 @@
     "crash.MixinCrashReport",
 
     "block.MixinBlock",
+    "block.MixinBlock$MixinSettings",
     "block.MixinBlockState",
     "block.MixinStateManager",
     "block.MixinStateManager$MixinStateBuilder",
