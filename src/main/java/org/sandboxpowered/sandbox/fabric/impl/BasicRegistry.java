@@ -4,12 +4,12 @@ import net.minecraft.util.registry.SimpleRegistry;
 import org.sandboxpowered.sandbox.api.content.Content;
 import org.sandboxpowered.sandbox.api.registry.Registry;
 import org.sandboxpowered.sandbox.api.util.Identity;
-import org.sandboxpowered.sandbox.api.util.Mono;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class BasicRegistry<A extends Content<A>, B> implements Registry<A> {
     private final Function<A, B> convertAB;
@@ -51,12 +51,17 @@ public class BasicRegistry<A extends Content<A>, B> implements Registry<A> {
 
     @Override
     public Collection<A> values() {
-        return Collections.emptySet();
+        return vanilla.stream().map(convertBA).collect(Collectors.toList());
+    }
+
+    @Override
+    public Stream<A> stream() {
+        return vanilla.stream().map(convertBA);
     }
 
     @Override
     public Collection<Identity> keys() {
-        return Collections.emptySet();
+        return vanilla.getIds().stream().map(id -> (Identity) id).collect(Collectors.toList());
     }
 
     @Override

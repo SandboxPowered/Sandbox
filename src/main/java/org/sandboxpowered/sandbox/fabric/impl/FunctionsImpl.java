@@ -113,11 +113,6 @@ public class FunctionsImpl implements Functions {
     }
 
     @Override
-    public <T extends Content> Registry<T> registryTypeFunction(Class<T> cla) {
-        return registryFunction(cla);
-    }
-
-    @Override
     public CompoundTag createCompoundTag() {
         return (CompoundTag) new net.minecraft.nbt.CompoundTag();
     }

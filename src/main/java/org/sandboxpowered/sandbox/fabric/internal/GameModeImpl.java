@@ -2,7 +2,6 @@ package org.sandboxpowered.sandbox.fabric.internal;
 
 import org.sandboxpowered.sandbox.api.game.GameMode;
 import org.sandboxpowered.sandbox.api.util.Identity;
-import org.sandboxpowered.sandbox.api.util.Mono;
 
 public class GameModeImpl implements GameMode {
     private final Identity identity;

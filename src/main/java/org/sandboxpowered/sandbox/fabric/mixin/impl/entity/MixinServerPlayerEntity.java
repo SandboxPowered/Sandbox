@@ -7,7 +7,6 @@ import org.sandboxpowered.sandbox.api.Registries;
 import org.sandboxpowered.sandbox.api.container.Container;
 import org.sandboxpowered.sandbox.api.entity.player.PlayerEntity;
 import org.sandboxpowered.sandbox.api.util.Identity;
-import org.sandboxpowered.sandbox.api.util.Mono;
 import org.sandboxpowered.sandbox.api.util.nbt.CompoundTag;
 import org.sandboxpowered.sandbox.fabric.container.ContainerWrapper;
 import org.sandboxpowered.sandbox.fabric.network.ContainerOpenPacket;
