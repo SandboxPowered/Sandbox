@@ -352,7 +352,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
                             Components.FLUID_COMPONENT
                     ).map(container ->
                             container.extract(1000).getFluid()
-                    ).orElse(Fluids.EMPTY)
+                    ).orElse(Fluids.EMPTY.get())
             );
         }
     }

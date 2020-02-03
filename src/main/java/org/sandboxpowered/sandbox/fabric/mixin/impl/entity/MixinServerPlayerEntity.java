@@ -39,7 +39,7 @@ public abstract class MixinServerPlayerEntity extends net.minecraft.entity.playe
         ContainerOpenPacket packet = new ContainerOpenPacket(id, syncId, data);
         NetworkManager.sendTo(packet, this);
 
-        Registries.CONTAINER.get(id).asOptional().ifPresent(factory -> {
+        Registries.CONTAINER.get(id).ifPresent(factory -> {
             Container container = factory.create(id, new V2SInventory(inventory), data);
 
             this.container = new ContainerWrapper(null, syncId, container);

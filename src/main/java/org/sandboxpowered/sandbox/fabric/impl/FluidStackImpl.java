@@ -25,7 +25,7 @@ public class FluidStackImpl implements FluidStack {
     }
 
     public FluidStackImpl(ReadableCompoundTag tag) {
-        this.fluid = Registries.FLUID.get(Identity.of(tag.getString("Fluid"))).orElse(Fluids.EMPTY);
+        this.fluid = Registries.FLUID.get(Identity.of(tag.getString("Fluid"))).orElse(Fluids.EMPTY.get());
         this.amount = tag.getInt("Amount");
         if (tag.contains("Tag"))
             this.tag = tag.getCompound("Tag");
