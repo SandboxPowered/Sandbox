@@ -35,8 +35,4 @@ public abstract class MixinPlayerEntity extends LivingEntity {
     public void sbx$openContainer(Identity id, CompoundTag data) {
         // NO-OP
     }
-
-    public Optional<Position> sbx$getSleepingPosition() {
-        return Optional.ofNullable((Position) getSleepingPosition().orElse(null));
-    }
 }
