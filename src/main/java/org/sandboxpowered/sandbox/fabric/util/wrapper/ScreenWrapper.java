@@ -2,7 +2,6 @@ package org.sandboxpowered.sandbox.fabric.util.wrapper;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.AbstractContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import org.sandboxpowered.sandbox.api.client.Client;
 import org.sandboxpowered.sandbox.api.client.screen.BaseScreen;
@@ -34,7 +33,7 @@ public class ScreenWrapper extends Screen {
         screen.draw(int_1, int_2, float_1);
     }
 
-    public static class ContainerScreenWrapper extends AbstractContainerScreen<ContainerWrapper> {
+    public static class ContainerScreenWrapper extends net.minecraft.client.gui.screen.ingame.ContainerScreen<ContainerWrapper> {
         public ContainerScreen screen;
 
         public ContainerScreenWrapper(ContainerScreen screen, ContainerWrapper wrapper, PlayerInventory playerInventory_1) {

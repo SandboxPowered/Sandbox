@@ -95,7 +95,7 @@ public class FunctionsImpl implements Functions {
             return ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.ITEM).get();
         }
         if (cla == BlockEntity.Type.class) {
-            return ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.BLOCK_ENTITY).get();
+            return ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.BLOCK_ENTITY_TYPE).get();
         }
         if (cla == Fluid.class) {
             return ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.FLUID).get();
