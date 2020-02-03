@@ -27,7 +27,8 @@ public interface MixinModifiableWorld extends WorldWriter {
     }
 
     @Override
-    default boolean breakBlock(Position position, boolean drop, Mono<Entity> entity) {
-        return breakBlock(WrappingUtil.convert(position), drop, entity.map(WrappingUtil::convert).orElse(null));
+    default boolean breakBlock(Position position, boolean drop, @Nullable Entity entity) {
+
+        return breakBlock(WrappingUtil.convert(position), drop, WrappingUtil.convert(entity));
     }
 }

@@ -3,6 +3,7 @@ package org.sandboxpowered.sandbox.fabric.mixin.impl.entity;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.ObjectUtils;
 import org.sandboxpowered.sandbox.api.Registries;
 import org.sandboxpowered.sandbox.api.container.Container;
 import org.sandboxpowered.sandbox.api.entity.player.PlayerEntity;
@@ -30,15 +31,15 @@ public abstract class MixinServerPlayerEntity extends net.minecraft.entity.playe
     @Shadow
     protected abstract void incrementContainerSyncId();
 
-    public void sbx$openContainer(Identity id, Mono<CompoundTag> dataMono) {
+    public void sbx$openContainer(Identity id, CompoundTag dataMono) {
         incrementContainerSyncId();
         int syncId = containerSyncId;
-        CompoundTag data = dataMono.orElseGet(CompoundTag::create);
+        CompoundTag data = dataMono == null ? CompoundTag.create() : dataMono;
 
         ContainerOpenPacket packet = new ContainerOpenPacket(id, syncId, data);
         NetworkManager.sendTo(packet, this);
 
-        Registries.CONTAINER.get(id).ifPresent(factory -> {
+        Registries.CONTAINER.get(id).asOptional().ifPresent(factory -> {
             Container container = factory.create(id, new V2SInventory(inventory), data);
 
             this.container = new ContainerWrapper(null, syncId, container);

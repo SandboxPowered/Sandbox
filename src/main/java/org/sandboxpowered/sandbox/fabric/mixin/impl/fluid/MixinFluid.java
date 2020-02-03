@@ -20,6 +20,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Optional;
+
 @SuppressWarnings("ConstantConditions")
 @Mixin(net.minecraft.fluid.Fluid.class)
 @Implements(@Interface(iface = Fluid.class, prefix = "sbx$", remap = Interface.Remap.NONE))
@@ -97,8 +99,8 @@ public abstract class MixinFluid implements SandboxInternal.StateFactoryHolder {
         return WrappingUtil.convert(getBucketItem());
     }
 
-    public Mono<Vec3d> sbx$getVelocity(WorldReader world, Position position, FluidState state) {
-        return Mono.of((Vec3d) getVelocity(
+    public Optional<Vec3d> sbx$getVelocity(WorldReader world, Position position, FluidState state) {
+        return Optional.of((Vec3d) getVelocity(
                 (BlockView) world,
                 (BlockPos) position,
                 (net.minecraft.fluid.FluidState) state

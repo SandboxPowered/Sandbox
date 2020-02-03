@@ -1,6 +1,9 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.block;
 
-import net.minecraft.block.*;
+import net.minecraft.block.BlockEntityProvider;
+import net.minecraft.block.InventoryProvider;
+import net.minecraft.block.Material;
+import net.minecraft.block.Waterloggable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SidedInventory;
@@ -23,6 +26,7 @@ import org.sandboxpowered.sandbox.api.item.Items;
 import org.sandboxpowered.sandbox.api.state.BlockState;
 import org.sandboxpowered.sandbox.api.util.Direction;
 import org.sandboxpowered.sandbox.api.util.InteractionResult;
+import org.sandboxpowered.sandbox.api.util.Mono;
 import org.sandboxpowered.sandbox.api.util.math.Position;
 import org.sandboxpowered.sandbox.api.util.math.Vec3f;
 import org.sandboxpowered.sandbox.api.world.World;
@@ -38,6 +42,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 @Mixin(net.minecraft.block.Block.class)
 @Implements(@Interface(iface = Block.class, prefix = "sbx$", remap = Interface.Remap.NONE))
@@ -125,11 +130,11 @@ public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
         return InteractionResult.IGNORE;
     }
 
-    public Mono<Item> sbx$asItem() {
+    public Optional<Item> sbx$asItem() {
         Item item = (Item) asItem();
         if (item == Items.AIR)
-            return Mono.empty();
-        return Mono.of(item);
+            return Optional.empty();
+        return Optional.of(item);
     }
 
     public void sbx$onBlockPlaced(World world, Position position, BlockState state, Entity entity, ItemStack itemStack) {
@@ -150,18 +155,18 @@ public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
         return this.hasBlockEntity();
     }
 
-    public <X> Mono<X> sbx$getComponent(WorldReader reader, Position position, BlockState state, Component<X> component, Mono<Direction> side) {
+    public <X> Mono<X> sbx$getComponent(WorldReader reader, Position position, BlockState state, Component<X> component, @Nullable Direction side) {
         if (component == Components.INVENTORY_COMPONENT) {
             if (this instanceof InventoryProvider) {
                 SidedInventory inventory = ((InventoryProvider) this).getInventory((net.minecraft.block.BlockState) state, (IWorld) reader, (BlockPos) position);
-                if (side.isPresent())
-                    return Mono.of(new SidedRespective(inventory, side.get())).cast();
+                if (side != null)
+                    return Mono.of(new SidedRespective(inventory, side)).cast();
                 return Mono.of(new V2SInventory(inventory)).cast();
             }
             net.minecraft.block.entity.BlockEntity entity = ((BlockView) reader).getBlockEntity((BlockPos) position);
             if (entity instanceof Inventory) {
-                if (side.isPresent() && entity instanceof SidedInventory)
-                    return Mono.of(new SidedRespective((SidedInventory) entity, side.get())).cast();
+                if (side != null && entity instanceof SidedInventory)
+                    return Mono.of(new SidedRespective((SidedInventory) entity, side)).cast();
                 return Mono.of(new V2SInventory((Inventory) entity)).cast();
             }
         }

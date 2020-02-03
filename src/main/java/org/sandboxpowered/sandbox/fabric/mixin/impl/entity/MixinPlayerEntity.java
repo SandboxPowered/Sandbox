@@ -11,6 +11,8 @@ import org.sandboxpowered.sandbox.api.util.text.Text;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.spongepowered.asm.mixin.*;
 
+import java.util.Optional;
+
 @Mixin(net.minecraft.entity.player.PlayerEntity.class)
 @Implements(@Interface(iface = PlayerEntity.class, prefix = "sbx$"))
 @Unique
@@ -30,11 +32,11 @@ public abstract class MixinPlayerEntity extends LivingEntity {
         this.addChatMessage(WrappingUtil.convert(text), true);
     }
 
-    public void sbx$openContainer(Identity id, Mono<CompoundTag> data) {
+    public void sbx$openContainer(Identity id, CompoundTag data) {
         // NO-OP
     }
 
-    public Mono<Position> sbx$getSleepingPosition() {
-        return Mono.ofNullable((Position) getSleepingPosition().orElse(null));
+    public Optional<Position> sbx$getSleepingPosition() {
+        return Optional.ofNullable((Position) getSleepingPosition().orElse(null));
     }
 }

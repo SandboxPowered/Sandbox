@@ -9,6 +9,7 @@ import org.sandboxpowered.sandbox.api.component.Inventory;
 import org.sandboxpowered.sandbox.api.item.ItemStack;
 import org.sandboxpowered.sandbox.api.state.BlockState;
 import org.sandboxpowered.sandbox.api.util.Direction;
+import org.sandboxpowered.sandbox.api.util.Mono;
 import org.sandboxpowered.sandbox.api.util.math.Position;
 import org.sandboxpowered.sandbox.api.world.World;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;

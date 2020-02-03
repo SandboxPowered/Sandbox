@@ -1,12 +1,15 @@
 package org.sandboxpowered.sandbox.fabric.impl;
 
 import net.minecraft.util.registry.SimpleRegistry;
+import org.sandboxpowered.sandbox.api.Registries;
 import org.sandboxpowered.sandbox.api.content.Content;
 import org.sandboxpowered.sandbox.api.registry.Registry;
 import org.sandboxpowered.sandbox.api.util.Identity;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 
 import java.util.Collection;
+import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -37,11 +40,12 @@ public class BasicRegistry<A extends Content<A>, B> implements Registry<A> {
     }
 
     @Override
-    public Mono<A> get(Identity identity) {
-        B b = vanilla.get(WrappingUtil.convert(identity));
-        if (b == null)
-            return Mono.empty();
-        return Mono.of(convertBA.apply(b));
+    public Entry<A> get(Identity identity) {
+        return new RegistryEntry<>(identity, this);
+    }
+
+    public A getCurrent(Identity identity) {
+        return convertBA.apply(vanilla.get(WrappingUtil.convert(identity)));
     }
 
     @Override
@@ -67,5 +71,48 @@ public class BasicRegistry<A extends Content<A>, B> implements Registry<A> {
     @Override
     public Class<A> getType() {
         return type;
+    }
+
+    public static class RegistryEntry<T extends Content<T>> implements Entry<T> {
+        private Identity identity;
+        private BasicRegistry<T, ?> registry;
+        private T cache;
+
+        public RegistryEntry(Identity identity, BasicRegistry<T, ?> registry) {
+            this.identity = identity;
+            this.registry = registry;
+        }
+
+        @Override
+        public boolean exists() {
+            return registry.vanilla.containsId(WrappingUtil.convert(identity));
+        }
+
+        @Override
+        public T get() {
+            if (cache == null)
+                cache = registry.getCurrent(identity);
+            return cache;
+        }
+
+        @Override
+        public Optional<T> asOptional() {
+            return Optional.ofNullable(get());
+        }
+
+        @Override
+        public T orElse(T other) {
+            return get();
+        }
+
+        @Override
+        public void ifPresent(Consumer<T> tConsumer) {
+            tConsumer.accept(get());
+        }
+
+        @Override
+        public void ifPresent(Consumer<T> tConsumer, Runnable notPresent) {
+            tConsumer.accept(get());
+        }
     }
 }

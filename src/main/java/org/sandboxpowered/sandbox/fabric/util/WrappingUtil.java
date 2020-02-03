@@ -258,6 +258,8 @@ public class WrappingUtil {
     }
 
     public static net.minecraft.entity.Entity convert(Entity entity_1) {
+        if(entity_1==null)
+            return null;
         return (net.minecraft.entity.Entity) entity_1;
     }
 

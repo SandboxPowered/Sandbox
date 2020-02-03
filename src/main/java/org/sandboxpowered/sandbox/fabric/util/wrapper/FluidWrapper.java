@@ -21,6 +21,7 @@ import org.sandboxpowered.sandbox.fabric.util.ReflectionHelper;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 
 import java.lang.reflect.Field;
+import java.util.Optional;
 
 public class FluidWrapper extends net.minecraft.fluid.BaseFluid {
     public static Field whatever;
@@ -76,7 +77,7 @@ public class FluidWrapper extends net.minecraft.fluid.BaseFluid {
 
     @Override
     public Vec3d getVelocity(BlockView blockView_1, BlockPos blockPos_1, FluidState fluidState_1) {
-        Mono<org.sandboxpowered.sandbox.api.util.math.Vec3d> mono = fluid.getVelocity(
+        Optional<org.sandboxpowered.sandbox.api.util.math.Vec3d> mono = fluid.getVelocity(
                 (WorldReader) blockView_1,
                 (Position) blockPos_1,
                 (org.sandboxpowered.sandbox.api.state.FluidState) fluidState_1
