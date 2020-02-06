@@ -51,8 +51,9 @@ public class BasicRegistry<A extends Content<A>, B> implements Registry<A> {
     }
 
     @Override
-    public void register(Identity identity, A val) {
+    public Entry<A> register(Identity identity, A val) {
         vanilla.add(WrappingUtil.convert(identity), convertAB.apply(val));
+        return get(identity);
     }
 
     @Override

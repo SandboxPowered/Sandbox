@@ -1,6 +1,5 @@
 package org.sandboxpowered.sandbox.fabric.mixin.fabric.block;
 
-import net.minecraft.state.property.Property;
 import org.sandboxpowered.sandbox.api.state.StateFactory;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
@@ -8,7 +7,6 @@ import org.sandboxpowered.sandbox.fabric.util.wrapper.StateFactoryImpl;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(net.minecraft.state.StateManager.class)
@@ -32,14 +30,6 @@ public abstract class MixinStateManager implements SandboxInternal.StateFactory 
         @Inject(method = "<init>", at = @At("RETURN"))
         public void inject(CallbackInfo info) {
             setSboxBuilder(new StateFactoryImpl.BuilderImpl(WrappingUtil.cast(this, net.minecraft.state.StateManager.Builder.class)));
-        }
-
-        @ModifyVariable(method = "add", at = @At("HEAD"), ordinal = 0)
-        public Property<?>[] properties(Property<?>[] in) {
-//            if (ArrayUtils.contains(in, Properties.WATERLOGGED)) {
-//                in=ArrayUtils.add(ArrayUtils.removeElement(in, Properties.WATERLOGGED), SandboxProperties.PROPERTY_FLUIDLOGGABLE);
-//            }
-            return in;
         }
 
         @Override

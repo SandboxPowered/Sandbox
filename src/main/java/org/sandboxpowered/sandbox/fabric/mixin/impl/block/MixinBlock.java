@@ -132,7 +132,7 @@ public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
 
     public Optional<Item> sbx$asItem() {
         Item item = (Item) asItem();
-        if (item == Items.AIR)
+        if (Items.AIR.matches(item))
             return Optional.empty();
         return Optional.of(item);
     }

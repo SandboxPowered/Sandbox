@@ -4,6 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Pair;
 import org.sandboxpowered.sandbox.api.Registries;
 import org.sandboxpowered.sandbox.api.content.Content;
+import org.sandboxpowered.sandbox.api.registry.Registry;
 import org.sandboxpowered.sandbox.api.util.Identity;
 import org.sandboxpowered.sandbox.api.util.Side;
 import org.sandboxpowered.sandbox.fabric.SandboxCommon;
@@ -43,9 +44,10 @@ public class SandboxClient extends SandboxCommon {
     }
 
     @Override
-    public <T extends Content<T>> void register(Identity identity, T content) {
+    public <T extends Content<T>> Registry.Entry<T> register(Identity identity, T content) {
         if (SandboxServer.INSTANCE == null)
-            Registries.getRegistry(content.getContentType()).register(identity, content);
+            return Registries.getRegistry(content.getContentType()).register(identity, content);
+        return Registries.getRegistry(content.getContentType()).get(identity);
     }
 
     @Override
