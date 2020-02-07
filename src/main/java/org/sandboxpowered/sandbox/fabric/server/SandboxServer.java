@@ -5,18 +5,12 @@ import com.google.common.hash.Hashing;
 import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.dedicated.DedicatedServer;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Pair;
 import org.apache.commons.io.FileUtils;
-import org.sandboxpowered.sandbox.api.addon.AddonSpec;
 import org.sandboxpowered.sandbox.api.util.Side;
 import org.sandboxpowered.sandbox.fabric.SandboxCommon;
 import org.sandboxpowered.sandbox.fabric.SandboxConfig;
@@ -93,26 +87,7 @@ public class SandboxServer extends SandboxCommon {
         net.minecraft.util.registry.Registry.REGISTRIES.stream().map(reg -> (SandboxInternal.Registry) reg).forEach(SandboxInternal.Registry::store);
         BLOCK_ITEMS.clear();
         Item.BLOCK_ITEMS.forEach(BLOCK_ITEMS::put);
-        server.getCommandManager().getDispatcher().register(LiteralArgumentBuilder.<ServerCommandSource>literal("sandbox")
-                .then(LiteralArgumentBuilder.<ServerCommandSource>literal("addons")
-                        .requires(s -> {
-                            try {
-                                return s.getPlayer() != null;
-                            } catch (CommandSyntaxException e) {
-                                return false;
-                            }
-                        })
-                        .executes(s -> {
-                            int n = loader.getAddons().size();
-                            if (n == 1) s.getSource().getPlayer().addChatMessage(new TranslatableText("command.sandbox.addons.single"), false);
-                            else s.getSource().getPlayer().addChatMessage(new TranslatableText("command.sandbox.addons.multiple", n), false);
-                            for (AddonSpec a : loader.getAddons()) {
-                                s.getSource().getPlayer().addChatMessage(new LiteralText(a.getTitle() + " [" + a.getModid() + "@" + a.getVersion().toString() + "]"), false);
-                            }
-                            return 0;
-                        })
-                )
-        );
+        SanboxCommand.register(server.getCommandManager().getDispatcher());
         load();
         if (!isIntegrated) {
             setupDedicated();

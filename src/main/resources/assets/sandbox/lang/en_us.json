@@ -1,6 +1,4 @@
 {
     "warning.sandbox.unsupported_mods_1": "Unsupported Mods Loaded",
-    "warning.sandbox.unsupported_mods_2": "Installing other mods on top of sandbox is not supported",
-    "command.sandbox.addons.single": "There is 1 addon installed:",
-    "command.sandbox.addons.multiple": "There are %s addons installed:"
+    "warning.sandbox.unsupported_mods_2": "Installing other mods on top of sandbox is not supported"
 }
