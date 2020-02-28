@@ -3,12 +3,6 @@ package org.sandboxpowered.sandbox.fabric.mixin.event.network;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.util.math.BlockPos;
-import org.sandboxpowered.sandbox.api.event.BlockEvent;
-import org.sandboxpowered.sandbox.api.state.BlockState;
-import org.sandboxpowered.sandbox.api.util.math.Position;
-import org.sandboxpowered.sandbox.api.world.World;
-import org.sandboxpowered.sandbox.fabric.event.EventDispatcher;
-import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -25,13 +19,13 @@ public class MixinClientPlayerInteractionManager {
 
     @Inject(method = "breakBlock", at = @At("HEAD"), cancellable = true)
     public void breakBlock(BlockPos pos, CallbackInfoReturnable<Boolean> info) {
-        BlockEvent.Break event = EventDispatcher.publish(new BlockEvent.Break(
-                (World) this.client.world,
-                (Position) pos,
-                (BlockState) this.client.world.getBlockState(pos),
-                WrappingUtil.convert(this.client.player)));
-        if (event.isCancelled()) {
-            info.setReturnValue(false);
-        }
+//        BlockEvent.Break event = EventDispatcher.publish(new BlockEvent.Break(
+//                (World) this.client.world,
+//                (Position) pos,
+//                (BlockState) this.client.world.getBlockState(pos),
+//                WrappingUtil.convert(this.client.player)));
+//        if (event.isCancelled()) {
+//            info.setReturnValue(false);
+//        }
     }
 }

@@ -3,6 +3,7 @@ package org.sandboxpowered.sandbox.fabric.util.wrapper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.FluidStateImpl;
 import net.minecraft.item.Item;
@@ -108,8 +109,8 @@ public class FluidWrapper extends net.minecraft.fluid.BaseFluid {
     }
 
     @Override
-    protected boolean method_15777(FluidState var1, BlockView var2, BlockPos var3, net.minecraft.fluid.Fluid var4, Direction var5) {
-        return var5 == Direction.DOWN && !var4.matchesType(this);
+    protected boolean canBeReplacedWith(FluidState fluidState, BlockView blockView, BlockPos blockPos, Fluid fluid, Direction direction) {
+        return direction==Direction.DOWN && !fluid.matchesType(this);
     }
 
     @Override

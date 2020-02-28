@@ -1,6 +1,5 @@
 package org.sandboxpowered.sandbox.fabric.impl;
 
-import org.sandboxpowered.sandbox.api.Registries;
 import org.sandboxpowered.sandbox.api.fluid.Fluid;
 import org.sandboxpowered.sandbox.api.fluid.FluidStack;
 import org.sandboxpowered.sandbox.api.fluid.Fluids;
@@ -25,7 +24,7 @@ public class FluidStackImpl implements FluidStack {
     }
 
     public FluidStackImpl(ReadableCompoundTag tag) {
-        this.fluid = Registries.FLUID.get(Identity.of(tag.getString("Fluid"))).orElse(Fluids.EMPTY.get());
+        this.fluid = Fluid.REGISTRY.get(Identity.of(tag.getString("Fluid"))).orElse(Fluids.EMPTY.get());
         this.amount = tag.getInt("Amount");
         if (tag.contains("Tag"))
             this.tag = tag.getCompound("Tag");
@@ -109,7 +108,7 @@ public class FluidStackImpl implements FluidStack {
     @Override
     public CompoundTag asTag() {
         CompoundTag tag = CompoundTag.create();
-        tag.setString("Fluid", Registries.FLUID.getIdentity(fluid).toString());
+        tag.setString("Fluid", fluid.getIdentity().toString());
         tag.setInt("Amount", amount);
         if (hasTag())
             tag.setTag("Tag", this.getTag());
