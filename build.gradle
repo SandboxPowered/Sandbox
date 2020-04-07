@@ -10,10 +10,16 @@ sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 archivesBaseName = project.archives_base_name
-version = project.sandbox_version + "+" + (System.getenv("TRAVIS_BUILD_NUMBER") ? ("build." + System.getenv("TRAVIS_BUILD_NUMBER")) : "invalid")
+version = "$project.sandbox_version.${System.getenv("TRAVIS_BUILD_NUMBER") ? (+System.getenv("TRAVIS_BUILD_NUMBER")) : "0"}"
 group = project.maven_group
 
 minecraft {
+}
+
+repositories {
+	mavenCentral()
+	maven { url 'https://jitpack.io' }
+	maven { url 'https://maven.sandboxpowered.org/' }
 }
 
 dependencies {
