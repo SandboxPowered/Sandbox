@@ -3,7 +3,6 @@ package org.sandboxpowered.sandbox.fabric.util.wrapper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.FluidStateImpl;
 import net.minecraft.item.Item;
@@ -15,6 +14,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.WorldView;
 import org.sandboxpowered.sandbox.api.fluid.BaseFluid;
+import org.sandboxpowered.sandbox.api.util.Mono;
 import org.sandboxpowered.sandbox.api.util.math.Position;
 import org.sandboxpowered.sandbox.api.world.WorldReader;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
@@ -22,7 +22,6 @@ import org.sandboxpowered.sandbox.fabric.util.ReflectionHelper;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 
 import java.lang.reflect.Field;
-import java.util.Optional;
 
 public class FluidWrapper extends net.minecraft.fluid.BaseFluid {
     public static Field whatever;
@@ -78,7 +77,7 @@ public class FluidWrapper extends net.minecraft.fluid.BaseFluid {
 
     @Override
     public Vec3d getVelocity(BlockView blockView_1, BlockPos blockPos_1, FluidState fluidState_1) {
-        Optional<org.sandboxpowered.sandbox.api.util.math.Vec3d> mono = fluid.getVelocity(
+        Mono<org.sandboxpowered.sandbox.api.util.math.Vec3d> mono = fluid.getVelocity(
                 (WorldReader) blockView_1,
                 (Position) blockPos_1,
                 (org.sandboxpowered.sandbox.api.state.FluidState) fluidState_1
@@ -109,8 +108,8 @@ public class FluidWrapper extends net.minecraft.fluid.BaseFluid {
     }
 
     @Override
-    protected boolean canBeReplacedWith(FluidState fluidState, BlockView blockView, BlockPos blockPos, Fluid fluid, Direction direction) {
-        return direction==Direction.DOWN && !fluid.matchesType(this);
+    protected boolean method_15777(FluidState var1, BlockView var2, BlockPos var3, net.minecraft.fluid.Fluid var4, Direction var5) {
+        return var5 == Direction.DOWN && !var4.matchesType(this);
     }
 
     @Override

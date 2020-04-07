@@ -33,6 +33,7 @@ import org.sandboxpowered.sandbox.api.fluid.FluidStack;
 import org.sandboxpowered.sandbox.api.fluid.Fluids;
 import org.sandboxpowered.sandbox.api.item.ItemStack;
 import org.sandboxpowered.sandbox.api.util.InteractionResult;
+import org.sandboxpowered.sandbox.api.util.Mono;
 import org.sandboxpowered.sandbox.api.util.math.Position;
 import org.sandboxpowered.sandbox.api.util.math.Vec3f;
 import org.sandboxpowered.sandbox.api.world.WorldReader;
@@ -352,7 +353,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
                             Components.FLUID_COMPONENT
                     ).map(container ->
                             container.extract(1000).getFluid()
-                    ).orElse(Fluids.EMPTY.get())
+                    ).orElse(Fluids.EMPTY)
             );
         }
     }

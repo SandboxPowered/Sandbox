@@ -4,6 +4,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ModifiableWorld;
 import org.sandboxpowered.sandbox.api.entity.Entity;
 import org.sandboxpowered.sandbox.api.state.BlockState;
+import org.sandboxpowered.sandbox.api.util.Mono;
 import org.sandboxpowered.sandbox.api.util.math.Position;
 import org.sandboxpowered.sandbox.api.world.BlockFlag;
 import org.sandboxpowered.sandbox.api.world.WorldWriter;
@@ -27,8 +28,7 @@ public interface MixinModifiableWorld extends WorldWriter {
     }
 
     @Override
-    default boolean breakBlock(Position position, boolean drop, @Nullable Entity entity) {
-
-        return breakBlock(WrappingUtil.convert(position), drop, WrappingUtil.convert(entity));
+    default boolean breakBlock(Position position, boolean drop, Mono<Entity> entity) {
+        return breakBlock(WrappingUtil.convert(position), drop, entity.map(WrappingUtil::convert).orElse(null));
     }
 }

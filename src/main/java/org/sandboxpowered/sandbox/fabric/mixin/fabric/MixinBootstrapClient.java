@@ -1,6 +1,9 @@
 package org.sandboxpowered.sandbox.fabric.mixin.fabric;
 
 import net.minecraft.Bootstrap;
+import net.minecraft.client.MinecraftClient;
+import org.sandboxpowered.sandbox.api.client.Client;
+import org.sandboxpowered.sandbox.fabric.SandboxCommon;
 import org.sandboxpowered.sandbox.fabric.SandboxHooks;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -16,6 +19,7 @@ public class MixinBootstrapClient {
     @Inject(method = "initialize", at = @At("HEAD"))
     private static void init(CallbackInfo info) {
         if (!initialized) {
+            SandboxCommon.client = (Client) MinecraftClient.getInstance();
             SandboxHooks.setupGlobal();
         }
     }

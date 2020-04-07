@@ -9,7 +9,10 @@ import net.minecraft.util.math.BlockPos;
 import org.sandboxpowered.sandbox.api.block.Block;
 import org.sandboxpowered.sandbox.api.block.Material;
 import org.sandboxpowered.sandbox.api.block.entity.BlockEntity;
+import org.sandboxpowered.sandbox.api.client.Client;
+import org.sandboxpowered.sandbox.api.client.render.RenderUtil;
 import org.sandboxpowered.sandbox.api.component.Component;
+import org.sandboxpowered.sandbox.api.container.ContainerFactory;
 import org.sandboxpowered.sandbox.api.content.Content;
 import org.sandboxpowered.sandbox.api.enchantment.Enchantment;
 import org.sandboxpowered.sandbox.api.entity.Entity;
@@ -29,10 +32,12 @@ import org.sandboxpowered.sandbox.api.util.nbt.ReadableCompoundTag;
 import org.sandboxpowered.sandbox.api.util.text.Text;
 import org.sandboxpowered.sandbox.fabric.SandboxCommon;
 import org.sandboxpowered.sandbox.fabric.SandboxComponents;
+import org.sandboxpowered.sandbox.fabric.SandboxRegistries;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.util.MaterialUtil;
 import org.sandboxpowered.sandbox.fabric.util.PropertyUtil;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
+import org.sandboxpowered.sandbox.fabric.util.wrapper.RenderUtilImpl;
 
 import java.util.function.Supplier;
 
@@ -90,13 +95,16 @@ public class FunctionsImpl implements Functions {
             return ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.ITEM).get();
         }
         if (cla == BlockEntity.Type.class) {
-            return ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.BLOCK_ENTITY_TYPE).get();
+            return ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.BLOCK_ENTITY).get();
         }
         if (cla == Fluid.class) {
             return ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.FLUID).get();
         }
         if (cla == Enchantment.class) {
             return ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.ENCHANTMENT).get();
+        }
+        if (cla == ContainerFactory.class) {
+            return ((SandboxInternal.Registry) SandboxRegistries.CONTAINER_FACTORIES).get();
         }
         if (cla == Entity.Type.class) {
             return ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.ENTITY_TYPE).get();
@@ -105,8 +113,18 @@ public class FunctionsImpl implements Functions {
     }
 
     @Override
+    public <T extends Content> Registry<T> registryTypeFunction(Class<T> cla) {
+        return registryFunction(cla);
+    }
+
+    @Override
     public CompoundTag createCompoundTag() {
         return (CompoundTag) new net.minecraft.nbt.CompoundTag();
+    }
+
+    @Override
+    public Client clientInstance() {
+        return SandboxCommon.client;
     }
 
     @Override
@@ -127,6 +145,11 @@ public class FunctionsImpl implements Functions {
     @Override
     public Position.Mutable createMutablePosition(int x, int y, int z) {
         return (Position.Mutable) new BlockPos.Mutable(x, y, z);
+    }
+
+    @Override
+    public RenderUtil renderUtilInstance() {
+        return RenderUtilImpl.INSTANCE;
     }
 
     @Override

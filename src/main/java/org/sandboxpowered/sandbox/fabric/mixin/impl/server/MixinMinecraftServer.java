@@ -3,8 +3,10 @@ package org.sandboxpowered.sandbox.fabric.mixin.impl.server;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.dimension.DimensionType;
+import org.sandboxpowered.sandbox.api.game.GameMode;
 import org.sandboxpowered.sandbox.api.server.Server;
 import org.sandboxpowered.sandbox.api.util.Identity;
+import org.sandboxpowered.sandbox.api.util.Mono;
 import org.sandboxpowered.sandbox.api.world.World;
 import org.sandboxpowered.sandbox.fabric.SandboxCommon;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
@@ -27,5 +29,9 @@ public abstract class MixinMinecraftServer {
 
     public World sbx$getWorld(Identity identity) {
         return (World) getWorld(DimensionType.byId(WrappingUtil.convert(identity)));
+    }
+
+    public Mono<GameMode> sbx$getGameMode() {
+        return Mono.empty();
     }
 }

@@ -17,8 +17,9 @@ public class DownloadScreen extends Screen {
     public static Color RED = new Color(0xD23131);
     public static Color WHITE = new Color(0xFFFFFFF);
     private final String[] dls = new String[]{
-            "http://ipv4.download.thinkbroadband.com/5MB.zip",
-            "http://ipv4.download.thinkbroadband.com/10MB.zip"
+            "https://ttt.playhrzn.com/sbox/5MB.zip",
+            "https://ttt.playhrzn.com/sbox/10MB.zip",
+            "https://ttt.playhrzn.com/sbox/100MB.zip",
     };
     private int addon = 0;
     private IDownloadIndicator dl;
@@ -43,7 +44,7 @@ public class DownloadScreen extends Screen {
     public void nextAddon() {
         if (addon != dls.length) {
             try {
-                dl = FileUtil.downloadFile(new URL(dls[addon]), Paths.get("server/cache/addon" + addon + ".sbx"));
+                dl = FileUtil.downloadFile(new URL(dls[addon]), Paths.get("server/ttt.playhrzn.com/cache/addon" + addon + ".sbx"));
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }

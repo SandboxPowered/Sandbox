@@ -64,7 +64,7 @@ public class SandboxTitleScreen extends Screen {
             this.warning = new Warning(
                     new TranslatableText("warning.sandbox.unsupported_mods_1").formatted(Formatting.RED, Formatting.BOLD),
                     new TranslatableText("warning.sandbox.unsupported_mods_2").formatted(Formatting.RED),
-                    "https://sandboxpowered.org"
+                    "https://hrzn.atlassian.net/servicedesk/customer/portal/3"
             );
         }
     }

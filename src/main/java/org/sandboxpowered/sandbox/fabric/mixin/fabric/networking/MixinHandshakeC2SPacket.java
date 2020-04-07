@@ -1,6 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.mixin.fabric.networking;
 
-import net.minecraft.network.packet.c2s.handshake.HandshakeC2SPacket;
+import net.minecraft.server.network.packet.HandshakeC2SPacket;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(HandshakeC2SPacket.class)

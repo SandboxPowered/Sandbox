@@ -14,6 +14,7 @@ import org.apache.commons.io.FileUtils;
 import org.sandboxpowered.sandbox.api.util.Side;
 import org.sandboxpowered.sandbox.fabric.SandboxCommon;
 import org.sandboxpowered.sandbox.fabric.SandboxConfig;
+import org.sandboxpowered.sandbox.fabric.event.EventDispatcher;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.loader.SandboxLoader;
 import org.sandboxpowered.sandbox.fabric.network.AddonS2CPacket;
@@ -152,6 +153,7 @@ public class SandboxServer extends SandboxCommon {
         Item.BLOCK_ITEMS.clear();
         BLOCK_ITEMS.forEach(Item.BLOCK_ITEMS::put);
         INSTANCE = null;
+        EventDispatcher.clear();
     }
 
     public MinecraftServer getServer() {
