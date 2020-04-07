@@ -1,6 +1,9 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.block;
 
-import net.minecraft.block.*;
+import net.minecraft.block.BlockEntityProvider;
+import net.minecraft.block.InventoryProvider;
+import net.minecraft.block.Material;
+import net.minecraft.block.Waterloggable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SidedInventory;
@@ -39,6 +42,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 
 @Mixin(net.minecraft.block.Block.class)
 @Implements(@Interface(iface = Block.class, prefix = "sbx$", remap = Interface.Remap.NONE))
@@ -47,8 +51,29 @@ public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
     @Shadow
     @Final
     protected StateManager<net.minecraft.block.Block, net.minecraft.block.BlockState> stateManager;
+    @Shadow
+    @Final
+    protected Material material;
+    @Shadow
+    @Final
+    protected float hardness;
+    @Shadow
+    @Final
+    protected int lightLevel;
+    @Shadow
+    @Final
+    protected float resistance;
     private org.sandboxpowered.sandbox.api.state.StateFactory<Block, BlockState> sandboxFactory;
     private Block.Settings sbxSettings;
+    @Shadow
+    @Final
+    private float slipperiness;
+    @Shadow
+    @Final
+    private float jumpVelocityMultiplier;
+    @Shadow
+    @Final
+    private float velocityMultiplier;
 
     @Shadow
     public abstract boolean hasBlockEntity();
@@ -69,21 +94,9 @@ public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
     @Shadow
     public abstract void onBroken(IWorld iWorld_1, BlockPos blockPos_1, net.minecraft.block.BlockState blockState_1);
 
-    @Shadow @Final protected Material material;
-
-    @Shadow @Final protected float hardness;
-
-    @Shadow @Final protected int lightLevel;
-
-    @Shadow @Deprecated public abstract int getOpacity(net.minecraft.block.BlockState blockState, BlockView blockView, BlockPos blockPos);
-
-    @Shadow @Final protected float resistance;
-
-    @Shadow @Final private float slipperiness;
-
-    @Shadow @Final private float jumpVelocityMultiplier;
-
-    @Shadow @Final private float velocityMultiplier;
+    @Shadow
+    @Deprecated
+    public abstract int getOpacity(net.minecraft.block.BlockState blockState, BlockView blockView, BlockPos blockPos);
 
     @Inject(method = "<init>", at = @At("RETURN"))
     public void constructor(net.minecraft.block.Block.Settings settings, CallbackInfo info) {
@@ -92,7 +105,7 @@ public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
     }
 
     public Block.Settings sbx$getSettings() {
-        if(sbxSettings==null) {
+        if (sbxSettings == null) {
             sbxSettings = Block.Settings.builder(WrappingUtil.convert(material))
                     .setHardness(hardness)
                     .setLuminance(lightLevel)
@@ -126,11 +139,11 @@ public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
         return InteractionResult.IGNORE;
     }
 
-    public Mono<Item> sbx$asItem() {
+    public Optional<Item> sbx$asItem() {
         Item item = (Item) asItem();
-        if (item == Items.AIR)
-            return Mono.empty();
-        return Mono.of(item);
+        if (Items.AIR.matches(item))
+            return Optional.empty();
+        return Optional.of(item);
     }
 
     public void sbx$onBlockPlaced(World world, Position position, BlockState state, Entity entity, ItemStack itemStack) {
@@ -151,18 +164,18 @@ public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
         return this.hasBlockEntity();
     }
 
-    public <X> Mono<X> sbx$getComponent(WorldReader reader, Position position, BlockState state, Component<X> component, Mono<Direction> side) {
+    public <X> Mono<X> sbx$getComponent(WorldReader reader, Position position, BlockState state, Component<X> component, @Nullable Direction side) {
         if (component == Components.INVENTORY_COMPONENT) {
             if (this instanceof InventoryProvider) {
                 SidedInventory inventory = ((InventoryProvider) this).getInventory((net.minecraft.block.BlockState) state, (IWorld) reader, (BlockPos) position);
-                if (side.isPresent())
-                    return Mono.of(new SidedRespective(inventory, side.get())).cast();
+                if (side != null)
+                    return Mono.of(new SidedRespective(inventory, side)).cast();
                 return Mono.of(new V2SInventory(inventory)).cast();
             }
             net.minecraft.block.entity.BlockEntity entity = ((BlockView) reader).getBlockEntity((BlockPos) position);
             if (entity instanceof Inventory) {
-                if (side.isPresent() && entity instanceof SidedInventory)
-                    return Mono.of(new SidedRespective((SidedInventory) entity, side.get())).cast();
+                if (side != null && entity instanceof SidedInventory)
+                    return Mono.of(new SidedRespective((SidedInventory) entity, side)).cast();
                 return Mono.of(new V2SInventory((Inventory) entity)).cast();
             }
         }

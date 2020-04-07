@@ -16,8 +16,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BlockView;
 import org.sandboxpowered.sandbox.api.block.Block;
 import org.sandboxpowered.sandbox.api.block.entity.BlockEntity;
-import org.sandboxpowered.sandbox.api.client.screen.BaseScreen;
-import org.sandboxpowered.sandbox.api.client.screen.Screen;
 import org.sandboxpowered.sandbox.api.enchantment.Enchantment;
 import org.sandboxpowered.sandbox.api.entity.Entity;
 import org.sandboxpowered.sandbox.api.fluid.BaseFluid;
@@ -258,32 +256,14 @@ public class WrappingUtil {
     }
 
     public static net.minecraft.entity.Entity convert(Entity entity_1) {
+        if (entity_1 == null)
+            return null;
         return (net.minecraft.entity.Entity) entity_1;
-    }
-
-    public static net.minecraft.client.gui.screen.Screen getWrapped(Screen screen) {
-        if (screen instanceof SandboxInternal.WrappedInjection) {
-            if (((SandboxInternal.WrappedInjection) screen).getInjectionWrapped() == null) {
-                ((SandboxInternal.WrappedInjection) screen).setInjectionWrapped(ScreenWrapper.create((BaseScreen) screen));
-            }
-            return (net.minecraft.client.gui.screen.Screen) ((SandboxInternal.WrappedInjection) screen).getInjectionWrapped();
-        }
-        throw new RuntimeException("Unacceptable class " + screen.getClass());
-    }
-
-    public static net.minecraft.client.gui.screen.Screen convert(Screen screen) {
-        return castOrWrap(screen, net.minecraft.client.gui.screen.Screen.class, WrappingUtil::getWrapped);
     }
 
     public static Property convert(org.sandboxpowered.sandbox.api.state.Property property) {
         //TODO: Wrapper
         return (Property) property;
-    }
-
-    public static Screen convert(net.minecraft.client.gui.screen.Screen screen) {
-        if (screen instanceof ScreenWrapper)
-            return ((ScreenWrapper) screen).screen;
-        return cast(screen, Screen.class);
     }
 
     public static Fluid convert(net.minecraft.fluid.Fluid fluid_1) {
@@ -351,6 +331,6 @@ public class WrappingUtil {
     }
 
     public static WorldReader convert(BlockView view) {
-        return cast(view,WorldReader.class);
+        return cast(view, WorldReader.class);
     }
 }

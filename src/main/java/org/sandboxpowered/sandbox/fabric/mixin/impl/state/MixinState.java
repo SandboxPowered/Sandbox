@@ -11,10 +11,10 @@ import org.spongepowered.asm.mixin.*;
 @Unique
 public interface MixinState {
     @Shadow
-    public abstract <T extends Comparable<T>> T get(net.minecraft.state.property.Property<T> var1);
+    <T extends Comparable<T>> T get(net.minecraft.state.property.Property<T> var1);
 
     @Shadow
-    public abstract <T extends Comparable<T>, V extends T> Object with(net.minecraft.state.property.Property<T> var1, V var2);
+    <T extends Comparable<T>, V extends T> Object with(net.minecraft.state.property.Property<T> var1, V var2);
 
     default Comparable sbx$get(Property property) {
         return get(WrappingUtil.convert(property));

@@ -5,7 +5,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.state.property.Properties;
-import org.sandboxpowered.sandbox.api.block.Material;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -28,7 +27,8 @@ public class MixinBlock {
 
     @Mixin(Block.Settings.class)
     public static abstract class MixinSettings implements SandboxInternal.MaterialInternal {
-        @Shadow protected abstract Block.Settings lightLevel(int i);
+        @Shadow
+        protected abstract Block.Settings lightLevel(int i);
 
         @Override
         public void sbxsetlevel(int level) {

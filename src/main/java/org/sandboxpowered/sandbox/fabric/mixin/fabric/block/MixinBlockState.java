@@ -23,7 +23,7 @@ public abstract class MixinBlockState {
         FluidState fluidState = getFluidState();
         if (fluidState.getFluid() != Fluids.EMPTY) {
             BlockState fluidBlockState = fluidState.getBlockState();
-            if (fluidBlockState != (BlockState) (Object) this) {
+            if (fluidBlockState != (Object) this) {
                 info.setReturnValue(Math.max(info.getReturnValue(), fluidBlockState.getLuminance()));
             }
         }

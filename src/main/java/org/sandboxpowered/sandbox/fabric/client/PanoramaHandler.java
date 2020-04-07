@@ -135,7 +135,7 @@ public class PanoramaHandler {
     }
 
     private static String getTimestamp() {
-        String s = DATE_FORMAT.format(new Date()).toString();
+        String s = DATE_FORMAT.format(new Date());
         return s;
     }
 }

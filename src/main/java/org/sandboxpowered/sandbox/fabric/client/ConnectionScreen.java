@@ -5,8 +5,8 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.network.ClientLoginNetworkHandler;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.network.NetworkState;
-import net.minecraft.server.network.packet.HandshakeC2SPacket;
-import net.minecraft.server.network.packet.LoginHelloC2SPacket;
+import net.minecraft.network.packet.c2s.handshake.HandshakeC2SPacket;
+import net.minecraft.network.packet.c2s.login.LoginHelloC2SPacket;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.UncaughtExceptionLogger;
@@ -51,7 +51,7 @@ public class ConnectionScreen extends Screen {
 
                     Log.error("Couldn't connect to server", var4);
                     ConnectionScreen.this.minecraft.execute(() -> {
-                        ConnectionScreen.this.minecraft.openScreen(new DisconnectedScreen(ConnectionScreen.this.parent, "connect.failed", new TranslatableText("disconnect.genericReason", new Object[]{"Unknown host"})));
+                        ConnectionScreen.this.minecraft.openScreen(new DisconnectedScreen(ConnectionScreen.this.parent, "connect.failed", new TranslatableText("disconnect.genericReason", "Unknown host")));
                     });
                 } catch (Exception var5) {
                     if (ConnectionScreen.this.connectingCancelled) {
@@ -61,7 +61,7 @@ public class ConnectionScreen extends Screen {
                     Log.error("Couldn't connect to server", var5);
                     String string_1x = inetAddress_1 == null ? var5.toString() : var5.toString().replaceAll(inetAddress_1 + ":" + int_1, "");
                     ConnectionScreen.this.minecraft.execute(() -> {
-                        ConnectionScreen.this.minecraft.openScreen(new DisconnectedScreen(ConnectionScreen.this.parent, "connect.failed", new TranslatableText("disconnect.genericReason", new Object[]{string_1x})));
+                        ConnectionScreen.this.minecraft.openScreen(new DisconnectedScreen(ConnectionScreen.this.parent, "connect.failed", new TranslatableText("disconnect.genericReason", string_1x)));
                     });
                 }
 

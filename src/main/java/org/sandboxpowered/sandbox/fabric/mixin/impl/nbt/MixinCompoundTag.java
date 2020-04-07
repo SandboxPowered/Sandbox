@@ -216,8 +216,8 @@ public abstract class MixinCompoundTag implements Tag {
 
     public void sbx$setList(String key, List<? extends org.sandboxpowered.sandbox.api.util.nbt.Tag> list) {
         ListTag tag;
-        if ((Object) list instanceof ListTag) {
-            tag = (ListTag) (Object) list;
+        if (list instanceof ListTag) {
+            tag = (ListTag) list;
         } else {
             tag = new ListTag();
             tag.addAll((Collection<? extends Tag>) list);

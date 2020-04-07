@@ -1,10 +1,10 @@
 package org.sandboxpowered.sandbox.fabric.mixin.fabric.networking;
 
 import com.mojang.authlib.GameProfile;
-import net.minecraft.client.network.packet.LoginQueryRequestS2CPacket;
 import net.minecraft.network.ClientConnection;
+import net.minecraft.network.packet.c2s.login.LoginQueryResponseC2SPacket;
+import net.minecraft.network.packet.s2c.login.LoginQueryRequestS2CPacket;
 import net.minecraft.server.network.ServerLoginNetworkHandler;
-import net.minecraft.server.network.packet.LoginQueryResponseC2SPacket;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.PacketByteBuf;
@@ -27,7 +27,7 @@ public abstract class MixinServerLoginNetworkHandler {
 
     @Shadow
     @Final
-    public ClientConnection client;
+    public ClientConnection connection;
     @Shadow
     private GameProfile profile;
     private int velocityId = -1;
@@ -45,7 +45,7 @@ public abstract class MixinServerLoginNetworkHandler {
             this.velocityId = ThreadLocalRandom.current().nextInt();
             velocityConn = false;
             LoginQueryRequestS2CPacket packet = VelocityUtil.create(velocityId);
-            this.client.send(packet);
+            this.connection.send(packet);
 
             info.cancel();
         }
@@ -74,7 +74,7 @@ public abstract class MixinServerLoginNetworkHandler {
                 return;
             }
 
-            ((ClientConnectionInternal) this.client).setSocketAddress(new InetSocketAddress(VelocityUtil.readAddress(buf), ((InetSocketAddress) this.client.getAddress()).getPort()));
+            ((ClientConnectionInternal) this.connection).setSocketAddress(new InetSocketAddress(VelocityUtil.readAddress(buf), ((InetSocketAddress) this.connection.getAddress()).getPort()));
             this.profile = VelocityUtil.createProfile(buf);
             velocityConn = true;
             acceptPlayer();

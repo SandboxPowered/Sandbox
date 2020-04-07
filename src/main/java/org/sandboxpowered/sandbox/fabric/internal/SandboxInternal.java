@@ -35,6 +35,7 @@ public class SandboxInternal {
     public interface BlockWrapper {
         Block getBlock();
     }
+
     public interface MaterialInternal {
         void sbxsetlevel(int level);
     }

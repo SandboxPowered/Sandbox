@@ -12,7 +12,8 @@ public abstract class MixinEntity {
     @Shadow
     public abstract EntityType<?> getType();
 
-    @Shadow public abstract boolean isSneaking();
+    @Shadow
+    public abstract boolean isSneaking();
 
     public Entity.Type sbx$getType() {
         return (Entity.Type) getType();

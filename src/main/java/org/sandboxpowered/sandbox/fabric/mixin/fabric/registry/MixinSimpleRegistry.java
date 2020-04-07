@@ -92,6 +92,7 @@ public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implemen
     public void reset() {
         if (nextId != vanillaNext) {
             Log.debug("Resetting " + (nextId - vanillaNext) + " objects in " + net.minecraft.util.registry.Registry.REGISTRIES.getId(this));
+            sboxRegistry.clearCache();
             nextId = vanillaNext;
             indexedEntries.clear();
             for (int i = 0; i < vanillaNext; i++) {

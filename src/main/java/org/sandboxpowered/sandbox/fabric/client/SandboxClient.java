@@ -2,15 +2,10 @@ package org.sandboxpowered.sandbox.fabric.client;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Pair;
-import org.sandboxpowered.sandbox.api.Registries;
-import org.sandboxpowered.sandbox.api.content.Content;
-import org.sandboxpowered.sandbox.api.util.Identity;
 import org.sandboxpowered.sandbox.api.util.Side;
 import org.sandboxpowered.sandbox.fabric.SandboxCommon;
 import org.sandboxpowered.sandbox.fabric.client.overlay.LoadingOverlay;
-import org.sandboxpowered.sandbox.fabric.event.EventDispatcher;
 import org.sandboxpowered.sandbox.fabric.loader.SandboxLoader;
-import org.sandboxpowered.sandbox.fabric.server.SandboxServer;
 import org.sandboxpowered.sandbox.fabric.util.Log;
 
 import java.io.IOException;
@@ -43,16 +38,8 @@ public class SandboxClient extends SandboxCommon {
     }
 
     @Override
-    public <T extends Content<T>> void register(Identity identity, T content) {
-        if (SandboxServer.INSTANCE == null)
-            Registries.getRegistry(content.getContentType()).register(identity, content);
-    }
-
-    @Override
     public void shutdown() {
         INSTANCE = null;
-        if (SandboxServer.INSTANCE == null)
-            EventDispatcher.clear();
     }
 
     public void open(String prefix, List<Pair<String, String>> addons) {

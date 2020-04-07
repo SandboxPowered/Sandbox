@@ -5,8 +5,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.world.World;
 import org.sandboxpowered.sandbox.api.entity.player.PlayerEntity;
 import org.sandboxpowered.sandbox.api.util.Identity;
-import org.sandboxpowered.sandbox.api.util.Mono;
-import org.sandboxpowered.sandbox.api.util.math.Position;
 import org.sandboxpowered.sandbox.api.util.nbt.CompoundTag;
 import org.sandboxpowered.sandbox.api.util.text.Text;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
@@ -21,21 +19,17 @@ public abstract class MixinPlayerEntity extends LivingEntity {
     }
 
     @Shadow
-    public abstract void addChatMessage(net.minecraft.text.Text text_1, boolean boolean_1);
+    public abstract void addMessage(net.minecraft.text.Text text, boolean bl);
 
     public void sbx$sendChatMessage(Text text) {
-        this.addChatMessage(WrappingUtil.convert(text), false);
+        this.addMessage(WrappingUtil.convert(text), false);
     }
 
     public void sbx$sendOverlayMessage(Text text) {
-        this.addChatMessage(WrappingUtil.convert(text), true);
+        this.addMessage(WrappingUtil.convert(text), true);
     }
 
-    public void sbx$openContainer(Identity id, Mono<CompoundTag> data) {
+    public void sbx$openContainer(Identity id, CompoundTag data) {
         // NO-OP
-    }
-
-    public Mono<Position> sbx$getSleepingPosition() {
-        return Mono.ofNullable((Position) getSleepingPosition().orElse(null));
     }
 }

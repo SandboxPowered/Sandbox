@@ -47,7 +47,6 @@
     "client.MixinMinecraftClient",
     "client.MixinTextRenderer",
     "client.MixinScreen",
-    "client.MixinSandboxScreen",
     "client.MixinModelLoader",
     "client.MixinFluidRenderer",
     "block.MixinBlockClient"

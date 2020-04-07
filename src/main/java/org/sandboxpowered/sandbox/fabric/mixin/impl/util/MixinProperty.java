@@ -9,7 +9,7 @@ import java.util.Optional;
 @Mixin(net.minecraft.state.property.Property.class)
 @Implements(@Interface(iface = Property.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
-public abstract interface MixinProperty {
+public interface MixinProperty {
     @Shadow
     String getName();
 
