@@ -24,7 +24,7 @@ public class FluidStackImpl implements FluidStack {
     }
 
     public FluidStackImpl(ReadableCompoundTag tag) {
-        this.fluid = Fluid.REGISTRY.get(Identity.of(tag.getString("Fluid"))).orElse(Fluids.EMPTY.get());
+        this.fluid = Fluid.REGISTRY.get(Identity.of(tag.getString("Fluid"))).orElseGet(Fluids.EMPTY);
         this.amount = tag.getInt("Amount");
         if (tag.contains("Tag"))
             this.tag = tag.getCompound("Tag");
@@ -32,7 +32,7 @@ public class FluidStackImpl implements FluidStack {
 
     @Override
     public boolean isEmpty() {
-        return fluid == Fluids.EMPTY || amount == 0;
+        return Fluids.EMPTY.matches(fluid) || amount == 0;
     }
 
     @Override
