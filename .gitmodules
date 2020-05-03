@@ -1,6 +1,3 @@
 [submodule "SandboxAPI"]
 	path = SandboxAPI
 	url = https://github.com/SandboxPowered/SandboxAPI.git
-[submodule "TestMod"]
-	path = TestMod
-	url = https://github.com/SandboxPowered/Sandbox-Test-Mod.git
