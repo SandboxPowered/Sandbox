@@ -1,6 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.nbt;
 
-import org.sandboxpowered.sandbox.api.util.nbt.Tag;
+import org.sandboxpowered.api.util.nbt.Tag;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(net.minecraft.nbt.Tag.class)

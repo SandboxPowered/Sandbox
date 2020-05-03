@@ -11,7 +11,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.util.Pair;
 import org.apache.commons.io.FileUtils;
-import org.sandboxpowered.sandbox.api.util.Side;
+import org.sandboxpowered.api.util.Side;
 import org.sandboxpowered.sandbox.fabric.SandboxCommon;
 import org.sandboxpowered.sandbox.fabric.SandboxConfig;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;

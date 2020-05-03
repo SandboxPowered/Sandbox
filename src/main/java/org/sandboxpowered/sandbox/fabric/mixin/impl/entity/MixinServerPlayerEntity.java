@@ -3,7 +3,7 @@ package org.sandboxpowered.sandbox.fabric.mixin.impl.entity;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
-import org.sandboxpowered.sandbox.api.entity.player.PlayerEntity;
+import org.sandboxpowered.api.entity.player.PlayerEntity;
 import org.spongepowered.asm.mixin.Implements;
 import org.spongepowered.asm.mixin.Interface;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,17 +1,17 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.fluid;
 
-import net.minecraft.fluid.BaseFluid;
+import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
-import org.sandboxpowered.sandbox.api.fluid.Fluid;
-import org.sandboxpowered.sandbox.api.item.Item;
-import org.sandboxpowered.sandbox.api.state.BlockState;
-import org.sandboxpowered.sandbox.api.state.FluidState;
-import org.sandboxpowered.sandbox.api.state.StateFactory;
-import org.sandboxpowered.sandbox.api.util.math.Position;
-import org.sandboxpowered.sandbox.api.util.math.Vec3d;
-import org.sandboxpowered.sandbox.api.world.WorldReader;
+import org.sandboxpowered.api.fluid.Fluid;
+import org.sandboxpowered.api.item.Item;
+import org.sandboxpowered.api.state.BlockState;
+import org.sandboxpowered.api.state.FluidState;
+import org.sandboxpowered.api.state.StateFactory;
+import org.sandboxpowered.api.util.math.Position;
+import org.sandboxpowered.api.util.math.Vec3d;
+import org.sandboxpowered.api.world.WorldReader;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.sandboxpowered.sandbox.fabric.util.wrapper.StateFactoryImpl;
@@ -77,20 +77,20 @@ public abstract class MixinFluid implements SandboxInternal.StateFactoryHolder {
     }
 
     public Fluid sbx$asStill() {
-        if ((Object) this instanceof BaseFluid)
-            return WrappingUtil.convert(((BaseFluid) (Object) this).getStill());
+        if ((Object) this instanceof FlowableFluid)
+            return WrappingUtil.convert(((FlowableFluid) (Object) this).getStill());
         return WrappingUtil.convert(Fluids.EMPTY);
     }
 
 
     public Fluid sbx$asFlowing() {
-        if ((Object) this instanceof BaseFluid)
-            return WrappingUtil.convert(((BaseFluid) (Object) this).getFlowing());
+        if ((Object) this instanceof FlowableFluid)
+            return WrappingUtil.convert(((FlowableFluid) (Object) this).getFlowing());
         return WrappingUtil.convert(Fluids.EMPTY);
     }
 
     public boolean sbx$isInfinite() {
-        if ((Object) this instanceof BaseFluid)
+        if ((Object) this instanceof FlowableFluid)
             return ((SandboxInternal.BaseFluid) this).sandboxinfinite();
         return false;
     }
@@ -100,10 +100,10 @@ public abstract class MixinFluid implements SandboxInternal.StateFactoryHolder {
     }
 
     public Optional<Vec3d> sbx$getVelocity(WorldReader world, Position position, FluidState state) {
-        return Optional.of((Vec3d) getVelocity(
+        return Optional.of(getVelocity(
                 (BlockView) world,
                 (BlockPos) position,
                 (net.minecraft.fluid.FluidState) state
-        ));
+        )).map(vec -> (Vec3d) vec);
     }
 }

@@ -1,11 +1,11 @@
 package org.sandboxpowered.sandbox.fabric.impl;
 
-import org.sandboxpowered.sandbox.api.fluid.Fluid;
-import org.sandboxpowered.sandbox.api.fluid.FluidStack;
-import org.sandboxpowered.sandbox.api.fluid.Fluids;
-import org.sandboxpowered.sandbox.api.util.Identity;
-import org.sandboxpowered.sandbox.api.util.nbt.CompoundTag;
-import org.sandboxpowered.sandbox.api.util.nbt.ReadableCompoundTag;
+import org.sandboxpowered.api.fluid.Fluid;
+import org.sandboxpowered.api.fluid.FluidStack;
+import org.sandboxpowered.api.fluid.Fluids;
+import org.sandboxpowered.api.util.Identity;
+import org.sandboxpowered.api.util.nbt.CompoundTag;
+import org.sandboxpowered.api.util.nbt.ReadableCompoundTag;
 
 public class FluidStackImpl implements FluidStack {
     private final Fluid fluid;

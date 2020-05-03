@@ -2,7 +2,7 @@ package org.sandboxpowered.sandbox.fabric.client;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Pair;
-import org.sandboxpowered.sandbox.api.util.Side;
+import org.sandboxpowered.api.util.Side;
 import org.sandboxpowered.sandbox.fabric.SandboxCommon;
 import org.sandboxpowered.sandbox.fabric.client.overlay.LoadingOverlay;
 import org.sandboxpowered.sandbox.fabric.loader.SandboxLoader;

@@ -11,7 +11,7 @@ public abstract class MixinEnchantment {
 
     @Inject(method = "isAcceptableItem", at = @At(value = "HEAD"), cancellable = true)
     public void isAcceptableItem(ItemStack stack, CallbackInfoReturnable<Boolean> info) {
-//        EnchantmentEvent.AcceptableItem event = EventDispatcher.publish(new EnchantmentEvent.AcceptableItem((Enchantment) this, WrappingUtil.cast(stack, org.sandboxpowered.sandbox.api.item.ItemStack.class)));
+//        EnchantmentEvent.AcceptableItem event = EventDispatcher.publish(new EnchantmentEvent.AcceptableItem((Enchantment) this, WrappingUtil.cast(stack, org.sandboxpowered.api.item.ItemStack.class)));
 //        if (event.getResult() != EventResult.IGNORE) {
 //            info.setReturnValue(event.getResult() == EventResult.SUCCESS);
 //        }

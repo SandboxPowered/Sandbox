@@ -1,6 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.util;
 
-import org.sandboxpowered.sandbox.api.block.Material;
+import org.sandboxpowered.api.block.Material;
 
 public class MaterialUtil {
     public static Material from(String s) {

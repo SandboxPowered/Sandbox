@@ -14,9 +14,9 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.WorldView;
-import org.sandboxpowered.sandbox.api.fluid.BaseFluid;
-import org.sandboxpowered.sandbox.api.util.math.Position;
-import org.sandboxpowered.sandbox.api.world.WorldReader;
+import org.sandboxpowered.api.fluid.BaseFluid;
+import org.sandboxpowered.api.util.math.Position;
+import org.sandboxpowered.api.world.WorldReader;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.util.ReflectionHelper;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
@@ -24,7 +24,7 @@ import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import java.lang.reflect.Field;
 import java.util.Optional;
 
-public class FluidWrapper extends net.minecraft.fluid.BaseFluid {
+public class FluidWrapper extends net.minecraft.fluid.FlowableFluid {
     public static Field whatever;
 
     public BaseFluid fluid;
@@ -78,16 +78,16 @@ public class FluidWrapper extends net.minecraft.fluid.BaseFluid {
 
     @Override
     public Vec3d getVelocity(BlockView blockView_1, BlockPos blockPos_1, FluidState fluidState_1) {
-        Optional<org.sandboxpowered.sandbox.api.util.math.Vec3d> mono = fluid.getVelocity(
+        Optional<org.sandboxpowered.api.util.math.Vec3d> mono = fluid.getVelocity(
                 (WorldReader) blockView_1,
                 (Position) blockPos_1,
-                (org.sandboxpowered.sandbox.api.state.FluidState) fluidState_1
+                (org.sandboxpowered.api.state.FluidState) fluidState_1
         );
-        return mono.map(WrappingUtil::convert).orElseGet(() -> super.getVelocity(blockView_1, blockPos_1, fluidState_1));
+        return mono.map(WrappingUtil::convertToVec).orElseGet(() -> super.getVelocity(blockView_1, blockPos_1, fluidState_1));
     }
 
     @Override
-    protected int method_15733(WorldView var1) {
+    protected int getFlowSpeed(WorldView worldView) {
         return 4;
     }
 
@@ -130,12 +130,12 @@ public class FluidWrapper extends net.minecraft.fluid.BaseFluid {
 
     @Override
     protected BlockState toBlockState(FluidState var1) {
-        return (BlockState) fluid.asBlockState((org.sandboxpowered.sandbox.api.state.FluidState) var1);
+        return (BlockState) fluid.asBlockState((org.sandboxpowered.api.state.FluidState) var1);
     }
 
     @Override
     public boolean isStill(FluidState var1) {
-        return fluid.isStill((org.sandboxpowered.sandbox.api.state.FluidState) var1);
+        return fluid.isStill((org.sandboxpowered.api.state.FluidState) var1);
     }
 
     @Override

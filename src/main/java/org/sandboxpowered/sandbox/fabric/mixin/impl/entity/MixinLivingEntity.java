@@ -1,6 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.entity;
 
-import org.sandboxpowered.sandbox.api.entity.LivingEntity;
+import org.sandboxpowered.api.entity.LivingEntity;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(net.minecraft.entity.LivingEntity.class)

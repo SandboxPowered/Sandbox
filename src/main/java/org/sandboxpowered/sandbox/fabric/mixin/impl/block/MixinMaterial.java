@@ -1,7 +1,7 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.block;
 
 import net.minecraft.block.piston.PistonBehavior;
-import org.sandboxpowered.sandbox.api.block.Material;
+import org.sandboxpowered.api.block.Material;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.spongepowered.asm.mixin.*;
 

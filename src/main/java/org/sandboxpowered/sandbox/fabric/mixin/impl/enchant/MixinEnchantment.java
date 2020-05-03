@@ -1,7 +1,7 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.enchant;
 
-import org.sandboxpowered.sandbox.api.enchantment.Enchantment;
-import org.sandboxpowered.sandbox.api.item.ItemStack;
+import org.sandboxpowered.api.enchantment.Enchantment;
+import org.sandboxpowered.api.item.ItemStack;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.spongepowered.asm.mixin.*;
 

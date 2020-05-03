@@ -1,7 +1,7 @@
 package org.sandboxpowered.sandbox.fabric.util.wrapper;
 
-import org.sandboxpowered.sandbox.api.component.Inventory;
-import org.sandboxpowered.sandbox.api.item.ItemStack;
+import org.sandboxpowered.api.component.Inventory;
+import org.sandboxpowered.api.item.ItemStack;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 
 import java.util.function.Predicate;

@@ -17,9 +17,9 @@ public class AddonResourceCreator implements ResourcePackProvider {
             try {
                 Path path = Paths.get(spec.getPath().toURI());
                 if (Files.isDirectory(path))
-                    packs.put(spec.getModid(), ResourcePackProfile.of(spec.getTitle(), true, () -> new AddonFolderResourcePack(path, spec), var2, ResourcePackProfile.InsertionPosition.BOTTOM));
+                    packs.put(spec.getId(), ResourcePackProfile.of(spec.getTitle(), true, () -> new AddonFolderResourcePack(path, spec), var2, ResourcePackProfile.InsertionPosition.BOTTOM));
                 else
-                    packs.put(spec.getModid(), ResourcePackProfile.of(spec.getTitle(), true, () -> new AddonResourcePack(path.toFile()), var2, ResourcePackProfile.InsertionPosition.BOTTOM));
+                    packs.put(spec.getId(), ResourcePackProfile.of(spec.getTitle(), true, () -> new AddonResourcePack(path.toFile()), var2, ResourcePackProfile.InsertionPosition.BOTTOM));
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }

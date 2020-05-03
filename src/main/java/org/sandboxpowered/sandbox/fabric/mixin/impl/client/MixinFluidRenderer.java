@@ -10,7 +10,7 @@ import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.BlockRenderView;
-import org.sandboxpowered.sandbox.api.fluid.Fluid;
+import org.sandboxpowered.api.fluid.Fluid;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.sandboxpowered.sandbox.fabric.util.wrapper.FluidWrapper;
 import org.spongepowered.asm.mixin.Final;

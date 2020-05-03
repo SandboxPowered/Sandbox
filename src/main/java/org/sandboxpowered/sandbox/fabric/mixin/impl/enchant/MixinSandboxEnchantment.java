@@ -1,6 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.enchant;
 
-import org.sandboxpowered.sandbox.api.enchantment.BaseEnchantment;
+import org.sandboxpowered.api.enchantment.BaseEnchantment;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

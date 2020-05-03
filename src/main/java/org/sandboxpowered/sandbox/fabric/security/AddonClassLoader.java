@@ -1,6 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.security;
 
-import org.sandboxpowered.sandbox.api.addon.AddonSpec;
+import org.sandboxpowered.sandbox.fabric.impl.AddonSpec;
 
 import java.io.FilePermission;
 import java.net.URL;
@@ -31,7 +31,7 @@ public class AddonClassLoader extends SecureClassLoader {
     protected PermissionCollection getPermissions(CodeSource codesource) {
         Permissions pc = new Permissions();
         pc.add(new FilePermission("data/-", "read")); // Can read everything from data dir
-        pc.add(new FilePermission(String.format("data/%s/-", spec.getModid()), "read,write,delete")); // Can write everything inside addon data dir
+        pc.add(new FilePermission(String.format("data/%s/-", spec.getId()), "read,write,delete")); // Can write everything inside addon data dir
         return pc;
     }
 

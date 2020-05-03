@@ -9,7 +9,7 @@ import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.InvalidIdentifierException;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
-import org.sandboxpowered.sandbox.api.addon.AddonSpec;
+import org.sandboxpowered.api.addon.AddonInfo;
 import org.sandboxpowered.sandbox.fabric.util.Log;
 
 import java.io.*;
@@ -24,9 +24,9 @@ public class AddonFolderResourcePack extends AbstractFileResourcePack {
     private static final Gson GSON = new GsonBuilder().create();
     private final Path basePath;
     private final String separator;
-    private final AddonSpec spec;
+    private final AddonInfo spec; //TODO fix this & make it use internal
 
-    public AddonFolderResourcePack(Path basePath, AddonSpec spec) {
+    public AddonFolderResourcePack(Path basePath, AddonInfo spec) {
         super(basePath.toFile());
         this.basePath = basePath.toAbsolutePath().normalize();
         this.separator = basePath.getFileSystem().getSeparator();

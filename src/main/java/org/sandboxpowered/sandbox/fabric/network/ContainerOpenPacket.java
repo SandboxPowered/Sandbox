@@ -1,8 +1,8 @@
 package org.sandboxpowered.sandbox.fabric.network;
 
-import net.minecraft.util.PacketByteBuf;
-import org.sandboxpowered.sandbox.api.util.Identity;
-import org.sandboxpowered.sandbox.api.util.nbt.CompoundTag;
+import net.minecraft.network.PacketByteBuf;
+import org.sandboxpowered.api.util.Identity;
+import org.sandboxpowered.api.util.nbt.CompoundTag;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 
 public class ContainerOpenPacket implements Packet {

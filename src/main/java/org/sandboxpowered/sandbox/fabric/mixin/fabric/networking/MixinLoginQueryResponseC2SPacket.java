@@ -1,7 +1,7 @@
 package org.sandboxpowered.sandbox.fabric.mixin.fabric.networking;
 
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.c2s.login.LoginQueryResponseC2SPacket;
-import net.minecraft.util.PacketByteBuf;
 import org.sandboxpowered.sandbox.fabric.internal.CustomPayloadPacket;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

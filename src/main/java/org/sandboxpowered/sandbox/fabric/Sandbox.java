@@ -3,7 +3,7 @@ package org.sandboxpowered.sandbox.fabric;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Pair;
-import org.sandboxpowered.sandbox.api.util.Side;
+import org.sandboxpowered.api.util.Side;
 import org.sandboxpowered.sandbox.fabric.client.SandboxClient;
 import org.sandboxpowered.sandbox.fabric.internal.ISandbox;
 

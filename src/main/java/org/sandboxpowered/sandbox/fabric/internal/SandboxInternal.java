@@ -1,21 +1,21 @@
 package org.sandboxpowered.sandbox.fabric.internal;
 
-import org.sandboxpowered.sandbox.api.block.Block;
-import org.sandboxpowered.sandbox.api.item.Item;
+import org.sandboxpowered.api.block.Block;
+import org.sandboxpowered.api.item.Item;
 import org.sandboxpowered.sandbox.fabric.impl.BasicRegistry;
 
 public class SandboxInternal {
 
     public interface StateFactory {
-        org.sandboxpowered.sandbox.api.state.StateFactory getSboxFactory();
+        org.sandboxpowered.api.state.StateFactory getSboxFactory();
 
-        void setSboxFactory(org.sandboxpowered.sandbox.api.state.StateFactory factory);
+        void setSboxFactory(org.sandboxpowered.api.state.StateFactory factory);
     }
 
     public interface StateFactoryBuilder {
-        org.sandboxpowered.sandbox.api.state.StateFactory.Builder getSboxBuilder();
+        org.sandboxpowered.api.state.StateFactory.Builder getSboxBuilder();
 
-        void setSboxBuilder(org.sandboxpowered.sandbox.api.state.StateFactory.Builder builder);
+        void setSboxBuilder(org.sandboxpowered.api.state.StateFactory.Builder builder);
     }
 
     public interface Registry {
@@ -51,6 +51,6 @@ public class SandboxInternal {
     }
 
     public interface StateFactoryHolder {
-        org.sandboxpowered.sandbox.api.state.StateFactory getSandboxStateFactory();
+        org.sandboxpowered.api.state.StateFactory getSandboxStateFactory();
     }
 }

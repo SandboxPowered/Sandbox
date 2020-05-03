@@ -1,7 +1,7 @@
 package org.sandboxpowered.sandbox.fabric;
 
-import org.sandboxpowered.sandbox.api.component.Component;
-import org.sandboxpowered.sandbox.api.component.Inventory;
+import org.sandboxpowered.api.component.Component;
+import org.sandboxpowered.api.component.Inventory;
 
 public class SandboxComponents {
 

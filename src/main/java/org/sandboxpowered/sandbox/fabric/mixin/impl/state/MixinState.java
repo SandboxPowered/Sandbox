@@ -2,12 +2,13 @@ package org.sandboxpowered.sandbox.fabric.mixin.impl.state;
 
 import net.minecraft.state.AbstractState;
 import net.minecraft.state.State;
-import org.sandboxpowered.sandbox.api.state.Property;
+import org.sandboxpowered.api.state.PropertyContainer;
+import org.sandboxpowered.api.state.Property;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(State.class)
-@Implements(@Interface(iface = org.sandboxpowered.sandbox.api.state.PropertyContainer.class, prefix = "sbx$", remap = Interface.Remap.NONE))
+@Implements(@Interface(iface = PropertyContainer.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public interface MixinState {
     @Shadow

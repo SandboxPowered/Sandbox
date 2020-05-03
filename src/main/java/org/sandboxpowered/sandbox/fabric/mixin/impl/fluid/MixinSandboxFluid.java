@@ -1,6 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.fluid;
 
-import org.sandboxpowered.sandbox.api.fluid.BaseFluid;
+import org.sandboxpowered.api.fluid.BaseFluid;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.spongepowered.asm.mixin.Mixin;
 

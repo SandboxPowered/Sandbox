@@ -3,8 +3,8 @@ package org.sandboxpowered.sandbox.fabric.mixin.impl.nbt;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import org.sandboxpowered.sandbox.api.util.Identity;
-import org.sandboxpowered.sandbox.api.util.math.Position;
+import org.sandboxpowered.api.util.Identity;
+import org.sandboxpowered.api.util.math.Position;
 import org.spongepowered.asm.mixin.*;
 
 import javax.annotation.Nullable;
@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Mixin(CompoundTag.class)
-@Implements(@Interface(iface = org.sandboxpowered.sandbox.api.util.nbt.CompoundTag.class, prefix = "sbx$", remap = Interface.Remap.NONE))
+@Implements(@Interface(iface = org.sandboxpowered.api.util.nbt.CompoundTag.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public abstract class MixinCompoundTag implements Tag {
 
@@ -205,29 +205,30 @@ public abstract class MixinCompoundTag implements Tag {
     }
 
     public void sbx$setPosition(String key, Position position) {
-        sbx$setInt(key + "_x", position.getX());
-        sbx$setInt(key + "_y", position.getY());
-        sbx$setInt(key + "_z", position.getZ());
+        sbx$setInt(key + "_x", position.x());
+        sbx$setInt(key + "_y", position.y());
+        sbx$setInt(key + "_z", position.z());
     }
 
     public Position sbx$getPosition(String key) {
         return Position.create(sbx$getInt(key + "_x"), sbx$getInt(key + "_z"), sbx$getInt(key + "_y"));
     }
 
-    public void sbx$setList(String key, List<? extends org.sandboxpowered.sandbox.api.util.nbt.Tag> list) {
+    public void sbx$setList(String key, List<? extends org.sandboxpowered.api.util.nbt.Tag> list) {
         ListTag tag;
-        if (list instanceof ListTag) {
-            tag = (ListTag) list;
+        Object castedList = list;
+        if (castedList instanceof ListTag) {
+            tag = (ListTag) castedList;
         } else {
             tag = new ListTag();
-            tag.addAll((Collection<? extends Tag>) list);
+            tag.addAll((Collection<? extends Tag>) castedList);
         }
         put(key, tag);
     }
 
     public <T> List<T> sbx$getList(String key, Class<T> tagType) {
         int id = 0;
-        if (tagType == org.sandboxpowered.sandbox.api.util.nbt.CompoundTag.class) {
+        if (tagType == org.sandboxpowered.api.util.nbt.CompoundTag.class) {
             id = 10;
         }
         //TODO

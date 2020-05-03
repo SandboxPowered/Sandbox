@@ -1,8 +1,8 @@
 package org.sandboxpowered.sandbox.fabric.util.wrapper;
 
-import org.sandboxpowered.sandbox.api.state.Property;
-import org.sandboxpowered.sandbox.api.state.PropertyContainer;
-import org.sandboxpowered.sandbox.api.state.StateFactory;
+import org.sandboxpowered.api.state.Property;
+import org.sandboxpowered.api.state.PropertyContainer;
+import org.sandboxpowered.api.state.StateFactory;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 
 import java.util.Collection;

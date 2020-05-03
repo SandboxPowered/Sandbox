@@ -1,8 +1,8 @@
 package org.sandboxpowered.sandbox.fabric;
 
-import org.sandboxpowered.sandbox.api.SandboxAPI;
-import org.sandboxpowered.sandbox.api.server.Server;
-import org.sandboxpowered.sandbox.api.util.Log;
+import org.sandboxpowered.api.SandboxAPI;
+import org.sandboxpowered.api.server.Server;
+import org.sandboxpowered.api.util.Log;
 import org.sandboxpowered.sandbox.fabric.util.AddonLog;
 
 public abstract class SandboxCommon implements SandboxAPI {

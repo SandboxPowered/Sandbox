@@ -1,7 +1,7 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.entity;
 
 import net.minecraft.entity.EntityType;
-import org.sandboxpowered.sandbox.api.entity.Entity;
+import org.sandboxpowered.api.entity.Entity;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(net.minecraft.entity.Entity.class)

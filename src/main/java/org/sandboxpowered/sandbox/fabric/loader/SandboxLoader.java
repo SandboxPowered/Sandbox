@@ -4,9 +4,9 @@ import com.electronwill.nightconfig.core.Config;
 import com.electronwill.nightconfig.toml.TomlParser;
 import net.fabricmc.loader.util.UrlUtil;
 import org.apache.commons.io.IOUtils;
-import org.sandboxpowered.sandbox.api.SandboxAPI;
-import org.sandboxpowered.sandbox.api.addon.Addon;
-import org.sandboxpowered.sandbox.api.addon.AddonSpec;
+import org.sandboxpowered.api.SandboxAPI;
+import org.sandboxpowered.api.addon.Addon;
+import org.sandboxpowered.sandbox.fabric.impl.AddonSpec;
 import org.sandboxpowered.sandbox.fabric.security.AddonClassLoader;
 
 import java.io.File;
@@ -95,6 +95,6 @@ public class SandboxLoader {
     }
 
     public AddonClassLoader getClassLoader(AddonSpec spec) {
-        return modidToLoader.computeIfAbsent(spec.getModid(), modid -> new AddonClassLoader(getClass().getClassLoader(), spec));
+        return modidToLoader.computeIfAbsent(spec.getId(), modid -> new AddonClassLoader(getClass().getClassLoader(), spec));
     }
 }

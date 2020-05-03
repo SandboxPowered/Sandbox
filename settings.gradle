@@ -9,8 +9,6 @@ pluginManagement {
     }
 }
 
-include 'SandboxAPI'
-if(!System.getenv("CI")) {
-    include 'TestMod'
-}
+includeBuild 'SandboxAPI'
+
 rootProject.name="sandbox-fabric"

@@ -1,8 +1,8 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.fluid;
 
-import org.sandboxpowered.sandbox.api.fluid.Fluid;
-import org.sandboxpowered.sandbox.api.state.BlockState;
-import org.sandboxpowered.sandbox.api.state.FluidState;
+import org.sandboxpowered.api.fluid.Fluid;
+import org.sandboxpowered.api.state.BlockState;
+import org.sandboxpowered.api.state.FluidState;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.spongepowered.asm.mixin.*;
 

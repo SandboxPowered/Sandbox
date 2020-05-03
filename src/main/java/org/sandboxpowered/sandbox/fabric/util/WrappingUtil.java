@@ -3,6 +3,7 @@ package org.sandboxpowered.sandbox.fabric.util;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.piston.PistonBehavior;
+import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.state.property.Property;
@@ -14,21 +15,21 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BlockView;
-import org.sandboxpowered.sandbox.api.block.Block;
-import org.sandboxpowered.sandbox.api.block.entity.BlockEntity;
-import org.sandboxpowered.sandbox.api.enchantment.Enchantment;
-import org.sandboxpowered.sandbox.api.entity.Entity;
-import org.sandboxpowered.sandbox.api.fluid.BaseFluid;
-import org.sandboxpowered.sandbox.api.fluid.Fluid;
-import org.sandboxpowered.sandbox.api.item.Item;
-import org.sandboxpowered.sandbox.api.item.ItemStack;
-import org.sandboxpowered.sandbox.api.state.BlockState;
-import org.sandboxpowered.sandbox.api.util.*;
-import org.sandboxpowered.sandbox.api.util.math.Position;
-import org.sandboxpowered.sandbox.api.util.nbt.ReadableCompoundTag;
-import org.sandboxpowered.sandbox.api.world.BlockFlag;
-import org.sandboxpowered.sandbox.api.world.World;
-import org.sandboxpowered.sandbox.api.world.WorldReader;
+import org.sandboxpowered.api.block.Block;
+import org.sandboxpowered.api.block.entity.BlockEntity;
+import org.sandboxpowered.api.enchantment.Enchantment;
+import org.sandboxpowered.api.entity.Entity;
+import org.sandboxpowered.api.fluid.BaseFluid;
+import org.sandboxpowered.api.fluid.Fluid;
+import org.sandboxpowered.api.item.Item;
+import org.sandboxpowered.api.item.ItemStack;
+import org.sandboxpowered.api.state.BlockState;
+import org.sandboxpowered.api.util.*;
+import org.sandboxpowered.api.util.math.Position;
+import org.sandboxpowered.api.util.nbt.ReadableCompoundTag;
+import org.sandboxpowered.api.world.BlockFlag;
+import org.sandboxpowered.api.world.World;
+import org.sandboxpowered.api.world.WorldReader;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.util.wrapper.*;
 
@@ -106,12 +107,12 @@ public class WrappingUtil {
         return (Item) item;
     }
 
-    public static PistonBehavior convert(org.sandboxpowered.sandbox.api.block.Material.PistonInteraction interaction) {
+    public static PistonBehavior convert(org.sandboxpowered.api.block.Material.PistonInteraction interaction) {
         return PistonBehavior.values()[interaction.ordinal()];
     }
 
-    public static org.sandboxpowered.sandbox.api.block.Material.PistonInteraction convert(PistonBehavior behavior) {
-        return org.sandboxpowered.sandbox.api.block.Material.PistonInteraction.values()[behavior.ordinal()];
+    public static org.sandboxpowered.api.block.Material.PistonInteraction convert(PistonBehavior behavior) {
+        return org.sandboxpowered.api.block.Material.PistonInteraction.values()[behavior.ordinal()];
     }
 
     public static <A, B> B cast(A a, Class<B> bClass) {
@@ -137,12 +138,12 @@ public class WrappingUtil {
         });
     }
 
-    public static Material convert(org.sandboxpowered.sandbox.api.block.Material material) {
+    public static Material convert(org.sandboxpowered.api.block.Material material) {
         return castOrWrap(material, Material.class, m -> null);
     }
 
-    public static org.sandboxpowered.sandbox.api.block.Material convert(Material material) {
-        return castOrWrap(material, org.sandboxpowered.sandbox.api.block.Material.class, m -> null);
+    public static org.sandboxpowered.api.block.Material convert(Material material) {
+        return castOrWrap(material, org.sandboxpowered.api.block.Material.class, m -> null);
     }
 
     public static int convert(BlockFlag[] flags) {
@@ -241,7 +242,7 @@ public class WrappingUtil {
         return cast(type, BlockEntity.Type.class);
     }
 
-    public static Text convert(org.sandboxpowered.sandbox.api.util.text.Text type) {
+    public static Text convert(org.sandboxpowered.api.util.text.Text type) {
         return cast(type, Text.class);
     }
 
@@ -261,7 +262,7 @@ public class WrappingUtil {
         return (net.minecraft.entity.Entity) entity_1;
     }
 
-    public static Property convert(org.sandboxpowered.sandbox.api.state.Property property) {
+    public static Property convert(org.sandboxpowered.api.state.Property property) {
         //TODO: Wrapper
         return (Property) property;
     }
@@ -288,14 +289,6 @@ public class WrappingUtil {
 
     public static net.minecraft.item.Item.Settings convert(Item.Settings settings) {
         return new net.minecraft.item.Item.Settings().maxCount(settings.getStackSize()).maxDamage(settings.getMaxDamage()).recipeRemainder(settings.getRecipeRemainder() == null ? null : convert(settings.getRecipeRemainder()));
-    }
-
-    public static Vec3d convert(org.sandboxpowered.sandbox.api.util.math.Vec3d vec3d) {
-        return cast(vec3d, Vec3d.class);
-    }
-
-    public static org.sandboxpowered.sandbox.api.util.math.Vec3d convert(Vec3d vec3d) {
-        return cast(vec3d, org.sandboxpowered.sandbox.api.util.math.Vec3d.class);
     }
 
     public static ActionResult convert(InteractionResult result) {
@@ -332,5 +325,12 @@ public class WrappingUtil {
 
     public static WorldReader convert(BlockView view) {
         return cast(view, WorldReader.class);
+    }
+
+    public static Vector3d convertToVector(org.sandboxpowered.api.util.math.Vec3d vector3dc) {
+        return null; //TODO
+    }
+    public static Vec3d convertToVec(org.sandboxpowered.api.util.math.Vec3d vector3dc) {
+        return null; //TODO
     }
 }

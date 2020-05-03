@@ -4,9 +4,9 @@ import com.google.common.net.InetAddresses;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
 import io.netty.buffer.Unpooled;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.login.LoginQueryRequestS2CPacket;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.PacketByteBuf;
 import org.sandboxpowered.sandbox.fabric.SandboxConfig;
 
 import javax.crypto.Mac;

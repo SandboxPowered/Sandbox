@@ -1,7 +1,7 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.block;
 
 import net.minecraft.block.Waterloggable;
-import org.sandboxpowered.sandbox.api.block.FluidLoggable;
+import org.sandboxpowered.api.block.FluidLoggable;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(Waterloggable.class)

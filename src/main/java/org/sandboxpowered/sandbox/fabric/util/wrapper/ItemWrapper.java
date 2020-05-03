@@ -4,13 +4,13 @@ import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
-import org.sandboxpowered.sandbox.api.item.BlockItem;
-import org.sandboxpowered.sandbox.api.item.BucketItem;
-import org.sandboxpowered.sandbox.api.item.Item;
-import org.sandboxpowered.sandbox.api.item.ItemStack;
-import org.sandboxpowered.sandbox.api.util.InteractionResult;
-import org.sandboxpowered.sandbox.api.util.math.Position;
-import org.sandboxpowered.sandbox.api.world.World;
+import org.sandboxpowered.api.item.BlockItem;
+import org.sandboxpowered.api.item.BucketItem;
+import org.sandboxpowered.api.item.Item;
+import org.sandboxpowered.api.item.ItemStack;
+import org.sandboxpowered.api.util.InteractionResult;
+import org.sandboxpowered.api.util.math.Position;
+import org.sandboxpowered.api.world.World;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 
@@ -51,7 +51,7 @@ public class ItemWrapper extends net.minecraft.item.Item implements SandboxInter
 
     @Override
     public void appendTooltip(net.minecraft.item.ItemStack itemStack_1, @Nullable net.minecraft.world.World world_1, List<Text> list_1, TooltipContext tooltipContext_1) {
-        List<org.sandboxpowered.sandbox.api.util.text.Text> tooltip = new LinkedList<>();
+        List<org.sandboxpowered.api.util.text.Text> tooltip = new LinkedList<>();
         iItem.appendTooltipText(
                 WrappingUtil.cast(itemStack_1, ItemStack.class),
                 world_1 == null ? null : (World) world_1,
@@ -93,7 +93,7 @@ public class ItemWrapper extends net.minecraft.item.Item implements SandboxInter
 
         @Override
         public void appendTooltip(net.minecraft.item.ItemStack itemStack_1, @Nullable net.minecraft.world.World world_1, List<Text> list_1, TooltipContext tooltipContext_1) {
-            List<org.sandboxpowered.sandbox.api.util.text.Text> tooltip = new LinkedList<>();
+            List<org.sandboxpowered.api.util.text.Text> tooltip = new LinkedList<>();
             item.appendTooltipText(
                     WrappingUtil.cast(itemStack_1, ItemStack.class),
                     world_1 == null ? null : (World) world_1,
@@ -132,7 +132,7 @@ public class ItemWrapper extends net.minecraft.item.Item implements SandboxInter
 
         @Override
         public void appendTooltip(net.minecraft.item.ItemStack itemStack_1, @Nullable net.minecraft.world.World world_1, List<Text> list_1, TooltipContext tooltipContext_1) {
-            List<org.sandboxpowered.sandbox.api.util.text.Text> tooltip = new LinkedList<>();
+            List<org.sandboxpowered.api.util.text.Text> tooltip = new LinkedList<>();
             item.appendTooltipText(
                     WrappingUtil.cast(itemStack_1, ItemStack.class),
                     world_1 == null ? null : (World) world_1,

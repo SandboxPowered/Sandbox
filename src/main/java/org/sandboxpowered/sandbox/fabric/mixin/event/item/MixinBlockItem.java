@@ -18,7 +18,7 @@ public abstract class MixinBlockItem {
 //        BlockEvent.Place event = EventDispatcher.publish(new BlockEvent.Place(
 //                (World) context.getWorld(),
 //                (Position) context.getBlockPos(),
-//                (org.sandboxpowered.sandbox.api.state.BlockState) state
+//                (org.sandboxpowered.api.state.BlockState) state
 //        ));
 //        BlockState state2 = WrappingUtil.convert(event.getState());
 //        if (event.isCancelled()) {

@@ -1,6 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.mixin.fabric.block;
 
-import org.sandboxpowered.sandbox.api.state.StateFactory;
+import org.sandboxpowered.api.state.StateFactory;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.sandboxpowered.sandbox.fabric.util.wrapper.StateFactoryImpl;

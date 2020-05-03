@@ -1,6 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.network;
 
-import net.minecraft.util.PacketByteBuf;
+import net.minecraft.network.PacketByteBuf;
 
 public interface Packet {
     void read(PacketByteBuf buf);

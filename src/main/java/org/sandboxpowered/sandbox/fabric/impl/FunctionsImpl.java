@@ -6,27 +6,27 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import org.sandboxpowered.sandbox.api.block.Block;
-import org.sandboxpowered.sandbox.api.block.Material;
-import org.sandboxpowered.sandbox.api.block.entity.BlockEntity;
-import org.sandboxpowered.sandbox.api.component.Component;
-import org.sandboxpowered.sandbox.api.content.Content;
-import org.sandboxpowered.sandbox.api.enchantment.Enchantment;
-import org.sandboxpowered.sandbox.api.entity.Entity;
-import org.sandboxpowered.sandbox.api.fluid.Fluid;
-import org.sandboxpowered.sandbox.api.fluid.FluidStack;
-import org.sandboxpowered.sandbox.api.item.Item;
-import org.sandboxpowered.sandbox.api.item.ItemStack;
-import org.sandboxpowered.sandbox.api.registry.Registry;
-import org.sandboxpowered.sandbox.api.server.Server;
-import org.sandboxpowered.sandbox.api.state.Property;
-import org.sandboxpowered.sandbox.api.util.Functions;
-import org.sandboxpowered.sandbox.api.util.Identity;
-import org.sandboxpowered.sandbox.api.util.math.Position;
-import org.sandboxpowered.sandbox.api.util.math.Vec3i;
-import org.sandboxpowered.sandbox.api.util.nbt.CompoundTag;
-import org.sandboxpowered.sandbox.api.util.nbt.ReadableCompoundTag;
-import org.sandboxpowered.sandbox.api.util.text.Text;
+import org.sandboxpowered.api.block.Block;
+import org.sandboxpowered.api.block.Material;
+import org.sandboxpowered.api.block.entity.BlockEntity;
+import org.sandboxpowered.api.component.Component;
+import org.sandboxpowered.api.content.Content;
+import org.sandboxpowered.api.enchantment.Enchantment;
+import org.sandboxpowered.api.entity.Entity;
+import org.sandboxpowered.api.fluid.Fluid;
+import org.sandboxpowered.api.fluid.FluidStack;
+import org.sandboxpowered.api.item.Item;
+import org.sandboxpowered.api.item.ItemStack;
+import org.sandboxpowered.api.registry.Registry;
+import org.sandboxpowered.api.server.Server;
+import org.sandboxpowered.api.state.Property;
+import org.sandboxpowered.api.util.Identity;
+import org.sandboxpowered.api.util.math.Position;
+import org.sandboxpowered.api.util.math.Vec3i;
+import org.sandboxpowered.api.util.nbt.CompoundTag;
+import org.sandboxpowered.api.util.nbt.ReadableCompoundTag;
+import org.sandboxpowered.api.util.text.Text;
+import org.sandboxpowered.internal.Functions;
 import org.sandboxpowered.sandbox.fabric.SandboxCommon;
 import org.sandboxpowered.sandbox.fabric.SandboxComponents;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
@@ -38,6 +38,11 @@ import java.util.function.Supplier;
 
 public class FunctionsImpl implements Functions {
     public static Functions INSTANCE = new FunctionsImpl();
+
+    @Override
+    public Vec3i createVec3i(int x, int y, int z) {
+        return (Vec3i) new net.minecraft.util.math.Vec3i(x, y, z);
+    }
 
     @Override
     public Identity createIdentityFromString(String name, String path) {
@@ -112,11 +117,6 @@ public class FunctionsImpl implements Functions {
     @Override
     public Server serverInstance() {
         return SandboxCommon.server;
-    }
-
-    @Override
-    public Vec3i createVec3i(int x, int y, int z) {
-        return (Vec3i) new net.minecraft.util.math.Vec3i(x, y, z);
     }
 
     @Override

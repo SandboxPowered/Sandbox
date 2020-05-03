@@ -1,6 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.network;
 
-import net.minecraft.util.PacketByteBuf;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Pair;
 import org.sandboxpowered.sandbox.fabric.Sandbox;
 

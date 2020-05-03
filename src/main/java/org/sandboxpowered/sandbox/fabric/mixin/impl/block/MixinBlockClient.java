@@ -2,11 +2,11 @@ package org.sandboxpowered.sandbox.fabric.mixin.impl.block;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
-import org.sandboxpowered.sandbox.api.block.Block;
-import org.sandboxpowered.sandbox.api.item.ItemStack;
-import org.sandboxpowered.sandbox.api.state.BlockState;
-import org.sandboxpowered.sandbox.api.util.math.Position;
-import org.sandboxpowered.sandbox.api.world.WorldReader;
+import org.sandboxpowered.api.block.Block;
+import org.sandboxpowered.api.item.ItemStack;
+import org.sandboxpowered.api.state.BlockState;
+import org.sandboxpowered.api.util.math.Position;
+import org.sandboxpowered.api.world.WorldReader;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.spongepowered.asm.mixin.*;
 

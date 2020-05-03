@@ -1,11 +1,11 @@
 package org.sandboxpowered.sandbox.fabric.mixin.fabric.networking;
 
 import net.minecraft.network.NetworkThreadUtils;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.PacketByteBuf;
 import org.sandboxpowered.sandbox.fabric.internal.CustomPayloadPacket;
 import org.sandboxpowered.sandbox.fabric.network.NetworkManager;
 import org.sandboxpowered.sandbox.fabric.network.Packet;

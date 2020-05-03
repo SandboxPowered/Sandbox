@@ -3,6 +3,9 @@ package org.sandboxpowered.sandbox.fabric.client.overlay;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Overlay;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import org.sandboxpowered.sandbox.fabric.client.SandboxClient;
@@ -65,9 +68,10 @@ public class LoadingOverlay extends Overlay {
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks) {
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         int width = this.client.getWindow().getScaledWidth();
         int height = this.client.getWindow().getScaledHeight();
+        Text text;
         String right = "Preparing Addon " + addon + " of " + addons.size();
         String right2 = "";
         if (dl == null) {
@@ -84,13 +88,14 @@ public class LoadingOverlay extends Overlay {
                 nextAddon();
             }
         }
+        text = new LiteralText(right);
         if (addon >= addons.size()) {
             client.setOverlay(null);
             SandboxClient.INSTANCE.load(addons.stream().map(addon -> Paths.get("server/cache/" + addon.getRight())).collect(Collectors.toList()));
         }
-        fill(0, 0, width, height, RED.getRGB());
-        fill(0, height - 20, width, height, DARK.darker().getRGB());
-        fill(width - client.textRenderer.getStringWidth(right) - 4, height - 34, width, height, DARK.darker().getRGB());
+        fill(matrixStack, 0, 0, width, height, RED.getRGB());
+        fill(matrixStack, 0, height - 20, width, height, DARK.darker().getRGB());
+        fill(matrixStack, width - client.textRenderer.getStringWidth(text) - 4, height - 34, width, height, DARK.darker().getRGB());
         GlStateManager.pushMatrix();
         GlStateManager.enableBlend();
         GlStateManager.enableAlphaTest();
@@ -100,13 +105,13 @@ public class LoadingOverlay extends Overlay {
         int int_8 = (this.client.getWindow().getScaledHeight() - 256) / 2;
         this.blit(int_6, int_8, 0, 0, 256, 256);
         GlStateManager.popMatrix();
-        drawCenteredString(client.textRenderer, "Connecting to Sandbox", (int) (width / 2f), (int) ((height / 2f) + (width / 3) / 2) - 20, WHITE.getRGB());
-        drawRightText(right, width, height - 30, WHITE.getRGB());
-        drawCenteredString(client.textRenderer, right2, width - (client.textRenderer.getStringWidth(right) / 2), height - 14, WHITE.getRGB());
-        client.textRenderer.drawWithShadow("Joining Private Session", 3, height - 14, WHITE.getRGB());
+        drawCenteredString(matrixStack, client.textRenderer, "Connecting to Sandbox", (int) (width / 2f), (int) ((height / 2f) + (width / 3) / 2) - 20, WHITE.getRGB());
+        drawRightText(matrixStack, text, width, height - 30, WHITE.getRGB());
+        drawCenteredString(matrixStack, client.textRenderer, right2, width - (client.textRenderer.getStringWidth(text) / 2), height - 14, WHITE.getRGB());
+        client.textRenderer.drawWithShadow(matrixStack, "Joining Private Session", 3, height - 14, WHITE.getRGB());
     }
 
-    public void drawRightText(String text, int x, int y, int color) {
-        client.textRenderer.drawWithShadow(text, x - client.textRenderer.getStringWidth(text) - 1, y, color);
+    public void drawRightText(MatrixStack stack, Text text, int x, int y, int color) {
+        client.textRenderer.drawWithShadow(stack, text, x - client.textRenderer.getStringWidth(text) - 1, y, color);
     }
 }

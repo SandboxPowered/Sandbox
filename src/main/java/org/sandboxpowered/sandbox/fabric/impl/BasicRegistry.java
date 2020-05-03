@@ -1,9 +1,9 @@
 package org.sandboxpowered.sandbox.fabric.impl;
 
 import net.minecraft.util.registry.SimpleRegistry;
-import org.sandboxpowered.sandbox.api.content.Content;
-import org.sandboxpowered.sandbox.api.registry.Registry;
-import org.sandboxpowered.sandbox.api.util.Identity;
+import org.sandboxpowered.api.content.Content;
+import org.sandboxpowered.api.registry.Registry;
+import org.sandboxpowered.api.util.Identity;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 
 import java.util.*;

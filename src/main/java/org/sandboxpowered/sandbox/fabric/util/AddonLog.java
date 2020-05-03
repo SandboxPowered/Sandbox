@@ -1,6 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.util;
 
-import org.sandboxpowered.sandbox.api.util.Log;
+import org.sandboxpowered.api.util.Log;
 
 public class AddonLog implements Log {
     @Override

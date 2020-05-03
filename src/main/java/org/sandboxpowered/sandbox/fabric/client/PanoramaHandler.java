@@ -6,7 +6,9 @@ import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.util.ScreenshotUtils;
 import net.minecraft.text.ClickEvent;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import org.lwjgl.glfw.GLFW;
 
 import java.io.File;
@@ -56,7 +58,7 @@ public class PanoramaHandler {
         currentDir.mkdirs();
 
         Text panoramaDirComponent = new LiteralText(currentDir.getName());
-        panoramaDirComponent.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, currentDir.getAbsolutePath())).setUnderline(true);
+        panoramaDirComponent.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, currentDir.getAbsolutePath())).withFormatting(Formatting.UNDERLINE);
         consumer.accept(new LiteralText("Panorama saved as ").append(panoramaDirComponent));
         return true;
     }

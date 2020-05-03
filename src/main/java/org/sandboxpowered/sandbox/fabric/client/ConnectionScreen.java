@@ -9,7 +9,7 @@ import net.minecraft.network.packet.c2s.handshake.HandshakeC2SPacket;
 import net.minecraft.network.packet.c2s.login.LoginHelloC2SPacket;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.UncaughtExceptionLogger;
+import net.minecraft.util.logging.UncaughtExceptionLogger;
 import org.sandboxpowered.sandbox.fabric.util.Log;
 
 import java.net.InetAddress;
@@ -40,18 +40,18 @@ public class ConnectionScreen extends Screen {
                     }
 
                     inetAddress_1 = InetAddress.getByName(string_1);
-                    ConnectionScreen.this.connection = ClientConnection.connect(inetAddress_1, int_1, ConnectionScreen.this.minecraft.options.shouldUseNativeTransport());
-                    ConnectionScreen.this.connection.setPacketListener(new ClientLoginNetworkHandler(ConnectionScreen.this.connection, ConnectionScreen.this.minecraft, ConnectionScreen.this.parent, ConnectionScreen.this::setStatus));
+                    ConnectionScreen.this.connection = ClientConnection.connect(inetAddress_1, int_1, ConnectionScreen.this.client.options.shouldUseNativeTransport());
+                    ConnectionScreen.this.connection.setPacketListener(new ClientLoginNetworkHandler(ConnectionScreen.this.connection, ConnectionScreen.this.client, ConnectionScreen.this.parent, ConnectionScreen.this::setStatus));
                     ConnectionScreen.this.connection.send(new HandshakeC2SPacket(string_1, int_1, NetworkState.LOGIN));
-                    ConnectionScreen.this.connection.send(new LoginHelloC2SPacket(ConnectionScreen.this.minecraft.getSession().getProfile()));
+                    ConnectionScreen.this.connection.send(new LoginHelloC2SPacket(ConnectionScreen.this.client.getSession().getProfile()));
                 } catch (UnknownHostException var4) {
                     if (ConnectionScreen.this.connectingCancelled) {
                         return;
                     }
 
                     Log.error("Couldn't connect to server", var4);
-                    ConnectionScreen.this.minecraft.execute(() -> {
-                        ConnectionScreen.this.minecraft.openScreen(new DisconnectedScreen(ConnectionScreen.this.parent, "connect.failed", new TranslatableText("disconnect.genericReason", "Unknown host")));
+                    ConnectionScreen.this.client.execute(() -> {
+                        ConnectionScreen.this.client.openScreen(new DisconnectedScreen(ConnectionScreen.this.parent, "connect.failed", new TranslatableText("disconnect.genericReason", "Unknown host")));
                     });
                 } catch (Exception var5) {
                     if (ConnectionScreen.this.connectingCancelled) {
@@ -60,8 +60,8 @@ public class ConnectionScreen extends Screen {
 
                     Log.error("Couldn't connect to server", var5);
                     String string_1x = inetAddress_1 == null ? var5.toString() : var5.toString().replaceAll(inetAddress_1 + ":" + int_1, "");
-                    ConnectionScreen.this.minecraft.execute(() -> {
-                        ConnectionScreen.this.minecraft.openScreen(new DisconnectedScreen(ConnectionScreen.this.parent, "connect.failed", new TranslatableText("disconnect.genericReason", string_1x)));
+                    ConnectionScreen.this.client.execute(() -> {
+                        ConnectionScreen.this.client.openScreen(new DisconnectedScreen(ConnectionScreen.this.parent, "connect.failed", new TranslatableText("disconnect.genericReason", string_1x)));
                     });
                 }
 

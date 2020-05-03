@@ -1,8 +1,8 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.block;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.InventoryProvider;
-import net.minecraft.block.Material;
 import net.minecraft.block.Waterloggable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.Inventory;
@@ -11,26 +11,27 @@ import net.minecraft.state.StateManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.IWorld;
-import org.sandboxpowered.sandbox.api.block.Block;
-import org.sandboxpowered.sandbox.api.block.FluidLoggable;
-import org.sandboxpowered.sandbox.api.block.entity.BlockEntity;
-import org.sandboxpowered.sandbox.api.component.Component;
-import org.sandboxpowered.sandbox.api.component.Components;
-import org.sandboxpowered.sandbox.api.component.fluid.FluidLoggingContainer;
-import org.sandboxpowered.sandbox.api.entity.Entity;
-import org.sandboxpowered.sandbox.api.entity.player.Hand;
-import org.sandboxpowered.sandbox.api.entity.player.PlayerEntity;
-import org.sandboxpowered.sandbox.api.item.Item;
-import org.sandboxpowered.sandbox.api.item.ItemStack;
-import org.sandboxpowered.sandbox.api.item.Items;
-import org.sandboxpowered.sandbox.api.state.BlockState;
-import org.sandboxpowered.sandbox.api.util.Direction;
-import org.sandboxpowered.sandbox.api.util.InteractionResult;
-import org.sandboxpowered.sandbox.api.util.Mono;
-import org.sandboxpowered.sandbox.api.util.math.Position;
-import org.sandboxpowered.sandbox.api.util.math.Vec3f;
-import org.sandboxpowered.sandbox.api.world.World;
-import org.sandboxpowered.sandbox.api.world.WorldReader;
+import org.sandboxpowered.api.block.Block;
+import org.sandboxpowered.api.block.FluidLoggable;
+import org.sandboxpowered.api.block.entity.BlockEntity;
+import org.sandboxpowered.api.component.Component;
+import org.sandboxpowered.api.component.Components;
+import org.sandboxpowered.api.component.fluid.FluidLoggingContainer;
+import org.sandboxpowered.api.entity.Entity;
+import org.sandboxpowered.api.entity.player.Hand;
+import org.sandboxpowered.api.entity.player.PlayerEntity;
+import org.sandboxpowered.api.item.Item;
+import org.sandboxpowered.api.item.ItemStack;
+import org.sandboxpowered.api.item.Items;
+import org.sandboxpowered.api.state.BlockState;
+import org.sandboxpowered.api.state.StateFactory;
+import org.sandboxpowered.api.util.Direction;
+import org.sandboxpowered.api.util.InteractionResult;
+import org.sandboxpowered.api.util.Mono;
+import org.sandboxpowered.api.util.math.Position;
+import org.sandboxpowered.api.util.math.Vec3f;
+import org.sandboxpowered.api.world.World;
+import org.sandboxpowered.api.world.WorldReader;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.sandboxpowered.sandbox.fabric.util.wrapper.SidedRespective;
@@ -47,56 +48,17 @@ import java.util.Optional;
 @Mixin(net.minecraft.block.Block.class)
 @Implements(@Interface(iface = Block.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
-public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
-    @Shadow
-    @Final
-    protected StateManager<net.minecraft.block.Block, net.minecraft.block.BlockState> stateManager;
-    @Shadow
-    @Final
-    protected Material material;
-    @Shadow
-    @Final
-    protected float hardness;
-    @Shadow
-    @Final
-    protected int lightLevel;
-    @Shadow
-    @Final
-    protected float resistance;
-    private org.sandboxpowered.sandbox.api.state.StateFactory<Block, BlockState> sandboxFactory;
+public abstract class MixinBlock extends AbstractBlock implements SandboxInternal.StateFactoryHolder {
+    @Shadow @Final protected StateManager<net.minecraft.block.Block, net.minecraft.block.BlockState> stateManager;
+
+    @Shadow public abstract net.minecraft.block.BlockState getDefaultState();
+
+    @Shadow public abstract void onPlaced(net.minecraft.world.World world, BlockPos blockPos, net.minecraft.block.BlockState blockState, @Nullable LivingEntity livingEntity, net.minecraft.item.ItemStack itemStack);
+
+    @Shadow public abstract void onBroken(IWorld iWorld, BlockPos blockPos, net.minecraft.block.BlockState blockState);
+
+    private StateFactory<Block, BlockState> sandboxFactory;
     private Block.Settings sbxSettings;
-    @Shadow
-    @Final
-    private float slipperiness;
-    @Shadow
-    @Final
-    private float jumpVelocityMultiplier;
-    @Shadow
-    @Final
-    private float velocityMultiplier;
-
-    @Shadow
-    public abstract boolean hasBlockEntity();
-
-    @Shadow
-    public abstract void onPlaced(net.minecraft.world.World world_1, BlockPos blockPos_1, net.minecraft.block.BlockState blockState_1, @Nullable LivingEntity livingEntity_1, net.minecraft.item.ItemStack itemStack_1);
-
-    @Shadow
-    public abstract net.minecraft.item.Item asItem();
-
-    @Shadow
-    public abstract net.minecraft.block.BlockState getDefaultState();
-
-    @Shadow
-    @Deprecated
-    public abstract boolean isAir(net.minecraft.block.BlockState blockState_1);
-
-    @Shadow
-    public abstract void onBroken(IWorld iWorld_1, BlockPos blockPos_1, net.minecraft.block.BlockState blockState_1);
-
-    @Shadow
-    @Deprecated
-    public abstract int getOpacity(net.minecraft.block.BlockState blockState, BlockView blockView, BlockPos blockPos);
 
     @Inject(method = "<init>", at = @At("RETURN"))
     public void constructor(net.minecraft.block.Block.Settings settings, CallbackInfo info) {
@@ -104,11 +66,15 @@ public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
         ((SandboxInternal.StateFactory) this.stateManager).setSboxFactory(sandboxFactory);
     }
 
+    public MixinBlock(Settings settings) {
+        super(settings);
+    }
+
     public Block.Settings sbx$getSettings() {
         if (sbxSettings == null) {
             sbxSettings = Block.Settings.builder(WrappingUtil.convert(material))
-                    .setHardness(hardness)
-                    .setLuminance(lightLevel)
+                    .setHardness(0)
+                    .setLuminance(0)
                     .setResistance(resistance)
                     .setSlipperiness(slipperiness)
                     .setJumpVelocity(jumpVelocityMultiplier)
@@ -119,13 +85,13 @@ public abstract class MixinBlock implements SandboxInternal.StateFactoryHolder {
     }
 
     @Override
-    public org.sandboxpowered.sandbox.api.state.StateFactory getSandboxStateFactory() {
+    public StateFactory getSandboxStateFactory() {
         return sandboxFactory;
     }
-
-    public boolean sbx$isAir(BlockState state) {
-        return this.isAir(WrappingUtil.convert(state));
-    }
+//
+//    public boolean sbx$isAir(BlockState state) {
+//        return this.isAir(WrappingUtil.convert(state));
+//    }
 
     public BlockState sbx$getBaseState() {
         return (BlockState) this.getDefaultState();

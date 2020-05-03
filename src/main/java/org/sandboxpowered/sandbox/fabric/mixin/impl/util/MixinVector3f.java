@@ -1,7 +1,7 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.util;
 
 import net.minecraft.client.util.math.Vector3f;
-import org.sandboxpowered.sandbox.api.util.math.Vec3f;
+import org.sandboxpowered.api.util.math.Vec3f;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(Vector3f.class)

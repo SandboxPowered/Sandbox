@@ -2,8 +2,8 @@ package org.sandboxpowered.sandbox.fabric.util.wrapper;
 
 import net.minecraft.inventory.SidedInventory;
 import org.apache.commons.lang3.ArrayUtils;
-import org.sandboxpowered.sandbox.api.item.ItemStack;
-import org.sandboxpowered.sandbox.api.util.Direction;
+import org.sandboxpowered.api.item.ItemStack;
+import org.sandboxpowered.api.util.Direction;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 
 import java.util.function.Predicate;
