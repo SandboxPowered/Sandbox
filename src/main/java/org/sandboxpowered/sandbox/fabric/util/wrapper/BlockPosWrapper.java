@@ -7,23 +7,23 @@ public class BlockPosWrapper extends BlockPos {
     private final Position position;
 
     public BlockPosWrapper(Position position) {
-        super(position.x(), position.y(), position.z());
+        super(position.getX(), position.getY(), position.getZ());
         this.position = position;
     }
 
     @Override
     public int getX() {
-        return position.x();
+        return position.getX();
     }
 
     @Override
     public int getY() {
-        return position.y();
+        return position.getY();
     }
 
     @Override
     public int getZ() {
-        return position.z();
+        return position.getZ();
     }
 
 }

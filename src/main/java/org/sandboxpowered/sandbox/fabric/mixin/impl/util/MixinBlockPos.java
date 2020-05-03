@@ -17,7 +17,7 @@ public abstract class MixinBlockPos extends Vec3i {
     }
 
     public Mutable sbx$toMutable() {
-        return (Mutable) new BlockPos.Mutable((BlockPos) (Object) this);
+        return (Mutable) new BlockPos.Mutable(this.getX(), this.getY(), this.getZ());
     }
 
     public Position sbx$toImmutable() {

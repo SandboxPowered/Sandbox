@@ -6,7 +6,7 @@ import net.fabricmc.loader.util.UrlUtil;
 import org.apache.commons.io.IOUtils;
 import org.sandboxpowered.api.SandboxAPI;
 import org.sandboxpowered.api.addon.Addon;
-import org.sandboxpowered.sandbox.fabric.impl.AddonSpec;
+import org.sandboxpowered.internal.AddonSpec;
 import org.sandboxpowered.sandbox.fabric.security.AddonClassLoader;
 
 import java.io.File;

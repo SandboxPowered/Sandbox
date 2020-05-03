@@ -23,9 +23,9 @@ public abstract class MixinCrashReport {
             if (SandboxServer.INSTANCE != null) {
                 builder.append("Server: \n");
                 SandboxServer.INSTANCE.loader.getAddons().forEach(spec -> {
-                    builder.append("- ").append(spec.getModid());
+                    builder.append("- ").append(spec.getId());
 
-                    if (!spec.getTitle().equals(spec.getModid())) {
+                    if (!spec.getTitle().equals(spec.getId())) {
                         builder.append(" \"").append(spec.getTitle()).append("\"");
                     }
 
@@ -36,9 +36,9 @@ public abstract class MixinCrashReport {
             if (SandboxClient.INSTANCE != null) {
                 builder.append("Client: \n");
                 SandboxClient.INSTANCE.loader.getAddons().forEach(spec -> {
-                    builder.append("- ").append(spec.getModid());
+                    builder.append("- ").append(spec.getId());
 
-                    if (!spec.getTitle().equals(spec.getModid())) {
+                    if (!spec.getTitle().equals(spec.getId())) {
                         builder.append(" \"").append(spec.getTitle()).append("\"");
                     }
 

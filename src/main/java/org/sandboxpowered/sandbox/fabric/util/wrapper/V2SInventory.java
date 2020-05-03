@@ -15,22 +15,22 @@ public class V2SInventory implements Inventory {
 
     @Override
     public boolean isEmpty() {
-        return inventory.isInvEmpty();
+        return inventory.isEmpty();
     }
 
     @Override
     public int getSize() {
-        return inventory.getInvSize();
+        return inventory.size();
     }
 
     @Override
     public int getMaxStackSize(int slot) {
-        return Math.min(inventory.getInvMaxStackAmount(), get(slot).getMaxCount());
+        return Math.min(inventory.getMaxCountPerStack(), get(slot).getMaxCount());
     }
 
     @Override
     public ItemStack get(int slot) {
-        return WrappingUtil.cast(inventory.getInvStack(slot), ItemStack.class);
+        return WrappingUtil.cast(inventory.getStack(slot), ItemStack.class);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class V2SInventory implements Inventory {
             return ItemStack.empty();
 
         if (!simulate) {
-            out = WrappingUtil.cast(inventory.takeInvStack(slot, amount), ItemStack.class);
+            out = WrappingUtil.cast(inventory.removeStack(slot, amount), ItemStack.class);
         }
 
         return out;
@@ -76,6 +76,6 @@ public class V2SInventory implements Inventory {
 
     @Override
     public void setStack(int slot, ItemStack stack) {
-        inventory.setInvStack(slot, WrappingUtil.cast(stack, net.minecraft.item.ItemStack.class));
+        inventory.setStack(slot, WrappingUtil.cast(stack, net.minecraft.item.ItemStack.class));
     }
 }

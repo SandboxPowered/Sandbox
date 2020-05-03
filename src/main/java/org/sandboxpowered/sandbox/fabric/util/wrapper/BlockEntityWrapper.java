@@ -1,5 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.util.wrapper;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Tickable;
 import org.sandboxpowered.api.block.entity.BaseBlockEntity;
@@ -32,8 +33,8 @@ public class BlockEntityWrapper extends net.minecraft.block.entity.BlockEntity {
     }
 
     @Override
-    public void fromTag(CompoundTag compoundTag_1) {
-        super.fromTag(compoundTag_1);
+    public void fromTag(BlockState blockState, CompoundTag compoundTag_1) {
+        super.fromTag(blockState, compoundTag_1);
         blockEntity.read((ReadableCompoundTag) compoundTag_1);
     }
 

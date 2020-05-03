@@ -45,18 +45,18 @@ public abstract class MixinHopperBlockEntity extends BlockEntity {
             for (int slot : inventory) {
                 ItemStack stack = inventory.extract(slot, 1, true);
                 if (!stack.isEmpty()) {
-                    for (int hopperSlot = 0; hopperSlot < hopper.getInvSize(); hopperSlot++) {
-                        if (hopper.isValidInvStack(hopperSlot, WrappingUtil.cast(stack, net.minecraft.item.ItemStack.class))) {
+                    for (int hopperSlot = 0; hopperSlot < hopper.size(); hopperSlot++) {
+                        if (hopper.isValid(hopperSlot, WrappingUtil.cast(stack, net.minecraft.item.ItemStack.class))) {
                             stack = inventory.extract(slot, 1);
-                            net.minecraft.item.ItemStack hopperStack = hopper.getInvStack(hopperSlot);
+                            net.minecraft.item.ItemStack hopperStack = hopper.getStack(hopperSlot);
                             if (hopperStack.isEmpty()) {
-                                hopper.setInvStack(hopperSlot, WrappingUtil.cast(stack, net.minecraft.item.ItemStack.class));
+                                hopper.setStack(hopperSlot, WrappingUtil.cast(stack, net.minecraft.item.ItemStack.class));
                                 info.setReturnValue(true);
                                 return;
-                            } else if (hopper.getInvMaxStackAmount() >= hopperStack.getCount() + stack.getCount()) {
+                            } else if (hopper.getMaxCountPerStack() >= hopperStack.getCount() + stack.getCount()) {
                                 net.minecraft.item.ItemStack copy = hopperStack.copy();
                                 copy.increment(stack.getCount());
-                                hopper.setInvStack(hopperSlot, copy);
+                                hopper.setStack(hopperSlot, copy);
                                 info.setReturnValue(true);
                                 return;
                             }

@@ -2,7 +2,9 @@ package org.sandboxpowered.sandbox.fabric.client;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.sandboxpowered.sandbox.fabric.internal.IDownloadIndicator;
 import org.sandboxpowered.sandbox.fabric.util.FileUtil;
@@ -52,38 +54,41 @@ public class DownloadScreen extends Screen {
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks) {
-        super.render(mouseX, mouseY, partialTicks);
-        String right = "Preparing Addon " + addon + " of " + dls.length;
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks) {
+        super.render(matrices, mouseX, mouseY, partialTicks);
+        Text right = null;
         String right2 = "";
         if (dl.hasStarted()) {
-            right = "Downloading Addon " + addon + " of " + dls.length;
+            right = new LiteralText("Downloading Addon " + addon + " of " + dls.length);
             int percent = (int) ((dl.getCurrentSize() * 100) / dl.getTotalSize());
             right2 = percent + "% " + humanReadableByteCount(dl.getCurrentSize()) + "/" + humanReadableByteCount(dl.getTotalSize());
         }
         if (dl.isComplete()) {
-            right = "Completed Addon Download " + addon + " of " + dls.length;
+            right = new LiteralText("Completed Addon Download " + addon + " of " + dls.length);
             nextAddon();
         }
-        fill(0, 0, width, height, RED.getRGB());
-        fill(0, height - 20, width, height, DARK.darker().getRGB());
-        fill(width - font.getStringWidth(right) - 4, height - 34, width, height, DARK.darker().getRGB());
+        if (right == null) {
+            right = new LiteralText("Preparing Addon " + addon + " of " + dls.length);
+        }
+        fill(matrices, 0, 0, width, height, RED.getRGB());
+        fill(matrices, 0, height - 20, width, height, DARK.darker().getRGB());
+        fill(matrices, width - textRenderer.getStringWidth(right) - 4, height - 34, width, height, DARK.darker().getRGB());
         GlStateManager.pushMatrix();
         GlStateManager.enableBlend();
         GlStateManager.enableAlphaTest();
-        minecraft.getTextureManager().bindTexture(new Identifier("sandbox", "textures/gui/sandbox.png"));
+        client.getTextureManager().bindTexture(new Identifier("sandbox", "textures/gui/sandbox.png"));
         GlStateManager.color4f(1, 1, 1, 1);
-        int int_6 = (this.minecraft.getWindow().getScaledWidth() - 256) / 2;
-        int int_8 = (this.minecraft.getWindow().getScaledHeight() - 256) / 2;
+        int int_6 = (this.client.getWindow().getScaledWidth() - 256) / 2;
+        int int_8 = (this.client.getWindow().getScaledHeight() - 256) / 2;
         this.blit(int_6, int_8, 0, 0, 256, 256);
         GlStateManager.popMatrix();
-        drawCenteredString(font, "Connecting to Sandbox", (int) (width / 2f), (int) ((height / 2f) + (width / 3) / 2) - 20, WHITE.getRGB());
-        drawRightText(right, width, height - 30, WHITE.getRGB());
-        drawCenteredString(font, right2, width - (font.getStringWidth(right) / 2), height - 14, WHITE.getRGB());
-        font.drawWithShadow("Joining Private Session", 3, height - 14, WHITE.getRGB());
+        drawCenteredString(matrices, textRenderer, "Connecting to Sandbox", (int) (width / 2f), (int) ((height / 2f) + (width / 3) / 2) - 20, WHITE.getRGB());
+        drawRightText(matrices, right, width, height - 30, WHITE.getRGB());
+        drawCenteredString(matrices, textRenderer, right2, width - (textRenderer.getStringWidth(right) / 2), height - 14, WHITE.getRGB());
+        textRenderer.drawWithShadow(matrices, "Joining Private Session", 3, height - 14, WHITE.getRGB());
     }
 
-    public void drawRightText(String text, int x, int y, int color) {
-        font.drawWithShadow(text, x - font.getStringWidth(text) - 1, y, color);
+    public void drawRightText(MatrixStack matrices, Text text, int x, int y, int color) {
+        textRenderer.drawWithShadow(matrices, text, x - textRenderer.getStringWidth(text) - 1, y, color);
     }
 }

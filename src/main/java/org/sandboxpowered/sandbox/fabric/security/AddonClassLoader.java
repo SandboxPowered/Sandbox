@@ -1,6 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.security;
 
-import org.sandboxpowered.sandbox.fabric.impl.AddonSpec;
+import org.sandboxpowered.internal.AddonSpec;
 
 import java.io.FilePermission;
 import java.net.URL;

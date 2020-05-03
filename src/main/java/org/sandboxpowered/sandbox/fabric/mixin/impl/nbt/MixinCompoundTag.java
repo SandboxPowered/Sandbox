@@ -76,12 +76,6 @@ public abstract class MixinCompoundTag implements Tag {
     public abstract void remove(String string_1);
 
     @Shadow
-    public abstract void putUuid(String string_1, UUID uUID_1);
-
-    @Shadow
-    public abstract UUID getUuid(String string_1);
-
-    @Shadow
     @Nullable
     public abstract Tag put(String string_1, Tag tag_1);
 
@@ -90,6 +84,10 @@ public abstract class MixinCompoundTag implements Tag {
 
     @Shadow
     public abstract boolean contains(String string_1);
+
+    @Shadow public abstract UUID getUuidNew(String string);
+
+    @Shadow public abstract void putUuidNew(String string, UUID uUID);
 
     public int sbx$size() {
         return getSize();
@@ -181,11 +179,11 @@ public abstract class MixinCompoundTag implements Tag {
     }
 
     public UUID sbx$getUUID(String key) {
-        return getUuid(key);
+        return getUuidNew(key);
     }
 
     public void sbx$setUUID(String key, UUID uuid) {
-        putUuid(key, uuid);
+        putUuidNew(key, uuid);
     }
 
     public boolean sbx$remove(String key) {
@@ -205,9 +203,9 @@ public abstract class MixinCompoundTag implements Tag {
     }
 
     public void sbx$setPosition(String key, Position position) {
-        sbx$setInt(key + "_x", position.x());
-        sbx$setInt(key + "_y", position.y());
-        sbx$setInt(key + "_z", position.z());
+        sbx$setInt(key + "_x", position.getX());
+        sbx$setInt(key + "_y", position.getY());
+        sbx$setInt(key + "_z", position.getZ());
     }
 
     public Position sbx$getPosition(String key) {
