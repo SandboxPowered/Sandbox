@@ -1,5 +1,7 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.text;
 
+import com.mojang.brigadier.Message;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.spongepowered.asm.mixin.*;
@@ -7,19 +9,15 @@ import org.spongepowered.asm.mixin.*;
 @Mixin(Text.class)
 @Implements(@Interface(iface = org.sandboxpowered.api.util.text.Text.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
-public interface MixinText {
-
-    @Shadow
-    Text append(Text var1);
-
-    @Shadow
-    String asFormattedString();
+public interface MixinText extends Message {
 
     @Shadow
     String asString();
 
     default void sbx$append(org.sandboxpowered.api.util.text.Text text) {
-        this.append(WrappingUtil.convert(text));
+        if(this instanceof MutableText) {
+            ((MutableText) this).append(WrappingUtil.convert(text));
+        }
     }
 
     default String sbx$asString() {
@@ -27,6 +25,6 @@ public interface MixinText {
     }
 
     default String sbx$asFormattedString() {
-        return this.asFormattedString();
+        return asString();
     }
 }

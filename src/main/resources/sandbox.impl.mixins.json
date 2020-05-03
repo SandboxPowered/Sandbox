@@ -1,10 +1,9 @@
 {
   "required": true,
   "package": "org.sandboxpowered.sandbox.fabric.mixin.impl",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_11",
   "minVersion": "0.7",
   "mixins": [
-    "MixinFunctions",
     "block.MixinBlock",
     "block.MixinSandboxBlock",
     "block.MixinBlockEntity",

@@ -126,6 +126,7 @@ public abstract class MixinBlock extends AbstractBlock implements SandboxInterna
         this.onBroken((net.minecraft.world.World) world, (BlockPos) position, (net.minecraft.block.BlockState) state);
     }
 
+    @Intrinsic
     public boolean sbx$hasBlockEntity() {
         return this.hasBlockEntity();
     }

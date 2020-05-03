@@ -1,6 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.client.overlay;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Overlay;
 import net.minecraft.client.util.math.MatrixStack;
@@ -96,15 +96,15 @@ public class LoadingOverlay extends Overlay {
         fill(matrixStack, 0, 0, width, height, RED.getRGB());
         fill(matrixStack, 0, height - 20, width, height, DARK.darker().getRGB());
         fill(matrixStack, width - client.textRenderer.getStringWidth(text) - 4, height - 34, width, height, DARK.darker().getRGB());
-        GlStateManager.pushMatrix();
-        GlStateManager.enableBlend();
-        GlStateManager.enableAlphaTest();
+        RenderSystem.pushMatrix();
+        RenderSystem.enableBlend();
+        RenderSystem.enableAlphaTest();
         client.getTextureManager().bindTexture(new Identifier("sandbox", "textures/gui/sandbox.png"));
-        GlStateManager.color4f(1, 1, 1, 1);
+        RenderSystem.color4f(1, 1, 1, 1);
         int int_6 = (this.client.getWindow().getScaledWidth() - 256) / 2;
         int int_8 = (this.client.getWindow().getScaledHeight() - 256) / 2;
-        this.blit(int_6, int_8, 0, 0, 256, 256);
-        GlStateManager.popMatrix();
+//        this.blit(int_6, int_8, 0, 0, 256, 256);
+        RenderSystem.popMatrix();
         drawCenteredString(matrixStack, client.textRenderer, "Connecting to Sandbox", (int) (width / 2f), (int) ((height / 2f) + (width / 3) / 2) - 20, WHITE.getRGB());
         drawRightText(matrixStack, text, width, height - 30, WHITE.getRGB());
         drawCenteredString(matrixStack, client.textRenderer, right2, width - (client.textRenderer.getStringWidth(text) / 2), height - 14, WHITE.getRGB());

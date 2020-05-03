@@ -32,19 +32,19 @@ public abstract class MixinCrashReport {
                     builder.append(" @ ").append(spec.getVersion().toString()).append("\n");
                 });
             }
-
-            if (SandboxClient.INSTANCE != null) {
-                builder.append("Client: \n");
-                SandboxClient.INSTANCE.loader.getAddons().forEach(spec -> {
-                    builder.append("- ").append(spec.getId());
-
-                    if (!spec.getTitle().equals(spec.getId())) {
-                        builder.append(" \"").append(spec.getTitle()).append("\"");
-                    }
-
-                    builder.append(" @ ").append(spec.getVersion().toString()).append("\n");
-                });
-            }
+//
+//            if (SandboxClient.INSTANCE != null) {
+//                builder.append("Client: \n");
+//                SandboxClient.INSTANCE.loader.getAddons().forEach(spec -> {
+//                    builder.append("- ").append(spec.getId());
+//
+//                    if (!spec.getTitle().equals(spec.getId())) {
+//                        builder.append(" \"").append(spec.getTitle()).append("\"");
+//                    }
+//
+//                    builder.append(" @ ").append(spec.getVersion().toString()).append("\n");
+//                });
+//            }
 
             return builder.toString();
         });

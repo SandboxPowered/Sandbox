@@ -76,7 +76,7 @@ public abstract class MixinMinecraftClient {
         PanoramaHandler.renderTick(true);
     }
 
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/toast/ToastManager;draw()V", shift = At.Shift.AFTER))
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/toast/ToastManager;draw(Lnet/minecraft/client/util/math/MatrixStack;)V", shift = At.Shift.AFTER))
     public void renderEnd(CallbackInfo info) {
         PanoramaHandler.renderTick(false);
     }
@@ -97,7 +97,7 @@ public abstract class MixinMinecraftClient {
     @ModifyVariable(method = "openScreen", at = @At("HEAD"), ordinal = 0)
     public Screen openScreen(Screen screen) {
         if (screen instanceof TitleScreen || (screen == null && MinecraftClient.getInstance().world == null)) {
-            screen = new SandboxTitleScreen();
+//            screen = new SandboxTitleScreen();
         }
         return screen;
     }
