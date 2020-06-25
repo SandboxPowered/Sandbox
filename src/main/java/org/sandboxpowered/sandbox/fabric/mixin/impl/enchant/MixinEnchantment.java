@@ -17,23 +17,23 @@ public abstract class MixinEnchantment {
     public abstract String getTranslationKey();
 
     @Shadow
-    public abstract int getMaximumLevel();
-
-    @Shadow
-    public abstract int getMinimumLevel();
-
-    @Shadow
     public abstract boolean isAcceptableItem(net.minecraft.item.ItemStack itemStack_1);
 
     @Shadow
     public abstract boolean isTreasure();
 
+    @Shadow
+    public abstract int getMinLevel();
+
+    @Shadow
+    public abstract int getMaxLevel();
+
     public int sbx$getMinimumLevel() {
-        return this.getMinimumLevel();
+        return this.getMinLevel();
     }
 
     public int sbx$getMaximumLevel() {
-        return this.getMaximumLevel();
+        return this.getMaxLevel();
     }
 
     public boolean sbx$isAcceptableItem(ItemStack stack) {

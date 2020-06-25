@@ -87,14 +87,14 @@ public class FunctionsImpl implements Functions {
     }
 
     @Override
-    public <T extends Content> Registry<T> registryFunction(Class<T> cla) {
+    public <T extends Content<T>> Registry<T> registryFunction(Class<T> cla) {
         if (cla == Block.class) {
             return ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.BLOCK).get();
         }
         if (cla == Item.class) {
             return ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.ITEM).get();
         }
-        if (cla == BlockEntity.Type.class) {
+        if ((Class<?>)cla == BlockEntity.Type.class) {
             return ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.BLOCK_ENTITY_TYPE).get();
         }
         if (cla == Fluid.class) {

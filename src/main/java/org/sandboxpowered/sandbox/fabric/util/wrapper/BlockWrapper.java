@@ -21,8 +21,8 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldAccess;
 import org.sandboxpowered.api.block.BaseBlock;
 import org.sandboxpowered.api.block.Block;
 import org.sandboxpowered.api.component.Components;
@@ -118,7 +118,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
     }
 
     @Override
-    public void onBroken(IWorld iWorld_1, BlockPos blockPos_1, BlockState blockState_1) {
+    public void onBroken(WorldAccess iWorld_1, BlockPos blockPos_1, BlockState blockState_1) {
         block.onBlockBroken(
                 (org.sandboxpowered.api.world.World) iWorld_1.getWorld(),
                 (Position) blockPos_1,
@@ -127,7 +127,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
     }
 
     @Override
-    public BlockState getStateForNeighborUpdate(BlockState blockState_1, Direction direction_1, BlockState blockState_2, IWorld iWorld_1, BlockPos blockPos_1, BlockPos blockPos_2) {
+    public BlockState getStateForNeighborUpdate(BlockState blockState_1, Direction direction_1, BlockState blockState_2, WorldAccess iWorld_1, BlockPos blockPos_1, BlockPos blockPos_2) {
         return WrappingUtil.convert(block.updateOnNeighborChanged(
                 (org.sandboxpowered.api.state.BlockState) blockState_1,
                 WrappingUtil.convert(direction_1),
@@ -231,7 +231,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
         }
 
         @Override
-        public void onBroken(IWorld iWorld_1, BlockPos blockPos_1, BlockState blockState_1) {
+        public void onBroken(WorldAccess iWorld_1, BlockPos blockPos_1, BlockState blockState_1) {
             block.onBlockBroken(
                     (org.sandboxpowered.api.world.World) iWorld_1.getWorld(),
                     (Position) blockPos_1,
@@ -240,7 +240,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
         }
 
         @Override
-        public BlockState getStateForNeighborUpdate(BlockState blockState_1, Direction direction_1, BlockState blockState_2, IWorld iWorld_1, BlockPos blockPos_1, BlockPos blockPos_2) {
+        public BlockState getStateForNeighborUpdate(BlockState blockState_1, Direction direction_1, BlockState blockState_2, WorldAccess iWorld_1, BlockPos blockPos_1, BlockPos blockPos_2) {
             return WrappingUtil.convert(block.updateOnNeighborChanged(
                     (org.sandboxpowered.api.state.BlockState) blockState_1, WrappingUtil.convert(direction_1), (org.sandboxpowered.api.state.BlockState) blockState_2, (org.sandboxpowered.api.world.World) iWorld_1.getWorld(),
                     (Position) blockPos_1,
@@ -321,7 +321,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
         }
 
         @Override
-        public boolean tryFillWithFluid(IWorld iWorld_1, BlockPos blockPos_1, BlockState blockState_1, FluidState fluidState_1) {
+        public boolean tryFillWithFluid(WorldAccess iWorld_1, BlockPos blockPos_1, BlockState blockState_1, FluidState fluidState_1) {
             return ((org.sandboxpowered.api.state.BlockState) blockState_1).getComponent(
                     WrappingUtil.convert(iWorld_1),
                     (Position) blockPos_1,
@@ -339,7 +339,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
         }
 
         @Override
-        public Fluid tryDrainFluid(IWorld iWorld_1, BlockPos blockPos_1, BlockState blockState_1) {
+        public Fluid tryDrainFluid(WorldAccess iWorld_1, BlockPos blockPos_1, BlockState blockState_1) {
             return WrappingUtil.convert(
                     ((org.sandboxpowered.api.state.BlockState) blockState_1).getComponent(
                             WrappingUtil.convert(iWorld_1),

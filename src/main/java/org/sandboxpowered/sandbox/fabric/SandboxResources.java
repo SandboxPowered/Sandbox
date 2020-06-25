@@ -96,7 +96,7 @@ public class SandboxResources extends AbstractFileResourcePack {
     }
 
     @Override
-    public void close() throws IOException {
+    public void close() {
 
     }
 

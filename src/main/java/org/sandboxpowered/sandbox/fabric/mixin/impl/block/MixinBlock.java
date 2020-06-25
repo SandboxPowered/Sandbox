@@ -10,7 +10,7 @@ import net.minecraft.inventory.SidedInventory;
 import net.minecraft.state.StateManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.WorldAccess;
 import org.sandboxpowered.api.block.Block;
 import org.sandboxpowered.api.block.FluidLoggable;
 import org.sandboxpowered.api.block.entity.BlockEntity;
@@ -55,7 +55,7 @@ public abstract class MixinBlock extends AbstractBlock implements SandboxInterna
 
     @Shadow public abstract void onPlaced(net.minecraft.world.World world, BlockPos blockPos, net.minecraft.block.BlockState blockState, @Nullable LivingEntity livingEntity, net.minecraft.item.ItemStack itemStack);
 
-    @Shadow public abstract void onBroken(IWorld iWorld, BlockPos blockPos, net.minecraft.block.BlockState blockState);
+    @Shadow public abstract void onBroken(WorldAccess iWorld, BlockPos blockPos, net.minecraft.block.BlockState blockState);
 
     private StateFactory<Block, BlockState> sandboxFactory;
     private Block.Settings sbxSettings;
@@ -134,7 +134,7 @@ public abstract class MixinBlock extends AbstractBlock implements SandboxInterna
     public <X> Mono<X> sbx$getComponent(WorldReader reader, Position position, BlockState state, Component<X> component, @Nullable Direction side) {
         if (component == Components.INVENTORY_COMPONENT) {
             if (this instanceof InventoryProvider) {
-                SidedInventory inventory = ((InventoryProvider) this).getInventory((net.minecraft.block.BlockState) state, (IWorld) reader, (BlockPos) position);
+                SidedInventory inventory = ((InventoryProvider) this).getInventory((net.minecraft.block.BlockState) state, (WorldAccess) reader, (BlockPos) position);
                 if (side != null)
                     return Mono.of(new SidedRespective(inventory, side)).cast();
                 return Mono.of(new V2SInventory(inventory)).cast();

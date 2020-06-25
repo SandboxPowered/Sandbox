@@ -65,7 +65,7 @@ public abstract class MixinFluidRenderer {
 
     @ModifyVariable(at = @At(value = "INVOKE", target = "net/minecraft/client/render/block/FluidRenderer.isSameFluid(Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/Direction;Lnet/minecraft/fluid/FluidState;)Z"), method = "render", ordinal = 0)
     public boolean isLava(boolean chk) {
-        return chk || (stateThreadLocal.get() != null && !stateThreadLocal.get().matches(FluidTags.WATER));
+        return chk || (stateThreadLocal.get() != null && !FluidTags.WATER.contains(stateThreadLocal.get().getFluid()));
     }
 
     @Inject(at = @At("RETURN"), method = "render")

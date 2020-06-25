@@ -6,7 +6,7 @@ import org.sandboxpowered.api.state.FluidState;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.spongepowered.asm.mixin.*;
 
-@Mixin(net.minecraft.fluid.FluidStateImpl.class)
+@Mixin(net.minecraft.fluid.FluidState.class)
 @Implements(@Interface(iface = FluidState.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public abstract class MixinFluidState {

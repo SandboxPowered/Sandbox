@@ -10,7 +10,10 @@ public class MaterialUtil {
             case "AIR":
                 return WrappingUtil.cast(net.minecraft.block.Material.AIR, Material.class);
             case "ANVIL":
-                return WrappingUtil.cast(net.minecraft.block.Material.ANVIL, Material.class);
+            case "REPAIR_STATION":
+                return WrappingUtil.cast(net.minecraft.block.Material.REPAIR_STATION, Material.class);
+            case "METAL":
+                return WrappingUtil.cast(net.minecraft.block.Material.METAL, Material.class);
             case "BAMBOO":
                 return WrappingUtil.cast(net.minecraft.block.Material.BAMBOO, Material.class);
             case "BAMBOO_SAPLING":
@@ -19,8 +22,6 @@ public class MaterialUtil {
                 return WrappingUtil.cast(net.minecraft.block.Material.BARRIER, Material.class);
             case "BUBBLE_COLUMN":
                 return WrappingUtil.cast(net.minecraft.block.Material.BUBBLE_COLUMN, Material.class);
-            case "METAL":
-                return WrappingUtil.cast(net.minecraft.block.Material.METAL, Material.class);
             case "STONE":
                 return WrappingUtil.cast(net.minecraft.block.Material.STONE, Material.class);
             case "LAVA":
@@ -36,7 +37,8 @@ public class MaterialUtil {
             case "CARPET":
                 return WrappingUtil.cast(net.minecraft.block.Material.CARPET, Material.class);
             case "CLAY":
-                return WrappingUtil.cast(net.minecraft.block.Material.CLAY, Material.class);
+            case "ORGANIC_PRODUCT":
+                return WrappingUtil.cast(net.minecraft.block.Material.ORGANIC_PRODUCT, Material.class);
             case "PISTON":
                 return WrappingUtil.cast(net.minecraft.block.Material.PISTON, Material.class);
             case "UNUSED_PLANT":
@@ -46,7 +48,8 @@ public class MaterialUtil {
             case "STRUCTURE_VOID":
                 return WrappingUtil.cast(net.minecraft.block.Material.STRUCTURE_VOID, Material.class);
             case "SNOW":
-                return WrappingUtil.cast(net.minecraft.block.Material.SNOW, Material.class);
+            case "SNOW_LAYER":
+                return WrappingUtil.cast(net.minecraft.block.Material.SNOW_LAYER, Material.class);
             case "SNOW_BLOCK":
                 return WrappingUtil.cast(net.minecraft.block.Material.SNOW_BLOCK, Material.class);
             case "COBWEB":
@@ -55,10 +58,11 @@ public class MaterialUtil {
                 return WrappingUtil.cast(net.minecraft.block.Material.FIRE, Material.class);
             case "SHULKER_BOX":
                 return WrappingUtil.cast(net.minecraft.block.Material.SHULKER_BOX, Material.class);
+            case "AGGREGATE":
             case "SAND":
-                return WrappingUtil.cast(net.minecraft.block.Material.SAND, Material.class);
+                return WrappingUtil.cast(net.minecraft.block.Material.AGGREGATE, Material.class);
             case "ORGANIC":
-                return WrappingUtil.cast(net.minecraft.block.Material.ORGANIC, Material.class);
+                return WrappingUtil.cast(net.minecraft.block.Material.ORGANIC_PRODUCT, Material.class);
             case "PORTAL":
                 return WrappingUtil.cast(net.minecraft.block.Material.PORTAL, Material.class);
             case "REPLACEABLE_PLANT":
@@ -66,19 +70,24 @@ public class MaterialUtil {
             case "PLANT":
                 return WrappingUtil.cast(net.minecraft.block.Material.PLANT, Material.class);
             case "PUMPKIN":
-                return WrappingUtil.cast(net.minecraft.block.Material.PUMPKIN, Material.class);
+            case "GOURD":
+                return WrappingUtil.cast(net.minecraft.block.Material.GOURD, Material.class);
             case "SEAGRASS":
-                return WrappingUtil.cast(net.minecraft.block.Material.SEAGRASS, Material.class);
+            case "REPLACEABLE_UNDERWATER_PLANT":
+                return WrappingUtil.cast(net.minecraft.block.Material.REPLACEABLE_UNDERWATER_PLANT, Material.class);
+            case "SUPPORTED":
             case "PART":
-                return WrappingUtil.cast(net.minecraft.block.Material.PART, Material.class);
+                return WrappingUtil.cast(net.minecraft.block.Material.SUPPORTED, Material.class);
+            case "DENSE_ICE":
             case "PACKED_ICE":
-                return WrappingUtil.cast(net.minecraft.block.Material.PACKED_ICE, Material.class);
+                return WrappingUtil.cast(net.minecraft.block.Material.DENSE_ICE, Material.class);
             case "EGG":
                 return WrappingUtil.cast(net.minecraft.block.Material.EGG, Material.class);
             case "ICE":
                 return WrappingUtil.cast(net.minecraft.block.Material.ICE, Material.class);
             case "EARTH":
-                return WrappingUtil.cast(net.minecraft.block.Material.EARTH, Material.class);
+            case "SOIL":
+                return WrappingUtil.cast(net.minecraft.block.Material.SOIL, Material.class);
             case "REDSTONE_LAMP":
                 return WrappingUtil.cast(net.minecraft.block.Material.REDSTONE_LAMP, Material.class);
             case "SPONGE":

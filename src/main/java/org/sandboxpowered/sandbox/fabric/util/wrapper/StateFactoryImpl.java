@@ -9,7 +9,7 @@ import java.util.Collection;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class StateFactoryImpl<T, S extends PropertyContainer<S>, V, A extends net.minecraft.state.State<A>> implements StateFactory<T, S> {
+public class StateFactoryImpl<T, S extends PropertyContainer<S>, V, A extends net.minecraft.state.State<V,A>> implements StateFactory<T, S> {
     private net.minecraft.state.StateManager<V, A> vanilla;
     private Function<V, T> vTS;
     private Function<A, S> aTS;
@@ -35,7 +35,7 @@ public class StateFactoryImpl<T, S extends PropertyContainer<S>, V, A extends ne
         return vanilla.getStates().stream().map(v -> aTS.apply(v)).collect(Collectors.toList());
     }
 
-    public static class BuilderImpl<T, S extends PropertyContainer<S>, V, A extends net.minecraft.state.State<A>> implements StateFactory.Builder<T, S> {
+    public static class BuilderImpl<T, S extends PropertyContainer<S>, V, A extends net.minecraft.state.State<V,A>> implements StateFactory.Builder<T, S> {
         private net.minecraft.state.StateManager.Builder<V, A> vaBuilder;
 
         public BuilderImpl(net.minecraft.state.StateManager.Builder<V, A> vaBuilder) {

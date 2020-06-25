@@ -5,14 +5,13 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
-import net.minecraft.fluid.FluidStateImpl;
 import net.minecraft.item.Item;
 import net.minecraft.state.StateManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.BlockView;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
 import org.sandboxpowered.api.fluid.BaseFluid;
 import org.sandboxpowered.api.util.math.Position;
@@ -35,10 +34,8 @@ public class FluidWrapper extends net.minecraft.fluid.FlowableFluid {
         StateManager.Builder<net.minecraft.fluid.Fluid, FluidState> stateFactory$Builder_1 = new StateManager.Builder<>(this);
         this.appendProperties(stateFactory$Builder_1);
         try {
-            ReflectionHelper.setPrivateField(net.minecraft.fluid.Fluid.class, this, "stateManager", stateFactory$Builder_1.build(FluidStateImpl::new));
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
+            ReflectionHelper.setPrivateField(net.minecraft.fluid.Fluid.class, this, "stateManager", stateFactory$Builder_1.build(Fluid::getDefaultState, FluidState::new));
+        } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
         this.setDefaultState(this.getStateManager().getDefaultState());
@@ -71,7 +68,7 @@ public class FluidWrapper extends net.minecraft.fluid.FlowableFluid {
     }
 
     @Override
-    protected void beforeBreakingBlock(IWorld iWorld_1, BlockPos blockPos_1, BlockState blockState_1) {
+    protected void beforeBreakingBlock(WorldAccess iWorld_1, BlockPos blockPos_1, BlockState blockState_1) {
         BlockEntity blockEntity_1 = blockState_1.getBlock().hasBlockEntity() ? iWorld_1.getBlockEntity(blockPos_1) : null;
         Block.dropStacks(blockState_1, iWorld_1.getWorld(), blockPos_1, blockEntity_1);
     }
@@ -81,7 +78,7 @@ public class FluidWrapper extends net.minecraft.fluid.FlowableFluid {
         Optional<org.sandboxpowered.api.util.math.Vec3d> mono = fluid.getVelocity(
                 (WorldReader) blockView_1,
                 (Position) blockPos_1,
-                (org.sandboxpowered.api.state.FluidState) fluidState_1
+                WrappingUtil.convert(fluidState_1)
         );
         return mono.map(WrappingUtil::convertToVec).orElseGet(() -> super.getVelocity(blockView_1, blockPos_1, fluidState_1));
     }
@@ -130,12 +127,12 @@ public class FluidWrapper extends net.minecraft.fluid.FlowableFluid {
 
     @Override
     protected BlockState toBlockState(FluidState var1) {
-        return (BlockState) fluid.asBlockState((org.sandboxpowered.api.state.FluidState) var1);
+        return (BlockState) fluid.asBlockState(WrappingUtil.convert(var1));
     }
 
     @Override
     public boolean isStill(FluidState var1) {
-        return fluid.isStill((org.sandboxpowered.api.state.FluidState) var1);
+        return fluid.isStill(WrappingUtil.convert(var1));
     }
 
     @Override

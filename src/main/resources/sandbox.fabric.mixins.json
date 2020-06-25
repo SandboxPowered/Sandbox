@@ -4,37 +4,35 @@
   "compatibilityLevel": "JAVA_11",
   "minVersion": "0.7",
   "mixins": [
-    "server.MixinMinecraftServer",
-    "registry.MixinSimpleRegistry",
-    "crash.MixinCrashReport",
-
     "block.MixinBlock",
     "block.MixinBlock$MixinSettings",
     "block.MixinBlockState",
     "block.MixinStateManager",
     "block.MixinStateManager$MixinStateBuilder",
-
+    "client.MixinResourcePackManager",
+    "crash.MixinCrashReport",
     "enchant.MixinEnchantmentHelper",
-
-    "networking.MixinServerPlayNetworkHandler",
-    "networking.MixinCustomPayloadS2CPacket",
     "networking.MixinCustomPayloadC2SPacket",
-    "networking.MixinServerLoginNetworkHandler",
-    "networking.MixinPlayerManager",
-    "networking.MixinLoginQueryResponseC2SPacket",
+    "networking.MixinCustomPayloadS2CPacket",
     "networking.MixinHandshakeC2SPacket",
-    "networking.MixinServerHandshakeNetworkHandler"
+    "networking.MixinLoginQueryResponseC2SPacket",
+    "networking.MixinPlayerManager",
+    "networking.MixinServerHandshakeNetworkHandler",
+    "networking.MixinServerLoginNetworkHandler",
+    "networking.MixinServerPlayNetworkHandler",
+    "registry.MixinRegistry",
+    "registry.MixinSimpleRegistry",
+    "server.MixinMinecraftServer"
   ],
   "client": [
     "MixinBootstrapClient",
+    "client.MixinGameRenderer",
     "client.MixinIntegratedServer",
+    "client.MixinKeyboard",
     "client.MixinMinecraftClient",
     "client.MixinScreen",
-    "client.MixinKeyboard",
-    "client.MixinGameRenderer",
-    "client.MixinClientWorld",
-    "networking.MixinClientPlayNetworkHandler",
-    "networking.MixinClientConnection"
+    "networking.MixinClientConnection",
+    "networking.MixinClientPlayNetworkHandler"
   ],
   "server": [
     "MixinBootstrapServer",

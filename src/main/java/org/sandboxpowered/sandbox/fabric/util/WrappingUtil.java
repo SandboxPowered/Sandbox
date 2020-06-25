@@ -5,6 +5,7 @@ import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.entity.EntityType;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.state.property.Property;
 import net.minecraft.text.Text;
@@ -14,6 +15,8 @@ import net.minecraft.util.BlockRotation;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.BlockView;
 import org.sandboxpowered.api.block.Block;
 import org.sandboxpowered.api.block.entity.BlockEntity;
@@ -262,9 +265,9 @@ public class WrappingUtil {
         return (net.minecraft.entity.Entity) entity_1;
     }
 
-    public static Property convert(org.sandboxpowered.api.state.Property property) {
+    public static <T extends Comparable<T>> Property<T> convert(org.sandboxpowered.api.state.Property<T> property) {
         //TODO: Wrapper
-        return (Property) property;
+        return (Property<T>) property;
     }
 
     public static Fluid convert(net.minecraft.fluid.Fluid fluid_1) {
@@ -330,7 +333,20 @@ public class WrappingUtil {
     public static Vector3d convertToVector(org.sandboxpowered.api.util.math.Vec3d vector3dc) {
         return null; //TODO
     }
+
     public static Vec3d convertToVec(org.sandboxpowered.api.util.math.Vec3d vector3dc) {
         return null; //TODO
+    }
+
+    public static <T> RegistryKey<T> convertToRegistryKey(RegistryKey<Registry<T>> registryKey, Identity identity) {
+        return RegistryKey.of(registryKey, convert(identity));
+    }
+
+    public static FluidState convert(org.sandboxpowered.api.state.FluidState state) {
+        return (FluidState) (Object) state;
+    }
+
+    public static org.sandboxpowered.api.state.FluidState convert(FluidState state) {
+        return (org.sandboxpowered.api.state.FluidState) (Object) state;
     }
 }

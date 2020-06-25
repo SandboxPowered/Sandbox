@@ -3,15 +3,15 @@ package org.sandboxpowered.sandbox.fabric.mixin.fabric.client;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
-import net.minecraft.client.resource.ClientResourcePackProfile;
 import net.minecraft.resource.ReloadableResourceManager;
 import net.minecraft.resource.ResourcePack;
-import net.minecraft.resource.ResourcePackManager;
 import net.minecraft.resource.ResourceReloadMonitor;
 import net.minecraft.util.Unit;
 import org.sandboxpowered.sandbox.fabric.SandboxHooks;
-import org.sandboxpowered.sandbox.fabric.client.*;
-import org.sandboxpowered.sandbox.fabric.resources.SandboxResourceCreator;
+import org.sandboxpowered.sandbox.fabric.client.AddonFolderResourcePack;
+import org.sandboxpowered.sandbox.fabric.client.AddonResourcePack;
+import org.sandboxpowered.sandbox.fabric.client.PanoramaHandler;
+import org.sandboxpowered.sandbox.fabric.client.SandboxClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.injection.At;
@@ -45,12 +45,6 @@ public abstract class MixinMinecraftClient {
                 }
             });
         }
-    }
-
-    @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/ResourcePackManager;scanPacks()V"))
-    public void constructor(ResourcePackManager<ClientResourcePackProfile> manager) {
-        manager.registerProvider(new SandboxResourceCreator());
-        manager.scanPacks();
     }
 
 // TODO: Fix crash stuff

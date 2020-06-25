@@ -1,5 +1,7 @@
 package org.sandboxpowered.sandbox.fabric.internal;
 
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
 import org.sandboxpowered.api.block.Block;
 import org.sandboxpowered.api.item.Item;
 import org.sandboxpowered.sandbox.fabric.impl.BasicRegistry;
@@ -26,6 +28,10 @@ public class SandboxInternal {
         void set(BasicRegistry registry);
 
         BasicRegistry get();
+    }
+
+    public interface RegistryKeyObtainer<T> {
+        RegistryKey<net.minecraft.util.registry.Registry<T>> sandbox_getRegistryKey();
     }
 
     public interface ItemWrapper {

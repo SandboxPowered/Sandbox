@@ -59,7 +59,7 @@ public abstract class MixinFluid implements SandboxInternal.StateFactoryHolder {
     protected abstract net.minecraft.util.math.Vec3d getVelocity(BlockView var1, BlockPos var2, net.minecraft.fluid.FluidState var3);
 
     public FluidState sbx$getBaseState() {
-        return (FluidState) getDefaultState();
+        return WrappingUtil.convert(getDefaultState());
     }
 
     @SuppressWarnings("unchecked")
@@ -68,12 +68,12 @@ public abstract class MixinFluid implements SandboxInternal.StateFactoryHolder {
     }
 
     public boolean sbx$isStill(FluidState state) {
-        return isStill((net.minecraft.fluid.FluidState) state);
+        return isStill(WrappingUtil.convert(state));
     }
 
 
     public BlockState sbx$asBlockState(FluidState state) {
-        return (BlockState) this.toBlockState((net.minecraft.fluid.FluidState) state);
+        return (BlockState) this.toBlockState(WrappingUtil.convert(state));
     }
 
     public Fluid sbx$asStill() {
@@ -103,7 +103,7 @@ public abstract class MixinFluid implements SandboxInternal.StateFactoryHolder {
         return Optional.of(getVelocity(
                 (BlockView) world,
                 (BlockPos) position,
-                (net.minecraft.fluid.FluidState) state
+                WrappingUtil.convert(state)
         )).map(vec -> (Vec3d) vec);
     }
 }

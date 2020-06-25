@@ -13,6 +13,7 @@ import org.sandboxpowered.api.enchantment.Enchantment;
 import org.sandboxpowered.api.entity.Entity;
 import org.sandboxpowered.api.fluid.Fluid;
 import org.sandboxpowered.api.item.Item;
+import org.sandboxpowered.api.util.Identity;
 import org.sandboxpowered.api.util.Side;
 import org.sandboxpowered.sandbox.fabric.client.SandboxClient;
 import org.sandboxpowered.sandbox.fabric.impl.BasicRegistry;
@@ -45,12 +46,12 @@ public class SandboxHooks {
                 .anyMatch(((Predicate<String>) supportedMods::contains).negate());
         Policy.setPolicy(new AddonSecurityPolicy());
 
-         ((SandboxInternal.Registry) Registry.BLOCK).set(new BasicRegistry<>(Registry.BLOCK, Block.class, WrappingUtil::convert, WrappingUtil::convert));
-        ((SandboxInternal.Registry) Registry.ITEM).set(new BasicRegistry<>(Registry.ITEM, Item.class, WrappingUtil::convert, WrappingUtil::convert));
-        ((SandboxInternal.Registry) Registry.ENCHANTMENT).set(new BasicRegistry<>((SimpleRegistry<net.minecraft.enchantment.Enchantment>) Registry.ENCHANTMENT, Enchantment.class, WrappingUtil::convert, b -> (Enchantment) b));
-        ((SandboxInternal.Registry) Registry.FLUID).set(new BasicRegistry<>(Registry.FLUID, Fluid.class, WrappingUtil::convert, WrappingUtil::convert));
-        ((SandboxInternal.Registry) Registry.ENTITY_TYPE).set(new BasicRegistry<>(Registry.ENTITY_TYPE, Entity.Type.class, WrappingUtil::convert, WrappingUtil::convert));
-        ((SandboxInternal.Registry) Registry.BLOCK_ENTITY_TYPE).set(new BasicRegistry((SimpleRegistry) Registry.BLOCK_ENTITY_TYPE, BlockEntity.Type.class, (Function<BlockEntity.Type, BlockEntityType>) WrappingUtil::convert, (Function<BlockEntityType, BlockEntity.Type>) WrappingUtil::convert, true)); // DONT TOUCH THIS FOR HEAVENS SAKE PLEASE GOD NO
+         ((SandboxInternal.Registry) Registry.BLOCK).set(new BasicRegistry<>(Identity.of("block"), Registry.BLOCK, Block.class, WrappingUtil::convert, WrappingUtil::convert));
+        ((SandboxInternal.Registry) Registry.ITEM).set(new BasicRegistry<>(Identity.of("item"), Registry.ITEM, Item.class, WrappingUtil::convert, WrappingUtil::convert));
+        ((SandboxInternal.Registry) Registry.ENCHANTMENT).set(new BasicRegistry<>(Identity.of("enchantment"), (SimpleRegistry<net.minecraft.enchantment.Enchantment>) Registry.ENCHANTMENT, Enchantment.class, WrappingUtil::convert, b -> (Enchantment) b));
+        ((SandboxInternal.Registry) Registry.FLUID).set(new BasicRegistry<>(Identity.of("fluid"), Registry.FLUID, Fluid.class, WrappingUtil::convert, WrappingUtil::convert));
+        ((SandboxInternal.Registry) Registry.ENTITY_TYPE).set(new BasicRegistry<>(Identity.of("entity_type"), Registry.ENTITY_TYPE, Entity.Type.class, WrappingUtil::convert, WrappingUtil::convert));
+        ((SandboxInternal.Registry) Registry.BLOCK_ENTITY_TYPE).set(new BasicRegistry(Identity.of("block_entity_type"), (SimpleRegistry) Registry.BLOCK_ENTITY_TYPE, BlockEntity.Type.class, (Function<BlockEntity.Type, BlockEntityType>) WrappingUtil::convert, (Function<BlockEntityType, BlockEntity.Type>) WrappingUtil::convert, true)); // DONT TOUCH THIS FOR HEAVENS SAKE PLEASE GOD NO
     }
 
     public static void shutdownGlobal() {

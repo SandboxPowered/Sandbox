@@ -4,7 +4,7 @@ plugins {
 	id 'maven-publish'
 }
 
-sourceCompatibility = targetCompatibility = JavaVersion.VERSION_11
+sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 
 archivesBaseName = project.archives_base_name
 version = "$project.sandbox_version.${System.getenv("TRAVIS_BUILD_NUMBER") ? (+System.getenv("TRAVIS_BUILD_NUMBER")) : "0"}"

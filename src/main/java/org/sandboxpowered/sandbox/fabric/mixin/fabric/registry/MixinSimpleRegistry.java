@@ -1,12 +1,15 @@
 package org.sandboxpowered.sandbox.fabric.mixin.fabric.registry;
 
 import com.google.common.collect.BiMap;
+import com.mojang.serialization.Lifecycle;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.Int2ObjectBiMap;
 import net.minecraft.util.registry.MutableRegistry;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.util.registry.SimpleRegistry;
 import org.sandboxpowered.sandbox.fabric.impl.BasicRegistry;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
@@ -24,15 +27,9 @@ import java.util.Set;
 
 @Mixin(SimpleRegistry.class)
 public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implements SandboxInternal.Registry {
-
-    @Shadow
-    @Final
-    protected BiMap<Identifier, T> entries;
-
     @Shadow
     @Final
     protected Int2ObjectBiMap<T> indexedEntries;
-
     @Shadow
     protected Object[] randomEntries;
     protected Int2ObjectBiMap<T> storedIndex = new Int2ObjectBiMap<>(256);
@@ -40,16 +37,25 @@ public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implemen
     private int nextId;
     private int vanillaNext;
     private boolean hasStored;
-    private Set<Identifier> identifiers = new HashSet<>();
+    private Set<RegistryKey<T>> keys = new HashSet<>();
 
     private BasicRegistry sboxRegistry;
+
+    public MixinSimpleRegistry(RegistryKey<Registry<T>> registryKey, Lifecycle lifecycle) {
+        super(registryKey, lifecycle);
+    }
 
     @Shadow
     @Nullable
     public abstract T get(Identifier identifier_1);
 
     @Shadow
-    public abstract <V extends T> V add(Identifier identifier_1, V object_1);
+    @Final
+    private BiMap<RegistryKey<T>, T> entriesByKey;
+
+    @Shadow
+    @Final
+    protected BiMap<Identifier, T> entriesById;
 
     @Override
     public void store() {
@@ -59,15 +65,16 @@ public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implemen
             storedIndex.put(indexedEntries.get(i), i);
         }
         randomEntries = null;
-        identifiers.clear();
+        keys.clear();
         hasStored = true;
-        Log.debug("Stored " + vanillaNext + " objects in " + net.minecraft.util.registry.Registry.REGISTRIES.getId(this));
+//        Log.debug("Stored " + vanillaNext + " objects in " + net.minecraft.util.registry.Registry.REGISTRIES.getId(this)); TODO
     }
 
+
     @Inject(method = "set", at = @At(value = "HEAD"), cancellable = true)
-    public <V extends T> void set(int i, Identifier identifier, V object, CallbackInfoReturnable<V> ci) {
+    public <V extends T> void set(int i, RegistryKey<T> registryKey, V object, CallbackInfoReturnable<V> ci) {
         if (hasStored) {
-            identifiers.add(identifier);
+            keys.add(registryKey);
             if (object instanceof BlockItem) {
                 ((BlockItem) object).appendBlocks(Item.BLOCK_ITEMS, (BlockItem) object);
             }
@@ -91,7 +98,7 @@ public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implemen
     @Override
     public void reset() {
         if (nextId != vanillaNext) {
-            Log.debug("Resetting " + (nextId - vanillaNext) + " objects in " + net.minecraft.util.registry.Registry.REGISTRIES.getId(this));
+//            Log.debug("Resetting " + (nextId - vanillaNext) + " objects in " + net.minecraft.util.registry.Registry.REGISTRIES.getId(this));
             sboxRegistry.clearCache();
             nextId = vanillaNext;
             indexedEntries.clear();
@@ -99,8 +106,10 @@ public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implemen
                 indexedEntries.put(storedIndex.get(i), i);
             }
             randomEntries = null;
-            identifiers.forEach(id -> entries.remove(id));
+            keys.forEach(id -> {
+                entriesById.remove(id.getValue());
+                entriesByKey.remove(id);
+            });
         }
     }
-
 }

@@ -115,7 +115,7 @@ public class AddonFolderResourcePack extends AbstractFileResourcePack {
                 if (path.equals(path.toLowerCase(Locale.ROOT))) {
                     namespaces.add(path.substring(0, path.length() - 1));
                 } else {
-                    this.warnNonLowercaseNamespace(path);
+                    this.warnNonLowerCaseNamespace(path);
                 }
             }
         }
@@ -124,7 +124,7 @@ public class AddonFolderResourcePack extends AbstractFileResourcePack {
     }
 
     @Override
-    public void close() throws IOException {
+    public void close() {
 
     }
 

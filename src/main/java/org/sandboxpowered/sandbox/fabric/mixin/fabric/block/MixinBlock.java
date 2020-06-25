@@ -1,5 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.mixin.fabric.block;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.FluidState;
@@ -12,7 +13,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(Block.class)
+import java.util.function.ToIntFunction;
+
+@Mixin(AbstractBlock.class)
 public class MixinBlock {
 
     /**
@@ -27,12 +30,13 @@ public class MixinBlock {
 
     @Mixin(Block.Settings.class)
     public static abstract class MixinSettings implements SandboxInternal.MaterialInternal {
+
         @Shadow
-        protected abstract Block.Settings lightLevel(int i);
+        public abstract AbstractBlock.Settings lightLevel(ToIntFunction<BlockState> toIntFunction);
 
         @Override
         public void sbxsetlevel(int level) {
-            lightLevel(level);
+            lightLevel(state -> level);
         }
     }
 }

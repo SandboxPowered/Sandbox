@@ -17,12 +17,12 @@ public class EnchantmentWrapper extends net.minecraft.enchantment.Enchantment {
     }
 
     @Override
-    public int getMinimumLevel() {
+    public int getMinLevel() {
         return enchantment.getMinimumLevel();
     }
 
     @Override
-    public int getMaximumLevel() {
+    public int getMaxLevel() {
         return enchantment.getMaximumLevel();
     }
 
