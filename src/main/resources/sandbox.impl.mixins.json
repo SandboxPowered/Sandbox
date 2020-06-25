@@ -1,7 +1,7 @@
 {
   "required": true,
   "package": "org.sandboxpowered.sandbox.fabric.mixin.impl",
-  "compatibilityLevel": "JAVA_11",
+  "compatibilityLevel": "JAVA_8",
   "minVersion": "0.7",
   "mixins": [
     "block.MixinBlock",
@@ -43,9 +43,6 @@
     "server.MixinMinecraftServer"
   ],
   "client": [
-    "client.MixinMinecraftClient",
-    "client.MixinTextRenderer",
-    "client.MixinScreen",
     "client.MixinModelLoader",
     "client.MixinFluidRenderer",
     "block.MixinBlockClient"
