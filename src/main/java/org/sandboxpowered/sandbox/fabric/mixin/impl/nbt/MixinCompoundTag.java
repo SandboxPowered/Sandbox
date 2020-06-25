@@ -85,9 +85,9 @@ public abstract class MixinCompoundTag implements Tag {
     @Shadow
     public abstract boolean contains(String string_1);
 
-    @Shadow public abstract UUID getUuidNew(String string);
+    @Shadow public abstract UUID getUuid(String string);
 
-    @Shadow public abstract void putUuidNew(String string, UUID uUID);
+    @Shadow public abstract void putUuid(String string, UUID uUID);
 
     public int sbx$size() {
         return getSize();
@@ -179,11 +179,11 @@ public abstract class MixinCompoundTag implements Tag {
     }
 
     public UUID sbx$getUUID(String key) {
-        return getUuidNew(key);
+        return getUuid(key);
     }
 
     public void sbx$setUUID(String key, UUID uuid) {
-        putUuidNew(key, uuid);
+        putUuid(key, uuid);
     }
 
     public boolean sbx$remove(String key) {

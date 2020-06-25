@@ -9,39 +9,39 @@ import java.util.Optional;
 @Mixin(net.minecraft.state.property.Property.class)
 @Implements(@Interface(iface = Property.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
-public interface MixinProperty {
+public abstract class MixinProperty {
     @Shadow
-    String getName();
+    public abstract String getName();
 
     @Shadow
-    Collection<Comparable> getValues();
+    public abstract Collection<Comparable> getValues();
 
     @Shadow
-    String name(Comparable var1);
+    public abstract String name(Comparable var1);
 
     @Shadow
-    Class<Comparable> getType();
+    public abstract Class<Comparable> getType();
 
     @Shadow
-    Optional<Comparable> parse(String var1);
+    public abstract Optional<Comparable> parse(String var1);
 
-    default String sbx$getName() {
+    public String sbx$getName() {
         return getName();
     }
 
-    default String sbx$getName(Comparable value) {
+    public String sbx$getName(Comparable value) {
         return name(value);
     }
 
-    default Collection<Comparable> sbx$getValues() {
+    public Collection<Comparable> sbx$getValues() {
         return getValues();
     }
 
-    default Class<Comparable> sbx$getValueType() {
+    public Class<Comparable> sbx$getValueType() {
         return getType();
     }
 
-    default Optional<Comparable> sbx$getValue(String name) {
+    public Optional<Comparable> sbx$getValue(String name) {
         return parse(name);
     }
 }

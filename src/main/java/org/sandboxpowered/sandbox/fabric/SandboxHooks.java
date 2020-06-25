@@ -46,7 +46,7 @@ public class SandboxHooks {
                 .anyMatch(((Predicate<String>) supportedMods::contains).negate());
         Policy.setPolicy(new AddonSecurityPolicy());
 
-         ((SandboxInternal.Registry) Registry.BLOCK).set(new BasicRegistry<>(Identity.of("block"), Registry.BLOCK, Block.class, WrappingUtil::convert, WrappingUtil::convert));
+        ((SandboxInternal.Registry) Registry.BLOCK).set(new BasicRegistry<>(Identity.of("block"), Registry.BLOCK, Block.class, WrappingUtil::convert, WrappingUtil::convert));
         ((SandboxInternal.Registry) Registry.ITEM).set(new BasicRegistry<>(Identity.of("item"), Registry.ITEM, Item.class, WrappingUtil::convert, WrappingUtil::convert));
         ((SandboxInternal.Registry) Registry.ENCHANTMENT).set(new BasicRegistry<>(Identity.of("enchantment"), (SimpleRegistry<net.minecraft.enchantment.Enchantment>) Registry.ENCHANTMENT, Enchantment.class, WrappingUtil::convert, b -> (Enchantment) b));
         ((SandboxInternal.Registry) Registry.FLUID).set(new BasicRegistry<>(Identity.of("fluid"), Registry.FLUID, Fluid.class, WrappingUtil::convert, WrappingUtil::convert));
