@@ -111,7 +111,7 @@ public class InternalServiceFabric implements InternalService {
         if (cla == Item.class) {
             return ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.ITEM).get();
         }
-        if (cla == BlockEntity.Type.class) {
+        if (doEqualGenericless(cla, BlockEntity.Type.class)) {
             return ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.BLOCK_ENTITY_TYPE).get();
         }
         if (cla == Fluid.class) {
@@ -124,6 +124,10 @@ public class InternalServiceFabric implements InternalService {
             return ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.ENTITY_TYPE).get();
         }
         throw new RuntimeException("Unknown registry " + cla);
+    }
+
+    private boolean doEqualGenericless(Class<?> a, Class<?> b) {
+        return a == b;
     }
 
     @Override
