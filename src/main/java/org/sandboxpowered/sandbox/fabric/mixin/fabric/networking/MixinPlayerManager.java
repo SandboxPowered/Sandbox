@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MixinPlayerManager {
 
     @Inject(method = "onPlayerConnect", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/PlayerManager;sendWorldInfo(Lnet/minecraft/server/network/ServerPlayerEntity;Lnet/minecraft/server/world/ServerWorld;)V"), cancellable = true)
-    public void tick(ClientConnection clientConnection_1, ServerPlayerEntity serverPlayerEntity_1, CallbackInfo info) {
-        NetworkManager.sendTo(SandboxServer.INSTANCE.createAddonSyncPacket(), serverPlayerEntity_1);
+    public void tick(ClientConnection connection, ServerPlayerEntity entity, CallbackInfo info) {
+        NetworkManager.sendTo(SandboxServer.INSTANCE.createAddonSyncPacket(), entity);
     }
 }

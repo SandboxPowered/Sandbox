@@ -16,7 +16,7 @@ public class AddonClassLoader extends SecureClassLoader {
     }
 
     private final AddonSpec spec;
-    private DynamicURLClassLoader urlClassLoader = (DynamicURLClassLoader) getParent();
+    private final DynamicURLClassLoader classLoader = (DynamicURLClassLoader) getParent();
 
     public AddonClassLoader(ClassLoader original, AddonSpec spec) {
         super(new DynamicURLClassLoader(new URL[0], original));
@@ -24,7 +24,7 @@ public class AddonClassLoader extends SecureClassLoader {
     }
 
     public void addURL(URL url) {
-        urlClassLoader.addURL(url);
+        classLoader.addURL(url);
     }
 
     @Override

@@ -12,8 +12,6 @@ import java.util.List;
 public class Sandbox implements ISandbox {
     public static Sandbox SANDBOX = new Sandbox();
 
-    public static boolean unsupportedModsLoaded;
-
     public static void open(String prefix, List<Pair<String, String>> addons) {
         if (SandboxClient.INSTANCE == null)
             SandboxClient.constructAndSetup();

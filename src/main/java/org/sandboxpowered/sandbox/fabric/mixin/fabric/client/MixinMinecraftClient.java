@@ -83,7 +83,6 @@ public abstract class MixinMinecraftClient {
     @Redirect(method = "reloadResources", at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/ReloadableResourceManager;beginMonitoredReload(Ljava/util/concurrent/Executor;Ljava/util/concurrent/Executor;Ljava/util/concurrent/CompletableFuture;Ljava/util/List;)Lnet/minecraft/resource/ResourceReloadMonitor;"))
     public ResourceReloadMonitor reloadResources(ReloadableResourceManager manager, Executor var1, Executor var2, CompletableFuture<Unit> var3, List<ResourcePack> var4) {
         addonResourcePackModifications(var4);
-        System.out.println(var4);
         return manager.beginMonitoredReload(var1, var2, var3, var4);
     }
 

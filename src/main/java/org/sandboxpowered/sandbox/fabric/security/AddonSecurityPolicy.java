@@ -40,8 +40,7 @@ public class AddonSecurityPolicy extends Policy {
     }
 
     private PermissionCollection addonPermissions() {
-        Permissions pc = new Permissions();
-        return pc;
+        return new Permissions();
     }
 
     private PermissionCollection applicationPermissions() {

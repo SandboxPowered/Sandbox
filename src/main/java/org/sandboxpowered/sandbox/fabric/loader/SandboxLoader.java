@@ -78,7 +78,7 @@ public class SandboxLoader {
                     Config config = parser.parse(configStream);
                     AddonSpec spec = AddonSpec.from(config, cURL);
                     getClassLoader(spec).addURL(cURL);
-                    Class mainClass = getClassLoader(spec).loadClass(spec.getMainClass());
+                    Class<?> mainClass = getClassLoader(spec).loadClass(spec.getMainClass());
                     if (!Addon.class.isAssignableFrom(mainClass)) {
                         return;
                     }

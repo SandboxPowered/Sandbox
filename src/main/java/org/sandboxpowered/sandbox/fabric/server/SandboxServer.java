@@ -37,7 +37,7 @@ public class SandboxServer extends SandboxCommon {
     public final Map<Block, Item> BLOCK_ITEMS = Maps.newHashMap();
     private final boolean isIntegrated;
     public SandboxLoader loader;
-    private MinecraftServer server;
+    private final MinecraftServer server;
 
     private SandboxServer(MinecraftServer server) {
         this.isIntegrated = !(server instanceof DedicatedServer);
@@ -45,10 +45,9 @@ public class SandboxServer extends SandboxCommon {
         INSTANCE = this;
     }
 
-    public static SandboxServer constructAndSetup(MinecraftServer s) {
+    public static void constructAndSetup(MinecraftServer s) {
         SandboxServer server = new SandboxServer(s);
         server.setup();
-        return server;
     }
 
     public Packet createAddonSyncPacket() {

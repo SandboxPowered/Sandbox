@@ -5,14 +5,13 @@
   "name": "Sandbox",
   "description": "Minecraft mod engine!",
   "authors": [
-    "SandboxPowered",
-    "Horizon Studio"
+    "SandboxPowered"
   ],
   "contact": {
     "homepage": "https://sandboxpowered.org",
     "sources": "https://github.com/SandboxPowered/Sandbox"
   },
-  "license": "ARR",
+  "license": "LGPLv3",
   "icon": "assets/sandbox/icon.png",
   "environment": "*",
   "mixins": [
@@ -21,8 +20,14 @@
     "sandbox.impl.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.4.0"
+    "fabricloader": ">=0.7.9"
+  },
+  "recommends": {
   },
   "suggests": {
+  },
+  "conflicts": {
+  },
+  "breaks": {
   }
 }
