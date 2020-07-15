@@ -12,7 +12,7 @@ import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import javax.annotation.Nonnull;
 
 public class BlockEntityWrapper extends net.minecraft.block.entity.BlockEntity {
-    private BlockEntity blockEntity;
+    private final BlockEntity blockEntity;
 
     public BlockEntityWrapper(@Nonnull BlockEntity blockEntity) {
         super(WrappingUtil.convert(blockEntity.getType()));
@@ -46,7 +46,7 @@ public class BlockEntityWrapper extends net.minecraft.block.entity.BlockEntity {
     }
 
     public static class Ticking extends BlockEntityWrapper implements Tickable {
-        private BlockEntity.Tickable tickableBlockEntity;
+        private final BlockEntity.Tickable tickableBlockEntity;
 
         public Ticking(BlockEntity.Tickable blockEntity) {
             super(blockEntity);

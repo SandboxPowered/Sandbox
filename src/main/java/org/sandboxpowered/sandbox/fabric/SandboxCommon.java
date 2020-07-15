@@ -9,7 +9,7 @@ import org.sandboxpowered.sandbox.fabric.util.AddonLog;
 public abstract class SandboxCommon implements SandboxAPI {
 
     public static Server server;
-    private Log log = new AddonLog();
+    private final Log log = new AddonLog();
 
     @Override
     public AddonInfo getSourceAddon() {

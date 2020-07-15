@@ -19,7 +19,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ItemWrapper extends net.minecraft.item.Item implements SandboxInternal.ItemWrapper {
-    private Item iItem;
+    private final Item iItem;
 
     public ItemWrapper(Item iItem) {
         super(WrappingUtil.convert(iItem.getSettings()));
@@ -63,7 +63,7 @@ public class ItemWrapper extends net.minecraft.item.Item implements SandboxInter
     }
 
     public static class BlockItemWrapper extends net.minecraft.item.BlockItem implements SandboxInternal.ItemWrapper {
-        private BlockItem item;
+        private final BlockItem item;
 
         public BlockItemWrapper(BlockItem item) {
             super(WrappingUtil.convert(item.asBlock()), WrappingUtil.convert(item.getSettings()));
@@ -106,7 +106,7 @@ public class ItemWrapper extends net.minecraft.item.Item implements SandboxInter
     }
 
     public static class BucketItemWrapper extends net.minecraft.item.BucketItem implements SandboxInternal.ItemWrapper {
-        private BucketItem item;
+        private final BucketItem item;
 
         public BucketItemWrapper(BucketItem item) {
             super(WrappingUtil.convert(item.getFluid()), WrappingUtil.convert(item.getSettings()));

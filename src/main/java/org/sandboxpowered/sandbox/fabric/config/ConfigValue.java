@@ -3,8 +3,8 @@ package org.sandboxpowered.sandbox.fabric.config;
 import com.electronwill.nightconfig.core.CommentedConfig;
 
 public class ConfigValue<T> {
-    private CommentedConfig config;
-    private String path;
+    private final CommentedConfig config;
+    private final String path;
 
     public ConfigValue(CommentedConfig config, String path) {
         this.config = config;

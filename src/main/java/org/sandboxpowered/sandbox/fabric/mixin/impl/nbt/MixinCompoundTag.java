@@ -85,9 +85,11 @@ public abstract class MixinCompoundTag implements Tag {
     @Shadow
     public abstract boolean contains(String string_1);
 
-    @Shadow public abstract UUID getUuid(String string);
+    @Shadow
+    public abstract UUID getUuid(String string);
 
-    @Shadow public abstract void putUuid(String string, UUID uUID);
+    @Shadow
+    public abstract void putUuid(String string, UUID uUID);
 
     public int sbx$size() {
         return getSize();

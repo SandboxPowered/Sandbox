@@ -13,7 +13,6 @@ import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.util.registry.SimpleRegistry;
 import org.sandboxpowered.sandbox.fabric.impl.BasicRegistry;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
-import org.sandboxpowered.sandbox.fabric.util.Log;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -34,12 +33,17 @@ public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implemen
     protected Object[] randomEntries;
     protected Int2ObjectBiMap<T> storedIndex = new Int2ObjectBiMap<>(256);
     @Shadow
+    @Final
+    protected BiMap<Identifier, T> entriesById;
+    @Shadow
     private int nextId;
     private int vanillaNext;
     private boolean hasStored;
-    private Set<RegistryKey<T>> keys = new HashSet<>();
-
+    private final Set<RegistryKey<T>> keys = new HashSet<>();
     private BasicRegistry sboxRegistry;
+    @Shadow
+    @Final
+    private BiMap<RegistryKey<T>, T> entriesByKey;
 
     public MixinSimpleRegistry(RegistryKey<Registry<T>> registryKey, Lifecycle lifecycle) {
         super(registryKey, lifecycle);
@@ -48,14 +52,6 @@ public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implemen
     @Shadow
     @Nullable
     public abstract T get(Identifier identifier_1);
-
-    @Shadow
-    @Final
-    private BiMap<RegistryKey<T>, T> entriesByKey;
-
-    @Shadow
-    @Final
-    protected BiMap<Identifier, T> entriesById;
 
     @Override
     public void store() {

@@ -7,7 +7,7 @@ public enum RegistryOrder {
     TILE("tiles"),
     ENTITY("entities");
 
-    private String folder;
+    private final String folder;
 
     RegistryOrder(String folder) {
         this.folder = folder;

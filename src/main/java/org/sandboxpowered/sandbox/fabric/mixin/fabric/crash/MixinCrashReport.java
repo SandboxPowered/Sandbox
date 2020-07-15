@@ -2,7 +2,6 @@ package org.sandboxpowered.sandbox.fabric.mixin.fabric.crash;
 
 import net.minecraft.util.crash.CrashReport;
 import net.minecraft.util.crash.CrashReportSection;
-import org.sandboxpowered.sandbox.fabric.client.SandboxClient;
 import org.sandboxpowered.sandbox.fabric.server.SandboxServer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

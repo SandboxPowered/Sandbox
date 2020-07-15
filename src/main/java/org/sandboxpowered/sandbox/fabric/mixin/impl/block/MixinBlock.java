@@ -49,25 +49,29 @@ import java.util.Optional;
 @Implements(@Interface(iface = Block.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public abstract class MixinBlock extends AbstractBlock implements SandboxInternal.StateFactoryHolder {
-    @Shadow @Final protected StateManager<net.minecraft.block.Block, net.minecraft.block.BlockState> stateManager;
-
-    @Shadow public abstract net.minecraft.block.BlockState getDefaultState();
-
-    @Shadow public abstract void onPlaced(net.minecraft.world.World world, BlockPos blockPos, net.minecraft.block.BlockState blockState, @Nullable LivingEntity livingEntity, net.minecraft.item.ItemStack itemStack);
-
-    @Shadow public abstract void onBroken(WorldAccess iWorld, BlockPos blockPos, net.minecraft.block.BlockState blockState);
-
+    @Shadow
+    @Final
+    protected StateManager<net.minecraft.block.Block, net.minecraft.block.BlockState> stateManager;
     private StateFactory<Block, BlockState> sandboxFactory;
     private Block.Settings sbxSettings;
+
+    public MixinBlock(Settings settings) {
+        super(settings);
+    }
+
+    @Shadow
+    public abstract net.minecraft.block.BlockState getDefaultState();
+
+    @Shadow
+    public abstract void onPlaced(net.minecraft.world.World world, BlockPos blockPos, net.minecraft.block.BlockState blockState, @Nullable LivingEntity livingEntity, net.minecraft.item.ItemStack itemStack);
+
+    @Shadow
+    public abstract void onBroken(WorldAccess iWorld, BlockPos blockPos, net.minecraft.block.BlockState blockState);
 
     @Inject(method = "<init>", at = @At("RETURN"))
     public void constructor(net.minecraft.block.Block.Settings settings, CallbackInfo info) {
         sandboxFactory = new StateFactoryImpl<>(this.stateManager, b -> (Block) b, s -> (BlockState) s);
         ((SandboxInternal.StateFactory) this.stateManager).setSboxFactory(sandboxFactory);
-    }
-
-    public MixinBlock(Settings settings) {
-        super(settings);
     }
 
     public Block.Settings sbx$getSettings() {

@@ -42,7 +42,7 @@ import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import javax.annotation.Nullable;
 
 public class BlockWrapper extends net.minecraft.block.Block implements SandboxInternal.BlockWrapper {
-    private Block block;
+    private final Block block;
 
     public BlockWrapper(Block block) {
         super(WrappingUtil.convert(block.getSettings()));
@@ -183,7 +183,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
     }
 
     public static class WithFluid extends FluidBlock implements SandboxInternal.BlockWrapper {
-        private Block block;
+        private final Block block;
 
         public WithFluid(FlowableFluid baseFluid_1, Block block) {
             super(baseFluid_1, WrappingUtil.convert(block.getSettings()));
@@ -302,7 +302,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
     }
 
     public static class WithWaterloggable extends BlockWrapper implements Waterloggable {
-        private FluidContainer container;
+        private final FluidContainer container;
 
         public WithWaterloggable(Block block) {
             super(block);

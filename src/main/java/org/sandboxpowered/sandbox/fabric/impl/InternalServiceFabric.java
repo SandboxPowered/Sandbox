@@ -111,7 +111,7 @@ public class InternalServiceFabric implements InternalService {
         if (cla == Item.class) {
             return ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.ITEM).get();
         }
-        if ((Class<?>)cla == BlockEntity.Type.class) {
+        if (cla == BlockEntity.Type.class) {
             return ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.BLOCK_ENTITY_TYPE).get();
         }
         if (cla == Fluid.class) {

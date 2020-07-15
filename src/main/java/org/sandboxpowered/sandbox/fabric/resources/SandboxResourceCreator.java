@@ -6,7 +6,6 @@ import net.minecraft.resource.ResourcePackProvider;
 import net.minecraft.resource.ResourcePackSource;
 import org.sandboxpowered.sandbox.fabric.SandboxResources;
 
-import java.util.Map;
 import java.util.function.Consumer;
 
 public class SandboxResourceCreator implements ResourcePackProvider {

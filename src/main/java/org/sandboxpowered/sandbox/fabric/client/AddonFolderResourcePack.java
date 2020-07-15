@@ -9,7 +9,6 @@ import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.InvalidIdentifierException;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
-import org.sandboxpowered.api.addon.AddonInfo;
 import org.sandboxpowered.internal.AddonSpec;
 import org.sandboxpowered.sandbox.fabric.util.Log;
 

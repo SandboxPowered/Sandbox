@@ -7,7 +7,8 @@ import org.spongepowered.asm.mixin.*;
 @Mixin(AbstractBlock.class)
 @Implements(@Interface(iface = Block.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 public abstract class MixinAbstractBlock {
-    @Shadow public abstract boolean hasBlockEntity();
+    @Shadow
+    public abstract boolean hasBlockEntity();
 
     @Intrinsic
     public boolean sbx$hasBlockEntity() {

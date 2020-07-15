@@ -15,7 +15,7 @@ public interface MixinText extends Message {
     String asString();
 
     default void sbx$append(org.sandboxpowered.api.util.text.Text text) {
-        if(this instanceof MutableText) {
+        if (this instanceof MutableText) {
             ((MutableText) this).append(WrappingUtil.convert(text));
         }
     }

@@ -1,9 +1,5 @@
 package org.sandboxpowered.sandbox.fabric;
 
-import com.google.common.collect.Sets;
-import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.ModContainer;
-import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.SimpleRegistry;
@@ -23,9 +19,7 @@ import org.sandboxpowered.sandbox.fabric.server.SandboxServer;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 
 import java.security.Policy;
-import java.util.Set;
 import java.util.function.Function;
-import java.util.function.Predicate;
 
 public class SandboxHooks {
     public static void shutdown() {

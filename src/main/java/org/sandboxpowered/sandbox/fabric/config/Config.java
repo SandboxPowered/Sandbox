@@ -5,7 +5,7 @@ import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import java.nio.file.Path;
 
 public class Config {
-    private CommentedFileConfig config;
+    private final CommentedFileConfig config;
 
     public Config(Path path) {
         this.config = CommentedFileConfig.builder(path).autoreload().build();

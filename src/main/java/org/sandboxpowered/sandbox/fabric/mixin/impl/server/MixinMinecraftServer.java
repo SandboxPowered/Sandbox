@@ -3,7 +3,6 @@ package org.sandboxpowered.sandbox.fabric.mixin.impl.server;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.registry.RegistryKey;
-import net.minecraft.world.dimension.DimensionType;
 import org.sandboxpowered.api.server.Server;
 import org.sandboxpowered.api.util.Identity;
 import org.sandboxpowered.api.world.World;
@@ -19,7 +18,9 @@ import javax.annotation.Nullable;
 @Implements(@Interface(iface = Server.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public abstract class MixinMinecraftServer {
-    @Shadow @Nullable public abstract ServerWorld getWorld(RegistryKey<net.minecraft.world.World> registryKey);
+    @Shadow
+    @Nullable
+    public abstract ServerWorld getWorld(RegistryKey<net.minecraft.world.World> registryKey);
 
     @Inject(method = "<init>", at = @At("RETURN"))
     public void constructor(CallbackInfo info) {

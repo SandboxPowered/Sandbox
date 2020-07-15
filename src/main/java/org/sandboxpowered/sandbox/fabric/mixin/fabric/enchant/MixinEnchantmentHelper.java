@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(EnchantmentHelper.class)
 public abstract class MixinEnchantmentHelper {
 
-    private static ThreadLocal<Enchantment> ench = new ThreadLocal<>();
+    private static final ThreadLocal<Enchantment> ench = new ThreadLocal<>();
 // TODO
 //    /**
 //     * @author B0undarybreaker

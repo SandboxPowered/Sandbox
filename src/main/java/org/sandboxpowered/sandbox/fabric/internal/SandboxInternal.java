@@ -1,6 +1,5 @@
 package org.sandboxpowered.sandbox.fabric.internal;
 
-import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import org.sandboxpowered.api.block.Block;
 import org.sandboxpowered.api.item.Item;

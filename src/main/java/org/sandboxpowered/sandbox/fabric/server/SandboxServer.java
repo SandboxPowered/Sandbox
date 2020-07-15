@@ -36,8 +36,8 @@ public class SandboxServer extends SandboxCommon {
     public static SandboxServer INSTANCE;
     public final Map<Block, Item> BLOCK_ITEMS = Maps.newHashMap();
     private final boolean isIntegrated;
-    public SandboxLoader loader;
     private final MinecraftServer server;
+    public SandboxLoader loader;
 
     private SandboxServer(MinecraftServer server) {
         this.isIntegrated = !(server instanceof DedicatedServer);

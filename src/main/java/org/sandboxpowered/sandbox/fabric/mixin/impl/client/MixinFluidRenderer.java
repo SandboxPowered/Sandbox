@@ -28,12 +28,12 @@ import java.util.Map;
 @Mixin(FluidRenderer.class)
 public abstract class MixinFluidRenderer {
 
-    private Map<Fluid, Sprite[]> spriteMap = new LinkedHashMap<>();
+    private final Map<Fluid, Sprite[]> spriteMap = new LinkedHashMap<>();
 
     @Shadow
     @Final
     private Sprite[] waterSprites;
-    private ThreadLocal<FluidState> stateThreadLocal = new ThreadLocal<>();
+    private final ThreadLocal<FluidState> stateThreadLocal = new ThreadLocal<>();
 
     @Inject(at = @At("RETURN"), method = "onResourceReload")
     public void reload(CallbackInfo info) {

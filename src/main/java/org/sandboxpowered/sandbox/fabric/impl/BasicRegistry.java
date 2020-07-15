@@ -22,11 +22,6 @@ public class BasicRegistry<A extends Content<A>, B> implements Registry<A> {
     private final SimpleRegistry<B> vanilla;
     private final Class<A> type;
 
-    @Override
-    public Identity getIdentity() {
-        return identity;
-    }
-
     public BasicRegistry(Identity identity, SimpleRegistry<B> vanilla, Class<A> type, Function<A, B> convertAB, Function<B, A> convertBA) {
         this.identity = identity;
         this.convertAB = convertAB;
@@ -41,6 +36,11 @@ public class BasicRegistry<A extends Content<A>, B> implements Registry<A> {
         this.vanilla = vanilla;
         this.type = type;
         this.identity = identity;
+    }
+
+    @Override
+    public Identity getIdentity() {
+        return identity;
     }
 
     @Override
@@ -89,8 +89,8 @@ public class BasicRegistry<A extends Content<A>, B> implements Registry<A> {
     }
 
     public static class RegistryEntry<T extends Content<T>> implements Entry<T> {
-        private Identity identity;
-        private BasicRegistry<T, ?> registry;
+        private final Identity identity;
+        private final BasicRegistry<T, ?> registry;
         private boolean hasCached;
         private T cache;
 

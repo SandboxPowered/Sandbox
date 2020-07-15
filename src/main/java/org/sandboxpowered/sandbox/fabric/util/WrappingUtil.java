@@ -259,6 +259,7 @@ public class WrappingUtil {
     public static Entity convert(net.minecraft.entity.Entity entity_1) {
         return (Entity) entity_1;
     }
+
     public static PlayerEntity convert(net.minecraft.entity.player.PlayerEntity entity_1) {
         return (PlayerEntity) entity_1;
     }
