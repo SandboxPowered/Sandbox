@@ -22,6 +22,7 @@ import org.sandboxpowered.api.block.Block;
 import org.sandboxpowered.api.block.entity.BlockEntity;
 import org.sandboxpowered.api.enchantment.Enchantment;
 import org.sandboxpowered.api.entity.Entity;
+import org.sandboxpowered.api.entity.player.PlayerEntity;
 import org.sandboxpowered.api.fluid.BaseFluid;
 import org.sandboxpowered.api.fluid.Fluid;
 import org.sandboxpowered.api.item.Item;
@@ -258,6 +259,9 @@ public class WrappingUtil {
     public static Entity convert(net.minecraft.entity.Entity entity_1) {
         return (Entity) entity_1;
     }
+    public static PlayerEntity convert(net.minecraft.entity.player.PlayerEntity entity_1) {
+        return (PlayerEntity) entity_1;
+    }
 
     public static net.minecraft.entity.Entity convert(Entity entity_1) {
         if (entity_1 == null)
@@ -348,5 +352,9 @@ public class WrappingUtil {
 
     public static org.sandboxpowered.api.state.FluidState convert(FluidState state) {
         return (org.sandboxpowered.api.state.FluidState) (Object) state;
+    }
+
+    public static BlockState convert(net.minecraft.block.BlockState state) {
+        return (BlockState) state;
     }
 }
