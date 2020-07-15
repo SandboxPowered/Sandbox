@@ -32,8 +32,6 @@ dependencies {
 
 	implementation "org.sandboxpowered.api:base"
 	implementation "org.sandboxpowered.api:rendering"
-	implementation "org.sandboxpowered.api:rendering-opengl"
-	implementation "org.sandboxpowered.api:rendering-vulkan"
 	implementation "org.sandboxpowered.api:resources"
 }
 

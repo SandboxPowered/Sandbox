@@ -9,6 +9,7 @@ import net.minecraft.util.math.BlockPos;
 import org.sandboxpowered.api.block.Block;
 import org.sandboxpowered.api.block.Material;
 import org.sandboxpowered.api.block.entity.BlockEntity;
+import org.sandboxpowered.api.client.Client;
 import org.sandboxpowered.api.component.Component;
 import org.sandboxpowered.api.content.Content;
 import org.sandboxpowered.api.enchantment.Enchantment;
@@ -22,11 +23,12 @@ import org.sandboxpowered.api.server.Server;
 import org.sandboxpowered.api.state.Property;
 import org.sandboxpowered.api.util.Identity;
 import org.sandboxpowered.api.util.math.Position;
+import org.sandboxpowered.api.util.math.Vec2i;
 import org.sandboxpowered.api.util.math.Vec3i;
 import org.sandboxpowered.api.util.nbt.CompoundTag;
 import org.sandboxpowered.api.util.nbt.ReadableCompoundTag;
 import org.sandboxpowered.api.util.text.Text;
-import org.sandboxpowered.internal.Functions;
+import org.sandboxpowered.internal.InternalService;
 import org.sandboxpowered.sandbox.fabric.SandboxCommon;
 import org.sandboxpowered.sandbox.fabric.SandboxComponents;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
@@ -36,8 +38,23 @@ import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 
 import java.util.function.Supplier;
 
-public class FunctionsImpl implements Functions {
-    public static Functions INSTANCE = new FunctionsImpl();
+public class InternalServiceFabric implements InternalService {
+    public static InternalService INSTANCE = new InternalServiceFabric();
+
+    @Override
+    public Identity.Variant createVariantIdentity(Identity identity, String variant) {
+        return null;
+    }
+
+    @Override
+    public Client clientInstance() {
+        return null;
+    }
+
+    @Override
+    public Vec2i createVec2i(int x, int y) {
+        return null;
+    }
 
     @Override
     public Vec3i createVec3i(int x, int y, int z) {
