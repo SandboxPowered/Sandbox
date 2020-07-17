@@ -1,0 +1,12 @@
+id="exampleaddon" # required `[a-z0-9-_]{4,15}`
+version="0.0.0" # required Semver Enforced!
+title="Example Addon" # optional DEFAULT: modid
+description="""
+Multiline Description
+"""  # optional DEFAULT: ""
+entrypoint="org.sandboxpowered.example.Example" # required
+authors = [ # required 1
+    "Author",
+]
+url = "" # optional DEFAULT: ""
+side = "COMMON" # optional [SERVER, CLIENT, COMMON] DEFAULT: "COMMON"

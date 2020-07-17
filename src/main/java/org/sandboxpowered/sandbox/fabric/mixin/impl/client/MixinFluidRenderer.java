@@ -29,11 +29,10 @@ import java.util.Map;
 public abstract class MixinFluidRenderer {
 
     private final Map<Fluid, Sprite[]> spriteMap = new LinkedHashMap<>();
-
+    private final ThreadLocal<FluidState> stateThreadLocal = new ThreadLocal<>();
     @Shadow
     @Final
     private Sprite[] waterSprites;
-    private final ThreadLocal<FluidState> stateThreadLocal = new ThreadLocal<>();
 
     @Inject(at = @At("RETURN"), method = "onResourceReload")
     public void reload(CallbackInfo info) {

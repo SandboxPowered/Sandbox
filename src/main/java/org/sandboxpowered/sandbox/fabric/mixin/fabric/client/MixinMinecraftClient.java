@@ -24,6 +24,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -60,11 +61,6 @@ public abstract class MixinMinecraftClient {
 //        Log.fatal(message, t);
 //    }
 
-    @Inject(method = "startIntegratedServer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/integrated/IntegratedServer;start()V"))
-    public void clientSetup(CallbackInfo info) {
-        SandboxClient.constructAndSetup();
-    }
-
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/GameRenderer;render(FJZ)V", shift = At.Shift.BEFORE))
     public void renderStart(CallbackInfo info) {
         PanoramaHandler.renderTick(true);
@@ -81,17 +77,14 @@ public abstract class MixinMinecraftClient {
     }
 
     @Redirect(method = "reloadResources", at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/ReloadableResourceManager;beginMonitoredReload(Ljava/util/concurrent/Executor;Ljava/util/concurrent/Executor;Ljava/util/concurrent/CompletableFuture;Ljava/util/List;)Lnet/minecraft/resource/ResourceReloadMonitor;"))
-    public ResourceReloadMonitor reloadResources(ReloadableResourceManager manager, Executor var1, Executor var2, CompletableFuture<Unit> var3, List<ResourcePack> var4) {
-        addonResourcePackModifications(var4);
-        return manager.beginMonitoredReload(var1, var2, var3, var4);
+    public ResourceReloadMonitor reloadResources(ReloadableResourceManager manager, Executor var1, Executor var2, CompletableFuture<Unit> var3, List<ResourcePack> packs) {
+        packs = new ArrayList<>(packs);
+        addonResourcePackModifications(packs);
+        return manager.beginMonitoredReload(var1, var2, var3, packs);
     }
-
 
     @ModifyVariable(method = "openScreen", at = @At("HEAD"), ordinal = 0)
     public Screen openScreen(Screen screen) {
-        if (screen instanceof TitleScreen || (screen == null && MinecraftClient.getInstance().world == null)) {
-//            screen = new SandboxTitleScreen();
-        }
         return screen;
     }
 

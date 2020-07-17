@@ -17,7 +17,7 @@ public abstract class MixinEnchantment {
 //        }
     }
 
-    @Inject(method = "isDifferent", at = @At(value = "HEAD"), cancellable = true)
+    @Inject(method = "canAccept", at = @At(value = "HEAD"), cancellable = true)
     public void isDifferent(net.minecraft.enchantment.Enchantment other, CallbackInfoReturnable<Boolean> info) {
 //        EnchantmentEvent.Compatible event = EventDispatcher.publish(new EnchantmentEvent.Compatible((Enchantment) this, (Enchantment) other));
 //        if (event.getResult() != EventResult.IGNORE) {

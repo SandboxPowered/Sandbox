@@ -8,6 +8,7 @@ import org.sandboxpowered.api.SandboxAPI;
 import org.sandboxpowered.api.addon.Addon;
 import org.sandboxpowered.internal.AddonSpec;
 import org.sandboxpowered.sandbox.fabric.security.AddonClassLoader;
+import org.sandboxpowered.sandbox.fabric.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,59 +43,67 @@ public class SandboxLoader {
         addons.clear();
         modidToLoader.clear();
 
-        Set<URL> urls = new HashSet<>();
+        Set<URL> addonUrls = new HashSet<>();
         fileAddonsToLoad.forEach(path -> {
             try {
-                urls.add(path.toUri().toURL());
+                addonUrls.add(path.toUri().toURL());
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
         });
 
-        TomlParser parser = new TomlParser();
         Enumeration<URL> enumeration = getClass().getClassLoader().getResources("sandbox.toml");
+
         while (enumeration.hasMoreElements()) { // Add it all to a set to temporarily remove duplicates
             try {
-                urls.add(UrlUtil.getSource("sandbox.toml", enumeration.nextElement()));
+                addonUrls.add(UrlUtil.getSource("sandbox.toml", enumeration.nextElement()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-        urls.forEach(cURL -> {
-            executor.execute(() -> {
-                InputStream configStream = null;
-                try {
-                    if (cURL.toString().endsWith(".sbx")) {
-                        JarFile jarFile = new JarFile(new File(cURL.toURI()));
-                        ZipEntry ze = jarFile.getEntry("sandbox.toml");
-                        if (ze != null)
-                            configStream = jarFile.getInputStream(ze);
-                    } else {
-                        configStream = cURL.toURI().resolve("sandbox.toml").toURL().openStream();
+        if (!addonUrls.isEmpty()) {
+            Log.info("Loading %d addons", addonUrls.size());
+            TomlParser parser = new TomlParser();
+            addonUrls.forEach(cURL -> {
+                executor.execute(() -> {
+                    InputStream configStream = null;
+                    try {
+                        if (cURL.toString().endsWith(".jar")) {
+                            JarFile jarFile = new JarFile(new File(cURL.toURI()));
+                            ZipEntry ze = jarFile.getEntry("sandbox.toml");
+                            if (ze != null)
+                                configStream = jarFile.getInputStream(ze);
+                        } else {
+                            configStream = cURL.toURI().resolve("sandbox.toml").toURL().openStream();
+                        }
+                        if (configStream == null)
+                            return;
+                        Config config = parser.parse(configStream);
+                        AddonSpec spec = AddonSpec.from(config, cURL);
+                        getClassLoader(spec).addURL(cURL);
+                        Class<?> mainClass = getClassLoader(spec).loadClass(spec.getMainClass());
+                        if (!Addon.class.isAssignableFrom(mainClass)) {
+                            return;
+                        }
+                        addons.add(spec);
+                        Addon addon = (Addon) mainClass.getConstructor().newInstance();
+                        addon.init(api);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    } finally {
+                        IOUtils.closeQuietly(configStream);
                     }
-                    if (configStream == null)
-                        return;
-                    Config config = parser.parse(configStream);
-                    AddonSpec spec = AddonSpec.from(config, cURL);
-                    getClassLoader(spec).addURL(cURL);
-                    Class<?> mainClass = getClassLoader(spec).loadClass(spec.getMainClass());
-                    if (!Addon.class.isAssignableFrom(mainClass)) {
-                        return;
-                    }
-                    addons.add(spec);
-                    Addon addon = (Addon) mainClass.getConstructor().newInstance();
-                    addon.init(api);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    IOUtils.closeQuietly(configStream);
-                }
+                });
             });
-        });
+        }
     }
 
     public AddonClassLoader getClassLoader(AddonSpec spec) {
-        return modidToLoader.computeIfAbsent(spec.getId(), modid -> new AddonClassLoader(getClass().getClassLoader(), spec));
+        return modidToLoader.computeIfAbsent(spec.getId(), addonId -> new AddonClassLoader(getClass().getClassLoader(), spec));
+    }
+
+    public boolean isAddonLoaded(String addonId) {
+        return modidToLoader.get(addonId) != null;
     }
 }

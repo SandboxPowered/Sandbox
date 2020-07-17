@@ -6,51 +6,51 @@ import org.apache.logging.log4j.Logger;
 public class Log {
     public static Logger LOG = LogManager.getFormatterLogger("Sandbox|Fabric");
 
-    public static void info(String s) {
-        LOG.info("[Sandbox] " + s);
+    public static void info(String message) {
+        LOG.info(message);
     }
 
-    public static void info(String s, Object... objs) {
-        LOG.info("[Sandbox] " + s, objs);
+    public static void info(String message, Object... objs) {
+        LOG.info(message, objs);
     }
 
-    public static void error(String s) {
-        LOG.error("[Sandbox] " + s);
+    public static void error(String message) {
+        LOG.error(message);
     }
 
-    public static void error(String s, Throwable e) {
-        LOG.error("[Sandbox] " + s, e);
+    public static void error(String message, Throwable e) {
+        LOG.error(message, e);
     }
 
-    public static void error(String s, Object... objs) {
-        LOG.error("[Sandbox] " + s, objs);
+    public static void error(String message, Object... objs) {
+        LOG.error(message, objs);
     }
 
-    public static void warn(String s) {
-        LOG.warn("[Sandbox] " + s);
+    public static void warn(String message) {
+        LOG.warn(message);
     }
 
-    public static void warn(String s, Throwable e) {
-        LOG.warn("[Sandbox] " + s, e);
+    public static void warn(String message, Throwable e) {
+        LOG.warn(message, e);
     }
 
-    public static void warn(String s, Object... objs) {
-        LOG.warn("[Sandbox] " + s, objs);
+    public static void warn(String message, Object... objs) {
+        LOG.warn(message, objs);
     }
 
-    public static void fatal(String s) {
-        LOG.fatal("[Sandbox] " + s);
+    public static void fatal(String message) {
+        LOG.fatal(message);
     }
 
-    public static void fatal(String s, Throwable e) {
-        LOG.fatal("[Sandbox] " + s, e);
+    public static void fatal(String message, Throwable e) {
+        LOG.fatal(message, e);
     }
 
-    public static void fatal(String s, Object... objs) {
-        LOG.fatal("[Sandbox] " + s, objs);
+    public static void fatal(String message, Object... objs) {
+        LOG.fatal(message, objs);
     }
 
-    public static void debug(String s) {
-        LOG.info("[SandboxDebug] " + s);
+    public static void debug(String message) {
+        LOG.debug(message);
     }
 }

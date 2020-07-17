@@ -26,6 +26,7 @@ import java.util.Set;
 
 @Mixin(SimpleRegistry.class)
 public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implements SandboxInternal.Registry {
+    private final Set<RegistryKey<T>> keys = new HashSet<>();
     @Shadow
     @Final
     protected Int2ObjectBiMap<T> indexedEntries;
@@ -39,7 +40,6 @@ public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implemen
     private int nextId;
     private int vanillaNext;
     private boolean hasStored;
-    private final Set<RegistryKey<T>> keys = new HashSet<>();
     private BasicRegistry sboxRegistry;
     @Shadow
     @Final

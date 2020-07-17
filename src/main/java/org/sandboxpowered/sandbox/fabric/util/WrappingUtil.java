@@ -358,4 +358,18 @@ public class WrappingUtil {
     public static BlockState convert(net.minecraft.block.BlockState state) {
         return (BlockState) state;
     }
+
+    public static net.minecraft.enchantment.Enchantment.Rarity convert(Enchantment.Rarity rarity) {
+        switch (rarity) {
+            case UNCOMMON:
+                return net.minecraft.enchantment.Enchantment.Rarity.UNCOMMON;
+            case RARE:
+                return net.minecraft.enchantment.Enchantment.Rarity.RARE;
+            case VERY_RARE:
+                return net.minecraft.enchantment.Enchantment.Rarity.VERY_RARE;
+            case COMMON:
+            default:
+                return net.minecraft.enchantment.Enchantment.Rarity.COMMON;
+        }
+    }
 }

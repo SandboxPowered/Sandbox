@@ -12,7 +12,7 @@ public class EnchantmentWrapper extends net.minecraft.enchantment.Enchantment {
     private final Enchantment enchantment;
 
     public EnchantmentWrapper(Enchantment enchantment) {
-        super(Rarity.COMMON, EnchantmentTarget.WEARABLE, EquipmentSlot.values()); //TODO: Allow sandbox enchants to specify these values
+        super(WrappingUtil.convert(enchantment.getRarity()), EnchantmentTarget.WEARABLE, EquipmentSlot.values()); //TODO: Allow sandbox enchants to specify these values
         this.enchantment = enchantment;
     }
 
@@ -27,8 +27,8 @@ public class EnchantmentWrapper extends net.minecraft.enchantment.Enchantment {
     }
 
     @Override
-    public boolean isAcceptableItem(ItemStack itemStack_1) {
-        return enchantment.isAcceptableItem(WrappingUtil.cast(itemStack_1, org.sandboxpowered.api.item.ItemStack.class));
+    public boolean isAcceptableItem(ItemStack stack) {
+        return enchantment.isAcceptableItem(WrappingUtil.cast(stack, org.sandboxpowered.api.item.ItemStack.class));
     }
 
     @Override
@@ -40,21 +40,11 @@ public class EnchantmentWrapper extends net.minecraft.enchantment.Enchantment {
     public boolean isCursed() {
         return enchantment.isCurse();
     }
-//
-//    @Override
-//    public Weight getWeight() {
-//        switch (enchantment.getWeight()) {
-//            case VERY_RARE:
-//                return Weight.VERY_RARE;
-//            case UNCOMMON:
-//                return Weight.UNCOMMON;
-//            case RARE:
-//                return Weight.RARE;
-//            default:
-//            case COMMON:
-//                return Weight.COMMON;
-//        }
-//    }
+
+    @Override
+    public Rarity getRarity() {
+        return WrappingUtil.convert(enchantment.getRarity());
+    }
 
     @Override
     public void onTargetDamaged(LivingEntity livingEntity, Entity entity, int i) {

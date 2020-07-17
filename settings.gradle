@@ -9,6 +9,8 @@ pluginManagement {
     }
 }
 
+include 'TestAddon'
+
 includeBuild 'SandboxAPI'
 
-rootProject.name="sandbox-fabric"
+rootProject.name = "sandbox-fabric"

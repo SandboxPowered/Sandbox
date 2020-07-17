@@ -50,6 +50,11 @@ public class SandboxServer extends SandboxCommon {
         server.setup();
     }
 
+    @Override
+    public boolean isAddonLoaded(String addonId) {
+        return loader.isAddonLoaded(addonId);
+    }
+
     public Packet createAddonSyncPacket() {
         if (loader.getAddons().isEmpty())
             return new AddonS2CPacket(0, SandboxConfig.addonSyncURL.get(), Collections.emptyList());
@@ -97,7 +102,7 @@ public class SandboxServer extends SandboxCommon {
             Path addonPath = Paths.get("addons");
             if (!addonPath.toFile().exists() || !addonPath.toFile().isDirectory()) addonPath.toFile().mkdir();
             java.nio.file.Files.walk(addonPath, 1)
-                    .filter(path -> path.toString().endsWith(".sbx"))
+                    .filter(path -> path.toString().endsWith(".jar"))
                     .forEach(path -> {
                         try {
                             fileAddons.add(path);
@@ -123,7 +128,7 @@ public class SandboxServer extends SandboxCommon {
                     if (!java.nio.file.Files.isDirectory(path)) {
                         try {
                             String hash = Files.hash(path.toFile(), Hashing.farmHashFingerprint64()).toString();
-                            FileUtils.copyFile(path.toFile(), new File(uploadDir.toFile(), hash + ".sbx"));
+                            FileUtils.copyFile(path.toFile(), new File(uploadDir.toFile(), hash + ".jar"));
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

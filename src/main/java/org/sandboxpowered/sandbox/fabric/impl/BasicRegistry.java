@@ -154,7 +154,7 @@ public class BasicRegistry<A extends Content<A>, B> implements Registry<A> {
         }
 
         @Override
-        public void ifPresent(Consumer<T> tConsumer, Runnable notPresent) {
+        public void ifPresentOrElse(Consumer<T> tConsumer, Runnable notPresent) {
             Optional<T> tOptional = getAsOptional();
             if (tOptional.isPresent()) {
                 tConsumer.accept(tOptional.get());

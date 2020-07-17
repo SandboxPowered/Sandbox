@@ -32,6 +32,11 @@ public class SandboxClient extends SandboxCommon {
     }
 
     @Override
+    public boolean isAddonLoaded(String addonId) {
+        return loader.isAddonLoaded(addonId);
+    }
+
+    @Override
     protected void setup() {
         //Init client engine
         Log.info("Setting up Clientside Sandbox environment");
