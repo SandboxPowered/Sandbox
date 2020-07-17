@@ -8,7 +8,6 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
-import org.sandboxpowered.sandbox.fabric.client.SandboxClient;
 import org.sandboxpowered.sandbox.fabric.internal.IDownloadIndicator;
 import org.sandboxpowered.sandbox.fabric.util.FileUtil;
 
@@ -19,7 +18,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class LoadingOverlay extends Overlay {
     public static Color DARK = new Color(0x951213);
@@ -91,7 +89,7 @@ public class LoadingOverlay extends Overlay {
         text = new LiteralText(right);
         if (addon >= addons.size()) {
             client.setOverlay(null);
-            SandboxClient.INSTANCE.load(addons.stream().map(addon -> Paths.get("server/cache/" + addon.getRight())).collect(Collectors.toList()));
+//            SandboxClient.INSTANCE.load(addons.stream().map(addon -> Paths.get("server/cache/" + addon.getRight())).collect(Collectors.toList())); TODO
         }
         fill(matrixStack, 0, 0, width, height, RED.getRGB());
         fill(matrixStack, 0, height - 20, width, height, DARK.darker().getRGB());

@@ -1,8 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.mixin.fabric.server;
 
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.dedicated.MinecraftDedicatedServer;
-import org.sandboxpowered.sandbox.fabric.server.SandboxServer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -18,7 +16,7 @@ public class MixinDedicatedServer extends MixinMinecraftServer {
                     shift = At.Shift.AFTER),
             cancellable = true
     )
-    public void setupServer(CallbackInfoReturnable<Boolean> info) throws ScriptException {
-        SandboxServer.constructAndSetup((MinecraftServer) (Object) this);
+    public void setupServer(CallbackInfoReturnable<Boolean> info) {
+//        SandboxServer.constructAndSetup((MinecraftServer) (Object) this); TODO
     }
 }

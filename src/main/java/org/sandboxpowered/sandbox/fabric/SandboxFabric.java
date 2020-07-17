@@ -114,7 +114,7 @@ public class SandboxFabric implements Sandbox {
 
         @Override
         public Side getSide() {
-            return Side.CLIENT; //TODO
+            return org.sandboxpowered.sandbox.fabric.Sandbox.SANDBOX.getSide();
         }
 
         @Override

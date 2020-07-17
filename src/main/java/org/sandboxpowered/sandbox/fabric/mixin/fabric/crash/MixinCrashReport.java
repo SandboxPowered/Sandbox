@@ -2,7 +2,6 @@ package org.sandboxpowered.sandbox.fabric.mixin.fabric.crash;
 
 import net.minecraft.util.crash.CrashReport;
 import net.minecraft.util.crash.CrashReportSection;
-import org.sandboxpowered.sandbox.fabric.server.SandboxServer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,18 +18,18 @@ public abstract class MixinCrashReport {
     private void fillSystemDetails(CallbackInfo info) {
         getSystemDetailsSection().add("Sandbox Addons", () -> {
             StringBuilder builder = new StringBuilder();
-            if (SandboxServer.INSTANCE != null) {
-                builder.append("Server: \n");
-                SandboxServer.INSTANCE.loader.getAddons().forEach(spec -> {
-                    builder.append("- ").append(spec.getId());
-
-                    if (!spec.getTitle().equals(spec.getId())) {
-                        builder.append(" \"").append(spec.getTitle()).append("\"");
-                    }
-
-                    builder.append(" @ ").append(spec.getVersion().toString()).append("\n");
-                });
-            }
+//            if (SandboxServer.INSTANCE != null) {
+//                builder.append("Server: \n");
+//                SandboxServer.INSTANCE.loader.getAddons().forEach(spec -> {
+//                    builder.append("- ").append(spec.getId());
+//
+//                    if (!spec.getTitle().equals(spec.getId())) {
+//                        builder.append(" \"").append(spec.getTitle()).append("\"");
+//                    }
+//
+//                    builder.append(" @ ").append(spec.getVersion().toString()).append("\n");
+//                });
+//            }
 //
 //            if (SandboxClient.INSTANCE != null) {
 //                builder.append("Client: \n");

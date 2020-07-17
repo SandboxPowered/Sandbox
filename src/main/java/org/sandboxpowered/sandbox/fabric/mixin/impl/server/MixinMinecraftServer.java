@@ -24,7 +24,7 @@ public abstract class MixinMinecraftServer {
 
     @Inject(method = "<init>", at = @At("RETURN"))
     public void constructor(CallbackInfo info) {
-        SandboxCommon.server = (Server) this;
+//        SandboxCommon.server = (Server) this; TODO
     }
 
     public World sbx$getWorld(Identity identity) {

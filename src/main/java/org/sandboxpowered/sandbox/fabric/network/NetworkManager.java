@@ -10,7 +10,6 @@ import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
 import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
-import org.sandboxpowered.sandbox.fabric.server.SandboxServer;
 
 public class NetworkManager {
 
@@ -37,7 +36,7 @@ public class NetworkManager {
 
     public static void sendToAll(Packet packet) {
         Identifier id = getId(packet);
-        SandboxServer.INSTANCE.getServer().getPlayerManager().sendToAll(s2c(id, packet));
+//        SandboxServer.INSTANCE.getServer().getPlayerManager().sendToAll(s2c(id, packet)); TODO
     }
 
     public static void sendTo(Packet packet, PlayerEntity player) {

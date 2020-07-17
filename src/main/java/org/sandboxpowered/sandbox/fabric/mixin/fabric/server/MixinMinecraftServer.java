@@ -3,7 +3,6 @@ package org.sandboxpowered.sandbox.fabric.mixin.fabric.server;
 import net.minecraft.resource.ResourcePackManager;
 import net.minecraft.resource.ResourcePackProfile;
 import net.minecraft.server.MinecraftServer;
-import org.sandboxpowered.sandbox.fabric.server.SandboxServer;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -30,7 +29,7 @@ public class MixinMinecraftServer {
             at = @At(value = "TAIL")
     )
     public void shutdown(CallbackInfo info) {
-        SandboxServer.INSTANCE.shutdown();
+//        SandboxServer.INSTANCE.shutdown(); TODO
     }
 
 //    @Inject(method = "loadWorldDataPacks", at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/ResourcePackManager;scanPacks()V", shift = At.Shift.BEFORE))

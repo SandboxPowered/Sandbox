@@ -29,7 +29,6 @@ import org.sandboxpowered.api.util.nbt.CompoundTag;
 import org.sandboxpowered.api.util.nbt.ReadableCompoundTag;
 import org.sandboxpowered.api.util.text.Text;
 import org.sandboxpowered.internal.InternalService;
-import org.sandboxpowered.sandbox.fabric.SandboxCommon;
 import org.sandboxpowered.sandbox.fabric.SandboxComponents;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.util.MaterialUtil;
@@ -137,7 +136,8 @@ public class InternalServiceFabric implements InternalService {
 
     @Override
     public Server serverInstance() {
-        return SandboxCommon.server;
+//        return SandboxCommon.server;
+        return null;
     }
 
     @Override

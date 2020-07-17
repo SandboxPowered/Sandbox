@@ -10,12 +10,9 @@ import org.sandboxpowered.api.entity.Entity;
 import org.sandboxpowered.api.fluid.Fluid;
 import org.sandboxpowered.api.item.Item;
 import org.sandboxpowered.api.util.Identity;
-import org.sandboxpowered.api.util.Side;
-import org.sandboxpowered.sandbox.fabric.client.SandboxClient;
 import org.sandboxpowered.sandbox.fabric.impl.BasicRegistry;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.security.AddonSecurityPolicy;
-import org.sandboxpowered.sandbox.fabric.server.SandboxServer;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 
 import java.security.Policy;
@@ -23,13 +20,13 @@ import java.util.function.Function;
 
 public class SandboxHooks {
     public static void shutdown() {
-        if (Sandbox.SANDBOX.getSide() == Side.CLIENT) {
-            SandboxClient.INSTANCE.shutdown();
-            if (SandboxServer.INSTANCE != null && SandboxServer.INSTANCE.isIntegrated())
-                SandboxServer.INSTANCE.shutdown();
-        } else {
-            SandboxServer.INSTANCE.shutdown();
-        }
+//        if (Sandbox.SANDBOX.getSide() == Side.CLIENT) { TODO
+//            SandboxClient.INSTANCE.shutdown();
+//            if (SandboxServer.INSTANCE != null && SandboxServer.INSTANCE.isIntegrated())
+//                SandboxServer.INSTANCE.shutdown();
+//        } else {
+//            SandboxServer.INSTANCE.shutdown();
+//        }
     }
 
     public static void setupGlobal() {

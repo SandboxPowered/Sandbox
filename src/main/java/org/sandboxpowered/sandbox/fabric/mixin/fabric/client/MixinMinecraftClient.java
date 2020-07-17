@@ -2,16 +2,12 @@ package org.sandboxpowered.sandbox.fabric.mixin.fabric.client;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.resource.ReloadableResourceManager;
 import net.minecraft.resource.ResourcePack;
 import net.minecraft.resource.ResourceReloadMonitor;
 import net.minecraft.util.Unit;
 import org.sandboxpowered.sandbox.fabric.SandboxHooks;
-import org.sandboxpowered.sandbox.fabric.client.AddonFolderResourcePack;
-import org.sandboxpowered.sandbox.fabric.client.AddonResourcePack;
 import org.sandboxpowered.sandbox.fabric.client.PanoramaHandler;
-import org.sandboxpowered.sandbox.fabric.client.SandboxClient;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,10 +16,6 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -33,19 +25,19 @@ import java.util.concurrent.Executor;
 public abstract class MixinMinecraftClient {
 
     private void addonResourcePackModifications(List<ResourcePack> packs) {
-        if (SandboxClient.INSTANCE != null) {
-            SandboxClient.INSTANCE.loader.getAddons().forEach(spec -> {
-                try {
-                    Path path = Paths.get(spec.getPath().toURI());
-                    if (Files.isDirectory(path))
-                        packs.add(new AddonFolderResourcePack(path, spec));
-                    else
-                        packs.add(new AddonResourcePack(path.toFile()));
-                } catch (URISyntaxException e) {
-                    e.printStackTrace();
-                }
-            });
-        }
+//        if (SandboxClient.INSTANCE != null) {
+//            SandboxClient.INSTANCE.loader.getAddons().forEach(spec -> {
+//                try {
+//                    Path path = Paths.get(spec.getPath().toURI());
+//                    if (Files.isDirectory(path))
+//                        packs.add(new AddonFolderResourcePack(path, spec));
+//                    else
+//                        packs.add(new AddonResourcePack(path.toFile()));
+//                } catch (URISyntaxException e) {
+//                    e.printStackTrace();
+//                }
+//            });
+//        }
     }
 
 // TODO: Fix crash stuff
