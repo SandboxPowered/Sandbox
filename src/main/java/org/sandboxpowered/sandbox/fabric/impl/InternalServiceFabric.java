@@ -6,6 +6,7 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.SimpleRegistry;
 import org.sandboxpowered.api.block.Block;
 import org.sandboxpowered.api.block.Material;
 import org.sandboxpowered.api.block.entity.BlockEntity;
@@ -35,6 +36,7 @@ import org.sandboxpowered.sandbox.fabric.util.MaterialUtil;
 import org.sandboxpowered.sandbox.fabric.util.PropertyUtil;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class InternalServiceFabric implements InternalService {
@@ -102,27 +104,44 @@ public class InternalServiceFabric implements InternalService {
         return WrappingUtil.cast(net.minecraft.item.ItemStack.fromTag(WrappingUtil.convert(tag)), ItemStack.class);
     }
 
+
     @Override
     public <T extends Content<T>> Registry<T> registryFunction(Class<T> cla) {
+        Registry<T> registry = null;
         if (cla == Block.class) {
-            return ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.BLOCK).get();
+            registry = ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.BLOCK).get();
+            if (registry == null)
+                ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.BLOCK).set(new BasicRegistry<>(Identity.of("block"), net.minecraft.util.registry.Registry.BLOCK, Block.class, WrappingUtil::convert, WrappingUtil::convert));
+            registry = ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.BLOCK).get();
+        } else if (cla == Item.class) {
+            registry = ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.ITEM).get();
+            if (registry == null)
+                ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.ITEM).set(new BasicRegistry<>(Identity.of("item"), net.minecraft.util.registry.Registry.ITEM, Item.class, WrappingUtil::convert, WrappingUtil::convert));
+            registry = ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.ITEM).get();
+        } else if (doEqualGenericless(cla, BlockEntity.Type.class)) {
+            registry = ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.BLOCK_ENTITY_TYPE).get();
+            if (registry == null)
+                ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.BLOCK_ENTITY_TYPE).set(new BasicRegistry<>(Identity.of("block_entity_type"), (SimpleRegistry) net.minecraft.util.registry.Registry.BLOCK_ENTITY_TYPE, BlockEntity.Type.class, (Function<BlockEntity.Type, BlockEntityType>) WrappingUtil::convert, (Function<BlockEntityType, BlockEntity.Type>) WrappingUtil::convert, true));
+            registry = ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.BLOCK_ENTITY_TYPE).get();
+        } else if (cla == Fluid.class) {
+            registry = ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.FLUID).get();
+            if (registry == null)
+                ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.FLUID).set(new BasicRegistry<>(Identity.of("fluid"), net.minecraft.util.registry.Registry.FLUID, Fluid.class, WrappingUtil::convert, WrappingUtil::convert));
+            registry = ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.FLUID).get();
+        } else if (cla == Enchantment.class) {
+            registry = ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.ENCHANTMENT).get();
+            if (registry == null)
+                ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.ENCHANTMENT).set(new BasicRegistry<>(Identity.of("enchantment"), (SimpleRegistry<net.minecraft.enchantment.Enchantment>) net.minecraft.util.registry.Registry.ENCHANTMENT, Enchantment.class, WrappingUtil::convert, b -> (Enchantment) b));
+            registry = ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.ENCHANTMENT).get();
+        } else if (cla == Entity.Type.class) {
+            registry = ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.ENTITY_TYPE).get();
+            if (registry == null)
+                ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.ENTITY_TYPE).set(new BasicRegistry<>(Identity.of("entity_type"), net.minecraft.util.registry.Registry.ENTITY_TYPE, Entity.Type.class, WrappingUtil::convert, WrappingUtil::convert));
+            registry = ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.ENTITY_TYPE).get();
         }
-        if (cla == Item.class) {
-            return ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.ITEM).get();
-        }
-        if (doEqualGenericless(cla, BlockEntity.Type.class)) {
-            return ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.BLOCK_ENTITY_TYPE).get();
-        }
-        if (cla == Fluid.class) {
-            return ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.FLUID).get();
-        }
-        if (cla == Enchantment.class) {
-            return ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.ENCHANTMENT).get();
-        }
-        if (cla == Entity.Type.class) {
-            return ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.ENTITY_TYPE).get();
-        }
-        throw new RuntimeException("Unknown registry " + cla);
+        if (registry != null)
+            return registry;
+        return null;
     }
 
     private boolean doEqualGenericless(Class<?> a, Class<?> b) {
