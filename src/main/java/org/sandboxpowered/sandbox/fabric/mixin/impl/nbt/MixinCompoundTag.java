@@ -217,11 +217,12 @@ public abstract class MixinCompoundTag implements Tag {
 
     public void sbx$setList(String key, List<? extends org.sandboxpowered.api.util.nbt.Tag> list) {
         ListTag tag;
-        if (list instanceof ListTag) {
-            tag = (ListTag) list;
+        @SuppressWarnings("UnnecessaryLocalVariable") Object castedList = list;
+        if (castedList instanceof ListTag) {
+            tag = (ListTag) castedList;
         } else {
             tag = new ListTag();
-            tag.addAll((Collection<? extends Tag>) list);
+            tag.addAll((Collection<? extends Tag>) castedList);
         }
         put(key, tag);
     }
