@@ -139,9 +139,7 @@ public class InternalServiceFabric implements InternalService {
                 ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.ENTITY_TYPE).set(new BasicRegistry<>(Identity.of("entity_type"), net.minecraft.util.registry.Registry.ENTITY_TYPE, Entity.Type.class, WrappingUtil::convert, WrappingUtil::convert));
             registry = ((SandboxInternal.Registry) net.minecraft.util.registry.Registry.ENTITY_TYPE).get();
         }
-        if (registry != null)
-            return registry;
-        return null;
+        return registry;
     }
 
     private boolean doEqualGenericless(Class<?> a, Class<?> b) {
