@@ -118,13 +118,13 @@ public class InternalServiceFabric implements InternalService {
             } else if (generic == Item.class) {
                 return getOrCreateRegistry("item", net.minecraft.util.registry.Registry.ITEM, Item.class, net.minecraft.item.Item.class);
             } else if (generic == BlockEntity.Type.class) {
-                return getOrCreateRegistry("block_entity_type", net.minecraft.util.registry.Registry.BLOCK_ENTITY_TYPE, BlockEntity.Type.class, cast(BlockEntityType.class));
+                return getOrCreateRegistry("block_entity_type", net.minecraft.util.registry.Registry.BLOCK_ENTITY_TYPE, BlockEntity.Type.class, BlockEntityType.class);
             } else if (generic == Fluid.class) {
                 return getOrCreateRegistry("fluid", net.minecraft.util.registry.Registry.FLUID, Fluid.class, net.minecraft.fluid.Fluid.class);
             } else if (generic == Enchantment.class) {
                 return getOrCreateRegistry("enchantment", net.minecraft.util.registry.Registry.ENCHANTMENT, Enchantment.class, net.minecraft.enchantment.Enchantment.class);
             } else if (generic == Entity.Type.class) {
-                return getOrCreateRegistry("entity_type", net.minecraft.util.registry.Registry.ENTITY_TYPE, Entity.Type.class, cast(EntityType.class));
+                return getOrCreateRegistry("entity_type", net.minecraft.util.registry.Registry.ENTITY_TYPE, Entity.Type.class, EntityType.class);
             }
         } catch (Throwable throwable) {
             throw new RuntimeException("Failed to get registry for " + cla, throwable);
@@ -132,11 +132,7 @@ public class InternalServiceFabric implements InternalService {
         return null;
     }
 
-    private static <A, B> Class<B> cast(Class<A> a) {
-        return (Class<B>) a;
-    }
-
-    private <A extends Content<A>, B, C extends Content<C>> Registry<C> getOrCreateRegistry(String name, net.minecraft.util.registry.Registry<B> vanilla, Class<A> sandbox, Class<B> normal) throws Throwable {
+    private <A extends Content<A>, B, C extends Content<C>> Registry<C> getOrCreateRegistry(String name, net.minecraft.util.registry.Registry<B> vanilla, Class<A> sandbox, Class<?> normal) throws Throwable {
         SandboxInternal.Registry<A, B> wrapped = (SandboxInternal.Registry<A, B>) vanilla;
         Registry<A> registry = wrapped.get();
         if (registry == null) {

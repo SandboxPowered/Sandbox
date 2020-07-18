@@ -1,7 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.impl;
 
 import net.minecraft.util.registry.MutableRegistry;
-import net.minecraft.util.registry.SimpleRegistry;
 import org.sandboxpowered.api.content.Content;
 import org.sandboxpowered.api.registry.Registry;
 import org.sandboxpowered.api.util.Identity;

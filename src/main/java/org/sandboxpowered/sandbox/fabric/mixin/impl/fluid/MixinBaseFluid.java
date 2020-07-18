@@ -12,7 +12,7 @@ public abstract class MixinBaseFluid extends Fluid implements SandboxInternal.Ba
     protected abstract boolean isInfinite();
 
     @Override
-    public boolean sandboxinfinite() {
+    public boolean sandboxInfinite() {
         return isInfinite();
     }
 }

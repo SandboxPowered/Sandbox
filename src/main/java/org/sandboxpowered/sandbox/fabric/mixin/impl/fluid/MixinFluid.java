@@ -92,7 +92,7 @@ public abstract class MixinFluid implements SandboxInternal.StateFactoryHolder<F
 
     public boolean sbx$isInfinite() {
         if ((Object) this instanceof FlowableFluid)
-            return ((SandboxInternal.BaseFluid) this).sandboxinfinite();
+            return ((SandboxInternal.BaseFluid) this).sandboxInfinite();
         return false;
     }
 

@@ -9,7 +9,9 @@ import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.spongepowered.asm.mixin.*;
 
 import javax.annotation.Nullable;
+import java.util.Objects;
 
+@SuppressWarnings("EqualsBetweenInconvertibleTypes")
 @Mixin(net.minecraft.item.ItemStack.class)
 @Implements(@Interface(iface = ItemStack.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
@@ -168,7 +170,7 @@ public abstract class MixinItemStack {
         } else if ((sbx$isEmpty() || stack.isEmpty()) || (!hasTag() && stack.hasTag())) {
             return false;
         }
-        return (!sbx$hasTag() && !stack.hasTag()) || getTag().equals(stack.getTag());
+        return (!sbx$hasTag() && !stack.hasTag()) || Objects.equals(getTag(), stack.getTag());
     }
 
     public CompoundTag sbx$asTag() {

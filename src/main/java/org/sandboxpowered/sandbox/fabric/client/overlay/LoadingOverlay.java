@@ -20,9 +20,9 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class LoadingOverlay extends Overlay {
-    public static Color DARK = new Color(0x951213);
-    public static Color RED = new Color(0xD23131);
-    public static Color WHITE = new Color(0xFFFFFFF);
+    public static final Color DARK = new Color(0x951213);
+    public static final Color RED = new Color(0xD23131);
+    public static final Color WHITE = new Color(0xFFFFFFF);
     private final MinecraftClient client;
     private final String prefix;
     private final List<Pair<String, String>> addons;
@@ -94,7 +94,7 @@ public class LoadingOverlay extends Overlay {
         fill(matrixStack, 0, 0, width, height, RED.getRGB());
         fill(matrixStack, 0, height - 20, width, height, DARK.darker().getRGB());
         fill(matrixStack, width - client.textRenderer.getWidth(text) - 4, height - 34, width, height, DARK.darker().getRGB());
-        RenderSystem.pushMatrix();
+        matrixStack.push();
         RenderSystem.enableBlend();
         RenderSystem.enableAlphaTest();
         client.getTextureManager().bindTexture(new Identifier("sandbox", "textures/gui/sandbox.png"));
@@ -102,7 +102,7 @@ public class LoadingOverlay extends Overlay {
         int int_6 = (this.client.getWindow().getScaledWidth() - 256) / 2;
         int int_8 = (this.client.getWindow().getScaledHeight() - 256) / 2;
 //        this.blit(int_6, int_8, 0, 0, 256, 256);
-        RenderSystem.popMatrix();
+        matrixStack.pop();
         drawCenteredString(matrixStack, client.textRenderer, "Connecting to Sandbox", (int) (width / 2f), (int) ((height / 2f) + (width / 3) / 2) - 20, WHITE.getRGB());
         drawRightText(matrixStack, text, width, height - 30, WHITE.getRGB());
         drawCenteredString(matrixStack, client.textRenderer, right2, width - (client.textRenderer.getWidth(text) / 2), height - 14, WHITE.getRGB());

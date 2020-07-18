@@ -9,6 +9,7 @@ public class SandboxComponents {
     public static final Component<Inventory> INVENTORY_COMPONENT = new Component<>(Inventory.class);
     public static final Component<FluidContainer> FLUID_CONTAINER_COMPONENT = new Component<>(FluidContainer.class);
 
+    @SuppressWarnings("unchecked")
     public static <X> Component<X> getComponent(Class<X> xClass) {
         if (xClass == Inventory.class)
             return (Component<X>) INVENTORY_COMPONENT;

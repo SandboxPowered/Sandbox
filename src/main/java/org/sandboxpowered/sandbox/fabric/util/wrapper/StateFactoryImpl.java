@@ -32,7 +32,7 @@ public class StateFactoryImpl<T, S extends PropertyContainer<S>, V, A extends ne
 
     @Override
     public Collection<S> getValidStates() {
-        return vanilla.getStates().stream().map(v -> aTS.apply(v)).collect(Collectors.toList());
+        return vanilla.getStates().stream().map(aTS).collect(Collectors.toList());
     }
 
     public static class BuilderImpl<T, S extends PropertyContainer<S>, V, A extends net.minecraft.state.State<V, A>> implements StateFactory.Builder<T, S> {

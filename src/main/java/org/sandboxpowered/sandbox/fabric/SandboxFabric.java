@@ -125,7 +125,7 @@ public class SandboxFabric implements Sandbox {
         addonRegistrars.clear();
     }
 
-    public class AddonSpecificRegistrar implements Registrar {
+    public static class AddonSpecificRegistrar implements Registrar {
         private final AddonInfo info;
 
         public AddonSpecificRegistrar(AddonInfo info) {

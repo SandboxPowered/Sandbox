@@ -45,11 +45,12 @@ public class FluidWrapper extends net.minecraft.fluid.FlowableFluid {
         return new FluidWrapper(fluid);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     protected void appendProperties(StateManager.Builder<net.minecraft.fluid.Fluid, FluidState> stateFactory$Builder_1) {
         super.appendProperties(stateFactory$Builder_1);
         if (fluid != null)
-            fluid.appendProperties(((SandboxInternal.StateFactoryBuilder) stateFactory$Builder_1).getSboxBuilder());
+            fluid.appendProperties(((SandboxInternal.StateFactoryBuilder<org.sandboxpowered.api.fluid.Fluid, org.sandboxpowered.api.state.FluidState>) stateFactory$Builder_1).getSboxBuilder());
     }
 
     @Override

@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.*;
 @Mixin(BlockPos.class)
 @Implements(@Interface(iface = Position.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
+@SuppressWarnings("ConstantConditions")
 public abstract class MixinBlockPos extends Vec3i {
     public MixinBlockPos() {
         super(0, 0, 0);

@@ -37,12 +37,12 @@ public class PanoramaHandler {
 
         if (panoramaDir == null)
             panoramaDir = new File("screenshots", "panoramas");
-        if (!panoramaDir.exists())
-            panoramaDir.mkdirs();
+        if (!panoramaDir.exists() && !panoramaDir.mkdirs()) return false;
 
         int i = 0;
         String ts = getTimestamp();
         do {
+            //i is always 0 here, why is it checked?
             if (fullscreen) {
                 if (i == 0)
                     currentDir = new File(panoramaDir + "_fullres", ts);
@@ -54,7 +54,7 @@ public class PanoramaHandler {
             }
         } while (currentDir.exists());
 
-        currentDir.mkdirs();
+        if (!currentDir.mkdirs()) return false;
 
         Text panoramaDirComponent = new LiteralText(currentDir.getName());
         panoramaDirComponent.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, currentDir.getAbsolutePath())).withFormatting(Formatting.UNDERLINE);
@@ -65,7 +65,7 @@ public class PanoramaHandler {
     public static void renderTick(boolean start) {
         MinecraftClient mc = MinecraftClient.getInstance();
 
-        if (takingPanorama) {
+        if (mc.player != null && takingPanorama) {
             if (start) {
                 if (panoramaStep == 0) {
                     mc.options.hudHidden = true;
@@ -127,16 +127,15 @@ public class PanoramaHandler {
 
     private static void saveScreenshot(File dir, String screenshotName, int width, int height, Framebuffer buffer) {
         try {
-            NativeImage bufferedimage = ScreenshotUtils.takeScreenshot(width, height, buffer);
+            NativeImage bufferedImage = ScreenshotUtils.takeScreenshot(width, height, buffer);
             File file2 = new File(dir, screenshotName);
 
-            bufferedimage.writeFile(file2);
+            bufferedImage.writeFile(file2);
         } catch (Exception exception) {
         }
     }
 
     private static String getTimestamp() {
-        String s = DATE_FORMAT.format(new Date());
-        return s;
+        return DATE_FORMAT.format(new Date());
     }
 }

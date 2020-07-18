@@ -6,6 +6,7 @@ import net.minecraft.client.render.block.FluidRenderer;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
@@ -24,6 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 @Mixin(FluidRenderer.class)
 public abstract class MixinFluidRenderer {
@@ -36,7 +38,7 @@ public abstract class MixinFluidRenderer {
 
     @Inject(at = @At("RETURN"), method = "onResourceReload")
     public void reload(CallbackInfo info) {
-        SpriteAtlasTexture spriteAtlasTexture_1 = (SpriteAtlasTexture) MinecraftClient.getInstance().getTextureManager().getTexture(SpriteAtlasTexture.BLOCK_ATLAS_TEX);
+        SpriteAtlasTexture spriteAtlasTexture_1 = Objects.requireNonNull((SpriteAtlasTexture) MinecraftClient.getInstance().getTextureManager().getTexture(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE));
         spriteMap.clear();
         Registry.FLUID.forEach(fluid -> {
             if (fluid instanceof FluidWrapper) {
@@ -49,7 +51,7 @@ public abstract class MixinFluidRenderer {
     }
 
     @Inject(at = @At("HEAD"), method = "render", cancellable = true)
-    public void tesselate(BlockRenderView view, BlockPos pos, VertexConsumer bufferBuilder, FluidState state, CallbackInfoReturnable<Boolean> info) {
+    public void draw(BlockRenderView view, BlockPos pos, VertexConsumer bufferBuilder, FluidState state, CallbackInfoReturnable<Boolean> info) {
         stateThreadLocal.set(state);
     }
 

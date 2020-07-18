@@ -11,6 +11,8 @@ import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 
+import java.util.Objects;
+
 public class NetworkManager {
 
     private static final BiMap<Identifier, Class<? extends Packet>> packetMap = HashBiMap.create();
@@ -31,7 +33,7 @@ public class NetworkManager {
 
     public static void sendToServer(Packet packet) {
         Identifier id = getId(packet);
-        MinecraftClient.getInstance().getNetworkHandler().sendPacket(c2s(id, packet));
+        Objects.requireNonNull(MinecraftClient.getInstance().getNetworkHandler()).sendPacket(c2s(id, packet));
     }
 
     public static void sendToAll(Packet packet) {

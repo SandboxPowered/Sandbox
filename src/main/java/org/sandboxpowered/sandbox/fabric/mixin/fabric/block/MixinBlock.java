@@ -35,7 +35,7 @@ public class MixinBlock {
         public abstract AbstractBlock.Settings lightLevel(ToIntFunction<BlockState> toIntFunction);
 
         @Override
-        public void sbxsetlevel(int level) {
+        public void setLevel(int level) {
             lightLevel(state -> level);
         }
     }

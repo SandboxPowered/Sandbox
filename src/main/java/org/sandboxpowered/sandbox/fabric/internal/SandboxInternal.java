@@ -1,6 +1,5 @@
 package org.sandboxpowered.sandbox.fabric.internal;
 
-import net.minecraft.state.State;
 import net.minecraft.util.registry.RegistryKey;
 import org.sandboxpowered.api.block.Block;
 import org.sandboxpowered.api.content.Content;
@@ -16,7 +15,7 @@ public class SandboxInternal {
         void setSboxFactory(org.sandboxpowered.api.state.StateFactory<T, S> factory);
     }
 
-    public interface StateFactoryBuilder<O, S extends State<O, S> & PropertyContainer<S>> {
+    public interface StateFactoryBuilder<O, S extends PropertyContainer<S>> {
         org.sandboxpowered.api.state.StateFactory.Builder<O, S> getSboxBuilder();
 
         void setSboxBuilder(org.sandboxpowered.api.state.StateFactory.Builder<O, S> builder);
@@ -45,11 +44,11 @@ public class SandboxInternal {
     }
 
     public interface MaterialInternal {
-        void sbxsetlevel(int level);
+        void setLevel(int level);
     }
 
     public interface BaseFluid {
-        boolean sandboxinfinite();
+        boolean sandboxInfinite();
     }
 
     public interface WrappedInjection<T> {

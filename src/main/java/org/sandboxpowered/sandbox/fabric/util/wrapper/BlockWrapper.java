@@ -32,6 +32,7 @@ import org.sandboxpowered.api.entity.player.PlayerEntity;
 import org.sandboxpowered.api.fluid.FluidStack;
 import org.sandboxpowered.api.fluid.Fluids;
 import org.sandboxpowered.api.item.ItemStack;
+import org.sandboxpowered.api.state.StateFactory;
 import org.sandboxpowered.api.util.InteractionResult;
 import org.sandboxpowered.api.util.math.Position;
 import org.sandboxpowered.api.util.math.Vec3f;
@@ -41,6 +42,7 @@ import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 
 import javax.annotation.Nullable;
 
+@SuppressWarnings("unchecked")
 public class BlockWrapper extends net.minecraft.block.Block implements SandboxInternal.BlockWrapper {
     private final Block block;
 
@@ -48,7 +50,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
         super(WrappingUtil.convert(block.getSettings()));
         this.block = block;
         if (this.block instanceof BaseBlock)
-            ((BaseBlock) this.block).setStateFactory(((SandboxInternal.StateFactoryHolder) this).getSandboxStateFactory());
+            ((BaseBlock) this.block).setStateFactory(((SandboxInternal.StateFactoryHolder<Block, org.sandboxpowered.api.state.BlockState>) this).getSandboxStateFactory());
     }
 
     public static SandboxInternal.BlockWrapper create(Block block) {
@@ -67,7 +69,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
     }
 
     private static ActionResult statisOnUse(org.sandboxpowered.api.state.BlockState blockState_1, org.sandboxpowered.api.world.World world_1, Position blockPos_1, PlayerEntity playerEntity_1, Hand hand_1, BlockHitResult blockHitResult_1, Block block) {
-        InteractionResult result = block.onBlockUsed(
+        @SuppressWarnings("ConstantConditions") InteractionResult result = block.onBlockUsed(
                 world_1,
                 blockPos_1,
                 blockState_1,
@@ -83,7 +85,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
     protected void appendProperties(StateManager.Builder<net.minecraft.block.Block, BlockState> stateFactory$Builder_1) {
         super.appendProperties(stateFactory$Builder_1);
         if (block instanceof BaseBlock)
-            ((BaseBlock) block).appendProperties(((SandboxInternal.StateFactoryBuilder) stateFactory$Builder_1).getSboxBuilder());
+            ((BaseBlock) block).appendProperties(((SandboxInternal.StateFactoryBuilder<Block, org.sandboxpowered.api.state.BlockState>) stateFactory$Builder_1).getSboxBuilder());
     }
 
     @Override
@@ -189,14 +191,14 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
             super(baseFluid_1, WrappingUtil.convert(block.getSettings()));
             this.block = block;
             if (this.block instanceof BaseBlock)
-                ((BaseBlock) this.block).setStateFactory(((SandboxInternal.StateFactoryHolder) this).getSandboxStateFactory());
+                ((BaseBlock) this.block).setStateFactory(((SandboxInternal.StateFactoryHolder<Block, org.sandboxpowered.api.state.BlockState>) this).getSandboxStateFactory());
         }
 
         @Override
         protected void appendProperties(StateManager.Builder<net.minecraft.block.Block, BlockState> stateFactory$Builder_1) {
             super.appendProperties(stateFactory$Builder_1);
             if (block instanceof org.sandboxpowered.api.block.FluidBlock)
-                ((BaseBlock) block).appendProperties(((SandboxInternal.StateFactoryBuilder) stateFactory$Builder_1).getSboxBuilder());
+                ((BaseBlock) block).appendProperties(((SandboxInternal.StateFactoryBuilder<Block, org.sandboxpowered.api.state.BlockState>) stateFactory$Builder_1).getSboxBuilder());
         }
 
         @Override

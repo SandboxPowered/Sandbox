@@ -19,6 +19,7 @@ public abstract class MixinBlockState {
     @Shadow
     public abstract FluidState getFluidState();
 
+    @SuppressWarnings("ConstantConditions")
     @Inject(at = @At("RETURN"), method = "getLuminance", cancellable = true)
     public void onGetLuminance(CallbackInfoReturnable<Integer> info) {
         FluidState fluidState = getFluidState();

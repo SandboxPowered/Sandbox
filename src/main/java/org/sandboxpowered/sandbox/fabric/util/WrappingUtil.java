@@ -156,7 +156,7 @@ public class WrappingUtil {
             vs.jumpVelocityMultiplier(settings.getJumpVelocity());
             vs.slipperiness(settings.getSlipperiness());
             vs.strength(settings.getHardness(), settings.getResistance());
-            ms.sbxsetlevel(settings.getLuminance());
+            ms.setLevel(settings.getLuminance());
             return vs;
         });
     }

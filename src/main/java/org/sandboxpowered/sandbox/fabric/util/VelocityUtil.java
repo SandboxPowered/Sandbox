@@ -45,6 +45,7 @@ public class VelocityUtil {
         return true;
     }
 
+    @SuppressWarnings("UnstableApiUsage")
     public static InetAddress readAddress(final PacketByteBuf buf) {
         return InetAddresses.forString(buf.readString(32767));
     }

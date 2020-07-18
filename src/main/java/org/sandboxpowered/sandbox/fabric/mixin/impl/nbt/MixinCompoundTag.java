@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+@SuppressWarnings("unchecked")
 @Mixin(CompoundTag.class)
 @Implements(@Interface(iface = org.sandboxpowered.api.util.nbt.CompoundTag.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
@@ -216,12 +217,11 @@ public abstract class MixinCompoundTag implements Tag {
 
     public void sbx$setList(String key, List<? extends org.sandboxpowered.api.util.nbt.Tag> list) {
         ListTag tag;
-        Object castedList = list;
-        if (castedList instanceof ListTag) {
-            tag = (ListTag) castedList;
+        if (list instanceof ListTag) {
+            tag = (ListTag) list;
         } else {
             tag = new ListTag();
-            tag.addAll((Collection<? extends Tag>) castedList);
+            tag.addAll((Collection<? extends Tag>) list);
         }
         put(key, tag);
     }

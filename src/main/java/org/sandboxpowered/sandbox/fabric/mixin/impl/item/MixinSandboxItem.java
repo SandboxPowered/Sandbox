@@ -1,7 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.item;
 
 import org.sandboxpowered.api.item.BaseItem;
-import org.sandboxpowered.api.item.Item;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
