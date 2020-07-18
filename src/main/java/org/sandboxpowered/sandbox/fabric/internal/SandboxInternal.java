@@ -1,32 +1,35 @@
 package org.sandboxpowered.sandbox.fabric.internal;
 
+import net.minecraft.state.State;
 import net.minecraft.util.registry.RegistryKey;
 import org.sandboxpowered.api.block.Block;
+import org.sandboxpowered.api.content.Content;
 import org.sandboxpowered.api.item.Item;
+import org.sandboxpowered.api.state.PropertyContainer;
 import org.sandboxpowered.sandbox.fabric.impl.BasicRegistry;
 
 public class SandboxInternal {
 
-    public interface StateFactory {
-        org.sandboxpowered.api.state.StateFactory getSboxFactory();
+    public interface StateFactory<T, S extends PropertyContainer<S>> {
+        org.sandboxpowered.api.state.StateFactory<T, S> getSboxFactory();
 
-        void setSboxFactory(org.sandboxpowered.api.state.StateFactory factory);
+        void setSboxFactory(org.sandboxpowered.api.state.StateFactory<T, S> factory);
     }
 
-    public interface StateFactoryBuilder {
-        org.sandboxpowered.api.state.StateFactory.Builder getSboxBuilder();
+    public interface StateFactoryBuilder<O, S extends State<O, S> & PropertyContainer<S>> {
+        org.sandboxpowered.api.state.StateFactory.Builder<O, S> getSboxBuilder();
 
-        void setSboxBuilder(org.sandboxpowered.api.state.StateFactory.Builder builder);
+        void setSboxBuilder(org.sandboxpowered.api.state.StateFactory.Builder<O, S> builder);
     }
 
-    public interface Registry {
+    public interface Registry<A extends Content<A>, B> {
         void store();
 
         void reset();
 
-        void set(BasicRegistry registry);
+        void set(BasicRegistry<A, B> registry);
 
-        BasicRegistry get();
+        BasicRegistry<A, B> get();
     }
 
     public interface RegistryKeyObtainer<T> {
@@ -49,13 +52,13 @@ public class SandboxInternal {
         boolean sandboxinfinite();
     }
 
-    public interface WrappedInjection {
-        Object getInjectionWrapped();
+    public interface WrappedInjection<T> {
+        T getInjectionWrapped();
 
-        void setInjectionWrapped(Object o);
+        void setInjectionWrapped(T o);
     }
 
-    public interface StateFactoryHolder {
-        org.sandboxpowered.api.state.StateFactory getSandboxStateFactory();
+    public interface StateFactoryHolder<T, S extends PropertyContainer<S>> {
+        org.sandboxpowered.api.state.StateFactory<T, S> getSandboxStateFactory();
     }
 }

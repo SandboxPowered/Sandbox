@@ -26,20 +26,21 @@ import java.util.Optional;
 @Mixin(net.minecraft.fluid.Fluid.class)
 @Implements(@Interface(iface = Fluid.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
-public abstract class MixinFluid implements SandboxInternal.StateFactoryHolder {
+public abstract class MixinFluid implements SandboxInternal.StateFactoryHolder<Fluid, FluidState> {
     @Shadow
     @Final
     protected net.minecraft.state.StateManager<net.minecraft.fluid.Fluid, net.minecraft.fluid.FluidState> stateManager;
     private StateFactory<Fluid, FluidState> sandboxFactory;
 
+    @SuppressWarnings("unchecked")
     @Inject(method = "<init>", at = @At("RETURN"))
     private void constructor(CallbackInfo info) {
         sandboxFactory = new StateFactoryImpl<>(this.stateManager, Fluid.class::cast, FluidState.class::cast);
-        ((SandboxInternal.StateFactory) this.stateManager).setSboxFactory(sandboxFactory);
+        ((SandboxInternal.StateFactory<Fluid, FluidState>) this.stateManager).setSboxFactory(sandboxFactory);
     }
 
     @Override
-    public StateFactory getSandboxStateFactory() {
+    public StateFactory<Fluid, FluidState> getSandboxStateFactory() {
         return sandboxFactory;
     }
 
@@ -64,7 +65,7 @@ public abstract class MixinFluid implements SandboxInternal.StateFactoryHolder {
 
     @SuppressWarnings("unchecked")
     public StateFactory<Fluid, FluidState> sbx$getStateFactory() {
-        return ((SandboxInternal.StateFactory) stateManager).getSboxFactory();
+        return ((SandboxInternal.StateFactory<Fluid, FluidState>) stateManager).getSboxFactory();
     }
 
     public boolean sbx$isStill(FluidState state) {

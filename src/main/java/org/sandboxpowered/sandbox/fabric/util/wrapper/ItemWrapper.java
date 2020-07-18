@@ -26,7 +26,7 @@ public class ItemWrapper extends net.minecraft.item.Item implements SandboxInter
         this.iItem = iItem;
     }
 
-    public static net.minecraft.item.Item create(Item iItem) {
+    public static SandboxInternal.ItemWrapper create(Item iItem) {
         if (iItem instanceof BucketItem)
             return new BucketItemWrapper((BucketItem) iItem);
         if (iItem instanceof BlockItem)

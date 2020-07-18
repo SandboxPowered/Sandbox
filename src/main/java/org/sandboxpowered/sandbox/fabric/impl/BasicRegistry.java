@@ -1,5 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.impl;
 
+import net.minecraft.util.registry.MutableRegistry;
 import net.minecraft.util.registry.SimpleRegistry;
 import org.sandboxpowered.api.content.Content;
 import org.sandboxpowered.api.registry.Registry;
@@ -19,23 +20,15 @@ public class BasicRegistry<A extends Content<A>, B> implements Registry<A> {
     private final Map<Identity, RegistryEntry<A>> cacheMap = new TreeMap<>(Comparator.comparing(Identity::getPath).thenComparing(Identity::getNamespace));
     private final Function<A, B> convertAB;
     private final Function<B, A> convertBA;
-    private final SimpleRegistry<B> vanilla;
+    private final net.minecraft.util.registry.Registry<B> vanilla;
     private final Class<A> type;
 
-    public BasicRegistry(Identity identity, SimpleRegistry<B> vanilla, Class<A> type, Function<A, B> convertAB, Function<B, A> convertBA) {
+    public BasicRegistry(Identity identity, net.minecraft.util.registry.Registry<B> vanilla, Class<A> type, Function<A, B> convertAB, Function<B, A> convertBA) {
         this.identity = identity;
         this.convertAB = convertAB;
         this.convertBA = convertBA;
         this.vanilla = vanilla;
         this.type = type;
-    }
-
-    public BasicRegistry(Identity identity, SimpleRegistry vanilla, Class type, Function convertAB, Function convertBA, boolean ignored) {
-        this.convertAB = convertAB;
-        this.convertBA = convertBA;
-        this.vanilla = vanilla;
-        this.type = type;
-        this.identity = identity;
     }
 
     @Override
@@ -57,10 +50,11 @@ public class BasicRegistry<A extends Content<A>, B> implements Registry<A> {
         return convertBA.apply(vanilla.get(WrappingUtil.convert(identity)));
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Entry<A> register(Identity identity, A val) {
         B conversion = convertAB.apply(val);
-        vanilla.add(WrappingUtil.convertToRegistryKey(((SandboxInternal.RegistryKeyObtainer<B>) vanilla).sandbox_getRegistryKey(), identity), conversion);
+        ((MutableRegistry<B>) vanilla).add(WrappingUtil.convertToRegistryKey(((SandboxInternal.RegistryKeyObtainer<B>) vanilla).sandbox_getRegistryKey(), identity), conversion);
         return get(identity);
     }
 
@@ -86,6 +80,10 @@ public class BasicRegistry<A extends Content<A>, B> implements Registry<A> {
 
     public void clearCache() {
         cacheMap.forEach((identity, aEntry) -> aEntry.clearCache());
+    }
+
+    interface Factory {
+        <A extends Content<A>, B> BasicRegistry<A, B> create(Identity identity, net.minecraft.util.registry.Registry<B> vanilla, Class<A> type, Function<A, B> convertAB, Function<B, A> convertBA);
     }
 
     public static class RegistryEntry<T extends Content<T>> implements Entry<T> {

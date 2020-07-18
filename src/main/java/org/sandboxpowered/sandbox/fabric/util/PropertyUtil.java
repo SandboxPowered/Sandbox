@@ -4,69 +4,70 @@ import net.minecraft.state.property.Properties;
 import org.sandboxpowered.api.state.Property;
 
 public class PropertyUtil {
-    public static Property get(String s) {
+    @SuppressWarnings("unchecked")
+    public static <T extends Comparable<T>> Property<T> get(String s) {
         if (s.equals("attached"))
-            return (Property) Properties.ATTACHED;
+            return (Property<T>) Properties.ATTACHED;
         if (s.equals("bottom"))
-            return (Property) Properties.BOTTOM;
+            return (Property<T>) Properties.BOTTOM;
         if (s.equals("conditional"))
-            return (Property) Properties.CONDITIONAL;
+            return (Property<T>) Properties.CONDITIONAL;
         if (s.equals("disarmed"))
-            return (Property) Properties.DISARMED;
+            return (Property<T>) Properties.DISARMED;
         if (s.equals("drag"))
-            return (Property) Properties.DRAG;
+            return (Property<T>) Properties.DRAG;
         if (s.equals("enabled"))
-            return (Property) Properties.ENABLED;
+            return (Property<T>) Properties.ENABLED;
         if (s.equals("extended"))
-            return (Property) Properties.EXTENDED;
+            return (Property<T>) Properties.EXTENDED;
         if (s.equals("eye"))
-            return (Property) Properties.EYE;
+            return (Property<T>) Properties.EYE;
         if (s.equals("falling"))
-            return (Property) Properties.FALLING;
+            return (Property<T>) Properties.FALLING;
         if (s.equals("hanging"))
-            return (Property) Properties.HANGING;
+            return (Property<T>) Properties.HANGING;
         if (s.equals("has_bottle_0"))
-            return (Property) Properties.HAS_BOTTLE_0;
+            return (Property<T>) Properties.HAS_BOTTLE_0;
         if (s.equals("has_bottle_1"))
-            return (Property) Properties.HAS_BOTTLE_1;
+            return (Property<T>) Properties.HAS_BOTTLE_1;
         if (s.equals("has_bottle_2"))
-            return (Property) Properties.HAS_BOTTLE_2;
+            return (Property<T>) Properties.HAS_BOTTLE_2;
         if (s.equals("has_record"))
-            return (Property) Properties.HAS_RECORD;
+            return (Property<T>) Properties.HAS_RECORD;
         if (s.equals("has_book"))
-            return (Property) Properties.HAS_BOOK;
+            return (Property<T>) Properties.HAS_BOOK;
         if (s.equals("inverted"))
-            return (Property) Properties.INVERTED;
+            return (Property<T>) Properties.INVERTED;
         if (s.equals("in_wall"))
-            return (Property) Properties.IN_WALL;
+            return (Property<T>) Properties.IN_WALL;
         if (s.equals("lit"))
-            return (Property) Properties.LIT;
+            return (Property<T>) Properties.LIT;
         if (s.equals("locked"))
-            return (Property) Properties.LOCKED;
+            return (Property<T>) Properties.LOCKED;
         if (s.equals("occupied"))
-            return (Property) Properties.OCCUPIED;
+            return (Property<T>) Properties.OCCUPIED;
         if (s.equals("open"))
-            return (Property) Properties.OPEN;
+            return (Property<T>) Properties.OPEN;
         if (s.equals("persistent"))
-            return (Property) Properties.PERSISTENT;
+            return (Property<T>) Properties.PERSISTENT;
         if (s.equals("powered"))
-            return (Property) Properties.POWERED;
+            return (Property<T>) Properties.POWERED;
         if (s.equals("short"))
-            return (Property) Properties.SHORT;
+            return (Property<T>) Properties.SHORT;
         if (s.equals("signal_fire"))
-            return (Property) Properties.SIGNAL_FIRE;
+            return (Property<T>) Properties.SIGNAL_FIRE;
         if (s.equals("snowy"))
-            return (Property) Properties.SNOWY;
+            return (Property<T>) Properties.SNOWY;
         if (s.equals("triggered"))
-            return (Property) Properties.TRIGGERED;
+            return (Property<T>) Properties.TRIGGERED;
         if (s.equals("unstable"))
-            return (Property) Properties.UNSTABLE;
+            return (Property<T>) Properties.UNSTABLE;
         if (s.equals("waterlogged"))
-            return (Property) Properties.WATERLOGGED;
+            return (Property<T>) Properties.WATERLOGGED;
         if (s.equals("fluidlevel"))
-            return (Property) Properties.LEVEL_1_8;
+            return (Property<T>) Properties.LEVEL_1_8;
         if (s.equals("level_15"))
-            return (Property) Properties.LEVEL_15;
+            return (Property<T>) Properties.LEVEL_15;
         return null;
     }
 }

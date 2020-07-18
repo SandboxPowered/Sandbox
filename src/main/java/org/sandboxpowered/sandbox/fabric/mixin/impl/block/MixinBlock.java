@@ -48,7 +48,7 @@ import java.util.Optional;
 @Mixin(net.minecraft.block.Block.class)
 @Implements(@Interface(iface = Block.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
-public abstract class MixinBlock extends AbstractBlock implements SandboxInternal.StateFactoryHolder {
+public abstract class MixinBlock extends AbstractBlock implements SandboxInternal.StateFactoryHolder<Block, BlockState> {
     @Shadow
     @Final
     protected StateManager<net.minecraft.block.Block, net.minecraft.block.BlockState> stateManager;
@@ -68,10 +68,11 @@ public abstract class MixinBlock extends AbstractBlock implements SandboxInterna
     @Shadow
     public abstract void onBroken(WorldAccess iWorld, BlockPos blockPos, net.minecraft.block.BlockState blockState);
 
+    @SuppressWarnings("unchecked")
     @Inject(method = "<init>", at = @At("RETURN"))
     public void constructor(net.minecraft.block.Block.Settings settings, CallbackInfo info) {
         sandboxFactory = new StateFactoryImpl<>(this.stateManager, b -> (Block) b, s -> (BlockState) s);
-        ((SandboxInternal.StateFactory) this.stateManager).setSboxFactory(sandboxFactory);
+        ((SandboxInternal.StateFactory<Block, BlockState>) this.stateManager).setSboxFactory(sandboxFactory);
     }
 
     public Block.Settings sbx$getSettings() {
@@ -89,7 +90,7 @@ public abstract class MixinBlock extends AbstractBlock implements SandboxInterna
     }
 
     @Override
-    public StateFactory getSandboxStateFactory() {
+    public StateFactory<Block, BlockState> getSandboxStateFactory() {
         return sandboxFactory;
     }
 //

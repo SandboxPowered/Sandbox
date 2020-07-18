@@ -11,6 +11,7 @@ import net.minecraft.util.registry.MutableRegistry;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.util.registry.SimpleRegistry;
+import org.sandboxpowered.api.content.Content;
 import org.sandboxpowered.sandbox.fabric.impl.BasicRegistry;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.spongepowered.asm.mixin.Final;
@@ -25,7 +26,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Mixin(SimpleRegistry.class)
-public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implements SandboxInternal.Registry {
+public abstract class MixinSimpleRegistry<T, C extends Content<C>> extends MutableRegistry<T> implements SandboxInternal.Registry<C, T> {
     private final Set<RegistryKey<T>> keys = new HashSet<>();
     @Shadow
     @Final
@@ -40,7 +41,7 @@ public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implemen
     private int nextId;
     private int vanillaNext;
     private boolean hasStored;
-    private BasicRegistry sboxRegistry;
+    private BasicRegistry<C, T> sboxRegistry;
     @Shadow
     @Final
     private BiMap<RegistryKey<T>, T> entriesByKey;
@@ -82,12 +83,12 @@ public abstract class MixinSimpleRegistry<T> extends MutableRegistry<T> implemen
     }
 
     @Override
-    public void set(BasicRegistry registry) {
+    public void set(BasicRegistry<C, T> registry) {
         this.sboxRegistry = registry;
     }
 
     @Override
-    public BasicRegistry get() {
+    public BasicRegistry<C, T> get() {
         return this.sboxRegistry;
     }
 

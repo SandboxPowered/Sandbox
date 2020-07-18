@@ -39,6 +39,7 @@ import org.sandboxpowered.sandbox.fabric.util.wrapper.*;
 
 import java.util.function.Function;
 
+@SuppressWarnings({"unchecked", "ConstantConditions"})
 public class WrappingUtil {
 
     public static BlockPos convert(Position position) {
@@ -59,37 +60,55 @@ public class WrappingUtil {
 
     private static net.minecraft.block.Block getWrapped(Block block) {
         if (block instanceof SandboxInternal.WrappedInjection) {
-            if (((SandboxInternal.WrappedInjection) block).getInjectionWrapped() == null) {
-                ((SandboxInternal.WrappedInjection) block).setInjectionWrapped(BlockWrapper.create(block));
+            SandboxInternal.WrappedInjection<SandboxInternal.BlockWrapper> wrappedInjection = (SandboxInternal.WrappedInjection<SandboxInternal.BlockWrapper>) block;
+            if (wrappedInjection.getInjectionWrapped() == null) {
+                wrappedInjection.setInjectionWrapped(BlockWrapper.create(block));
             }
-            return (net.minecraft.block.Block) ((SandboxInternal.WrappedInjection) block).getInjectionWrapped();
+            return (net.minecraft.block.Block) wrappedInjection.getInjectionWrapped();
         }
         throw new RuntimeException("Unacceptable class " + block.getClass());
     }
 
     private static net.minecraft.item.Item getWrapped(Item item) {
         if (item instanceof SandboxInternal.WrappedInjection) {
-            if (((SandboxInternal.WrappedInjection) item).getInjectionWrapped() == null) {
-                ((SandboxInternal.WrappedInjection) item).setInjectionWrapped(ItemWrapper.create(item));
+            SandboxInternal.WrappedInjection<SandboxInternal.ItemWrapper> wrappedInjection = (SandboxInternal.WrappedInjection<SandboxInternal.ItemWrapper>) item;
+            if (wrappedInjection.getInjectionWrapped() == null) {
+                wrappedInjection.setInjectionWrapped(ItemWrapper.create(item));
             }
-            return (net.minecraft.item.Item) ((SandboxInternal.WrappedInjection) item).getInjectionWrapped();
+            return (net.minecraft.item.Item) wrappedInjection.getInjectionWrapped();
         }
         throw new RuntimeException("Unacceptable class " + item.getClass());
     }
 
     private static net.minecraft.enchantment.Enchantment getWrapped(Enchantment enchantment) {
         if (enchantment instanceof SandboxInternal.WrappedInjection) {
-            if (((SandboxInternal.WrappedInjection) enchantment).getInjectionWrapped() == null) {
-                ((SandboxInternal.WrappedInjection) enchantment).setInjectionWrapped(new EnchantmentWrapper(enchantment));
+            SandboxInternal.WrappedInjection<EnchantmentWrapper> wrappedInjection = (SandboxInternal.WrappedInjection<EnchantmentWrapper>) enchantment;
+            if (wrappedInjection.getInjectionWrapped() == null) {
+                wrappedInjection.setInjectionWrapped(new EnchantmentWrapper(enchantment));
             }
-            return (net.minecraft.enchantment.Enchantment) ((SandboxInternal.WrappedInjection) enchantment).getInjectionWrapped();
+            return wrappedInjection.getInjectionWrapped();
         }
         throw new RuntimeException("Unacceptable class " + enchantment.getClass());
     }
 
+    private static net.minecraft.fluid.Fluid getWrapped(Fluid fluid) {
+        if (fluid instanceof BaseFluid && fluid instanceof SandboxInternal.WrappedInjection) {
+            SandboxInternal.WrappedInjection<FluidWrapper> wrappedInjection = (SandboxInternal.WrappedInjection<FluidWrapper>) fluid;
+            if (wrappedInjection.getInjectionWrapped() == null) {
+                wrappedInjection.setInjectionWrapped(FluidWrapper.create((BaseFluid) fluid));
+            }
+            return wrappedInjection.getInjectionWrapped();
+        }
+        throw new RuntimeException("Unacceptable class " + fluid.getClass());
+    }
 
     public static net.minecraft.enchantment.Enchantment convert(Enchantment enchant) {
         return castOrWrap(enchant, net.minecraft.enchantment.Enchantment.class, WrappingUtil::getWrapped);
+    }
+
+    //Don't remove, used by the LambdaMetaFactory in the registries
+    public static Enchantment convert(net.minecraft.enchantment.Enchantment enchant) {
+        return (Enchantment) enchant;
     }
 
     public static net.minecraft.block.Block[] convert(Block[] block) {
@@ -170,7 +189,6 @@ public class WrappingUtil {
                     continue;
                 case NO_OBSERVER:
                     r |= 0b10000;
-                    continue;
             }
         }
         return r;
@@ -230,19 +248,19 @@ public class WrappingUtil {
         return cast(itemStack, net.minecraft.item.ItemStack.class);
     }
 
-    public static BlockEntityType convert(BlockEntity.Type type) {
+    public static BlockEntityType<?> convert(BlockEntity.Type<?> type) {
         return cast(type, BlockEntityType.class);
     }
 
-    public static EntityType convert(Entity.Type type) {
+    public static EntityType<?> convert(Entity.Type type) {
         return cast(type, EntityType.class);
     }
 
-    public static Entity.Type convert(EntityType type) {
+    public static Entity.Type convert(EntityType<?> type) {
         return cast(type, Entity.Type.class);
     }
 
-    public static BlockEntity.Type convert(BlockEntityType type) {
+    public static BlockEntity.Type<?> convert(BlockEntityType<?> type) {
         return cast(type, BlockEntity.Type.class);
     }
 
@@ -279,16 +297,6 @@ public class WrappingUtil {
         if (fluid_1 instanceof FluidWrapper)
             return ((FluidWrapper) fluid_1).fluid;
         return (Fluid) fluid_1;
-    }
-
-    private static net.minecraft.fluid.Fluid getWrapped(Fluid fluid) {
-        if (fluid instanceof BaseFluid && fluid instanceof SandboxInternal.WrappedInjection) {
-            if (((SandboxInternal.WrappedInjection) fluid).getInjectionWrapped() == null) {
-                ((SandboxInternal.WrappedInjection) fluid).setInjectionWrapped(FluidWrapper.create((BaseFluid) fluid));
-            }
-            return (net.minecraft.fluid.Fluid) ((SandboxInternal.WrappedInjection) fluid).getInjectionWrapped();
-        }
-        throw new RuntimeException("Unacceptable class " + fluid.getClass());
     }
 
     public static net.minecraft.fluid.Fluid convert(Fluid fluid_1) {
