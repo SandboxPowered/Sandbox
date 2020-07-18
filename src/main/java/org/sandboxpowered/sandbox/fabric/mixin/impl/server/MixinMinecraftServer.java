@@ -6,7 +6,6 @@ import net.minecraft.util.registry.RegistryKey;
 import org.sandboxpowered.api.server.Server;
 import org.sandboxpowered.api.util.Identity;
 import org.sandboxpowered.api.world.World;
-import org.sandboxpowered.sandbox.fabric.SandboxCommon;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

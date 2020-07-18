@@ -26,6 +26,11 @@ public class SandboxFabric implements Sandbox {
     private final Map<AddonInfo, SandboxAPI> addonAPIs = new LinkedHashMap<>();
     private final Map<AddonInfo, Registrar> addonRegistrars = new LinkedHashMap<>();
 
+    public void loadAddon(AddonInfo info, Addon addon) {
+        loadedAddons.put(info.getId(), info);
+        addonMap.put(info, addon);
+    }
+
     @Override
     public Identity getPlatform() {
         return PLATFORM;
@@ -49,6 +54,13 @@ public class SandboxFabric implements Sandbox {
     @Override
     public Registrar getRegistrarFor(AddonInfo info) {
         return addonRegistrars.computeIfAbsent(info, AddonSpecificRegistrar::new);
+    }
+
+    public void destroy() {
+        loadedAddons.clear();
+        addonMap.clear();
+        addonAPIs.clear();
+        addonRegistrars.clear();
     }
 
     public class AddonSpecificRegistrar implements Registrar {
