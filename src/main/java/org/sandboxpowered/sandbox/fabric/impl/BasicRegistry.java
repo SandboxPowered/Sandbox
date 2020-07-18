@@ -82,10 +82,6 @@ public class BasicRegistry<A extends Content<A>, B> implements Registry<A> {
         cacheMap.forEach((identity, aEntry) -> aEntry.clearCache());
     }
 
-    interface Factory {
-        <A extends Content<A>, B> BasicRegistry<A, B> create(Identity identity, net.minecraft.util.registry.Registry<B> vanilla, Class<A> type, Function<A, B> convertAB, Function<B, A> convertBA);
-    }
-
     public static class RegistryEntry<T extends Content<T>> implements Entry<T> {
         private final Identity identity;
         private final BasicRegistry<T, ?> registry;
