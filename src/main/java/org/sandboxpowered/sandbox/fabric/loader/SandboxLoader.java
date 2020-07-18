@@ -15,15 +15,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
 
 public class SandboxLoader {
-    private final ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
     private final Map<String, AddonClassLoader> modidToLoader = new LinkedHashMap<>();
     private SandboxFabric fabric;
 
