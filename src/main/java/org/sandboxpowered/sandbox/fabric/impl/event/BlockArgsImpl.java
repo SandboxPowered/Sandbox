@@ -1,20 +1,17 @@
 package org.sandboxpowered.sandbox.fabric.impl.event;
 
-import org.sandboxpowered.api.events.args.BlockModifiableArgs;
+import org.sandboxpowered.api.events.args.BlockArgs;
 import org.sandboxpowered.api.state.BlockState;
 import org.sandboxpowered.api.util.math.Position;
 import org.sandboxpowered.api.world.World;
 import org.sandboxpowered.eventhandler.CancellableEventArgs;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class BlockModifiableArgsImpl extends CancellableEventArgs implements BlockModifiableArgs {
+public class BlockArgsImpl extends CancellableEventArgs implements BlockArgs {
     private final World world;
     private final Position position;
-    private BlockState state;
+    private final BlockState state;
 
-    public BlockModifiableArgsImpl(World world, Position position, BlockState state) {
+    public BlockArgsImpl(World world, Position position, BlockState state) {
         this.world = world;
         this.position = position;
         this.state = state;
@@ -33,10 +30,5 @@ public class BlockModifiableArgsImpl extends CancellableEventArgs implements Blo
     @Override
     public BlockState getState() {
         return state;
-    }
-
-    @Override
-    public void setState(BlockState state) {
-        this.state = state;
     }
 }

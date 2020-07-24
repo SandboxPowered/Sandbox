@@ -4,6 +4,11 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import org.sandboxpowered.api.events.args.ArrowTypeArgs;
+import org.sandboxpowered.api.events.args.ItemModifiableArgs;
+import org.sandboxpowered.sandbox.fabric.impl.event.ArrowTypeArgsImpl;
+import org.sandboxpowered.sandbox.fabric.impl.event.ItemModifiableArgsImpl;
+import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -17,14 +22,11 @@ public abstract class MixinPlayerEntity extends net.minecraft.entity.LivingEntit
     }
 
     /**
-     * @author B0undarybreaker
+     * @author Coded
      */
     @Inject(method = "getArrowType", at = @At("RETURN"))
     public void getModifiedArrowType(ItemStack weapon, CallbackInfoReturnable<ItemStack> info) {
-//        ItemEvent.GetArrowType event = EventDispatcher.publish(new ItemEvent.GetArrowType(
-//                WrappingUtil.cast(weapon, org.sandboxpowered.api.item.ItemStack.class),
-//                WrappingUtil.cast(info.getReturnValue(), org.sandboxpowered.api.item.ItemStack.class)
-//        ));
-//        info.setReturnValue(WrappingUtil.convert(event.getArrow()));
+        ArrowTypeArgs args = new ArrowTypeArgsImpl(WrappingUtil.convert(weapon), WrappingUtil.convert(info.getReturnValue()));
+        info.setReturnValue(WrappingUtil.convert(args.getArrow()));
     }
 }

@@ -248,8 +248,8 @@ public class WrappingUtil {
         return cast(itemStack, net.minecraft.item.ItemStack.class);
     }
 
-    public static BlockEntityType<?> convert(BlockEntity.Type<?> type) {
-        return cast(type, BlockEntityType.class);
+    public static ItemStack convert(net.minecraft.item.ItemStack itemStack) {
+        return cast(itemStack, ItemStack.class);
     }
 
     public static EntityType<?> convert(Entity.Type type) {
@@ -258,10 +258,6 @@ public class WrappingUtil {
 
     public static Entity.Type convert(EntityType<?> type) {
         return cast(type, Entity.Type.class);
-    }
-
-    public static BlockEntity.Type<?> convert(BlockEntityType<?> type) {
-        return cast(type, BlockEntity.Type.class);
     }
 
     public static Text convert(org.sandboxpowered.api.util.text.Text type) {

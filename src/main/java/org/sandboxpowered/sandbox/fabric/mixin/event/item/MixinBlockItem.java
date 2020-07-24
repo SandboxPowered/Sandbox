@@ -18,13 +18,11 @@ public abstract class MixinBlockItem {
             cancellable = true
     )
     public void place(ItemPlacementContext context, BlockState state, CallbackInfoReturnable<Boolean> info) {
-        BlockModifiableArgsImpl args = BlockModifiableArgsImpl.get(WrappingUtil.convert(context.getWorld()), WrappingUtil.convert(context.getBlockPos()), WrappingUtil.convert(state));
+        BlockModifiableArgsImpl args = new BlockModifiableArgsImpl(WrappingUtil.convert(context.getWorld()), WrappingUtil.convert(context.getBlockPos()), WrappingUtil.convert(state));
 
         BlockEvents.PLACE.accept(WrappingUtil.convert(context.getPlayer()), args);
 
         BlockState state2 = WrappingUtil.convert(args.getState());
-
-        args.release();
 
         if (args.isCanceled()) {
             info.setReturnValue(false);

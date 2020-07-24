@@ -2,6 +2,10 @@ package org.sandboxpowered.sandbox.fabric.mixin.event.item;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
+import org.sandboxpowered.api.events.ItemEvents;
+import org.sandboxpowered.api.events.args.ItemArgs;
+import org.sandboxpowered.sandbox.fabric.impl.event.ItemArgsImpl;
+import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -17,9 +21,11 @@ public class MixinItemStack {
             cancellable = true
     )
     public void place(int int_1, Random random_1, @Nullable ServerPlayerEntity serverPlayerEntity_1, CallbackInfoReturnable<Boolean> info) {
-//        ItemEvent.DamageItem event = EventDispatcher.publish(new ItemEvent.DamageItem((org.sandboxpowered.api.item.ItemStack) this));
-//        if (event.isCancelled()) {
-//            info.setReturnValue(false);
-//        }
+        ItemArgs args = new ItemArgsImpl(WrappingUtil.convert((ItemStack) (Object) this));
+
+        ItemEvents.DAMAGE.accept(WrappingUtil.convert(serverPlayerEntity_1), args);
+
+        if (args.isCanceled())
+            info.setReturnValue(false);
     }
 }
