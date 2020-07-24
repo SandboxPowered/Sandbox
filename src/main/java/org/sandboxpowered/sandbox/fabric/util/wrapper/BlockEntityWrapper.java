@@ -15,7 +15,7 @@ public class BlockEntityWrapper extends net.minecraft.block.entity.BlockEntity {
     private final BlockEntity blockEntity;
 
     public BlockEntityWrapper(@Nonnull BlockEntity blockEntity) {
-        super(WrappingUtil.convert(blockEntity.getType()));
+        super(null);
         this.blockEntity = blockEntity;
         if (this.blockEntity instanceof BaseBlockEntity) {
             ((BaseBlockEntity) this.blockEntity).setContext(new BlockEntityCTXWrapper(this));
