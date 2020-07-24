@@ -4,6 +4,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
+import org.sandboxpowered.api.events.ItemEvents;
 import org.sandboxpowered.api.events.args.ArrowTypeArgs;
 import org.sandboxpowered.api.events.args.ItemModifiableArgs;
 import org.sandboxpowered.sandbox.fabric.impl.event.ArrowTypeArgsImpl;
@@ -27,6 +28,7 @@ public abstract class MixinPlayerEntity extends net.minecraft.entity.LivingEntit
     @Inject(method = "getArrowType", at = @At("RETURN"))
     public void getModifiedArrowType(ItemStack weapon, CallbackInfoReturnable<ItemStack> info) {
         ArrowTypeArgs args = new ArrowTypeArgsImpl(WrappingUtil.convert(weapon), WrappingUtil.convert(info.getReturnValue()));
+        ItemEvents.GET_ARROW_TYPE.accept(WrappingUtil.convert((PlayerEntity) (Object) this), args);
         info.setReturnValue(WrappingUtil.convert(args.getArrow()));
     }
 }
