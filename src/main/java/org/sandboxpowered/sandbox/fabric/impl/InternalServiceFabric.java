@@ -34,6 +34,7 @@ import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.util.MaterialUtil;
 import org.sandboxpowered.sandbox.fabric.util.PropertyUtil;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
+import org.sandboxpowered.sandbox.fabric.util.math.Vec2iImpl;
 
 import java.lang.invoke.LambdaMetafactory;
 import java.lang.invoke.MethodHandle;
@@ -58,7 +59,7 @@ public class InternalServiceFabric implements InternalService {
 
     @Override
     public Vec2i createVec2i(int x, int y) {
-        return null;
+        return new Vec2iImpl(x,y);
     }
 
     @Override
