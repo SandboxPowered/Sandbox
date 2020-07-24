@@ -1,18 +1,3 @@
 plugins {
     id 'java'
 }
-
-
-repositories {
-    mavenCentral()
-    maven { url 'https://jitpack.io' }
-    maven { url 'https://maven.sandboxpowered.org/' }
-}
-
-dependencies {
-    implementation platform("org.sandboxpowered.api:api:0.4.+")
-
-    implementation "org.sandboxpowered.api:base"
-    implementation "org.sandboxpowered.api:rendering"
-    implementation "org.sandboxpowered.api:resources"
-}

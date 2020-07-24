@@ -15,9 +15,21 @@ group = project.maven_group
 minecraft {
 }
 
-repositories {
-	mavenCentral()
-	maven { url 'https://dl.bintray.com/sandboxpowered/API/' }
+allprojects {
+	apply plugin: 'java'
+	repositories {
+		mavenCentral()
+		maven { url 'https://dl.bintray.com/sandboxpowered/API/' }
+		maven { url 'https://maven.sandboxpowered.org/' }
+	}
+
+	dependencies {
+		implementation platform("org.sandboxpowered.api:api:0.4.+")
+
+		implementation "org.sandboxpowered.api:base"
+		implementation "org.sandboxpowered.api:rendering"
+		implementation "org.sandboxpowered.api:resources"
+	}
 }
 
 dependencies {
@@ -28,12 +40,6 @@ dependencies {
 	runtime('org.apache.logging.log4j:log4j-slf4j-impl:2.8.1') {
 		transitive = false
 	}
-
-	implementation platform("org.sandboxpowered.api:api:0.4.+")
-
-	implementation "org.sandboxpowered.api:base"
-	implementation "org.sandboxpowered.api:rendering"
-	implementation "org.sandboxpowered.api:resources"
 }
 
 processResources {
