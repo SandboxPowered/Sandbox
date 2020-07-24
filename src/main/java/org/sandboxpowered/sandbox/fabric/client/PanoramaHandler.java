@@ -28,38 +28,31 @@ public class PanoramaHandler {
     public static int panoramaSize = 1024;
     public static boolean fullscreen = false;
 
-    public static boolean takeScreenshot(Consumer<Text> consumer) {
+    public static void takeScreenshot(Consumer<Text> consumer) {
         if (takingPanorama)
-            return false;
+            return;
 
         takingPanorama = true;
         panoramaStep = 0;
 
         if (panoramaDir == null)
             panoramaDir = new File("screenshots", "panoramas");
-        if (!panoramaDir.exists() && !panoramaDir.mkdirs()) return false;
+        if (!panoramaDir.exists() && !panoramaDir.mkdirs()) return;
 
-        int i = 0;
         String ts = getTimestamp();
         do {
-            //i is always 0 here, why is it checked?
             if (fullscreen) {
-                if (i == 0)
-                    currentDir = new File(panoramaDir + "_fullres", ts);
-                else currentDir = new File(panoramaDir, ts + "_" + i + "_fullres");
+                currentDir = new File(panoramaDir + "_fullres", ts);
             } else {
-                if (i == 0)
-                    currentDir = new File(panoramaDir, ts);
-                else currentDir = new File(panoramaDir, ts + "_" + i);
+                currentDir = new File(panoramaDir, ts);
             }
         } while (currentDir.exists());
 
-        if (!currentDir.mkdirs()) return false;
+        if (!currentDir.mkdirs()) return;
 
         Text panoramaDirComponent = new LiteralText(currentDir.getName());
         panoramaDirComponent.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, currentDir.getAbsolutePath())).withFormatting(Formatting.UNDERLINE);
         consumer.accept(new LiteralText("Panorama saved as ").append(panoramaDirComponent));
-        return true;
     }
 
     public static void renderTick(boolean start) {
