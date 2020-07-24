@@ -203,7 +203,7 @@ public class WrappingUtil {
     }
 
     public static Direction convert(net.minecraft.util.math.Direction direction) {
-        return Direction.values()[direction.ordinal()];
+        return Direction.byId(direction.ordinal());
     }
 
     public static Mirror convert(BlockMirror mirror) {
