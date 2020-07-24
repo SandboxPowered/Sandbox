@@ -1,5 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.internal;
 
+import net.minecraft.client.texture.Sprite;
 import net.minecraft.util.registry.RegistryKey;
 import org.sandboxpowered.api.block.Block;
 import org.sandboxpowered.api.content.Content;
@@ -59,5 +60,12 @@ public class SandboxInternal {
 
     public interface StateFactoryHolder<T, S extends PropertyContainer<S>> {
         org.sandboxpowered.api.state.StateFactory<T, S> getSandboxStateFactory();
+    }
+
+    public interface MagicSprite {
+        void markActive();
+    }
+    public interface MagicQuad {
+        Sprite getSprite();
     }
 }

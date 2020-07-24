@@ -17,7 +17,8 @@
   "mixins": [
     "sandbox.event.mixins.json",
     "sandbox.fabric.mixins.json",
-    "sandbox.impl.mixins.json"
+    "sandbox.impl.mixins.json",
+    "sandbox.performance.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.7.9"

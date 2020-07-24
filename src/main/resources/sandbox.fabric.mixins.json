@@ -15,7 +15,6 @@
     "enchant.MixinEnchantmentHelper",
     "networking.MixinCustomPayloadC2SPacket",
     "networking.MixinCustomPayloadS2CPacket",
-    "networking.MixinHandshakeC2SPacket",
     "networking.MixinLoginQueryResponseC2SPacket",
     "networking.MixinPlayerManager",
     "networking.MixinServerHandshakeNetworkHandler",

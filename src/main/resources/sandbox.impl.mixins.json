@@ -6,7 +6,6 @@
   "mixins": [
     "block.MixinBlock",
     "block.MixinBlockEntity",
-    "block.MixinBlockEntityType",
     "block.MixinHopperBlockEntity",
     "block.MixinMaterial",
     "block.MixinSandboxBlock",
