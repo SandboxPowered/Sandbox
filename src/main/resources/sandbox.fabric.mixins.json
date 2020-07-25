@@ -11,6 +11,7 @@
     "block.MixinStateManager",
     "block.MixinStateManager$MixinStateBuilder",
     "client.MixinResourcePackManager",
+    "client.MixinVideoOptionsScreen",
     "crash.MixinCrashReport",
     "enchant.MixinEnchantmentHelper",
     "networking.MixinCustomPayloadC2SPacket",

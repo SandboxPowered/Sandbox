@@ -10,6 +10,7 @@
     "block.MixinMaterial",
     "block.MixinSandboxBlock",
     "block.MixinWaterlogged",
+    "client.MixinWorldRenderer",
     "enchant.MixinEnchantment",
     "enchant.MixinSandboxEnchantment",
     "entity.MixinEntity",

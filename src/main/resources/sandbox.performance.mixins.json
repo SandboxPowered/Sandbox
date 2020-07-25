@@ -41,11 +41,6 @@
   "client": [
     "direction_values.block.entity.MixinEndGatewayBlockEntity",
     "direction_values.render.block.MixinBlockModelRenderer",
-    "direction_values.render.block.MixinBlockModelRenderer$MixinNeighborOrientation",
-    "texture_ticking.MixinSprite",
-    "texture_ticking.MixinSpriteIdentifier",
-    "texture_ticking.MixinBakedQuad",
-    "texture_ticking.MixinBlockModelRenderer",
-    "texture_ticking.MixinItemRenderer"
+    "direction_values.render.block.MixinBlockModelRenderer$MixinNeighborOrientation"
   ]
 }
