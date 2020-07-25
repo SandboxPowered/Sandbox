@@ -87,6 +87,7 @@ bintray {
 		repo = 'Loader'
 		name = 'fabric'
 		userOrg = 'sandboxpowered'
+		licenses = ['LGPL-3.0']
 		vcsUrl = 'https://github.com/sandboxpowered/sandbox.git'
 		publicDownloadNumbers = true
 		githubRepo = 'sandboxpowered/sandbox'
