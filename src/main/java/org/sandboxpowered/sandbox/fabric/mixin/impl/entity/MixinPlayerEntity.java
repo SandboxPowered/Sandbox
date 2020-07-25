@@ -11,7 +11,7 @@ import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(net.minecraft.entity.player.PlayerEntity.class)
-@Implements(@Interface(iface = PlayerEntity.class, prefix = "sbx$"))
+@Implements(@Interface(iface = PlayerEntity.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public abstract class MixinPlayerEntity extends LivingEntity {
     public MixinPlayerEntity(EntityType<? extends LivingEntity> entityType_1, World world_1) {

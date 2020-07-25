@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.Interface;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(ServerPlayerEntity.class)
-@Implements(@Interface(iface = PlayerEntity.class, prefix = "sbx$"))
+@Implements(@Interface(iface = PlayerEntity.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 public abstract class MixinServerPlayerEntity extends net.minecraft.entity.player.PlayerEntity {
     public MixinServerPlayerEntity(World world, BlockPos blockPos, GameProfile gameProfile) {
         super(world, blockPos, gameProfile);

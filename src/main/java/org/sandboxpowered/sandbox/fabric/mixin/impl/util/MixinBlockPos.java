@@ -30,7 +30,7 @@ public abstract class MixinBlockPos extends Vec3i {
     }
 
     @Mixin(BlockPos.Mutable.class)
-    @Implements(@Interface(iface = Position.Mutable.class, prefix = "sbx$"))
+    @Implements(@Interface(iface = Position.Mutable.class, prefix = "sbx$", remap = Interface.Remap.NONE))
     @Unique
     public static abstract class MixinMutable extends BlockPos {
         public MixinMutable() {
