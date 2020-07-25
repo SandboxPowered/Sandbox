@@ -8,7 +8,7 @@ import org.sandboxpowered.api.util.nbt.CompoundTag;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.spongepowered.asm.mixin.*;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
 @SuppressWarnings("EqualsBetweenInconvertibleTypes")

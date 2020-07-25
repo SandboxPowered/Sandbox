@@ -7,7 +7,7 @@ import org.sandboxpowered.api.util.Identity;
 import org.sandboxpowered.api.util.math.Position;
 import org.spongepowered.asm.mixin.*;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;

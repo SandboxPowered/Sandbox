@@ -3,18 +3,16 @@ package org.sandboxpowered.sandbox.fabric.util.wrapper;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Tickable;
+import org.jetbrains.annotations.NotNull;
 import org.sandboxpowered.api.block.entity.BaseBlockEntity;
 import org.sandboxpowered.api.block.entity.BlockEntity;
 import org.sandboxpowered.api.util.nbt.ReadableCompoundTag;
 import org.sandboxpowered.api.util.nbt.WritableCompoundTag;
-import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
-
-import javax.annotation.Nonnull;
 
 public class BlockEntityWrapper extends net.minecraft.block.entity.BlockEntity {
     private final BlockEntity blockEntity;
 
-    public BlockEntityWrapper(@Nonnull BlockEntity blockEntity) {
+    public BlockEntityWrapper(@NotNull BlockEntity blockEntity) {
         super(null);
         this.blockEntity = blockEntity;
         if (this.blockEntity instanceof BaseBlockEntity) {

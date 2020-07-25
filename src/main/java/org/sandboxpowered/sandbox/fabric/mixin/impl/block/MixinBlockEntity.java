@@ -7,7 +7,7 @@ import org.sandboxpowered.api.util.math.Position;
 import org.sandboxpowered.api.world.World;
 import org.spongepowered.asm.mixin.*;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 @Mixin(net.minecraft.block.entity.BlockEntity.class)
 @Implements(@Interface(iface = BlockEntity.class, prefix = "sbx$", remap = Interface.Remap.NONE))

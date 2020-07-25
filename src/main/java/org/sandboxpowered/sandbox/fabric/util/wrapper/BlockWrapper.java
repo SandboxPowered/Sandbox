@@ -40,7 +40,7 @@ import org.sandboxpowered.api.world.WorldReader;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("unchecked")
 public class BlockWrapper extends net.minecraft.block.Block implements SandboxInternal.BlockWrapper {
