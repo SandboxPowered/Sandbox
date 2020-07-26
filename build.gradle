@@ -23,7 +23,12 @@ allprojects {
 		maven { url 'https://dl.bintray.com/sandboxpowered/API/' }
 		maven { url 'https://maven.sandboxpowered.org/' }
 	}
+}
 
+repositories {
+	mavenCentral()
+	maven { url 'https://dl.bintray.com/sandboxpowered/API/' }
+	maven { url 'https://maven.sandboxpowered.org/' }
 }
 
 dependencies {
@@ -34,16 +39,24 @@ dependencies {
 	runtime('org.apache.logging.log4j:log4j-slf4j-impl:2.8.1') {
 		transitive = false
 	}
+
 	implementation platform("org.sandboxpowered.api:api:0.4.+")
 
+	implementation "org.sandboxpowered.api:base"
 	include "org.sandboxpowered.api:base"
+	implementation "org.sandboxpowered.api:rendering"
 	include "org.sandboxpowered.api:rendering"
+	implementation "org.sandboxpowered.api:resources"
 	include "org.sandboxpowered.api:resources"
 
 	compileOnly group: 'org.jetbrains', name: 'annotations', version: '19.0.0'
+	implementation 'com.electronwill.night-config:core:3.6.0'
 	include 'com.electronwill.night-config:core:3.6.0'
+	implementation 'com.electronwill.night-config:toml:3.6.0'
 	include 'com.electronwill.night-config:toml:3.6.0'
+	implementation 'com.github.zafarkhaja:java-semver:0.9.0'
 	include 'com.github.zafarkhaja:java-semver:0.9.0'
+	implementation 'org.sandboxpowered:eventhandler:1.0.21'
 	include 'org.sandboxpowered:eventhandler:1.0.21'
 	implementation group: 'com.google.guava', name: 'guava', version: '21.0'
 	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
