@@ -108,8 +108,8 @@ bintray {
 publishing {
 	publications {
 		maven(MavenPublication) {
-			artifact jar
-			artifact sourcesJar
+			artifact remapJar
+			artifact remapSourcesJar
 		}
 	}
 }
