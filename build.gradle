@@ -42,9 +42,9 @@ dependencies {
 
 	implementation platform("org.sandboxpowered.api:api:0.4.+")
 
-	include implementation( "org.sandboxpowered.api:base")
-	include implementation( "org.sandboxpowered.api:rendering")
-	include implementation( "org.sandboxpowered.api:resources")
+	include implementation("org.sandboxpowered.api:base")
+	include implementation("org.sandboxpowered.api:rendering")
+	include implementation("org.sandboxpowered.api:resources")
 
 	compileOnly group: 'org.jetbrains', name: 'annotations', version: '19.0.0'
 	include implementation( 'com.electronwill.night-config:core:3.6.0')
