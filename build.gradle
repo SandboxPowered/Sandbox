@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.2.7-SNAPSHOT'
+	id 'fabric-loom' version '0.4-SNAPSHOT'
 	id 'java-library'
 	id 'maven-publish'
 	id "com.jfrog.bintray" version "1.8.4"
@@ -42,22 +42,15 @@ dependencies {
 
 	implementation platform("org.sandboxpowered.api:api:0.4.+")
 
-	implementation "org.sandboxpowered.api:base"
-	include "org.sandboxpowered.api:base"
-	implementation "org.sandboxpowered.api:rendering"
-	include "org.sandboxpowered.api:rendering"
-	implementation "org.sandboxpowered.api:resources"
-	include "org.sandboxpowered.api:resources"
+	include implementation( "org.sandboxpowered.api:base")
+	include implementation( "org.sandboxpowered.api:rendering")
+	include implementation( "org.sandboxpowered.api:resources")
 
 	compileOnly group: 'org.jetbrains', name: 'annotations', version: '19.0.0'
-	implementation 'com.electronwill.night-config:core:3.6.0'
-	include 'com.electronwill.night-config:core:3.6.0'
-	implementation 'com.electronwill.night-config:toml:3.6.0'
-	include 'com.electronwill.night-config:toml:3.6.0'
-	implementation 'com.github.zafarkhaja:java-semver:0.9.0'
-	include 'com.github.zafarkhaja:java-semver:0.9.0'
-	implementation 'org.sandboxpowered:eventhandler:1.0.21'
-	include 'org.sandboxpowered:eventhandler:1.0.21'
+	include implementation( 'com.electronwill.night-config:core:3.6.0')
+	include implementation('com.electronwill.night-config:toml:3.6.0')
+	include implementation('com.github.zafarkhaja:java-semver:0.9.0')
+	include implementation('org.sandboxpowered:eventhandler:1.0.21')
 	implementation group: 'com.google.guava', name: 'guava', version: '21.0'
 	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
 }
