@@ -3,6 +3,7 @@
   "package": "org.sandboxpowered.sandbox.fabric.mixin.impl",
   "compatibilityLevel": "JAVA_8",
   "minVersion": "0.7",
+  "mixinPriority": 5480,
   "mixins": [
     "block.MixinBlock",
     "block.MixinBlockEntity",
