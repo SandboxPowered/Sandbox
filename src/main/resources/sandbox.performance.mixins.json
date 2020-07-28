@@ -3,7 +3,7 @@
   "package": "org.sandboxpowered.sandbox.fabric.mixin.performance",
   "compatibilityLevel": "JAVA_8",
   "minVersion": "0.7",
-  "mixinPriority": 5480,
+  "mixinPriority": 1,
   "mixins": [
     "direction_values.block.MixinAbstractRedstoneGateBlock",
     "direction_values.block.MixinConcretePowderBlock",
