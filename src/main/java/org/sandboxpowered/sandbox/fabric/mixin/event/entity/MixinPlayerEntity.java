@@ -25,7 +25,7 @@ public abstract class MixinPlayerEntity extends net.minecraft.entity.LivingEntit
     /**
      * @author Coded
      */
-    @Inject(method = "getArrowType", at = @At("RETURN"))
+    @Inject(method = "getArrowType", at = @At("RETURN"), cancellable = true)
     public void getModifiedArrowType(ItemStack weapon, CallbackInfoReturnable<ItemStack> info) {
         ArrowTypeArgs args = new ArrowTypeArgsImpl(WrappingUtil.convert(weapon), WrappingUtil.convert(info.getReturnValue()));
         ItemEvents.GET_ARROW_TYPE.accept(WrappingUtil.convert((PlayerEntity) (Object) this), args);
