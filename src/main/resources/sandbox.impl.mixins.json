@@ -5,6 +5,7 @@
   "minVersion": "0.7",
   "mixinPriority": 5480,
   "mixins": [
+    "block.MixinAbstractBlock",
     "block.MixinBlock",
     "block.MixinBlockEntity",
     "block.MixinHopperBlockEntity",
@@ -47,6 +48,6 @@
     "client.MixinFluidRenderer",
     "client.MixinModelLoader"
     "client.MixinRenderLayers",
-    "client.MixinWorldRenderer",
+    "client.MixinWorldRenderer"
   ]
 }

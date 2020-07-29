@@ -11,8 +11,6 @@
     "block.MixinBlockState",
     "block.MixinStateManager",
     "block.MixinStateManager$MixinStateBuilder",
-    "client.MixinResourcePackManager",
-    "client.MixinVideoOptionsScreen",
     "crash.MixinCrashReport",
     "enchant.MixinEnchantmentHelper",
     "networking.MixinCustomPayloadC2SPacket",
@@ -34,7 +32,9 @@
     "client.MixinMinecraftClient",
     "client.MixinScreen",
     "networking.MixinClientConnection",
-    "networking.MixinClientPlayNetworkHandler"
+    "networking.MixinClientPlayNetworkHandler",
+    "client.MixinResourcePackManager",
+    "client.MixinVideoOptionsScreen"
   ],
   "server": [
     "server.MixinDedicatedServer"

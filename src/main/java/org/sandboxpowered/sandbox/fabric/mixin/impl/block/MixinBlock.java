@@ -93,10 +93,10 @@ public abstract class MixinBlock extends AbstractBlock implements SandboxInterna
     public StateFactory<Block, BlockState> getSandboxStateFactory() {
         return sandboxFactory;
     }
-//
-//    public boolean sbx$isAir(BlockState state) {
-//        return this.isAir(WrappingUtil.convert(state));
-//    }
+
+    public boolean sbx$isAir(BlockState state) {
+        return state.isAir();
+    }
 
     public BlockState sbx$getBaseState() {
         return (BlockState) this.getDefaultState();
