@@ -1,6 +1,5 @@
 package org.sandboxpowered.sandbox.fabric.impl.event;
 
-import org.sandboxpowered.api.events.args.ItemArgs;
 import org.sandboxpowered.api.events.args.ItemModifiableArgs;
 import org.sandboxpowered.api.item.ItemStack;
 import org.sandboxpowered.eventhandler.CancellableEventArgs;

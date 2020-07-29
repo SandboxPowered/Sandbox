@@ -2,6 +2,7 @@ package org.sandboxpowered.sandbox.fabric.mixin.impl.world;
 
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
+import org.jetbrains.annotations.Nullable;
 import org.sandboxpowered.api.block.entity.BlockEntity;
 import org.sandboxpowered.api.state.BlockState;
 import org.sandboxpowered.api.util.math.Position;
@@ -9,8 +10,6 @@ import org.sandboxpowered.api.world.WorldReader;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-
-import org.jetbrains.annotations.Nullable;
 
 @Mixin(BlockView.class)
 public interface MixinBlockView extends WorldReader {

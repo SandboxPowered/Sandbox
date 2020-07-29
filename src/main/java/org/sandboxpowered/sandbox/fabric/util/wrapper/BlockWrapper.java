@@ -23,6 +23,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import org.jetbrains.annotations.Nullable;
 import org.sandboxpowered.api.block.BaseBlock;
 import org.sandboxpowered.api.block.Block;
 import org.sandboxpowered.api.component.Components;
@@ -38,8 +39,6 @@ import org.sandboxpowered.api.util.math.Vec3f;
 import org.sandboxpowered.api.world.WorldReader;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
-
-import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("unchecked")
 public class BlockWrapper extends net.minecraft.block.Block implements SandboxInternal.BlockWrapper {

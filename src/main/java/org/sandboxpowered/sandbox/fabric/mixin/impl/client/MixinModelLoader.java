@@ -1,7 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.client;
 
 import net.minecraft.client.render.model.ModelLoader;
-import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.screen.PlayerScreenHandler;

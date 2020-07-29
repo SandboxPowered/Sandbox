@@ -65,6 +65,7 @@ public class SandboxInternal {
     public interface MagicSprite {
         void markActive();
     }
+
     public interface MagicQuad {
         Sprite getSprite();
     }

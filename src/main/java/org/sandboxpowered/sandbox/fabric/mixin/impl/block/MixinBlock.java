@@ -11,6 +11,7 @@ import net.minecraft.state.StateManager;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
+import org.jetbrains.annotations.Nullable;
 import org.sandboxpowered.api.block.Block;
 import org.sandboxpowered.api.block.FluidLoggable;
 import org.sandboxpowered.api.block.entity.BlockEntity;
@@ -42,7 +43,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 
 @Mixin(net.minecraft.block.Block.class)

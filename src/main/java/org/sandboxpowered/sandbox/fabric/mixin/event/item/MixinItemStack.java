@@ -2,6 +2,7 @@ package org.sandboxpowered.sandbox.fabric.mixin.event.item;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
+import org.jetbrains.annotations.Nullable;
 import org.sandboxpowered.api.events.ItemEvents;
 import org.sandboxpowered.api.events.args.ItemArgs;
 import org.sandboxpowered.sandbox.fabric.impl.event.ItemArgsImpl;
@@ -11,7 +12,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import org.jetbrains.annotations.Nullable;
 import java.util.Random;
 
 @Mixin(ItemStack.class)

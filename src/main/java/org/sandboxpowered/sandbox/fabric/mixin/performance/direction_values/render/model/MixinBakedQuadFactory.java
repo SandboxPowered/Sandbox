@@ -9,13 +9,13 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(BakedQuadFactory.class)
 public class MixinBakedQuadFactory {
-    @Redirect(method = "getPositionMatrix", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Direction;values()[Lnet/minecraft/util/math/Direction;"))
-    private Direction[] values() {
+    @Redirect(method = "decodeDirection", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Direction;values()[Lnet/minecraft/util/math/Direction;"))
+    private static Direction[] values2() {
         return PerformanceUtil.DIRECTIONS;
     }
 
-    @Redirect(method = "decodeDirection", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Direction;values()[Lnet/minecraft/util/math/Direction;"))
-    private static Direction[] values2() {
+    @Redirect(method = "getPositionMatrix", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Direction;values()[Lnet/minecraft/util/math/Direction;"))
+    private Direction[] values() {
         return PerformanceUtil.DIRECTIONS;
     }
 

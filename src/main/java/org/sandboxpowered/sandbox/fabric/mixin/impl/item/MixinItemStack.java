@@ -1,6 +1,7 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.item;
 
 import net.minecraft.enchantment.EnchantmentHelper;
+import org.jetbrains.annotations.Nullable;
 import org.sandboxpowered.api.enchantment.Enchantment;
 import org.sandboxpowered.api.item.Item;
 import org.sandboxpowered.api.item.ItemStack;
@@ -8,7 +9,6 @@ import org.sandboxpowered.api.util.nbt.CompoundTag;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.spongepowered.asm.mixin.*;
 
-import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 
 @SuppressWarnings("EqualsBetweenInconvertibleTypes")

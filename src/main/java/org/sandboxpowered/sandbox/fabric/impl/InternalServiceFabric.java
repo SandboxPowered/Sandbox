@@ -59,7 +59,7 @@ public class InternalServiceFabric implements InternalService {
 
     @Override
     public Vec2i createVec2i(int x, int y) {
-        return new Vec2iImpl(x,y);
+        return new Vec2iImpl(x, y);
     }
 
     @Override

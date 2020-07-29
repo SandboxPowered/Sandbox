@@ -1,7 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.util;
 
 import net.minecraft.block.Material;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.entity.EntityType;

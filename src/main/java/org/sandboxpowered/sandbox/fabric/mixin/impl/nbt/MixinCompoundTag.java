@@ -3,11 +3,11 @@ package org.sandboxpowered.sandbox.fabric.mixin.impl.nbt;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import org.jetbrains.annotations.Nullable;
 import org.sandboxpowered.api.util.Identity;
 import org.sandboxpowered.api.util.math.Position;
 import org.spongepowered.asm.mixin.*;
 
-import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;

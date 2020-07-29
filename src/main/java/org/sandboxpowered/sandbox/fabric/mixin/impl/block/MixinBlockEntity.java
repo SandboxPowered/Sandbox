@@ -2,12 +2,11 @@ package org.sandboxpowered.sandbox.fabric.mixin.impl.block;
 
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.math.BlockPos;
+import org.jetbrains.annotations.Nullable;
 import org.sandboxpowered.api.block.entity.BlockEntity;
 import org.sandboxpowered.api.util.math.Position;
 import org.sandboxpowered.api.world.World;
 import org.spongepowered.asm.mixin.*;
-
-import org.jetbrains.annotations.Nullable;
 
 @Mixin(net.minecraft.block.entity.BlockEntity.class)
 @Implements(@Interface(iface = BlockEntity.class, prefix = "sbx$", remap = Interface.Remap.NONE))

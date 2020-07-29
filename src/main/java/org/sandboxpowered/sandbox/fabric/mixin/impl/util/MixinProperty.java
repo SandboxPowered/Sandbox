@@ -14,7 +14,7 @@ public abstract class MixinProperty<T extends Comparable<T>> {
     public abstract String getName();
 
     @Shadow
-    public abstract  Collection<T> getValues();
+    public abstract Collection<T> getValues();
 
     @Shadow
     public abstract String name(T var1);

@@ -3,7 +3,6 @@ package org.sandboxpowered.sandbox.fabric.mixin.event.world;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.world.ServerWorld;
 import org.sandboxpowered.api.events.EntityEvents;
-import org.sandboxpowered.api.events.args.EntityArgs;
 import org.sandboxpowered.eventhandler.CancellableEventArgs;
 import org.sandboxpowered.eventhandler.priority.Cancellable;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;

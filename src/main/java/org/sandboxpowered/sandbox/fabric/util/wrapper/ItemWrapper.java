@@ -4,6 +4,7 @@ import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
+import org.jetbrains.annotations.Nullable;
 import org.sandboxpowered.api.item.BlockItem;
 import org.sandboxpowered.api.item.BucketItem;
 import org.sandboxpowered.api.item.Item;
@@ -14,7 +15,6 @@ import org.sandboxpowered.api.world.World;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 
-import org.jetbrains.annotations.Nullable;
 import java.util.LinkedList;
 import java.util.List;
 

@@ -11,6 +11,7 @@ import net.minecraft.util.registry.MutableRegistry;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.util.registry.SimpleRegistry;
+import org.jetbrains.annotations.Nullable;
 import org.sandboxpowered.api.content.Content;
 import org.sandboxpowered.sandbox.fabric.impl.BasicRegistry;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
@@ -21,7 +22,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import org.jetbrains.annotations.Nullable;
 import java.util.HashSet;
 import java.util.Set;
 

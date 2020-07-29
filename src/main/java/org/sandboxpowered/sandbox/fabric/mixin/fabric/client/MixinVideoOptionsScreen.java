@@ -4,7 +4,6 @@ import net.minecraft.client.gui.screen.VideoOptionsScreen;
 import net.minecraft.client.gui.widget.ButtonListWidget;
 import net.minecraft.client.options.Option;
 import org.apache.commons.lang3.ArrayUtils;
-import org.sandboxpowered.sandbox.fabric.Sandbox;
 import org.sandboxpowered.sandbox.fabric.SandboxOptions;
 import org.sandboxpowered.sandbox.fabric.internal.ISandboxScreen;
 import org.spongepowered.asm.mixin.Mixin;

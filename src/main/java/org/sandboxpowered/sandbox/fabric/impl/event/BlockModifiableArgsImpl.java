@@ -6,9 +6,6 @@ import org.sandboxpowered.api.util.math.Position;
 import org.sandboxpowered.api.world.World;
 import org.sandboxpowered.eventhandler.CancellableEventArgs;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class BlockModifiableArgsImpl extends CancellableEventArgs implements BlockModifiableArgs {
     private final World world;
     private final Position position;
