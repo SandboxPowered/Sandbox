@@ -13,9 +13,17 @@ import org.sandboxpowered.sandbox.fabric.util.Log;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Enumeration;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.jar.JarFile;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 
 public class SandboxLoader {
@@ -28,7 +36,18 @@ public class SandboxLoader {
         fabric = new SandboxFabric();
         modidToLoader.clear();
 
-        Set<URL> addonUrls = new HashSet<>();
+        Path addonPath = Paths.get("addons");
+        if (Files.notExists(addonPath)) Files.createDirectories(addonPath);
+        Set<URL> addonUrls = Files.walk(addonPath, 1)
+                .filter(path -> path.toString().endsWith(".jar"))
+                .map(path -> {
+                    try {
+                        return path.toUri().toURL();
+                    } catch (MalformedURLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }).collect(Collectors.toSet());
+
         Enumeration<URL> enumeration = getClass().getClassLoader().getResources("sandbox.toml");
         while (enumeration.hasMoreElements()) { // Add it all to a set to temporarily remove duplicates
             try {
