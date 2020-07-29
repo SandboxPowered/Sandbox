@@ -389,4 +389,8 @@ public class WrappingUtil {
         }
         return GraphicsMode.FAST;
     }
+
+    public static org.sandboxpowered.api.util.math.Vec3d convert(Vec3d hitPos) {
+        return (org.sandboxpowered.api.util.math.Vec3d) hitPos;
+    }
 }

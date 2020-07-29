@@ -32,7 +32,6 @@ import org.sandboxpowered.api.entity.player.PlayerEntity;
 import org.sandboxpowered.api.fluid.FluidStack;
 import org.sandboxpowered.api.fluid.Fluids;
 import org.sandboxpowered.api.item.ItemStack;
-import org.sandboxpowered.api.state.StateFactory;
 import org.sandboxpowered.api.util.InteractionResult;
 import org.sandboxpowered.api.util.math.Position;
 import org.sandboxpowered.api.util.math.Vec3f;
@@ -68,7 +67,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
         return new BlockWrapper(block);
     }
 
-    private static ActionResult statisOnUse(org.sandboxpowered.api.state.BlockState blockState_1, org.sandboxpowered.api.world.World world_1, Position blockPos_1, PlayerEntity playerEntity_1, Hand hand_1, BlockHitResult blockHitResult_1, Block block) {
+    private static ActionResult staticOnUse(org.sandboxpowered.api.state.BlockState blockState_1, org.sandboxpowered.api.world.World world_1, Position blockPos_1, PlayerEntity playerEntity_1, Hand hand_1, BlockHitResult blockHitResult_1, Block block) {
         @SuppressWarnings("ConstantConditions") InteractionResult result = block.onBlockUsed(
                 world_1,
                 blockPos_1,
@@ -95,27 +94,41 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
 
     @Override
     public ActionResult onUse(BlockState blockState_1, World world_1, BlockPos blockPos_1, net.minecraft.entity.player.PlayerEntity playerEntity_1, Hand hand_1, BlockHitResult blockHitResult_1) {
-        return statisOnUse((org.sandboxpowered.api.state.BlockState) blockState_1, (org.sandboxpowered.api.world.World) world_1, (Position) blockPos_1, (PlayerEntity) playerEntity_1, hand_1, blockHitResult_1, block);
+        return staticOnUse((org.sandboxpowered.api.state.BlockState) blockState_1, (org.sandboxpowered.api.world.World) world_1, (Position) blockPos_1, (PlayerEntity) playerEntity_1, hand_1, blockHitResult_1, block);
+    }
+
+    @Nullable
+    @Override
+    public BlockState getPlacementState(ItemPlacementContext context) {
+        return WrappingUtil.convert(block.getStateForPlacement(
+                WrappingUtil.convert(context.getWorld()),
+                WrappingUtil.convert(context.getBlockPos()),
+                WrappingUtil.convert(context.getPlayer()),
+                context.getHand() == Hand.MAIN_HAND ? org.sandboxpowered.api.entity.player.Hand.MAIN_HAND : org.sandboxpowered.api.entity.player.Hand.OFF_HAND,
+                WrappingUtil.convert(context.getStack()),
+                WrappingUtil.convert(context.getSide()),
+                WrappingUtil.convert(context.getHitPos())
+        ));
     }
 
     @Override
-    public void onBlockBreakStart(BlockState blockState_1, World world_1, BlockPos blockPos_1, net.minecraft.entity.player.PlayerEntity playerEntity_1) {
+    public void onBlockBreakStart(BlockState state, World world, BlockPos pos, net.minecraft.entity.player.PlayerEntity player) {
         block.onBlockClicked(
-                (org.sandboxpowered.api.world.World) world_1,
-                (Position) blockPos_1,
-                (org.sandboxpowered.api.state.BlockState) blockState_1,
-                (PlayerEntity) playerEntity_1
+                WrappingUtil.convert(world),
+                WrappingUtil.convert(pos),
+                WrappingUtil.convert(state),
+                WrappingUtil.convert(player)
         );
     }
 
     @Override
-    public void onPlaced(World world_1, BlockPos blockPos_1, BlockState blockState_1, @Nullable LivingEntity livingEntity_1, net.minecraft.item.ItemStack itemStack_1) {
+    public void onPlaced(World world, BlockPos pos, BlockState state, @Nullable LivingEntity entity, net.minecraft.item.ItemStack stack) {
         block.onBlockPlaced(
-                (org.sandboxpowered.api.world.World) world_1,
-                (Position) blockPos_1,
-                (org.sandboxpowered.api.state.BlockState) blockState_1,
-                (Entity) livingEntity_1,
-                WrappingUtil.cast(itemStack_1, ItemStack.class)
+                WrappingUtil.convert(world),
+                WrappingUtil.convert(pos),
+                WrappingUtil.convert(state),
+                WrappingUtil.convert(entity),
+                WrappingUtil.convert(stack)
         );
     }
 
@@ -156,8 +169,17 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
     }
 
     @Override
-    public boolean canReplace(BlockState blockState_1, ItemPlacementContext itemPlacementContext_1) {
-        return block.canReplace((org.sandboxpowered.api.state.BlockState) blockState_1);
+    public boolean canReplace(BlockState state, ItemPlacementContext context) {
+        return block.canReplace(
+                WrappingUtil.convert(context.getWorld()),
+                WrappingUtil.convert(context.getBlockPos()),
+                WrappingUtil.convert(state),
+                WrappingUtil.convert(context.getPlayer()),
+                context.getHand() == Hand.MAIN_HAND ? org.sandboxpowered.api.entity.player.Hand.MAIN_HAND : org.sandboxpowered.api.entity.player.Hand.OFF_HAND,
+                WrappingUtil.convert(context.getStack()),
+                WrappingUtil.convert(context.getSide()),
+                WrappingUtil.convert(context.getHitPos())
+        );
     }
 //
 //    @Override
@@ -208,7 +230,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
 
         @Override
         public ActionResult onUse(BlockState blockState_1, World world_1, BlockPos blockPos_1, net.minecraft.entity.player.PlayerEntity playerEntity_1, Hand hand_1, BlockHitResult blockHitResult_1) {
-            return statisOnUse((org.sandboxpowered.api.state.BlockState) blockState_1, (org.sandboxpowered.api.world.World) world_1, (Position) blockPos_1, (PlayerEntity) playerEntity_1, hand_1, blockHitResult_1, block);
+            return staticOnUse((org.sandboxpowered.api.state.BlockState) blockState_1, (org.sandboxpowered.api.world.World) world_1, (Position) blockPos_1, (PlayerEntity) playerEntity_1, hand_1, blockHitResult_1, block);
         }
 
         @Override
