@@ -20,6 +20,7 @@ import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.BlockView;
 import org.sandboxpowered.api.block.Block;
 import org.sandboxpowered.api.block.entity.BlockEntity;
+import org.sandboxpowered.api.client.GraphicsMode;
 import org.sandboxpowered.api.enchantment.Enchantment;
 import org.sandboxpowered.api.entity.Entity;
 import org.sandboxpowered.api.entity.player.PlayerEntity;
@@ -375,5 +376,17 @@ public class WrappingUtil {
             default:
                 return net.minecraft.enchantment.Enchantment.Rarity.COMMON;
         }
+    }
+
+    public static GraphicsMode convert(net.minecraft.client.options.GraphicsMode graphicsMode) {
+        switch (graphicsMode) {
+            case FAST:
+                return GraphicsMode.FAST;
+            case FANCY:
+                return GraphicsMode.FANCY;
+            case FABULOUS:
+                return GraphicsMode.FABULOUS;
+        }
+        return GraphicsMode.FAST;
     }
 }
