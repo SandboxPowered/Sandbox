@@ -39,6 +39,7 @@ dependencies {
 	runtime('org.apache.logging.log4j:log4j-slf4j-impl:2.8.1') {
 		transitive = false
 	}
+	runtime project(':TestAddon')
 
 	implementation platform("org.sandboxpowered.api:api:0.4.+")
 

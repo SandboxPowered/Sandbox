@@ -46,7 +46,7 @@
   "client": [
     "block.MixinBlockClient",
     "client.MixinFluidRenderer",
-    "client.MixinModelLoader"
+    "client.MixinModelLoader",
     "client.MixinRenderLayers",
     "client.MixinWorldRenderer"
   ]

@@ -11,10 +11,29 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class EnumPropertyWrapper<S extends Enum<S>, V extends Enum<V> & StringIdentifiable> implements Property<S> {
-    private EnumProperty<V> enumProperty;
-    private Function<V, S> v2SFunction;
-    private Function<S, V> s2VFunction;
-    private Class<S> valueType;
+    private final EnumProperty<V> enumProperty;
+    private final Function<V, S> v2SFunction;
+    private final Function<S, V> s2VFunction;
+    private final Class<S> valueType;
+
+    public EnumPropertyWrapper(EnumProperty<V> enumProperty, Function<V, S> v2SFunction, Function<S, V> s2VFunction, Class<S> valueType) {
+        this.enumProperty = enumProperty;
+        this.v2SFunction = v2SFunction;
+        this.s2VFunction = s2VFunction;
+        this.valueType = valueType;
+    }
+
+    public EnumProperty<V> getEnumProperty() {
+        return enumProperty;
+    }
+
+    public Function<V, S> getV2SFunction() {
+        return v2SFunction;
+    }
+
+    public Function<S, V> getS2VFunction() {
+        return s2VFunction;
+    }
 
     @Override
     public String getName() {

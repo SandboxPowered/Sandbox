@@ -285,6 +285,9 @@ public class WrappingUtil {
     }
 
     public static <T extends Comparable<T>> Property<T> convert(org.sandboxpowered.api.state.Property<T> property) {
+        if (property instanceof EnumPropertyWrapper) {
+            return (Property<T>) ((EnumPropertyWrapper<?, ?>) property).getEnumProperty();
+        }
         //TODO: Wrapper
         return (Property<T>) property;
     }
@@ -391,5 +394,53 @@ public class WrappingUtil {
 
     public static org.sandboxpowered.api.util.math.Vec3d convert(Vec3d hitPos) {
         return (org.sandboxpowered.api.util.math.Vec3d) hitPos;
+    }
+
+    public static Direction.Axis convert(net.minecraft.util.math.Direction.Axis axis) {
+        switch (axis) {
+            case X:
+                return Direction.Axis.X;
+            case Y:
+                return Direction.Axis.Y;
+            case Z:
+                return Direction.Axis.Z;
+        }
+        return Direction.Axis.X;
+    }
+
+    public static net.minecraft.util.math.Direction.Axis convert(Direction.Axis axis) {
+        switch (axis) {
+            case X:
+                return net.minecraft.util.math.Direction.Axis.X;
+            case Y:
+                return net.minecraft.util.math.Direction.Axis.Y;
+            case Z:
+                return net.minecraft.util.math.Direction.Axis.Z;
+        }
+        return net.minecraft.util.math.Direction.Axis.X;
+    }
+
+    public static SlabType convert(net.minecraft.block.enums.SlabType slabType) {
+        switch (slabType) {
+            case TOP:
+                return SlabType.TOP;
+            case BOTTOM:
+                return SlabType.BOTTOM;
+            case DOUBLE:
+                return SlabType.DOUBLE;
+        }
+        return SlabType.BOTTOM;
+    }
+
+    public static net.minecraft.block.enums.SlabType convert(SlabType slabType) {
+        switch (slabType) {
+            case TOP:
+                return net.minecraft.block.enums.SlabType.TOP;
+            case BOTTOM:
+                return net.minecraft.block.enums.SlabType.BOTTOM;
+            case DOUBLE:
+                return net.minecraft.block.enums.SlabType.DOUBLE;
+        }
+        return net.minecraft.block.enums.SlabType.BOTTOM;
     }
 }

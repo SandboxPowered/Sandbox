@@ -2,72 +2,188 @@ package org.sandboxpowered.sandbox.fabric.util;
 
 import net.minecraft.state.property.Properties;
 import org.sandboxpowered.api.state.Property;
+import org.sandboxpowered.api.util.Direction;
+import org.sandboxpowered.api.util.SlabType;
+import org.sandboxpowered.sandbox.fabric.util.wrapper.EnumPropertyWrapper;
 
 public class PropertyUtil {
+
+    public static EnumPropertyWrapper<Direction, net.minecraft.util.math.Direction> FACING = new EnumPropertyWrapper<>(
+            Properties.FACING,
+            WrappingUtil::convert,
+            WrappingUtil::convert,
+            Direction.class
+    );
+    public static EnumPropertyWrapper<Direction, net.minecraft.util.math.Direction> HORIZONTAL = new EnumPropertyWrapper<>(
+            Properties.HORIZONTAL_FACING,
+            WrappingUtil::convert,
+            WrappingUtil::convert,
+            Direction.class
+    );
+    public static EnumPropertyWrapper<Direction, net.minecraft.util.math.Direction> HOPPER_FACING = new EnumPropertyWrapper<>(
+            Properties.HOPPER_FACING,
+            WrappingUtil::convert,
+            WrappingUtil::convert,
+            Direction.class
+    );
+    public static EnumPropertyWrapper<Direction.Axis, net.minecraft.util.math.Direction.Axis> AXIS = new EnumPropertyWrapper<>(
+            Properties.AXIS,
+            WrappingUtil::convert,
+            WrappingUtil::convert,
+            Direction.Axis.class
+    );
+    public static EnumPropertyWrapper<Direction.Axis, net.minecraft.util.math.Direction.Axis> HORIZONTAL_AXIS = new EnumPropertyWrapper<>(
+            Properties.HORIZONTAL_AXIS,
+            WrappingUtil::convert,
+            WrappingUtil::convert,
+            Direction.Axis.class
+    );
+    public static EnumPropertyWrapper<SlabType, net.minecraft.block.enums.SlabType> SLAB_TYPE = new EnumPropertyWrapper<>(
+            Properties.SLAB_TYPE,
+            WrappingUtil::convert,
+            WrappingUtil::convert,
+            SlabType.class
+    );
+
     @SuppressWarnings("unchecked")
     public static <T extends Comparable<T>> Property<T> get(String s) {
-        if (s.equals("attached"))
-            return (Property<T>) Properties.ATTACHED;
-        if (s.equals("bottom"))
-            return (Property<T>) Properties.BOTTOM;
-        if (s.equals("conditional"))
-            return (Property<T>) Properties.CONDITIONAL;
-        if (s.equals("disarmed"))
-            return (Property<T>) Properties.DISARMED;
-        if (s.equals("drag"))
-            return (Property<T>) Properties.DRAG;
-        if (s.equals("enabled"))
-            return (Property<T>) Properties.ENABLED;
-        if (s.equals("extended"))
-            return (Property<T>) Properties.EXTENDED;
-        if (s.equals("eye"))
-            return (Property<T>) Properties.EYE;
-        if (s.equals("falling"))
-            return (Property<T>) Properties.FALLING;
-        if (s.equals("hanging"))
-            return (Property<T>) Properties.HANGING;
-        if (s.equals("has_bottle_0"))
-            return (Property<T>) Properties.HAS_BOTTLE_0;
-        if (s.equals("has_bottle_1"))
-            return (Property<T>) Properties.HAS_BOTTLE_1;
-        if (s.equals("has_bottle_2"))
-            return (Property<T>) Properties.HAS_BOTTLE_2;
-        if (s.equals("has_record"))
-            return (Property<T>) Properties.HAS_RECORD;
-        if (s.equals("has_book"))
-            return (Property<T>) Properties.HAS_BOOK;
-        if (s.equals("inverted"))
-            return (Property<T>) Properties.INVERTED;
-        if (s.equals("in_wall"))
-            return (Property<T>) Properties.IN_WALL;
-        if (s.equals("lit"))
-            return (Property<T>) Properties.LIT;
-        if (s.equals("locked"))
-            return (Property<T>) Properties.LOCKED;
-        if (s.equals("occupied"))
-            return (Property<T>) Properties.OCCUPIED;
-        if (s.equals("open"))
-            return (Property<T>) Properties.OPEN;
-        if (s.equals("persistent"))
-            return (Property<T>) Properties.PERSISTENT;
-        if (s.equals("powered"))
-            return (Property<T>) Properties.POWERED;
-        if (s.equals("short"))
-            return (Property<T>) Properties.SHORT;
-        if (s.equals("signal_fire"))
-            return (Property<T>) Properties.SIGNAL_FIRE;
-        if (s.equals("snowy"))
-            return (Property<T>) Properties.SNOWY;
-        if (s.equals("triggered"))
-            return (Property<T>) Properties.TRIGGERED;
-        if (s.equals("unstable"))
-            return (Property<T>) Properties.UNSTABLE;
-        if (s.equals("waterlogged"))
-            return (Property<T>) Properties.WATERLOGGED;
-        if (s.equals("fluidlevel"))
-            return (Property<T>) Properties.LEVEL_1_8;
-        if (s.equals("level_15"))
-            return (Property<T>) Properties.LEVEL_15;
-        return null;
+        switch (s) {
+            case "attached":
+                return (Property<T>) Properties.ATTACHED;
+            case "bottom":
+                return (Property<T>) Properties.BOTTOM;
+            case "conditional":
+                return (Property<T>) Properties.CONDITIONAL;
+            case "disarmed":
+                return (Property<T>) Properties.DISARMED;
+            case "drag":
+                return (Property<T>) Properties.DRAG;
+            case "enabled":
+                return (Property<T>) Properties.ENABLED;
+            case "extended":
+                return (Property<T>) Properties.EXTENDED;
+            case "eye":
+                return (Property<T>) Properties.EYE;
+            case "falling":
+                return (Property<T>) Properties.FALLING;
+            case "hanging":
+                return (Property<T>) Properties.HANGING;
+            case "has_bottle_0":
+                return (Property<T>) Properties.HAS_BOTTLE_0;
+            case "has_bottle_1":
+                return (Property<T>) Properties.HAS_BOTTLE_1;
+            case "has_bottle_2":
+                return (Property<T>) Properties.HAS_BOTTLE_2;
+            case "has_record":
+                return (Property<T>) Properties.HAS_RECORD;
+            case "has_book":
+                return (Property<T>) Properties.HAS_BOOK;
+            case "inverted":
+                return (Property<T>) Properties.INVERTED;
+            case "in_wall":
+                return (Property<T>) Properties.IN_WALL;
+            case "lit":
+                return (Property<T>) Properties.LIT;
+            case "locked":
+                return (Property<T>) Properties.LOCKED;
+            case "occupied":
+                return (Property<T>) Properties.OCCUPIED;
+            case "open":
+                return (Property<T>) Properties.OPEN;
+            case "persistent":
+                return (Property<T>) Properties.PERSISTENT;
+            case "powered":
+                return (Property<T>) Properties.POWERED;
+            case "short":
+                return (Property<T>) Properties.SHORT;
+            case "signal_fire":
+                return (Property<T>) Properties.SIGNAL_FIRE;
+            case "snowy":
+                return (Property<T>) Properties.SNOWY;
+            case "triggered":
+                return (Property<T>) Properties.TRIGGERED;
+            case "unstable":
+                return (Property<T>) Properties.UNSTABLE;
+            case "waterlogged":
+                return (Property<T>) Properties.WATERLOGGED;
+            case "fluidlevel":
+                return (Property<T>) Properties.LEVEL_1_8;
+            case "level_15":
+                return (Property<T>) Properties.LEVEL_15;
+            case "up":
+                return (Property<T>) Properties.UP;
+            case "down":
+                return (Property<T>) Properties.DOWN;
+            case "east":
+                return (Property<T>) Properties.EAST;
+            case "west":
+                return (Property<T>) Properties.WEST;
+            case "north":
+                return (Property<T>) Properties.NORTH;
+            case "south":
+                return (Property<T>) Properties.SOUTH;
+            case "age_1":
+                return (Property<T>) Properties.AGE_1;
+            case "age_2":
+                return (Property<T>) Properties.AGE_2;
+            case "age_3":
+                return (Property<T>) Properties.AGE_3;
+            case "age_5":
+                return (Property<T>) Properties.AGE_5;
+            case "age_7":
+                return (Property<T>) Properties.AGE_7;
+            case "age_15":
+                return (Property<T>) Properties.AGE_15;
+            case "age_25":
+                return (Property<T>) Properties.AGE_25;
+            case "bites":
+                return (Property<T>) Properties.BITES;
+            case "delay":
+                return (Property<T>) Properties.DELAY;
+            case "distance_1_7":
+                return (Property<T>) Properties.DISTANCE_1_7;
+            case "eggs":
+                return (Property<T>) Properties.EGGS;
+            case "hatch":
+                return (Property<T>) Properties.HATCH;
+            case "layers":
+                return (Property<T>) Properties.LAYERS;
+            case "level_3":
+                return (Property<T>) Properties.LEVEL_3;
+            case "level_8":
+                return (Property<T>) Properties.LEVEL_8;
+            case "level_1_8":
+                return (Property<T>) Properties.LEVEL_1_8;
+            case "honey_level":
+                return (Property<T>) Properties.HONEY_LEVEL;
+            case "moisture":
+                return (Property<T>) Properties.MOISTURE;
+            case "note":
+                return (Property<T>) Properties.NOTE;
+            case "pickles":
+                return (Property<T>) Properties.PICKLES;
+            case "power":
+                return (Property<T>) Properties.POWER;
+            case "stage":
+                return (Property<T>) Properties.STAGE;
+            case "distance_0_7":
+                return (Property<T>) Properties.DISTANCE_0_7;
+            case "rotation":
+                return (Property<T>) Properties.ROTATION;
+            case "facing":
+                return (Property<T>) FACING;
+            case "horizontal_facing":
+                return (Property<T>) HORIZONTAL;
+            case "hopper_facing":
+                return (Property<T>) HOPPER_FACING;
+            case "axis":
+                return (Property<T>) AXIS;
+            case "horizontal_axis":
+                return (Property<T>) HORIZONTAL_AXIS;
+            case "slab_type":
+                return (Property<T>) SLAB_TYPE;
+            default:
+                return null;
+        }
     }
 }

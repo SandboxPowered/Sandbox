@@ -72,6 +72,8 @@ public class SandboxLoader {
 
             fabric.initAll();
             fabric.registerAll();
+        } else {
+            Log.info("Loading 0 addons");
         }
     }
 

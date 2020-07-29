@@ -33,6 +33,7 @@ import org.sandboxpowered.api.entity.player.PlayerEntity;
 import org.sandboxpowered.api.fluid.FluidStack;
 import org.sandboxpowered.api.fluid.Fluids;
 import org.sandboxpowered.api.item.ItemStack;
+import org.sandboxpowered.api.state.StateFactory;
 import org.sandboxpowered.api.util.InteractionResult;
 import org.sandboxpowered.api.util.math.Position;
 import org.sandboxpowered.api.util.math.Vec3f;
@@ -42,13 +43,21 @@ import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 
 @SuppressWarnings("unchecked")
 public class BlockWrapper extends net.minecraft.block.Block implements SandboxInternal.BlockWrapper {
-    private final Block block;
+    public final Block block;
+    public final StateManager<net.minecraft.block.Block, BlockState> wrappedStateManager;
+    private final StateFactory<Block, org.sandboxpowered.api.state.BlockState> sandboxWrappedFactory;
 
     public BlockWrapper(Block block) {
         super(WrappingUtil.convert(block.getSettings()));
         this.block = block;
+        StateManager.Builder<net.minecraft.block.Block, BlockState> builder = new StateManager.Builder<>(this);
+        this.appendProperties(builder);
+        this.wrappedStateManager = builder.build(net.minecraft.block.Block::getDefaultState, BlockState::new);
+        this.setDefaultState(wrappedStateManager.getDefaultState());
+        this.sandboxWrappedFactory = new StateFactoryImpl<>(wrappedStateManager, b -> (Block) b, s -> (org.sandboxpowered.api.state.BlockState) s);
+        ((SandboxInternal.StateFactory<Block, org.sandboxpowered.api.state.BlockState>) wrappedStateManager).setSboxFactory(sandboxWrappedFactory);
         if (this.block instanceof BaseBlock)
-            ((BaseBlock) this.block).setStateFactory(((SandboxInternal.StateFactoryHolder<Block, org.sandboxpowered.api.state.BlockState>) this).getSandboxStateFactory());
+            ((BaseBlock) this.block).setStateFactory(sandboxWrappedFactory);
     }
 
     public static SandboxInternal.BlockWrapper create(Block block) {
@@ -77,6 +86,13 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
                 (Vec3f) (Object) new Vector3f(blockHitResult_1.getPos())
         );
         return WrappingUtil.convert(result);
+    }
+
+    @Override
+    public StateManager<net.minecraft.block.Block, BlockState> getStateManager() {
+        if (wrappedStateManager == null)
+            return super.getStateManager();
+        return wrappedStateManager;
     }
 
     @Override

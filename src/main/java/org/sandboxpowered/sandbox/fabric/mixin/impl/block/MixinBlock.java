@@ -35,6 +35,7 @@ import org.sandboxpowered.api.world.World;
 import org.sandboxpowered.api.world.WorldReader;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
+import org.sandboxpowered.sandbox.fabric.util.wrapper.BlockWrapper;
 import org.sandboxpowered.sandbox.fabric.util.wrapper.SidedRespective;
 import org.sandboxpowered.sandbox.fabric.util.wrapper.StateFactoryImpl;
 import org.sandboxpowered.sandbox.fabric.util.wrapper.V2SInventory;
@@ -71,8 +72,10 @@ public abstract class MixinBlock extends AbstractBlock implements SandboxInterna
     @SuppressWarnings("unchecked")
     @Inject(method = "<init>", at = @At("RETURN"))
     public void constructor(net.minecraft.block.Block.Settings settings, CallbackInfo info) {
-        sandboxFactory = new StateFactoryImpl<>(this.stateManager, b -> (Block) b, s -> (BlockState) s);
-        ((SandboxInternal.StateFactory<Block, BlockState>) this.stateManager).setSboxFactory(sandboxFactory);
+        if (!((Object) this instanceof BlockWrapper)) {
+            sandboxFactory = new StateFactoryImpl<>(this.stateManager, b -> (Block) b, s -> (BlockState) s);
+            ((SandboxInternal.StateFactory<Block, BlockState>) this.stateManager).setSboxFactory(sandboxFactory);
+        }
     }
 
     public Block.Settings sbx$getSettings() {

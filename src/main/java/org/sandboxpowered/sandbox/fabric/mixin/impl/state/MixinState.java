@@ -4,6 +4,7 @@ import net.minecraft.state.State;
 import org.sandboxpowered.api.state.Property;
 import org.sandboxpowered.api.state.PropertyContainer;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
+import org.sandboxpowered.sandbox.fabric.util.wrapper.EnumPropertyWrapper;
 import org.spongepowered.asm.mixin.*;
 
 @Mixin(State.class)
@@ -24,6 +25,9 @@ public abstract class MixinState {
     }
 
     public <T extends Comparable<T>> Object sbx$with(Property<T> property, T value) {
+        if (property instanceof EnumPropertyWrapper) {
+            value = (T) ((EnumPropertyWrapper) property).getS2VFunction().apply(value);
+        }
         return with(WrappingUtil.convert(property), value);
     }
 
