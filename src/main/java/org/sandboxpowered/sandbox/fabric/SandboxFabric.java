@@ -5,6 +5,7 @@ import com.github.zafarkhaja.semver.expr.Expression;
 import com.github.zafarkhaja.semver.expr.ExpressionParser;
 import com.google.common.collect.ImmutableMap;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.MinecraftClient;
 import org.sandboxpowered.api.SandboxAPI;
 import org.sandboxpowered.api.addon.Addon;
 import org.sandboxpowered.api.addon.AddonInfo;
@@ -123,6 +124,10 @@ public class SandboxFabric implements Sandbox {
         addonMap.clear();
         addonAPIs.clear();
         addonRegistrars.clear();
+    }
+
+    public void reloadResources() {
+        MinecraftClient.getInstance().reloadResourcesConcurrently();
     }
 
     public static class AddonSpecificRegistrar implements Registrar {

@@ -27,8 +27,17 @@ import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 
 public class SandboxLoader {
+    public static SandboxLoader loader;
     private final Map<String, AddonClassLoader> modidToLoader = new LinkedHashMap<>();
     private SandboxFabric fabric;
+
+    public SandboxLoader() {
+        this.loader=this;
+    }
+
+    public SandboxFabric getFabric() {
+        return fabric;
+    }
 
     public void load() throws IOException {
         if (fabric != null)
@@ -91,6 +100,7 @@ public class SandboxLoader {
 
             fabric.initAll();
             fabric.registerAll();
+            fabric.reloadResources();
         } else {
             Log.info("Loading 0 addons");
         }

@@ -21,7 +21,11 @@ public abstract class MixinState {
     public abstract <T extends Comparable<T>> boolean contains(net.minecraft.state.property.Property<T> property);
 
     public <T extends Comparable<T>> T sbx$get(Property<T> property) {
-        return get(WrappingUtil.convert(property));
+        if (property instanceof EnumPropertyWrapper) {
+            return (T) ((EnumPropertyWrapper) property).getV2SFunction().apply(get(WrappingUtil.convert(property)));
+        } else {
+            return get(WrappingUtil.convert(property));
+        }
     }
 
     public <T extends Comparable<T>> Object sbx$with(Property<T> property, T value) {
