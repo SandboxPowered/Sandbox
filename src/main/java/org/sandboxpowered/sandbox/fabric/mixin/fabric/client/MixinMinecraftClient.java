@@ -6,8 +6,6 @@ import net.minecraft.resource.ReloadableResourceManager;
 import net.minecraft.resource.ResourcePack;
 import net.minecraft.resource.ResourceReloadMonitor;
 import net.minecraft.util.Unit;
-import org.sandboxpowered.api.addon.Addon;
-import org.sandboxpowered.api.addon.AddonInfo;
 import org.sandboxpowered.internal.AddonSpec;
 import org.sandboxpowered.sandbox.fabric.SandboxHooks;
 import org.sandboxpowered.sandbox.fabric.client.AddonFolderResourcePack;
@@ -30,7 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
-import java.util.function.BiConsumer;
 
 @Mixin(MinecraftClient.class)
 public abstract class MixinMinecraftClient {

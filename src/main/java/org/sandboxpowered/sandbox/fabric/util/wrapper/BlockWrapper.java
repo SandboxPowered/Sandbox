@@ -30,7 +30,6 @@ import org.sandboxpowered.api.entity.Entity;
 import org.sandboxpowered.api.entity.player.PlayerEntity;
 import org.sandboxpowered.api.fluid.FluidStack;
 import org.sandboxpowered.api.fluid.Fluids;
-import org.sandboxpowered.api.item.ItemStack;
 import org.sandboxpowered.api.state.StateFactory;
 import org.sandboxpowered.api.util.InteractionResult;
 import org.sandboxpowered.api.util.math.Position;

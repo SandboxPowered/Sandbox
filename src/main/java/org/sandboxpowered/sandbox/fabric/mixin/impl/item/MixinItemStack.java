@@ -90,7 +90,7 @@ public abstract class MixinItemStack {
     }
 
     public Item sbx$getItem() {
-        return (Item) this.getItem();
+        return WrappingUtil.convert(getItem());
     }
 
     public int sbx$getCount() {
@@ -145,7 +145,7 @@ public abstract class MixinItemStack {
     }
 
     public ItemStack sbx$copy() {
-        return WrappingUtil.cast(copy(), ItemStack.class);
+        return WrappingUtil.convert(copy());
     }
 
     public boolean sbx$isEqualTo(ItemStack stack) {

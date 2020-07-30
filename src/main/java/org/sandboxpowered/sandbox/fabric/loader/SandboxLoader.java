@@ -32,7 +32,7 @@ public class SandboxLoader {
     private SandboxFabric fabric;
 
     public SandboxLoader() {
-        this.loader=this;
+        loader = this;
     }
 
     public SandboxFabric getFabric() {
