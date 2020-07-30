@@ -30,6 +30,8 @@
     "nbt.MixinCompoundTag",
     "nbt.MixinTag",
     "server.MixinMinecraftServer",
+    "shape.MixinBox",
+    "shape.MixinVoxelShape",
     "state.MixinBlockState",
     "state.MixinState",
     "text.MixinText",

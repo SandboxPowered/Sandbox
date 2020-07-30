@@ -1,9 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.util.wrapper;
 
-import net.minecraft.block.BlockEntityProvider;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.FluidBlock;
-import net.minecraft.block.Waterloggable;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.client.util.math.Vector3f;
@@ -20,6 +17,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
@@ -87,6 +85,15 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
                 (Vec3f) (Object) new Vector3f(blockHitResult_1.getPos())
         );
         return WrappingUtil.convert(result);
+    }
+
+    @Override
+    public VoxelShape getOutlineShape(BlockState blockState, BlockView blockView, BlockPos blockPos, ShapeContext shapeContext) {
+        return WrappingUtil.convert(block.getShape(
+                WrappingUtil.convert(blockView),
+                WrappingUtil.convert(blockPos),
+                WrappingUtil.convert(blockState)
+        ));
     }
 
     @Override
@@ -266,7 +273,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
                     (Position) blockPos_1,
                     (org.sandboxpowered.api.state.BlockState) blockState_1,
                     (Entity) livingEntity_1,
-                    WrappingUtil.cast(itemStack_1, ItemStack.class)
+                    WrappingUtil.convert(itemStack_1)
             );
         }
 
@@ -305,8 +312,17 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
         }
 
         @Override
-        public boolean canReplace(BlockState blockState_1, ItemPlacementContext itemPlacementContext_1) {
-            return block.canReplace((org.sandboxpowered.api.state.BlockState) blockState_1);
+        public boolean canReplace(BlockState state, ItemPlacementContext context) {
+            return block.canReplace(
+                    WrappingUtil.convert(context.getWorld()),
+                    WrappingUtil.convert(context.getBlockPos()),
+                    WrappingUtil.convert(state),
+                    WrappingUtil.convert(context.getPlayer()),
+                    context.getHand() == Hand.MAIN_HAND ? org.sandboxpowered.api.entity.player.Hand.MAIN_HAND : org.sandboxpowered.api.entity.player.Hand.OFF_HAND,
+                    WrappingUtil.convert(context.getStack()),
+                    WrappingUtil.convert(context.getSide()),
+                    WrappingUtil.convert(context.getHitPos())
+            );
         }
 
         @Override

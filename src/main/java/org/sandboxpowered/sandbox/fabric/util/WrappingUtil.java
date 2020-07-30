@@ -16,6 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import org.sandboxpowered.api.block.Block;
 import org.sandboxpowered.api.block.entity.BlockEntity;
@@ -27,6 +28,8 @@ import org.sandboxpowered.api.fluid.BaseFluid;
 import org.sandboxpowered.api.fluid.Fluid;
 import org.sandboxpowered.api.item.Item;
 import org.sandboxpowered.api.item.ItemStack;
+import org.sandboxpowered.api.shape.Box;
+import org.sandboxpowered.api.shape.Shape;
 import org.sandboxpowered.api.state.BlockState;
 import org.sandboxpowered.api.util.*;
 import org.sandboxpowered.api.util.math.Position;
@@ -442,5 +445,17 @@ public class WrappingUtil {
                 return net.minecraft.block.enums.SlabType.DOUBLE;
         }
         return net.minecraft.block.enums.SlabType.BOTTOM;
+    }
+
+    public static Shape convert(VoxelShape shape) {
+        return (Shape) shape;
+    }
+
+    public static VoxelShape convert(Shape shape) {
+        return (VoxelShape) shape;
+    }
+
+    public static Box convert(net.minecraft.util.math.Box boundingBox) {
+        return (Box) boundingBox;
     }
 }

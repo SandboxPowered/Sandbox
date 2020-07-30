@@ -6,6 +6,7 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.shape.VoxelShapes;
 import org.sandboxpowered.api.block.Block;
 import org.sandboxpowered.api.block.Material;
 import org.sandboxpowered.api.block.entity.BlockEntity;
@@ -20,6 +21,7 @@ import org.sandboxpowered.api.item.Item;
 import org.sandboxpowered.api.item.ItemStack;
 import org.sandboxpowered.api.registry.Registry;
 import org.sandboxpowered.api.server.Server;
+import org.sandboxpowered.api.shape.Shape;
 import org.sandboxpowered.api.state.Property;
 import org.sandboxpowered.api.util.Identity;
 import org.sandboxpowered.api.util.math.Position;
@@ -193,5 +195,20 @@ public class InternalServiceFabric implements InternalService {
     @Override
     public FluidStack fluidStackFromTagFunction(ReadableCompoundTag tag) {
         return new FluidStackImpl(tag);
+    }
+
+    @Override
+    public Shape shape_cube(double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
+        return WrappingUtil.convert(VoxelShapes.cuboid(minX, minY, minZ, maxX, maxY, maxZ));
+    }
+
+    @Override
+    public Shape shape_fullCube() {
+        return WrappingUtil.convert(VoxelShapes.fullCube());
+    }
+
+    @Override
+    public Shape shape_empty() {
+        return WrappingUtil.convert(VoxelShapes.empty());
     }
 }
