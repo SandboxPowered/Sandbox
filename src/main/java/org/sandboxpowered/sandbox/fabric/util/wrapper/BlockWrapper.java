@@ -58,6 +58,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
         ((SandboxInternal.StateFactory<Block, org.sandboxpowered.api.state.BlockState>) wrappedStateManager).setSboxFactory(sandboxWrappedFactory);
         if (this.block instanceof BaseBlock)
             ((BaseBlock) this.block).setStateFactory(sandboxWrappedFactory);
+        setDefaultState(WrappingUtil.convert(this.block.getBaseState()));
     }
 
     public static SandboxInternal.BlockWrapper create(Block block) {
