@@ -10,10 +10,14 @@ import org.sandboxpowered.api.util.text.Text;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.spongepowered.asm.mixin.*;
 
+import java.beans.Transient;
+
 @Mixin(net.minecraft.entity.player.PlayerEntity.class)
 @Implements(@Interface(iface = PlayerEntity.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public abstract class MixinPlayerEntity extends LivingEntity {
+    private boolean sbx_ignoreSleeping;
+
     public MixinPlayerEntity(EntityType<? extends LivingEntity> entityType_1, World world_1) {
         super(entityType_1, world_1);
     }
@@ -31,5 +35,18 @@ public abstract class MixinPlayerEntity extends LivingEntity {
 
     public void sbx$openContainer(Identity id, CompoundTag data) {
         // NO-OP
+    }
+
+    @Intrinsic(displace = true)
+    public boolean sbx$isSleeping() {
+        return isSleeping();
+    }
+
+    public boolean sbx$isSleepingIgnored() {
+        return sbx_ignoreSleeping;
+    }
+
+    public void sbx$setSleepingIgnored(boolean ignored) {
+        this.sbx_ignoreSleeping = ignored;
     }
 }

@@ -35,6 +35,7 @@ import org.sandboxpowered.sandbox.fabric.SandboxComponents;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.util.MaterialUtil;
 import org.sandboxpowered.sandbox.fabric.util.PropertyUtil;
+import org.sandboxpowered.sandbox.fabric.util.SandboxStorage;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.sandboxpowered.sandbox.fabric.util.math.Vec2iImpl;
 
@@ -56,7 +57,7 @@ public class InternalServiceFabric implements InternalService {
 
     @Override
     public Client clientInstance() {
-        return null;
+        return SandboxStorage.client;
     }
 
     @Override
@@ -158,8 +159,7 @@ public class InternalServiceFabric implements InternalService {
 
     @Override
     public Server serverInstance() {
-//        return SandboxCommon.server;
-        return null;
+        return SandboxStorage.server;
     }
 
     @Override

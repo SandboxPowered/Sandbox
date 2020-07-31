@@ -22,7 +22,8 @@
     "networking.MixinServerPlayNetworkHandler",
     "registry.MixinRegistry",
     "registry.MixinSimpleRegistry",
-    "server.MixinMinecraftServer"
+    "server.MixinMinecraftServer",
+    "world.MixinServerWorld"
   ],
   "client": [
     "client.MixinClientBrandRetriever",
@@ -30,11 +31,11 @@
     "client.MixinIntegratedServer",
     "client.MixinKeyboard",
     "client.MixinMinecraftClient",
-    "client.MixinScreen",
-    "networking.MixinClientConnection",
-    "networking.MixinClientPlayNetworkHandler",
     "client.MixinResourcePackManager",
-    "client.MixinVideoOptionsScreen"
+    "client.MixinScreen",
+    "client.MixinVideoOptionsScreen",
+    "networking.MixinClientConnection",
+    "networking.MixinClientPlayNetworkHandler"
   ],
   "server": [
     "server.MixinDedicatedServer"

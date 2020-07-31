@@ -14,6 +14,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public abstract class MixinVideoOptionsScreen implements ISandboxScreen {
     @Redirect(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/ButtonListWidget;addAll([Lnet/minecraft/client/options/Option;)V"))
     public void addAll(ButtonListWidget widget, Option[] options) {
-        widget.addAll(ArrayUtils.add(options, SandboxOptions.WORLD_BORDER));
+        widget.addAll(ArrayUtils.addAll(options, SandboxOptions.WORLD_BORDER));
     }
 }
