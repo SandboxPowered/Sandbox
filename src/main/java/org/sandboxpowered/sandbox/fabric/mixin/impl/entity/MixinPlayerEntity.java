@@ -2,8 +2,11 @@ package org.sandboxpowered.sandbox.fabric.mixin.impl.entity;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.world.World;
+import org.sandboxpowered.api.entity.player.Hand;
 import org.sandboxpowered.api.entity.player.PlayerEntity;
+import org.sandboxpowered.api.item.ItemStack;
 import org.sandboxpowered.api.util.Identity;
 import org.sandboxpowered.api.util.nbt.CompoundTag;
 import org.sandboxpowered.api.util.text.Text;
@@ -25,6 +28,10 @@ public abstract class MixinPlayerEntity extends LivingEntity {
     @Shadow
     public abstract void sendMessage(net.minecraft.text.Text text, boolean bl);
 
+    @Shadow
+    @Final
+    public PlayerInventory inventory;
+
     public void sbx$sendChatMessage(Text text) {
         this.sendMessage(WrappingUtil.convert(text), false);
     }
@@ -37,9 +44,8 @@ public abstract class MixinPlayerEntity extends LivingEntity {
         // NO-OP
     }
 
-    @Intrinsic(displace = true)
     public boolean sbx$isSleeping() {
-        return isSleeping();
+        return this.getSleepingPosition().isPresent();
     }
 
     public boolean sbx$isSleepingIgnored() {
@@ -48,5 +54,9 @@ public abstract class MixinPlayerEntity extends LivingEntity {
 
     public void sbx$setSleepingIgnored(boolean ignored) {
         this.sbx_ignoreSleeping = ignored;
+    }
+
+    public ItemStack sbx$getHeldItem(Hand hand) {
+        return WrappingUtil.convert(hand == Hand.MAIN_HAND ? inventory.getMainHandStack() : inventory.offHand.get(0));
     }
 }

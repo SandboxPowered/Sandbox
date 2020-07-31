@@ -4,6 +4,15 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.network.ServerPlayerInteractionManager;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import org.sandboxpowered.api.entity.player.Hand;
+import org.sandboxpowered.api.entity.player.PlayerEntity;
+import org.sandboxpowered.api.events.BlockEvents;
+import org.sandboxpowered.api.item.ItemStack;
+import org.sandboxpowered.api.state.BlockState;
+import org.sandboxpowered.api.util.math.Position;
+import org.sandboxpowered.api.world.World;
+import org.sandboxpowered.eventhandler.Cancellable;
+import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -21,13 +30,18 @@ public class MixinServerPlayerInteractionManager {
 
     @Inject(method = "tryBreakBlock", at = @At("HEAD"), cancellable = true)
     public void tryBreakBlock(BlockPos pos, CallbackInfoReturnable<Boolean> info) {
-//        BlockEvent.Break event = EventDispatcher.publish(new BlockEvent.Break(
-//                (World) world,
-//                (Position) pos,
-//                (BlockState) world.getBlockState(pos),
-//                WrappingUtil.convert(this.player)));
-//        if (event.isCancelled()) {
-//            info.setReturnValue(false);
-//        }
+        if (BlockEvents.BREAK.hasSubscribers()) {
+            Cancellable cancellable = new Cancellable();
+            World world = WrappingUtil.convert(this.world);
+            Position position = WrappingUtil.convert(pos);
+            BlockState state = WrappingUtil.convert(this.world.getBlockState(pos));
+            PlayerEntity player = WrappingUtil.convert(this.player);
+            ItemStack tool = player.getHeldItem(Hand.MAIN_HAND);
+
+            BlockEvents.BREAK.post(breakEvent -> breakEvent.onEvent(world, position, state, player, tool, cancellable), cancellable);
+            if (cancellable.isCancelled()) {
+                info.setReturnValue(false);
+            }
+        }
     }
 }

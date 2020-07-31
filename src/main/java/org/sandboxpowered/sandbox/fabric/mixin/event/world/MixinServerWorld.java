@@ -3,8 +3,7 @@ package org.sandboxpowered.sandbox.fabric.mixin.event.world;
 import net.minecraft.entity.Entity;
 import net.minecraft.server.world.ServerWorld;
 import org.sandboxpowered.api.events.EntityEvents;
-import org.sandboxpowered.eventhandler.CancellableEventArgs;
-import org.sandboxpowered.eventhandler.priority.Cancellable;
+import org.sandboxpowered.eventhandler.Cancellable;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -18,11 +17,14 @@ public class MixinServerWorld {
             cancellable = true
     )
     public void addEntity(Entity entity, CallbackInfoReturnable<Boolean> info) {
-        Cancellable cancellable = new CancellableEventArgs();
+        if (EntityEvents.SPAWN.hasSubscribers()) {
+            org.sandboxpowered.api.entity.Entity ent = WrappingUtil.convert(entity);
+            Cancellable cancellable = new Cancellable();
 
-        EntityEvents.SPAWN.accept(WrappingUtil.convert(entity), cancellable);
+            EntityEvents.SPAWN.post(event -> event.onEvent(ent, cancellable), cancellable);
 
-        if (cancellable.isCanceled())
-            info.setReturnValue(false);
+            if (cancellable.isCancelled())
+                info.setReturnValue(false);
+        }
     }
 }
