@@ -1,9 +1,11 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.shape;
 
 import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
 import org.sandboxpowered.api.shape.Box;
 import org.sandboxpowered.api.shape.Shape;
 import org.sandboxpowered.api.util.Direction;
+import org.sandboxpowered.api.util.math.ShapeCombination;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.spongepowered.asm.mixin.*;
 
@@ -58,5 +60,9 @@ public abstract class MixinVoxelShape {
 
     public boolean sbx$contains(double x, double y, double z) {
         return contains(x, y, z);
+    }
+
+    public Shape sbx$combine(Shape shape, ShapeCombination combination) {
+        return WrappingUtil.convert(VoxelShapes.combine(WrappingUtil.cast(this, VoxelShape.class), WrappingUtil.convert(shape), combination::combine));
     }
 }
