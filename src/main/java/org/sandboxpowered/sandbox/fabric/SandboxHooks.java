@@ -1,5 +1,8 @@
 package org.sandboxpowered.sandbox.fabric;
 
+import net.minecraft.util.registry.Registry;
+import org.sandboxpowered.api.item.Item;
+import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.security.AddonSecurityPolicy;
 
 import java.security.Policy;
@@ -13,6 +16,7 @@ public class SandboxHooks {
 //        } else {
 //            SandboxServer.INSTANCE.shutdown();
 //        }
+        Registry.REGISTRIES.stream().map(registry -> (SandboxInternal.Registry) registry).forEach(SandboxInternal.Registry::reset);
     }
 
     public static void setupGlobal() {

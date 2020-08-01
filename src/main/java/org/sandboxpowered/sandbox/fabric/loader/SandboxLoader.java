@@ -3,10 +3,12 @@ package org.sandboxpowered.sandbox.fabric.loader;
 import com.electronwill.nightconfig.core.Config;
 import com.electronwill.nightconfig.toml.TomlParser;
 import net.fabricmc.loader.util.UrlUtil;
+import net.minecraft.util.registry.Registry;
 import org.apache.commons.io.IOUtils;
 import org.sandboxpowered.api.addon.Addon;
 import org.sandboxpowered.internal.AddonSpec;
 import org.sandboxpowered.sandbox.fabric.SandboxFabric;
+import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.security.AddonClassLoader;
 import org.sandboxpowered.sandbox.fabric.util.Log;
 
@@ -44,6 +46,8 @@ public class SandboxLoader {
             fabric.destroy();
         fabric = new SandboxFabric();
         modidToLoader.clear();
+
+        Registry.REGISTRIES.stream().map(registry -> (SandboxInternal.Registry) registry).forEach(SandboxInternal.Registry::store);
 
         Path addonPath = Paths.get("addons");
         if (Files.notExists(addonPath)) Files.createDirectories(addonPath);

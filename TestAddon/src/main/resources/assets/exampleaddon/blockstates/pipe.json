@@ -1,0 +1,11 @@
+{
+  "multipart": [
+    {   "apply": { "model": "exampleaddon:block/core" }},
+    {   "when": { "down": "true" }, "apply": { "model": "exampleaddon:block/down" }},
+    {   "when": { "up": "true" }, "apply": { "model": "exampleaddon:block/up" }},
+    {   "when": { "north": "true" }, "apply": { "model": "exampleaddon:block/north" }},
+    {   "when": { "south": "true" }, "apply": { "model": "exampleaddon:block/south" }},
+    {   "when": { "west": "true" }, "apply": { "model": "exampleaddon:block/west" }},
+    {   "when": { "east": "true" }, "apply": { "model": "exampleaddon:block/east" }}
+  ]
+}

@@ -9,6 +9,7 @@ import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.StateManager;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.BlockMirror;
@@ -71,6 +72,15 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
             return new BlockWrapper.WithBlockEntity(block);
         }
         return new BlockWrapper(block);
+    }
+
+    @Override
+    public ItemStack getPickStack(BlockView blockView, BlockPos blockPos, BlockState blockState) {
+        return WrappingUtil.convert(this.block.getPickStack(
+                WrappingUtil.convert(blockView),
+                WrappingUtil.convert(blockPos),
+                WrappingUtil.convert(blockState)
+        ));
     }
 
     private static ActionResult staticOnUse(org.sandboxpowered.api.state.BlockState blockState_1, org.sandboxpowered.api.world.World world_1, Position blockPos_1, PlayerEntity playerEntity_1, Hand hand_1, BlockHitResult blockHitResult_1, Block block) {
@@ -212,8 +222,8 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
     @Override
     public void onSteppedOn(World world_1, BlockPos blockPos_1, net.minecraft.entity.Entity entity_1) {
         block.onEntityWalk(
-                (org.sandboxpowered.api.world.World) world_1,
-                (Position) blockPos_1,
+                WrappingUtil.convert(world_1),
+                WrappingUtil.convert(blockPos_1),
                 WrappingUtil.convert(entity_1)
         );
     }
@@ -253,6 +263,15 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
         @Override
         public ActionResult onUse(BlockState blockState_1, World world_1, BlockPos blockPos_1, net.minecraft.entity.player.PlayerEntity playerEntity_1, Hand hand_1, BlockHitResult blockHitResult_1) {
             return staticOnUse((org.sandboxpowered.api.state.BlockState) blockState_1, (org.sandboxpowered.api.world.World) world_1, (Position) blockPos_1, (PlayerEntity) playerEntity_1, hand_1, blockHitResult_1, block);
+        }
+
+        @Override
+        public ItemStack getPickStack(BlockView blockView, BlockPos blockPos, BlockState blockState) {
+            return WrappingUtil.convert(this.block.getPickStack(
+                    WrappingUtil.convert(blockView),
+                    WrappingUtil.convert(blockPos),
+                    WrappingUtil.convert(blockState)
+            ));
         }
 
         @Override
