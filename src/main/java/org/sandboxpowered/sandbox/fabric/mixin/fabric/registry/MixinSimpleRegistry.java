@@ -3,6 +3,8 @@ package org.sandboxpowered.sandbox.fabric.mixin.fabric.registry;
 import com.google.common.collect.BiMap;
 import com.mojang.serialization.Lifecycle;
 import net.minecraft.block.Block;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
@@ -15,6 +17,7 @@ import org.jetbrains.annotations.Nullable;
 import org.sandboxpowered.api.content.Content;
 import org.sandboxpowered.sandbox.fabric.impl.BasicRegistry;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
+import org.sandboxpowered.sandbox.fabric.util.RegistryUtil;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -68,17 +71,11 @@ public abstract class MixinSimpleRegistry<T, C extends Content<C>> extends Mutab
     }
 
 
-    @Inject(method = "set", at = @At(value = "HEAD"), cancellable = true)
+    @Inject(method = "set", at = @At(value = "RETURN"))
     public <V extends T> void set(int i, RegistryKey<T> registryKey, V object, CallbackInfoReturnable<V> ci) {
         if (hasStored) {
             keys.add(registryKey);
-            if (object instanceof BlockItem) {
-                ((BlockItem) object).appendBlocks(Item.BLOCK_ITEMS, (BlockItem) object);
-            }
-            if (object instanceof Block) {
-                ((Block) object).getStateManager().getStates().forEach(Block.STATE_IDS::add);
-                //TODO: Also need to reset the state ids
-            }
+            RegistryUtil.doOnSet(i, object);
         }
     }
 

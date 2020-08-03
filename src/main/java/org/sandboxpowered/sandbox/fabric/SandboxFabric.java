@@ -127,7 +127,7 @@ public class SandboxFabric implements Sandbox {
     }
 
     public void reloadResources() {
-        MinecraftClient.getInstance().reloadResourcesConcurrently();
+        org.sandboxpowered.sandbox.fabric.Sandbox.SANDBOX.reload();
     }
 
     public static class AddonSpecificRegistrar implements Registrar {
