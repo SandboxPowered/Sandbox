@@ -35,7 +35,8 @@
     "client.MixinScreen",
     "client.MixinVideoOptionsScreen",
     "networking.MixinClientConnection",
-    "networking.MixinClientPlayNetworkHandler"
+    "networking.MixinClientPlayNetworkHandler",
+    "client.MixinGameOptions"
   ],
   "server": [
     "server.MixinDedicatedServer"
