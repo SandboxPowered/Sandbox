@@ -3,7 +3,6 @@ package org.sandboxpowered.sandbox.fabric.util;
 import java.util.TreeMap;
 
 public class NumberUtil {
-
     private final static TreeMap<Integer, String> map = new TreeMap<>();
 
     static {

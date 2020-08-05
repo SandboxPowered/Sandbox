@@ -12,6 +12,7 @@
     "block.MixinStateManager",
     "block.MixinStateManager$MixinStateBuilder",
     "crash.MixinCrashReport",
+    "enchant.MixinEnchantment",
     "enchant.MixinEnchantmentHelper",
     "networking.MixinCustomPayloadC2SPacket",
     "networking.MixinCustomPayloadS2CPacket",
@@ -27,6 +28,7 @@
   ],
   "client": [
     "client.MixinClientBrandRetriever",
+    "client.MixinGameOptions",
     "client.MixinGameRenderer",
     "client.MixinIntegratedServer",
     "client.MixinKeyboard",
@@ -35,8 +37,7 @@
     "client.MixinScreen",
     "client.MixinVideoOptionsScreen",
     "networking.MixinClientConnection",
-    "networking.MixinClientPlayNetworkHandler",
-    "client.MixinGameOptions"
+    "networking.MixinClientPlayNetworkHandler"
   ],
   "server": [
     "server.MixinDedicatedServer"
