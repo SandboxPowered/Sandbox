@@ -26,11 +26,6 @@
     "direction_values.fluid.MixinLavaFluid",
     "direction_values.math.MixinDirectionTransformation",
     "direction_values.property.MixinDirectionProperty",
-    "direction_values.render.chunk.MixinBuiltChunk",
-    "direction_values.render.chunk.MixinChunkOcclusionData",
-    "direction_values.render.item.MixinItemRenderer",
-    "direction_values.render.model.MixinBakedQuadFactory",
-    "direction_values.render.model.MixinBasicBakedModelBuilder",
     "direction_values.structure.MixinBuriedTreasureGeneratorPiece",
     "direction_values.structure.MixinOceanMonumentGeneratorBase",
     "direction_values.world.chunk.MixinUpgradeData",
@@ -42,6 +37,11 @@
   "client": [
     "direction_values.block.entity.MixinEndGatewayBlockEntity",
     "direction_values.render.block.MixinBlockModelRenderer",
-    "direction_values.render.block.MixinBlockModelRenderer$MixinNeighborOrientation"
+    "direction_values.render.block.MixinBlockModelRenderer$MixinNeighborOrientation",
+    "direction_values.render.chunk.MixinBuiltChunk",
+    "direction_values.render.chunk.MixinChunkOcclusionData",
+    "direction_values.render.item.MixinItemRenderer",
+    "direction_values.render.model.MixinBakedQuadFactory",
+    "direction_values.render.model.MixinBasicBakedModelBuilder"
   ]
 }
