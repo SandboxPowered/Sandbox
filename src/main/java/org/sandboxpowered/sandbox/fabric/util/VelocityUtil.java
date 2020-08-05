@@ -71,9 +71,9 @@ public class VelocityUtil {
     public static LoginQueryRequestS2CPacket create(int id) {
         LoginQueryRequestS2CPacket packet = new LoginQueryRequestS2CPacket();
         try {
-            ReflectionHelper.setPrivateField(LoginQueryRequestS2CPacket.class, packet, "queryId", id);
-            ReflectionHelper.setPrivateField(LoginQueryRequestS2CPacket.class, packet, "channel", PLAYER_INFO_CHANNEL);
-            ReflectionHelper.setPrivateField(LoginQueryRequestS2CPacket.class, packet, "payload", new PacketByteBuf(Unpooled.buffer()));
+            ReflectionHelper.setPrivateField(LoginQueryRequestS2CPacket.class, packet, new String[]{"field_13188", "queryId"}, id);
+            ReflectionHelper.setPrivateField(LoginQueryRequestS2CPacket.class, packet, new String[]{"field_13187", "channel"}, PLAYER_INFO_CHANNEL);
+            ReflectionHelper.setPrivateField(LoginQueryRequestS2CPacket.class, packet, new String[]{"field_13189", "payload"}, new PacketByteBuf(Unpooled.buffer()));
         } catch (IllegalAccessException | NoSuchFieldException e) {
             e.printStackTrace();
         }

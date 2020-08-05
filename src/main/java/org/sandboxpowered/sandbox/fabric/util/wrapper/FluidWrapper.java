@@ -34,7 +34,7 @@ public class FluidWrapper extends net.minecraft.fluid.FlowableFluid {
         StateManager.Builder<net.minecraft.fluid.Fluid, FluidState> stateFactory$Builder_1 = new StateManager.Builder<>(this);
         this.appendProperties(stateFactory$Builder_1);
         try {
-            ReflectionHelper.setPrivateField(net.minecraft.fluid.Fluid.class, this, "stateManager", stateFactory$Builder_1.build(Fluid::getDefaultState, FluidState::new));
+            ReflectionHelper.setPrivateField(net.minecraft.fluid.Fluid.class, this, new String[]{"field_15905", "stateManager"}, stateFactory$Builder_1.build(Fluid::getDefaultState, FluidState::new));
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }

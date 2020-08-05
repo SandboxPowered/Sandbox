@@ -2,9 +2,24 @@ package org.sandboxpowered.sandbox.fabric.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 
 public class ReflectionHelper {
     private static Field mods;
+
+    public static <A> void setPrivateField(Class<A> c, A obj, String[] fields, Object val) throws NoSuchFieldException, IllegalAccessException {
+        boolean done = false;
+        for (String field : fields) {
+            try {
+                setPrivateField(c, obj, field, val);
+                done = true;
+                break;
+            } catch (NoSuchFieldException ignored) {
+            }
+        }
+        if (!done)
+            throw new NoSuchFieldException(Arrays.toString(fields));
+    }
 
     public static <A> void setPrivateField(Class<A> c, A obj, String field, Object val) throws NoSuchFieldException, IllegalAccessException {
         Field m = c.getDeclaredField(field);
