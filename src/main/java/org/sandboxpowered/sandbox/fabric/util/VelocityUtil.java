@@ -8,6 +8,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.login.LoginQueryRequestS2CPacket;
 import net.minecraft.util.Identifier;
 import org.sandboxpowered.sandbox.fabric.SandboxConfig;
+import org.sandboxpowered.sandbox.fabric.internal.LoginQueryRequestPacket;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -70,13 +71,10 @@ public class VelocityUtil {
 
     public static LoginQueryRequestS2CPacket create(int id) {
         LoginQueryRequestS2CPacket packet = new LoginQueryRequestS2CPacket();
-        try {
-            ReflectionHelper.setPrivateField(LoginQueryRequestS2CPacket.class, packet, new String[]{"field_13188", "queryId"}, id);
-            ReflectionHelper.setPrivateField(LoginQueryRequestS2CPacket.class, packet, new String[]{"field_13187", "channel"}, PLAYER_INFO_CHANNEL);
-            ReflectionHelper.setPrivateField(LoginQueryRequestS2CPacket.class, packet, new String[]{"field_13189", "payload"}, new PacketByteBuf(Unpooled.buffer()));
-        } catch (IllegalAccessException | NoSuchFieldException e) {
-            e.printStackTrace();
-        }
+        LoginQueryRequestPacket pack = (LoginQueryRequestPacket) packet;
+        pack.setQueryId(id);
+        pack.setChannel(PLAYER_INFO_CHANNEL);
+        pack.setPayload(new PacketByteBuf(Unpooled.buffer()));
         return packet;
     }
 }

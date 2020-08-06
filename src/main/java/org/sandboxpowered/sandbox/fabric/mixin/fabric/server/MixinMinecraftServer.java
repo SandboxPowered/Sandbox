@@ -3,6 +3,7 @@ package org.sandboxpowered.sandbox.fabric.mixin.fabric.server;
 import net.minecraft.resource.ResourcePackManager;
 import net.minecraft.resource.ResourcePackProfile;
 import net.minecraft.server.MinecraftServer;
+import org.sandboxpowered.sandbox.fabric.SandboxConfig;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -10,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MinecraftServer.class)
 public class MixinMinecraftServer {
@@ -36,6 +38,12 @@ public class MixinMinecraftServer {
 //    public void loadDatapacks(File file_1, LevelProperties levelProperties_1, CallbackInfo info) {
 //        this.dataPackManager.registerProvider(new AddonResourceCreator());
 //    }
+
+    @Inject(method = "isOnlineMode", at = @At("HEAD"), cancellable = true)
+    public void isOnlineMode(CallbackInfoReturnable<Boolean> info) {
+        if (SandboxConfig.forwarding.get().isForwarding())
+            info.setReturnValue(false);
+    }
 
     /**
      * @author B0undarybreaker

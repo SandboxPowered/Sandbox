@@ -41,7 +41,7 @@ public abstract class MixinServerLoginNetworkHandler {
 
     @Inject(method = "onHello", at = @At(value = "FIELD", target = "Lnet/minecraft/server/network/ServerLoginNetworkHandler$State;READY_TO_ACCEPT:Lnet/minecraft/server/network/ServerLoginNetworkHandler$State;"), cancellable = true)
     public void onHello(CallbackInfo info) {
-        if (SandboxConfig.velocity.get()) {
+        if (SandboxConfig.forwarding.get() == SandboxConfig.ServerForwarding.VELOCITY) {
             this.velocityId = ThreadLocalRandom.current().nextInt();
             velocityConn = false;
             LoginQueryRequestS2CPacket packet = VelocityUtil.create(velocityId);
@@ -53,18 +53,18 @@ public abstract class MixinServerLoginNetworkHandler {
 
     @Inject(method = "acceptPlayer", at = @At("HEAD"), cancellable = true)
     public void acceptPlayer(CallbackInfo info) {
-        if (SandboxConfig.velocity.get() && !velocityConn) {
-            this.disconnect(new LiteralText("This server requires you to log in through a proxy"));
+        if (SandboxConfig.forwarding.get() == SandboxConfig.ServerForwarding.VELOCITY && !velocityConn) {
+            this.disconnect(new LiteralText("This server requires you to log in through velocity"));
             info.cancel();
         }
     }
 
     @Inject(method = "onQueryResponse", at = @At("HEAD"), cancellable = true)
     public void onQueryResponse(LoginQueryResponseC2SPacket packet, CallbackInfo info) {
-        if (SandboxConfig.velocity.get() && velocityId == ((CustomPayloadPacket.LoginQueryPacket) packet).getQueryId()) {
+        if (SandboxConfig.forwarding.get() == SandboxConfig.ServerForwarding.VELOCITY && velocityId == ((CustomPayloadPacket.LoginQueryPacket) packet).getQueryId()) {
             PacketByteBuf buf = ((CustomPayloadPacket.LoginQueryPacket) packet).getBuffer();
             if (buf == null) {
-                this.disconnect(new LiteralText("This server requires you to log in through a proxy"));
+                this.disconnect(new LiteralText("This server requires you to log in through velocity"));
                 info.cancel();
                 return;
             }

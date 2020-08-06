@@ -10,8 +10,8 @@ import java.nio.file.Paths;
 
 public class SandboxConfig {
     public static ConfigValue<Boolean> enchantmentDecimal;
-    public static ConfigValue<Boolean> velocity;
     public static ConfigValue<String> velocityKey;
+    public static ConfigValue<ServerForwarding> forwarding;
     public static ConfigValue<String> addonSyncURL;
     public static ConfigValue<Boolean> disableAutoCrashSending;
     private static Config config;
@@ -25,10 +25,10 @@ public class SandboxConfig {
             enchantmentDecimal = config.get("enchantment.decimal");
             enchantmentDecimal.add(false);
             enchantmentDecimal.setComment(" Whether the Enchantment tooltip uses decimal or roman numerals");
-            velocity = config.get("server.velocity.enable");
-            velocity.add(false);
-            velocity.setComment(" Use Velocity Modern Forwarding or not");
-            velocityKey = config.get("server.velocity.key");
+            forwarding = config.get("server.forwarding.enable");
+            forwarding.add(ServerForwarding.NONE);
+            forwarding.setComment(" Use player info forwarding, 'NONE', 'BUNGEE', 'VELOCITY'");
+            velocityKey = config.get("server.forwarding.key");
             velocityKey.add("KEY_HERE");
             velocityKey.setComment(" Secret key to authenticate with velocity");
             addonSyncURL = config.get("server.sync.url");
@@ -40,6 +40,16 @@ public class SandboxConfig {
             config.save();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    public enum ServerForwarding {
+        NONE,
+        BUNGEE,
+        VELOCITY;
+
+        public boolean isForwarding() {
+            return this != NONE;
         }
     }
 
