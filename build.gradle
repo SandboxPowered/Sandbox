@@ -9,8 +9,8 @@ sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 
 def ENV = System.getenv()
 archivesBaseName = project.archives_base_name
-def buildNumber = ENV.BUILD_NUMBER
-version = "$project.sandbox_version.${buildNumber ?: "0"}"
+def buildNumber = ENV.BUILD_NUMBER ?: '0'
+version = "${project.sandbox_version}.${buildNumber}"
 group = project.maven_group
 
 minecraft {
@@ -22,33 +22,33 @@ allprojects {
 
 repositories {
 	mavenCentral()
-	maven { url 'https://dl.bintray.com/sandboxpowered/API/' }
-	maven { url 'https://dl.bintray.com/sandboxpowered/Library/' }
+	maven { url 'https://dl.bintray.com/sandboxpowered/API' }
+	maven { url 'https://dl.bintray.com/sandboxpowered/Library' }
 }
 
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.minecraft_version}+build.${project.yarn_mappings}"
-	modCompile "net.fabricmc:fabric-loader:${project.loader_version}"
-	compileOnly "com.google.code.findbugs:jsr305:3.0.2"
-	runtime('org.apache.logging.log4j:log4j-slf4j-impl:2.8.1') {
+	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	compileOnly 'com.google.code.findbugs:jsr305:3.0.2'
+	runtimeOnly('org.apache.logging.log4j:log4j-slf4j-impl:2.8.1') {
 		transitive = false
 	}
-	runtime project(':TestAddon')
+	runtimeOnly project(':TestAddon')
 
-	implementation platform("org.sandboxpowered.api:api:0.4.+")
+	implementation platform('org.sandboxpowered.api:api:0.4.+')
 
-	include implementation("org.sandboxpowered.api:base")
-	include implementation("org.sandboxpowered.api:rendering")
-	include implementation("org.sandboxpowered.api:resources")
+	include implementation('org.sandboxpowered.api:base')
+	include implementation('org.sandboxpowered.api:rendering')
+	include implementation('org.sandboxpowered.api:resources')
 
-	compileOnly group: 'org.jetbrains', name: 'annotations', version: '19.0.0'
+	compileOnly 'org.jetbrains:annotations:19.0.0'
 	include implementation( 'com.electronwill.night-config:core:3.6.0')
 	include implementation('com.electronwill.night-config:toml:3.6.0')
 	include implementation('com.github.zafarkhaja:java-semver:0.9.0')
 	include implementation('org.sandboxpowered:SimpleEventHandler:2.0.3')
-	implementation group: 'com.google.guava', name: 'guava', version: '21.0'
-	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
+	implementation 'com.google.guava:guava:21.0'
+	implementation 'org.apache.commons:commons-lang3:3.9'
 }
 
 processResources {
