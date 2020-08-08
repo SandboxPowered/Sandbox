@@ -14,7 +14,7 @@ version = "${project.sandbox_version}.${buildNumber}"
 group = project.maven_group
 
 minecraft {
-	accessWidener = file("src/main/resources/sandbox-fabric.accesswidener")
+	accessWidener = file("src/main/resources/META-INF/sandbox-fabric.accesswidener")
 }
 
 allprojects {
@@ -63,8 +63,6 @@ processResources {
 	from(sourceSets.main.resources.srcDirs) {
 		exclude "fabric.mod.json"
 	}
-
-	rename '(.+\\.accesswidener)', 'META-INF/$1'
 }
 
 tasks.withType(JavaCompile) {
