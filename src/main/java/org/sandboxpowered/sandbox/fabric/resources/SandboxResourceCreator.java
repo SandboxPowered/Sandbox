@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 
 public class SandboxResourceCreator implements ResourcePackProvider {
     @Override
-    public <T extends ResourcePackProfile> void register(Consumer<T> consumer, ResourcePackProfile.Factory<T> factory) {
+    public void register(Consumer<ResourcePackProfile> consumer, ResourcePackProfile.Factory factory) {
         FabricLoader.getInstance().getModContainer("sandbox").map(modContainer -> ResourcePackProfile.of(
                 "Sandbox Resources",
                 true,

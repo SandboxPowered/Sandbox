@@ -1,7 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.mixin.fabric.server;
 
 import net.minecraft.resource.ResourcePackManager;
-import net.minecraft.resource.ResourcePackProfile;
 import net.minecraft.server.MinecraftServer;
 import org.sandboxpowered.sandbox.fabric.SandboxConfig;
 import org.spongepowered.asm.mixin.Final;
@@ -18,7 +17,7 @@ public class MixinMinecraftServer {
 
     @Shadow
     @Final
-    private ResourcePackManager<ResourcePackProfile> dataPackManager;
+    private ResourcePackManager dataPackManager;
 
 //    @ModifyVariable(method = "main", at = @At("HEAD"), ordinal = 0)
 //    private static String[] main(String[] args) {

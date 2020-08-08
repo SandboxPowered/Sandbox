@@ -16,14 +16,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Mixin(ResourcePackManager.class)
-public class MixinResourcePackManager<T extends ResourcePackProfile> {
+public class MixinResourcePackManager {
     @Shadow
     @Final
     @Mutable
     private Set<ResourcePackProvider> providers;
 
-    @Inject(method = "<init>", at = @At("RETURN"))
-    public void construct(ResourcePackProfile.Factory<T> arg, ResourcePackProvider[] resourcePackProviders, CallbackInfo info) {
+    @Inject(method = "<init>(Lnet/minecraft/resource/ResourcePackProfile$Factory;[Lnet/minecraft/resource/ResourcePackProvider;)V", at = @At("RETURN"))
+    public void construct(ResourcePackProfile.Factory factory, ResourcePackProvider[] resourcePackProviders, CallbackInfo ci) {
         providers = new HashSet<>(providers);
         providers.add(new SandboxResourceCreator());
     }

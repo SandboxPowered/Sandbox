@@ -2,11 +2,7 @@ package org.sandboxpowered.sandbox.fabric.mixin.fabric.registry;
 
 import com.google.common.collect.BiMap;
 import com.mojang.serialization.Lifecycle;
-import net.minecraft.block.Block;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.util.ModelIdentifier;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
+import it.unimi.dsi.fastutil.objects.ObjectList;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.Int2ObjectBiMap;
 import net.minecraft.util.registry.MutableRegistry;
@@ -31,15 +27,13 @@ import java.util.Set;
 @Mixin(SimpleRegistry.class)
 public abstract class MixinSimpleRegistry<T, C extends Content<C>> extends MutableRegistry<T> implements SandboxInternal.Registry<C, T> {
     private final Set<RegistryKey<T>> keys = new HashSet<>();
-    @Shadow
-    @Final
-    protected Int2ObjectBiMap<T> indexedEntries;
+
     @Shadow
     protected Object[] randomEntries;
     protected Int2ObjectBiMap<T> storedIndex = new Int2ObjectBiMap<>(256);
     @Shadow
     @Final
-    protected BiMap<Identifier, T> entriesById;
+    private BiMap<Identifier, T> entriesById;
     @Shadow
     private int nextId;
     private int vanillaNext;
@@ -57,12 +51,14 @@ public abstract class MixinSimpleRegistry<T, C extends Content<C>> extends Mutab
     @Nullable
     public abstract T get(Identifier identifier_1);
 
+    @Shadow @Final private ObjectList<T> field_26682; //FIXME this seems to be the replacement for 'indexedEntries'
+
     @Override
     public void store() {
         vanillaNext = nextId;
         storedIndex.clear();
         for (int i = 0; i < vanillaNext; i++) {
-            storedIndex.put(indexedEntries.get(i), i);
+            storedIndex.put(this.field_26682.get(i), i);
         }
         randomEntries = null;
         keys.clear();
@@ -72,7 +68,7 @@ public abstract class MixinSimpleRegistry<T, C extends Content<C>> extends Mutab
 
 
     @Inject(method = "set", at = @At(value = "RETURN"))
-    public <V extends T> void set(int i, RegistryKey<T> registryKey, V object, CallbackInfoReturnable<V> ci) {
+    public <V extends T> void set(int i, RegistryKey<T> registryKey, V object, Lifecycle lifecycle, CallbackInfoReturnable<V> cir) {
         if (hasStored) {
             keys.add(registryKey);
             RegistryUtil.doOnSet(i, object);
@@ -95,9 +91,9 @@ public abstract class MixinSimpleRegistry<T, C extends Content<C>> extends Mutab
 //            Log.debug("Resetting " + (nextId - vanillaNext) + " objects in " + net.minecraft.util.registry.Registry.REGISTRIES.getId(this));
             sboxRegistry.clearCache();
             nextId = vanillaNext;
-            indexedEntries.clear();
+            this.field_26682.clear();
             for (int i = 0; i < vanillaNext; i++) {
-                indexedEntries.put(storedIndex.get(i), i);
+                this.field_26682.set(i, storedIndex.get(i));
             }
             randomEntries = null;
             keys.forEach(id -> {

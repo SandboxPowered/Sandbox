@@ -20,7 +20,7 @@ public class SandboxOptions {
                 border = WorldBorder.VANILLA;
                 break;
         }
-    }, (gameOptions, cyclingOption) -> cyclingOption.getDisplayPrefix().append(new TranslatableText(border.getTranslation())));
+    }, (gameOptions, cyclingOption) -> cyclingOption.method_30501(new TranslatableText(border.getTranslation())));
 
     public static void load() {
 

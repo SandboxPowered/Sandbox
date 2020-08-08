@@ -12,8 +12,8 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(ServerPlayerEntity.class)
 @Implements(@Interface(iface = PlayerEntity.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 public abstract class MixinServerPlayerEntity extends net.minecraft.entity.player.PlayerEntity {
-    public MixinServerPlayerEntity(World world, BlockPos blockPos, GameProfile gameProfile) {
-        super(world, blockPos, gameProfile);
+    public MixinServerPlayerEntity(World world, BlockPos blockPos, float f, GameProfile gameProfile) {
+        super(world, blockPos, f, gameProfile);
     }
 //
 //    public void sbx$openContainer(Identity id, CompoundTag dataMono) {

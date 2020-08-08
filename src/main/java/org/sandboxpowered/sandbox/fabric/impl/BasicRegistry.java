@@ -1,5 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.impl;
 
+import com.mojang.serialization.Lifecycle;
 import net.minecraft.util.registry.MutableRegistry;
 import org.sandboxpowered.api.content.Content;
 import org.sandboxpowered.api.registry.Registry;
@@ -53,7 +54,7 @@ public class BasicRegistry<A extends Content<A>, B> implements Registry<A> {
     @Override
     public Entry<A> register(Identity identity, A val) {
         B conversion = convertAB.apply(val);
-        ((MutableRegistry<B>) vanilla).add(WrappingUtil.convertToRegistryKey(((SandboxInternal.RegistryKeyObtainer<B>) vanilla).sandbox_getRegistryKey(), identity), conversion);
+        ((MutableRegistry<B>) vanilla).add(WrappingUtil.convertToRegistryKey(((SandboxInternal.RegistryKeyObtainer<B>) vanilla).sandbox_getRegistryKey(), identity), conversion, Lifecycle.experimental()); //TODO which lifecycle should we use?
         return get(identity);
     }
 

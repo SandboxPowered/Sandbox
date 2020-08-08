@@ -71,7 +71,7 @@ public class FluidWrapper extends net.minecraft.fluid.FlowableFluid {
     @Override
     protected void beforeBreakingBlock(WorldAccess iWorld_1, BlockPos blockPos_1, BlockState blockState_1) {
         BlockEntity blockEntity_1 = blockState_1.getBlock().hasBlockEntity() ? iWorld_1.getBlockEntity(blockPos_1) : null;
-        Block.dropStacks(blockState_1, iWorld_1.getWorld(), blockPos_1, blockEntity_1);
+        Block.dropStacks(blockState_1, iWorld_1, blockPos_1, blockEntity_1);
     }
 
     @Override

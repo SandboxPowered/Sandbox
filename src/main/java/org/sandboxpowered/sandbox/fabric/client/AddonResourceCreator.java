@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 public class AddonResourceCreator implements ResourcePackProvider {
 
     @Override
-    public <T extends ResourcePackProfile> void register(Consumer<T> consumer, ResourcePackProfile.Factory<T> factory) {
+    public void register(Consumer<ResourcePackProfile> consumer, ResourcePackProfile.Factory factory) {
 //        SandboxServer.INSTANCE.loader.getAddons().forEach(spec -> { TODO
 //            try {
 //                Path path = Paths.get(spec.getPath().toURI());

@@ -167,7 +167,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
     @Override
     public void onBroken(WorldAccess iWorld_1, BlockPos blockPos_1, BlockState blockState_1) {
         block.onBlockBroken(
-                (org.sandboxpowered.api.world.World) iWorld_1.getWorld(),
+                (org.sandboxpowered.api.world.World) iWorld_1,
                 (Position) blockPos_1,
                 (org.sandboxpowered.api.state.BlockState) blockState_1
         );
@@ -179,7 +179,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
                 (org.sandboxpowered.api.state.BlockState) blockState_1,
                 WrappingUtil.convert(direction_1),
                 (org.sandboxpowered.api.state.BlockState) blockState_2,
-                (org.sandboxpowered.api.world.World) iWorld_1.getWorld(), (Position) blockPos_1,
+                (org.sandboxpowered.api.world.World) iWorld_1, (Position) blockPos_1,
                 (Position) blockPos_2
         ));
     }
@@ -298,7 +298,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
         @Override
         public void onBroken(WorldAccess iWorld_1, BlockPos blockPos_1, BlockState blockState_1) {
             block.onBlockBroken(
-                    (org.sandboxpowered.api.world.World) iWorld_1.getWorld(),
+                    (org.sandboxpowered.api.world.World) iWorld_1,
                     (Position) blockPos_1,
                     (org.sandboxpowered.api.state.BlockState) blockState_1
             );
@@ -307,7 +307,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
         @Override
         public BlockState getStateForNeighborUpdate(BlockState blockState_1, Direction direction_1, BlockState blockState_2, WorldAccess iWorld_1, BlockPos blockPos_1, BlockPos blockPos_2) {
             return WrappingUtil.convert(block.updateOnNeighborChanged(
-                    (org.sandboxpowered.api.state.BlockState) blockState_1, WrappingUtil.convert(direction_1), (org.sandboxpowered.api.state.BlockState) blockState_2, (org.sandboxpowered.api.world.World) iWorld_1.getWorld(),
+                    (org.sandboxpowered.api.state.BlockState) blockState_1, WrappingUtil.convert(direction_1), (org.sandboxpowered.api.state.BlockState) blockState_2, (org.sandboxpowered.api.world.World) iWorld_1,
                     (Position) blockPos_1,
                     (Position) blockPos_2
             ));
