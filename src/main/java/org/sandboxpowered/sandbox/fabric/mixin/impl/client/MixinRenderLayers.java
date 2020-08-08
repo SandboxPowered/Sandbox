@@ -20,7 +20,7 @@ public class MixinRenderLayers {
             info.setReturnValue(getRenderLayerFromState(WrappingUtil.convert(state)));
     }
 
-    @Inject(method = "method_29359", at = @At(value = "HEAD"), cancellable = true)
+    @Inject(method = "getMovingBlockLayer", at = @At(value = "HEAD"), cancellable = true)
     private static void getMovingBlockLayer(BlockState state, CallbackInfoReturnable<RenderLayer> info) {
         if (state.getBlock() instanceof BlockWrapper) {
             RenderLayer layer = getRenderLayerFromState(WrappingUtil.convert(state));
