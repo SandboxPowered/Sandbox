@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.io.IOException;
 
 @Mixin(value = MinecraftDedicatedServer.class)
-public class MixinDedicatedServer extends MixinMinecraftServer {
+public abstract class MixinDedicatedServer extends MixinMinecraftServer {
     @Inject(method = "setupServer",
             at = @At(value = "INVOKE",
                     target = "net/minecraft/server/dedicated/MinecraftDedicatedServer.setPlayerManager(Lnet/minecraft/server/PlayerManager;)V",

@@ -15,6 +15,12 @@ public class ConfigValue<T> {
         return config.get(path);
     }
 
+    // FIXME find a better way for this
+    // we cannot get rid of the ugliness without making the generic type of this class extend enum
+    public <V extends Enum<V>> V getEnum(Class<V> enumType) {
+        return config.getEnum(path, enumType);
+    }
+
     public void set(T val) {
         config.set(path, val);
     }

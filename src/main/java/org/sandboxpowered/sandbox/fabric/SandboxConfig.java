@@ -21,7 +21,7 @@ public class SandboxConfig {
             Path data = Paths.get("data");
             if (Files.notExists(data))
                 Files.createDirectories(data);
-            config = new Config(Paths.get("data", "sandbox.toml"));
+            config = new Config(data.resolve("sandbox.toml"));
             enchantmentDecimal = config.get("enchantment.decimal");
             enchantmentDecimal.add(false);
             enchantmentDecimal.setComment(" Whether the Enchantment tooltip uses decimal or roman numerals");

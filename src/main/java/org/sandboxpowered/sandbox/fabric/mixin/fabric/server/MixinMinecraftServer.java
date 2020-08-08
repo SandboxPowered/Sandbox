@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MinecraftServer.class)
-public class MixinMinecraftServer {
+public abstract class MixinMinecraftServer {
 
     @Shadow
     @Final
@@ -25,6 +25,8 @@ public class MixinMinecraftServer {
 //        ArrayUtil.removeAll(args, "-noaddons");
 //        return args;
 //    }
+
+    @Shadow public abstract boolean isDedicated();
 
     @Inject(method = "shutdown",
             at = @At(value = "TAIL")
@@ -40,7 +42,7 @@ public class MixinMinecraftServer {
 
     @Inject(method = "isOnlineMode", at = @At("HEAD"), cancellable = true)
     public void isOnlineMode(CallbackInfoReturnable<Boolean> info) {
-        if (SandboxConfig.forwarding.get().isForwarding())
+        if (this.isDedicated() && SandboxConfig.forwarding.getEnum(SandboxConfig.ServerForwarding.class).isForwarding())
             info.setReturnValue(false);
     }
 

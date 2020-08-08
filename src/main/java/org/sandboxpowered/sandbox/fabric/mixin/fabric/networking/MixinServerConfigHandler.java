@@ -11,6 +11,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public class MixinServerConfigHandler {
     @Redirect(method = "lookupProfile", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;isOnlineMode()Z"))
     private static boolean lookupProfile(MinecraftServer minecraftServer) {
-        return SandboxConfig.forwarding.get().isForwarding() || minecraftServer.isOnlineMode();
+        return SandboxConfig.forwarding.getEnum(SandboxConfig.ServerForwarding.class).isForwarding() || minecraftServer.isOnlineMode();
     }
 }
