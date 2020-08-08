@@ -20,6 +20,7 @@
     "sandbox.impl.mixins.json",
     "sandbox.performance.mixins.json"
   ],
+  "accessWidener": "META-INF/sandbox-fabric.accesswidener",
   "depends": {
     "fabricloader": ">=0.7.9"
   },
