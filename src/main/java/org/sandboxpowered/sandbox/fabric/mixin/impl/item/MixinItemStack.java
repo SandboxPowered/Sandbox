@@ -1,15 +1,27 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.item;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;
 import org.sandboxpowered.api.enchantment.Enchantment;
 import org.sandboxpowered.api.item.Item;
 import org.sandboxpowered.api.item.ItemStack;
 import org.sandboxpowered.api.util.nbt.CompoundTag;
+import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
+import org.sandboxpowered.sandbox.fabric.util.wrapper.ItemWrapper;
 import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @SuppressWarnings("EqualsBetweenInconvertibleTypes")
 @Mixin(net.minecraft.item.ItemStack.class)
@@ -85,6 +97,8 @@ public abstract class MixinItemStack {
     @Shadow
     public abstract int getDamage();
 
+    @Shadow public abstract ListTag getEnchantments();
+
     public boolean sbx$isEmpty() {
         return this.isEmpty();
     }
@@ -114,6 +128,28 @@ public abstract class MixinItemStack {
 
     public int sbx$getLevel(Enchantment enchantment) {
         return EnchantmentHelper.getLevel(WrappingUtil.convert(enchantment), (net.minecraft.item.ItemStack) (Object) this);
+    }
+
+    @Inject(method = "isEffectiveOn", at = @At("HEAD"), cancellable = true)
+    public void isEffectiveOn(BlockState state, CallbackInfoReturnable<Boolean> info) {
+        if (getItem() instanceof SandboxInternal.ItemWrapper) {
+            info.setReturnValue(((SandboxInternal.ItemWrapper) getItem()).getItem().isEffectiveOn(WrappingUtil.convert((net.minecraft.item.ItemStack) (Object) this), WrappingUtil.convert(state)));
+        }
+    }
+
+    public Set<Enchantment> sbx$getEnchantments() {
+        if (isEmpty())
+            return Collections.emptySet();
+        Set<Enchantment> set = new HashSet<>();
+        ListTag listTag = getEnchantments();
+        for (int i = 0; i < listTag.size(); ++i) {
+            net.minecraft.nbt.CompoundTag tag = listTag.getCompound(i);
+            String string = tag.getString("id");
+            Registry.ENCHANTMENT.getOrEmpty(Identifier.tryParse(string)).ifPresent((enchantment) -> {
+                set.add(WrappingUtil.convert(enchantment));
+            });
+        }
+        return set;
     }
 
     public boolean sbx$hasTag() {

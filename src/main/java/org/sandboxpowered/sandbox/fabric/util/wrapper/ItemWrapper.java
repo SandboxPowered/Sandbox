@@ -1,5 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.util.wrapper;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.text.Text;
@@ -19,11 +20,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ItemWrapper extends net.minecraft.item.Item implements SandboxInternal.ItemWrapper {
-    private final Item iItem;
+    private final Item item;
 
-    public ItemWrapper(Item iItem) {
-        super(WrappingUtil.convert(iItem.getSettings()));
-        this.iItem = iItem;
+    public ItemWrapper(Item item) {
+        super(WrappingUtil.convert(item.getSettings()));
+        this.item = item;
     }
 
     public static SandboxInternal.ItemWrapper create(Item iItem) {
@@ -36,12 +37,12 @@ public class ItemWrapper extends net.minecraft.item.Item implements SandboxInter
 
     @Override
     public Item getItem() {
-        return iItem;
+        return item;
     }
 
     @Override
     public ActionResult useOnBlock(ItemUsageContext itemUsageContext_1) {
-        InteractionResult result = iItem.onItemUsed(
+        InteractionResult result = item.onItemUsed(
                 (World) itemUsageContext_1.getWorld(),
                 (Position) itemUsageContext_1.getBlockPos(),
                 WrappingUtil.cast(itemUsageContext_1.getStack(), ItemStack.class)
@@ -50,9 +51,14 @@ public class ItemWrapper extends net.minecraft.item.Item implements SandboxInter
     }
 
     @Override
+    public float getMiningSpeedMultiplier(net.minecraft.item.ItemStack itemStack, BlockState blockState) {
+        return item.getMiningSpeed(WrappingUtil.convert(itemStack), WrappingUtil.convert(blockState));
+    }
+
+    @Override
     public void appendTooltip(net.minecraft.item.ItemStack itemStack_1, @Nullable net.minecraft.world.World world_1, List<Text> list_1, TooltipContext tooltipContext_1) {
         List<org.sandboxpowered.api.util.text.Text> tooltip = new LinkedList<>();
-        iItem.appendTooltipText(
+        item.appendTooltipText(
                 WrappingUtil.cast(itemStack_1, ItemStack.class),
                 world_1 == null ? null : (World) world_1,
                 tooltip,
@@ -92,6 +98,11 @@ public class ItemWrapper extends net.minecraft.item.Item implements SandboxInter
         }
 
         @Override
+        public float getMiningSpeedMultiplier(net.minecraft.item.ItemStack itemStack, BlockState blockState) {
+            return item.getMiningSpeed(WrappingUtil.convert(itemStack), WrappingUtil.convert(blockState));
+        }
+
+        @Override
         public void appendTooltip(net.minecraft.item.ItemStack itemStack_1, @Nullable net.minecraft.world.World world_1, List<Text> list_1, TooltipContext tooltipContext_1) {
             List<org.sandboxpowered.api.util.text.Text> tooltip = new LinkedList<>();
             item.appendTooltipText(
@@ -111,6 +122,11 @@ public class ItemWrapper extends net.minecraft.item.Item implements SandboxInter
         public BucketItemWrapper(BucketItem item) {
             super(WrappingUtil.convert(item.getFluid()), WrappingUtil.convert(item.getSettings()));
             this.item = item;
+        }
+
+        @Override
+        public float getMiningSpeedMultiplier(net.minecraft.item.ItemStack itemStack, BlockState blockState) {
+            return item.getMiningSpeed(WrappingUtil.convert(itemStack), WrappingUtil.convert(blockState));
         }
 
         @Override
