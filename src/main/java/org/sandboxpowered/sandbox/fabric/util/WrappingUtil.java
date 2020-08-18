@@ -394,8 +394,8 @@ public class WrappingUtil {
         return GraphicsMode.FAST;
     }
 
-    public static org.sandboxpowered.api.util.math.Vec3d convert(Vec3d hitPos) {
-        return (org.sandboxpowered.api.util.math.Vec3d) hitPos;
+    public static org.sandboxpowered.api.util.math.Vec3d convert(Vec3d pos) {
+        return (org.sandboxpowered.api.util.math.Vec3d) pos;
     }
 
     public static Direction.Axis convert(net.minecraft.util.math.Direction.Axis axis) {

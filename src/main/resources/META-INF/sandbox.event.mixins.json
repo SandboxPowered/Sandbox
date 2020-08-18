@@ -5,10 +5,13 @@
   "minVersion": "0.7",
   "mixinPriority": 5480,
   "mixins": [
+    "block.MixinAnvilBlock",
     "enchant.MixinEnchantment",
     "entity.MixinFallingBlockEntity",
+    "entity.MixinLightningEntity",
     "entity.MixinLivingEntity",
     "entity.MixinPlayerEntity",
+    "entity.MixinPlayerInventory",
     "entity.MixinServerPlayerEntity",
     "item.MixinBlockItem",
     "item.MixinItemStack",
