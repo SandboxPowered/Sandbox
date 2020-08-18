@@ -36,7 +36,7 @@ public class MixinServerPlayerInteractionManager {
             Position position = WrappingUtil.convert(pos);
             BlockState state = WrappingUtil.convert(this.world.getBlockState(pos));
             PlayerEntity player = WrappingUtil.convert(this.player);
-            ItemStack tool = player.getHeldItem(Hand.MAIN_HAND);
+            ItemStack tool = player.getHeld(Hand.MAIN_HAND);
 
             BlockEvents.BREAK.post(breakEvent -> breakEvent.onEvent(world, position, state, player, tool, cancellable), cancellable);
             if (cancellable.isCancelled()) {

@@ -4,14 +4,12 @@ import net.minecraft.block.Material;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.state.property.Property;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.BlockMirror;
-import net.minecraft.util.BlockRotation;
-import net.minecraft.util.Identifier;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
@@ -23,6 +21,7 @@ import org.sandboxpowered.api.block.entity.BlockEntity;
 import org.sandboxpowered.api.client.GraphicsMode;
 import org.sandboxpowered.api.enchantment.Enchantment;
 import org.sandboxpowered.api.entity.Entity;
+import org.sandboxpowered.api.entity.LivingEntity;
 import org.sandboxpowered.api.entity.player.PlayerEntity;
 import org.sandboxpowered.api.fluid.BaseFluid;
 import org.sandboxpowered.api.fluid.Fluid;
@@ -457,5 +456,27 @@ public class WrappingUtil {
 
     public static Box convert(net.minecraft.util.math.Box boundingBox) {
         return (Box) boundingBox;
+    }
+
+    public static Hand convert(org.sandboxpowered.api.entity.player.Hand hand) {
+        return hand == org.sandboxpowered.api.entity.player.Hand.MAIN_HAND ? Hand.MAIN_HAND : Hand.OFF_HAND;
+    }
+
+    public static EquipmentSlot convert(LivingEntity.EquipmentSlot slot) {
+        switch (slot) {
+            case FEET:
+                return EquipmentSlot.FEET;
+            case HEAD:
+                return EquipmentSlot.HEAD;
+            case LEGS:
+                return EquipmentSlot.LEGS;
+            case CHEST:
+                return EquipmentSlot.CHEST;
+            case OFFHAND:
+                return EquipmentSlot.OFFHAND;
+            case MAINHAND:
+                return EquipmentSlot.MAINHAND;
+        }
+        return null;
     }
 }
