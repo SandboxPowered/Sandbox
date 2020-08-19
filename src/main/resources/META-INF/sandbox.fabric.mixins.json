@@ -33,6 +33,7 @@
     "client.MixinGameRenderer",
     "client.MixinIntegratedServer",
     "client.MixinKeyboard",
+    "client.MixinItemGroup",
     "client.MixinMinecraftClient",
     "client.MixinResourcePackManager",
     "client.MixinScreen",
