@@ -56,7 +56,7 @@ public abstract class MixinPlayerEntity extends LivingEntity {
         this.sbx_ignoreSleeping = ignored;
     }
 
-    public ItemStack sbx$getHeldItem(Hand hand) {
+    public ItemStack sbx$getHeld(Hand hand) {
         return WrappingUtil.convert(hand == Hand.MAIN_HAND ? inventory.getMainHandStack() : inventory.offHand.get(0));
     }
 }
