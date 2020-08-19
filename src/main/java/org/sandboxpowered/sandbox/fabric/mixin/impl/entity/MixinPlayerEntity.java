@@ -13,12 +13,13 @@ import org.sandboxpowered.api.util.text.Text;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.spongepowered.asm.mixin.*;
 
-import java.beans.Transient;
-
 @Mixin(net.minecraft.entity.player.PlayerEntity.class)
 @Implements(@Interface(iface = PlayerEntity.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
 public abstract class MixinPlayerEntity extends LivingEntity {
+    @Shadow
+    @Final
+    public PlayerInventory inventory;
     private boolean sbx_ignoreSleeping;
 
     public MixinPlayerEntity(EntityType<? extends LivingEntity> entityType_1, World world_1) {
@@ -27,10 +28,6 @@ public abstract class MixinPlayerEntity extends LivingEntity {
 
     @Shadow
     public abstract void sendMessage(net.minecraft.text.Text text, boolean bl);
-
-    @Shadow
-    @Final
-    public PlayerInventory inventory;
 
     public void sbx$sendChatMessage(Text text) {
         this.sendMessage(WrappingUtil.convert(text), false);

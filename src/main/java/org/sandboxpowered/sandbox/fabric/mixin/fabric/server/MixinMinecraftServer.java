@@ -26,7 +26,8 @@ public abstract class MixinMinecraftServer {
 //        return args;
 //    }
 
-    @Shadow public abstract boolean isDedicated();
+    @Shadow
+    public abstract boolean isDedicated();
 
     @Inject(method = "shutdown",
             at = @At(value = "TAIL")

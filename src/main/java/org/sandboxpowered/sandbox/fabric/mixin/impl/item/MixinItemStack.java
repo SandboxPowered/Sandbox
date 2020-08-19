@@ -12,7 +12,6 @@ import org.sandboxpowered.api.item.ItemStack;
 import org.sandboxpowered.api.util.nbt.CompoundTag;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
-import org.sandboxpowered.sandbox.fabric.util.wrapper.ItemWrapper;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -97,7 +96,8 @@ public abstract class MixinItemStack {
     @Shadow
     public abstract int getDamage();
 
-    @Shadow public abstract ListTag getEnchantments();
+    @Shadow
+    public abstract ListTag getEnchantments();
 
     public boolean sbx$isEmpty() {
         return this.isEmpty();

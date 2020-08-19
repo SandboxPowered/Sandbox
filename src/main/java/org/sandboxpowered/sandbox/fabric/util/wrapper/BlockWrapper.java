@@ -74,15 +74,6 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
         return new BlockWrapper(block);
     }
 
-    @Override
-    public ItemStack getPickStack(BlockView blockView, BlockPos blockPos, BlockState blockState) {
-        return WrappingUtil.convert(this.block.getPickStack(
-                WrappingUtil.convert(blockView),
-                WrappingUtil.convert(blockPos),
-                WrappingUtil.convert(blockState)
-        ));
-    }
-
     private static ActionResult staticOnUse(org.sandboxpowered.api.state.BlockState blockState_1, org.sandboxpowered.api.world.World world_1, Position blockPos_1, PlayerEntity playerEntity_1, Hand hand_1, BlockHitResult blockHitResult_1, Block block) {
         @SuppressWarnings("ConstantConditions") InteractionResult result = block.onBlockUsed(
                 world_1,
@@ -94,6 +85,15 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
                 (Vec3f) (Object) new Vector3f(blockHitResult_1.getPos())
         );
         return WrappingUtil.convert(result);
+    }
+
+    @Override
+    public ItemStack getPickStack(BlockView blockView, BlockPos blockPos, BlockState blockState) {
+        return WrappingUtil.convert(this.block.getPickStack(
+                WrappingUtil.convert(blockView),
+                WrappingUtil.convert(blockPos),
+                WrappingUtil.convert(blockState)
+        ));
     }
 
     @Override

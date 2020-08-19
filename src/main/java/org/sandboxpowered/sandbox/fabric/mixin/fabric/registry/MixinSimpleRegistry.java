@@ -42,6 +42,9 @@ public abstract class MixinSimpleRegistry<T, C extends Content<C>> extends Mutab
     @Shadow
     @Final
     private BiMap<RegistryKey<T>, T> entriesByKey;
+    @Shadow
+    @Final
+    private ObjectList<T> field_26682; //FIXME this seems to be the replacement for 'indexedEntries'
 
     public MixinSimpleRegistry(RegistryKey<Registry<T>> registryKey, Lifecycle lifecycle) {
         super(registryKey, lifecycle);
@@ -50,8 +53,6 @@ public abstract class MixinSimpleRegistry<T, C extends Content<C>> extends Mutab
     @Shadow
     @Nullable
     public abstract T get(Identifier identifier_1);
-
-    @Shadow @Final private ObjectList<T> field_26682; //FIXME this seems to be the replacement for 'indexedEntries'
 
     @Override
     public void store() {

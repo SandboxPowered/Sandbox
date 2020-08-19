@@ -7,20 +7,22 @@ import net.minecraft.world.World;
 import org.sandboxpowered.api.events.WorldEvents;
 import org.sandboxpowered.api.util.math.Vec3d;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
-import org.spongepowered.asm.mixin.*;
-import org.spongepowered.asm.mixin.injection.*;
-import org.spongepowered.asm.mixin.injection.callback.*;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Mixin(LightningEntity.class)
 public abstract class MixinLightningEntity extends Entity {
+    private boolean attemptedEvent;
+
     public MixinLightningEntity(EntityType<?> entityType, World world) {
         super(entityType, world);
     }
-
-    private boolean attemptedEvent;
 
     @Inject(method = "tick", at = @At(
             value = "INVOKE_ASSIGN",

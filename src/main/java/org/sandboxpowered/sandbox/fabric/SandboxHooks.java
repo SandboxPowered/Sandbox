@@ -1,7 +1,6 @@
 package org.sandboxpowered.sandbox.fabric;
 
 import net.minecraft.util.registry.Registry;
-import org.sandboxpowered.api.item.Item;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.security.AddonSecurityPolicy;
 

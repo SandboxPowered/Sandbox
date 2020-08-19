@@ -1,7 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.mixin.fabric.client;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
