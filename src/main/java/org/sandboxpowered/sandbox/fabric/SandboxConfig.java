@@ -16,7 +16,7 @@ public class SandboxConfig {
     public static final ConfigValue<String> addonSyncURL;
     public static final ConfigValue<Boolean> disableAutoCrashSending;
     public static final ConfigValue<WorldBorder> worldBorder;
-    public static final ConfigValue<Boolean> disableParticleCulling;
+    public static final ConfigValue<Boolean> cullParticles;
     public static final Config config;
 
     static {
@@ -46,9 +46,9 @@ public class SandboxConfig {
             disableAutoCrashSending.add(false);
             disableAutoCrashSending.setComment(" Disables Sandbox automatically reporting crashes to the developers");
 
-            disableParticleCulling = config.get("client.disable-particle-culling");
-            disableParticleCulling.add(false);
-            disableParticleCulling.setComment(" Disables Sandbox culling particles not visible to the player");
+            cullParticles = config.get("client.particle-culling");
+            cullParticles.add(true);
+            cullParticles.setComment(" Enables culling particles not visible to the player");
             config.save();
         } catch (IOException e) {
             throw new RuntimeException(e);

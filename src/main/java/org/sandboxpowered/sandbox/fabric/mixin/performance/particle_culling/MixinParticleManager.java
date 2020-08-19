@@ -17,7 +17,7 @@ public class MixinParticleManager {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/client/particle/Particle;buildGeometry(Lnet/minecraft/client/render/VertexConsumer;Lnet/minecraft/client/render/Camera;F)V"))
     private void cullParticles(Particle particle, VertexConsumer consumer, Camera camera, float partialTicks) {
-        if (!SandboxConfig.disableParticleCulling.get()) {
+        if (SandboxConfig.cullParticles.get()) {
             if (((IFrustumWorldRenderer) MinecraftClient.getInstance().worldRenderer).sandbox_getFrustum().isVisible(particle.getBoundingBox())) {
                 particle.buildGeometry(consumer, camera, partialTicks);
             }

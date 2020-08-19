@@ -45,6 +45,7 @@
     "direction_values.render.model.MixinBasicBakedModelBuilder",
 
     "particle_culling.MixinParticleManager",
+    "particle_culling.MixinClientWorld",
     "particle_culling.MixinWorldRenderer"
   ]
 }

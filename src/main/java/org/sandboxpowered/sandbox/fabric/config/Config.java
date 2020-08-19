@@ -8,7 +8,7 @@ public class Config {
     private final CommentedFileConfig config;
 
     public Config(Path path) {
-        this.config = CommentedFileConfig.builder(path).autoreload().build();
+        this.config = CommentedFileConfig.builder(path).autosave().build();
         config.load();
     }
 

@@ -1,4 +1,5 @@
 {
+  "options.sandbox.cullparticles": "Cull Particles",
   "options.sandbox.worldborder": "World Border",
   "options.sandbox.worldborder.vanilla": "Vanilla",
   "options.sandbox.worldborder.lines": "Lines",
