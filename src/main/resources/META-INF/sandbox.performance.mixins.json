@@ -42,6 +42,9 @@
     "direction_values.render.chunk.MixinChunkOcclusionData",
     "direction_values.render.item.MixinItemRenderer",
     "direction_values.render.model.MixinBakedQuadFactory",
-    "direction_values.render.model.MixinBasicBakedModelBuilder"
+    "direction_values.render.model.MixinBasicBakedModelBuilder",
+
+    "particle_culling.MixinParticleManager",
+    "particle_culling.MixinWorldRenderer"
   ]
 }
