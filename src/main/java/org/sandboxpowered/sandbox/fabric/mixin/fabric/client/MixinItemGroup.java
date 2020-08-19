@@ -21,23 +21,25 @@ public class MixinItemGroup {
 
     @Inject(method = "appendStacks", at = @At("RETURN"))
     public void appendStacks(DefaultedList<ItemStack> stacks, CallbackInfo info) {
-        boolean lv2 = MinecraftClient.getInstance().player.hasPermissionLevel(2);
-        if (lv2 && this.index == ItemGroup.TRANSPORTATION.getIndex()) {
-            stacks.add(new ItemStack(Items.COMMAND_BLOCK_MINECART));
-        }
+        boolean opOnly = MinecraftClient.getInstance().player.hasPermissionLevel(2);
         if (this.index == ItemGroup.BUILDING_BLOCKS.getIndex()) {
             stacks.add(new ItemStack(Items.BARRIER));
         }
         if (this.index == ItemGroup.DECORATIONS.getIndex()) {
             stacks.add(new ItemStack(Items.DRAGON_EGG));
         }
-        if (lv2 && this.index == ItemGroup.REDSTONE.getIndex()) {
-            stacks.add(new ItemStack(Items.COMMAND_BLOCK));
-        }
-        if (lv2 && this.index == ItemGroup.MISC.getIndex()) {
-            stacks.add(new ItemStack(Items.STRUCTURE_BLOCK));
-            stacks.add(new ItemStack(Items.STRUCTURE_VOID));
-            stacks.add(new ItemStack(Items.DEBUG_STICK));
+        if (opOnly) {
+            if (this.index == ItemGroup.TRANSPORTATION.getIndex()) {
+                stacks.add(new ItemStack(Items.COMMAND_BLOCK_MINECART));
+            }
+            if (this.index == ItemGroup.REDSTONE.getIndex()) {
+                stacks.add(new ItemStack(Items.COMMAND_BLOCK));
+            }
+            if (this.index == ItemGroup.MISC.getIndex()) {
+                stacks.add(new ItemStack(Items.STRUCTURE_BLOCK));
+                stacks.add(new ItemStack(Items.STRUCTURE_VOID));
+                stacks.add(new ItemStack(Items.DEBUG_STICK));
+            }
         }
     }
 }
