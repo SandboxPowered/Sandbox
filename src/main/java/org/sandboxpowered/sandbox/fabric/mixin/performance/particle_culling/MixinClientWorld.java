@@ -1,7 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.mixin.performance.particle_culling;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.particle.Particle;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.util.math.Box;
@@ -17,17 +16,17 @@ public class MixinClientWorld {
 
     @Inject(method = "addParticle(Lnet/minecraft/particle/ParticleEffect;DDDDDD)V", at = @At(value = "HEAD"), cancellable = true)
     private void addParticle(ParticleEffect particleEffect, double d, double e, double f, double g, double h, double i, CallbackInfo info) {
-        cullUnimportantParticles(particleEffect, d, e, f, info);
+        cullUnimportantParticles(particleEffect, false, d, e, f, info);
     }
 
     @Inject(method = "addParticle(Lnet/minecraft/particle/ParticleEffect;ZDDDDDD)V", at = @At(value = "HEAD"), cancellable = true)
     private void addParticle(ParticleEffect particleEffect, boolean bl, double d, double e, double f, double g, double h, double i, CallbackInfo info) {
-        cullUnimportantParticles(particleEffect, d, e, f, info);
+        cullUnimportantParticles(particleEffect, bl, d, e, f, info);
     }
 
-    private void cullUnimportantParticles(ParticleEffect particleEffect, double d, double e, double f, CallbackInfo info) {
+    private void cullUnimportantParticles(ParticleEffect particleEffect, boolean bl, double d, double e, double f, CallbackInfo info) {
         if (SandboxConfig.cullParticles.get()) {
-            boolean shouldSpawn = particleEffect.getType().shouldAlwaysSpawn();
+            boolean shouldSpawn = particleEffect.getType().shouldAlwaysSpawn() | bl;
             if (!shouldSpawn && !((IFrustumWorldRenderer) MinecraftClient.getInstance().worldRenderer).sandbox_getFrustum().isVisible(new Box(d, e, f, d + 0.25f, e + 0.25f, f + 0.25f))) {
                 info.cancel();
             }
