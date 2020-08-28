@@ -47,7 +47,7 @@ public class SandboxLoader {
         fabric = new SandboxFabric();
         modidToLoader.clear();
 
-        Registry.REGISTRIES.stream().map(registry -> (SandboxInternal.Registry) registry).forEach(SandboxInternal.Registry::store);
+        Registry.REGISTRIES.stream().map(registry -> (SandboxInternal.Registry) registry).forEach(SandboxInternal.Registry::sandbox_store);
 
         Path addonPath = Paths.get("addons");
         if (Files.notExists(addonPath)) Files.createDirectories(addonPath);

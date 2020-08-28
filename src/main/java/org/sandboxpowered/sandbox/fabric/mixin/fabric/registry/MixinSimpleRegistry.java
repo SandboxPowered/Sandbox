@@ -55,7 +55,7 @@ public abstract class MixinSimpleRegistry<T, C extends Content<C>> extends Mutab
     public abstract T get(Identifier identifier_1);
 
     @Override
-    public void store() {
+    public void sandbox_store() {
         vanillaNext = nextId;
         storedIndex.clear();
         for (int i = 0; i < vanillaNext; i++) {
@@ -77,17 +77,17 @@ public abstract class MixinSimpleRegistry<T, C extends Content<C>> extends Mutab
     }
 
     @Override
-    public void set(BasicRegistry<C, T> registry) {
+    public void sandbox_set(BasicRegistry<C, T> registry) {
         this.sboxRegistry = registry;
     }
 
     @Override
-    public BasicRegistry<C, T> get() {
+    public BasicRegistry<C, T> sandbox_get() {
         return this.sboxRegistry;
     }
 
     @Override
-    public void reset() {
+    public void sandbox_reset() {
         if (nextId != vanillaNext) {
 //            Log.debug("Resetting " + (nextId - vanillaNext) + " objects in " + net.minecraft.util.registry.Registry.REGISTRIES.getId(this));
             sboxRegistry.clearCache();

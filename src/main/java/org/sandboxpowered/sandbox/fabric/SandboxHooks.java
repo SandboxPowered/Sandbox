@@ -8,14 +8,7 @@ import java.security.Policy;
 
 public class SandboxHooks {
     public static void shutdown() {
-//        if (Sandbox.SANDBOX.getSide() == Side.CLIENT) { TODO
-//            SandboxClient.INSTANCE.shutdown();
-//            if (SandboxServer.INSTANCE != null && SandboxServer.INSTANCE.isIntegrated())
-//                SandboxServer.INSTANCE.shutdown();
-//        } else {
-//            SandboxServer.INSTANCE.shutdown();
-//        }
-        Registry.REGISTRIES.stream().map(registry -> (SandboxInternal.Registry) registry).forEach(SandboxInternal.Registry::reset);
+        Registry.REGISTRIES.stream().map(registry -> (SandboxInternal.Registry) registry).forEach(SandboxInternal.Registry::sandbox_reset);
     }
 
     public static void setupGlobal() {

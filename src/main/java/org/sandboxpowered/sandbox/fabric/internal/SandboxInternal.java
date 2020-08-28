@@ -23,13 +23,13 @@ public class SandboxInternal {
     }
 
     public interface Registry<A extends Content<A>, B> {
-        void store();
+        void sandbox_store();
 
-        void reset();
+        void sandbox_reset();
 
-        void set(BasicRegistry<A, B> registry);
+        void sandbox_set(BasicRegistry<A, B> registry);
 
-        BasicRegistry<A, B> get();
+        BasicRegistry<A, B> sandbox_get();
     }
 
     public interface RegistryKeyObtainer<T> {

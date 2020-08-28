@@ -138,15 +138,15 @@ public class InternalServiceFabric implements InternalService {
 
     private <A extends Content<A>, B, C extends Content<C>> Registry<C> getOrCreateRegistry(String name, net.minecraft.util.registry.Registry<B> vanilla, Class<A> sandbox, Class<?> normal) throws Throwable {
         SandboxInternal.Registry<A, B> wrapped = (SandboxInternal.Registry<A, B>) vanilla;
-        Registry<A> registry = wrapped.get();
+        Registry<A> registry = wrapped.sandbox_get();
         if (registry == null) {
             MethodHandles.Lookup lookup = MethodHandles.lookup();
             MethodHandle handleAB = lookup.findStatic(WrappingUtil.class, "convert", MethodType.methodType(normal, sandbox));
             MethodHandle handleBA = lookup.findStatic(WrappingUtil.class, "convert", MethodType.methodType(sandbox, normal));
             Function<A, B> convertAB = (Function<A, B>) LambdaMetafactory.metafactory(lookup, "apply", MethodType.methodType(Function.class), MethodType.methodType(Object.class, Object.class), handleAB, handleAB.type()).getTarget().invokeExact();
             Function<B, A> convertBA = (Function<B, A>) LambdaMetafactory.metafactory(lookup, "apply", MethodType.methodType(Function.class), MethodType.methodType(Object.class, Object.class), handleBA, handleBA.type()).getTarget().invokeExact();
-            wrapped.set(new BasicRegistry<>(Identity.of(name), vanilla, sandbox, convertAB, convertBA));
-            registry = wrapped.get();
+            wrapped.sandbox_set(new BasicRegistry<>(Identity.of(name), vanilla, sandbox, convertAB, convertBA));
+            registry = wrapped.sandbox_get();
         }
         //Force cast to C at the end to return the type needed
         return (Registry<C>) registry;
