@@ -1,0 +1,10 @@
+{
+  "required": false,
+  "package": "org.sandboxpowered.sandbox.fabric.mixin.fixes",
+  "compatibilityLevel": "JAVA_8",
+  "minVersion": "0.7",
+  "mixinPriority": 5480,
+  "mixins": [
+    "MixinMobEntity"
+  ]
+}
