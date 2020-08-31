@@ -2,7 +2,7 @@
   "required": true,
   "package": "org.sandboxpowered.sandbox.fabric.mixin.event",
   "compatibilityLevel": "JAVA_8",
-  "minVersion": "0.7",
+  "minVersion": "0.8",
   "mixinPriority": 5480,
   "mixins": [
     "block.MixinAnvilBlock",
