@@ -28,4 +28,16 @@ public class NumberUtil {
         }
         return map.get(l) + toRoman(number - l);
     }
+
+    public static String humanReadableByteCount(long bytes) {
+        return humanReadableByteCount(bytes, 2);
+    }
+
+    public static String humanReadableByteCount(long bytes, int depth) {
+        int unit = 1024;
+        if (bytes < unit) return bytes + " B";
+        int exp = (int) (Math.log(bytes) / Math.log(unit));
+        char pre = ("KMGTPE").charAt(exp - 1);
+        return String.format("%." + depth + "f %sB", bytes / Math.pow(unit, exp), pre);
+    }
 }

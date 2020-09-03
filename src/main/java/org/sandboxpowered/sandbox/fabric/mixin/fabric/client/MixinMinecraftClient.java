@@ -2,18 +2,22 @@ package org.sandboxpowered.sandbox.fabric.mixin.fabric.client;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.SplashScreen;
 import net.minecraft.resource.ReloadableResourceManager;
 import net.minecraft.resource.ResourcePack;
 import net.minecraft.resource.ResourceReloadMonitor;
 import net.minecraft.util.Unit;
 import org.sandboxpowered.internal.AddonSpec;
+import org.sandboxpowered.sandbox.fabric.service.rendering.AtlasReloader;
 import org.sandboxpowered.sandbox.fabric.SandboxHooks;
 import org.sandboxpowered.sandbox.fabric.client.AddonFolderResourcePack;
 import org.sandboxpowered.sandbox.fabric.client.AddonResourcePack;
 import org.sandboxpowered.sandbox.fabric.client.PanoramaHandler;
 import org.sandboxpowered.sandbox.fabric.loader.SandboxLoader;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
@@ -32,6 +36,8 @@ import java.util.concurrent.Executor;
 @Mixin(MinecraftClient.class)
 public abstract class MixinMinecraftClient {
 
+    @Shadow @Final private ReloadableResourceManager resourceManager;
+
     private void addonResourcePackModifications(List<ResourcePack> packs) {
         if (SandboxLoader.loader != null && SandboxLoader.loader.getFabric() != null)
             SandboxLoader.loader.getFabric().getAllAddons().forEach((addonInfo, addon) -> {
@@ -46,6 +52,12 @@ public abstract class MixinMinecraftClient {
                     e.printStackTrace();
                 }
             });
+    }
+
+    @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/SplashScreen;init(Lnet/minecraft/client/MinecraftClient;)V"))
+    public void setOverlay(MinecraftClient client) {
+        resourceManager.registerListener(new AtlasReloader());
+        SplashScreen.init(client);
     }
 
 // TODO: Fix crash stuff

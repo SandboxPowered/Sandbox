@@ -37,6 +37,7 @@
     "text.MixinText",
     "util.MixinBlockPos",
     "util.MixinIdentifier",
+    "util.MixinMatrixStack",
     "util.MixinProperty",
     "util.MixinVec3d",
     "util.MixinVec3i",
@@ -47,8 +48,8 @@
   ],
   "client": [
     "block.MixinBlockClient",
-    "client.MixinMinecraftClient",
     "client.MixinFluidRenderer",
+    "client.MixinMinecraftClient",
     "client.MixinModelLoader",
     "client.MixinRenderLayers",
     "client.MixinWorldRenderer"

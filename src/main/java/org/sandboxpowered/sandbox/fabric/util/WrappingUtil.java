@@ -2,6 +2,7 @@ package org.sandboxpowered.sandbox.fabric.util;
 
 import net.minecraft.block.Material;
 import net.minecraft.block.piston.PistonBehavior;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -457,6 +458,9 @@ public class WrappingUtil {
     public static Box convert(net.minecraft.util.math.Box boundingBox) {
         return (Box) boundingBox;
     }
+    public static net.minecraft.util.math.Box convert(Box box) {
+return (net.minecraft.util.math.Box) box;
+    }
 
     public static Hand convert(org.sandboxpowered.api.entity.player.Hand hand) {
         return hand == org.sandboxpowered.api.entity.player.Hand.MAIN_HAND ? Hand.MAIN_HAND : Hand.OFF_HAND;
@@ -478,5 +482,13 @@ public class WrappingUtil {
                 return EquipmentSlot.MAINHAND;
         }
         return null;
+    }
+
+    public static MatrixStack convert(org.sandboxpowered.api.util.math.MatrixStack stack) {
+        return cast(stack, MatrixStack.class);
+    }
+
+    public static org.sandboxpowered.api.util.math.MatrixStack convert(MatrixStack stack) {
+        return cast(stack, org.sandboxpowered.api.util.math.MatrixStack.class);
     }
 }

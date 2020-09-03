@@ -10,6 +10,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import org.sandboxpowered.sandbox.fabric.internal.IDownloadIndicator;
 import org.sandboxpowered.sandbox.fabric.util.FileUtil;
+import org.sandboxpowered.sandbox.fabric.util.NumberUtil;
 
 import java.awt.*;
 import java.net.MalformedURLException;
@@ -33,18 +34,6 @@ public class LoadingOverlay extends Overlay {
         this.client = client;
         this.prefix = prefix;
         this.addons = addons;
-    }
-
-    public static String humanReadableByteCount(long bytes) {
-        return humanReadableByteCount(bytes, 2);
-    }
-
-    public static String humanReadableByteCount(long bytes, int depth) {
-        int unit = 1024;
-        if (bytes < unit) return bytes + " B";
-        int exp = (int) (Math.log(bytes) / Math.log(unit));
-        char pre = ("KMGTPE").charAt(exp - 1);
-        return String.format("%." + depth + "f %sB", bytes / Math.pow(unit, exp), pre);
     }
 
     public void nextAddon() {
@@ -76,18 +65,17 @@ public class LoadingOverlay extends Overlay {
             nextAddon();
         }
         if (dl != null) {
-            if (dl.hasStarted()) {
-                right = "Downloading Addon " + addon + " of " + addons.size();
-                int percent = (int) ((dl.getCurrentSize() * 100) / dl.getTotalSize());
-                right2 = percent + "% " + humanReadableByteCount(dl.getCurrentSize()) + "/" + humanReadableByteCount(dl.getTotalSize());
-            }
             if (dl.isComplete()) {
                 right = "Completed Addon Download " + addon + " of " + addons.size();
                 nextAddon();
+            } else if (dl.hasStarted()) {
+                right = "Downloading Addon " + addon + " of " + addons.size();
+                int percent = (int) ((dl.getCurrentSize() * 100) / dl.getTotalSize());
+                right2 = percent + "% " + NumberUtil.humanReadableByteCount(dl.getCurrentSize()) + "/" + NumberUtil.humanReadableByteCount(dl.getTotalSize());
             }
         }
         text = new LiteralText(right);
-        if (addon >= addons.size()) {
+        if (addon > addons.size()) {
             client.setOverlay(null);
 //            SandboxClient.INSTANCE.load(addons.stream().map(addon -> Paths.get("server/cache/" + addon.getRight())).collect(Collectors.toList())); TODO
         }

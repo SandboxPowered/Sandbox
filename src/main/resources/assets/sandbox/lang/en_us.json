@@ -4,5 +4,13 @@
   "options.sandbox.worldborder.vanilla": "Vanilla",
   "options.sandbox.worldborder.lines": "Lines",
   "options.sandbox.worldborder.grid": "Grid",
-  "options.sandbox.worldborder.dots": "Dots"
+  "options.sandbox.worldborder.dots": "Dots",
+
+  "gui.sandbox.loading.preparing": "Preparing Addon %d/%d (%s)",
+  "gui.sandbox.loading.downloading": "Downloading Addon %d/%d (%s)",
+  "gui.sandbox.loading.downloading.progress": "%d% %s/%s",
+  "gui.sandbox.loading.loading": "Loading Addon %d/%d (%s)",
+  "gui.sandbox.loading.completed": "Downloaded Addon %d/%d (%s)",
+  "gui.sandbox.loading.connecting": "Connecting to %s",
+  "gui.sandbox.loading.joining": "Joining %s"
 }

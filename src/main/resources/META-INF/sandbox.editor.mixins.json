@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "package": "org.sandboxpowered.sandbox.fabric.mixin.editor",
+  "compatibilityLevel": "JAVA_8",
+  "minVersion": "0.8",
+  "mixinPriority": 5480,
+  "mixins": [
+    "MixinCommandManager",
+    "MixinWorld"
+  ],
+  "client": [
+    "MixinWorldRenderer"
+  ],
+  "server": [
+  ]
+}

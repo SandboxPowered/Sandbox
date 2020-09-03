@@ -1,0 +1,259 @@
+{
+  "background": {
+    "position": {
+      "x": 13,
+      "y": 0
+    },
+    "size": {
+      "x": 10,
+      "y": 10
+    },
+    "border": {
+      "left": 4,
+      "right": 4,
+      "top": 4,
+      "bottom": 4
+    }
+  },
+  "inset": {
+    "position": {
+      "x": 0,
+      "y": 0
+    },
+    "size": {
+      "x": 3,
+      "y": 3
+    },
+    "border": {
+      "left": 1,
+      "right": 1,
+      "top": 1,
+      "bottom": 1
+    },
+    "fillInside": false
+  },
+  "partition": {
+    "position": {
+      "x": 0,
+      "y": 3
+    },
+    "size": {
+      "x": 3,
+      "y": 3
+    },
+    "border": {
+      "left": 1,
+      "right": 1,
+      "top": 1,
+      "bottom": 1
+    }
+  },
+  "button": {
+    "position": {
+      "x": 3,
+      "y": 0
+    },
+    "size": {
+      "x": 5,
+      "y": 5
+    },
+    "border": {
+      "left": 1,
+      "right": 1,
+      "top": 1,
+      "bottom": 1
+    }
+  },
+  "button_inverted": {
+    "position": {
+      "x": 8,
+      "y": 5
+    },
+    "size": {
+      "x": 5,
+      "y": 5
+    },
+    "border": {
+      "left": 1,
+      "right": 1,
+      "top": 1,
+      "bottom": 1
+    }
+  },
+  "scrollbar": {
+    "position": {
+      "x": 8,
+      "y": 0
+    },
+    "size": {
+      "x": 5,
+      "y": 5
+    },
+    "border": {
+      "left": 1,
+      "right": 1,
+      "top": 1,
+      "bottom": 1
+    }
+  },
+  "button_disabled": {
+    "position": {
+      "x": 3,
+      "y": 5
+    },
+    "size": {
+      "x": 5,
+      "y": 5
+    },
+    "border": {
+      "left": 1,
+      "right": 1,
+      "top": 1,
+      "bottom": 1
+    }
+  },
+  "slot": {
+    "position": {
+      "x": 0,
+      "y": 10
+    },
+    "size": {
+      "x": 18,
+      "y": 18
+    },
+    "border": {
+      "left": 1,
+      "right": 1,
+      "top": 1,
+      "bottom": 1
+    }
+  },
+  "fire_on": {
+    "position": {
+      "x": 0,
+      "y": 28
+    },
+    "size": {
+      "x": 14,
+      "y": 14
+    }
+  },
+  "fire_off": {
+    "position": {
+      "x": 14,
+      "y": 28
+    },
+    "size": {
+      "x": 14,
+      "y": 14
+    }
+  },
+  "arrow_full": {
+    "position": {
+      "x": 0,
+      "y": 42
+    },
+    "size": {
+      "x": 24,
+      "y": 17
+    }
+  },
+  "arrow_empty": {
+    "position": {
+      "x": 0,
+      "y": 59
+    },
+    "size": {
+      "x": 24,
+      "y": 17
+    }
+  },
+  "arrow_error": {
+    "position": {
+      "x": 0,
+      "y": 76
+    },
+    "size": {
+      "x": 24,
+      "y": 17
+    }
+  },
+  "anvil_hammer": {
+    "position": {
+      "x": 24,
+      "y": 42
+    },
+    "size": {
+      "x": 34,
+      "y": 34
+    }
+  },
+  "plus": {
+    "position": {
+      "x": 0,
+      "y": 93
+    },
+    "size": {
+      "x": 15,
+      "y": 15
+    }
+  },
+  "minus": {
+    "position": {
+      "x": 0,
+      "y": 108
+    },
+    "size": {
+      "x": 15,
+      "y": 5
+    }
+  },
+  "scrollbar_background": {
+    "position": {
+      "x": 18,
+      "y": 25
+    },
+    "size": {
+      "x": 14,
+      "y": 3
+    },
+    "border": {
+      "top": 1,
+      "bottom": 1
+    }
+  },
+  "scroll_active": {
+    "position": {
+      "x": 18,
+      "y": 10
+    },
+    "size": {
+      "x": 12,
+      "y": 15
+    }
+  },
+  "scroll_inactive": {
+    "position": {
+      "x": 30,
+      "y": 10
+    },
+    "size": {
+      "x": 12,
+      "y": 15
+    }
+  },
+  "searchbar": {
+    "position": {
+      "x": 28,
+      "y": 30
+    },
+    "size": {
+      "x": 3,
+      "y": 12
+    },
+    "border": {
+      "left": 1,
+      "right": 1
+    }
+  }
+}
