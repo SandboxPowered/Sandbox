@@ -106,7 +106,7 @@ public class SandboxLoader {
             fabric.registerAll();
             fabric.reloadResources();
         } else {
-            Log.info("Loading 0 addons");
+            Log.info("Loaded 0 addons");
         }
     }
 

@@ -36,6 +36,7 @@
     "client.MixinItemGroup",
     "client.MixinMinecraftClient",
     "client.MixinResourcePackManager",
+    "client.MixinTitleScreen",
     "client.MixinScreen",
     "client.MixinVideoOptionsScreen",
     "networking.MixinClientConnection",

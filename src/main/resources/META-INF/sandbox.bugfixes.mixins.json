@@ -1,5 +1,5 @@
 {
-  "required": false,
+  "required": true,
   "package": "org.sandboxpowered.sandbox.fabric.mixin.fixes",
   "compatibilityLevel": "JAVA_8",
   "minVersion": "0.8",
