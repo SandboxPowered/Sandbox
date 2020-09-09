@@ -19,6 +19,7 @@
     "entity.MixinLivingEntity",
     "entity.MixinPlayerEntity",
     "entity.MixinServerPlayerEntity",
+    "entity.MixinSpawnGroup",
     "fluid.MixinBaseFluid",
     "fluid.MixinFluid",
     "fluid.MixinFluidState",
@@ -47,8 +48,8 @@
   ],
   "client": [
     "block.MixinBlockClient",
-    "client.MixinMinecraftClient",
     "client.MixinFluidRenderer",
+    "client.MixinMinecraftClient",
     "client.MixinModelLoader",
     "client.MixinRenderLayers",
     "client.MixinWorldRenderer"

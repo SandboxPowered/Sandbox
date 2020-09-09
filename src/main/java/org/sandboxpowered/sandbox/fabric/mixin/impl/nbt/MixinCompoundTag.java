@@ -131,7 +131,6 @@ public abstract class MixinCompoundTag implements Tag {
         putString(key, s);
     }
 
-
     public double sbx$getDouble(String key) {
         return getDouble(key);
     }

@@ -2,6 +2,7 @@ package org.sandboxpowered.sandbox.fabric.impl;
 
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
@@ -15,6 +16,9 @@ import org.sandboxpowered.api.component.Component;
 import org.sandboxpowered.api.content.Content;
 import org.sandboxpowered.api.enchantment.Enchantment;
 import org.sandboxpowered.api.entity.Entity;
+import org.sandboxpowered.api.entity.EntityCategory;
+import org.sandboxpowered.api.entity.data.DataSerializers;
+import org.sandboxpowered.api.entity.data.SyncedData;
 import org.sandboxpowered.api.fluid.Fluid;
 import org.sandboxpowered.api.fluid.FluidStack;
 import org.sandboxpowered.api.item.Item;
@@ -43,6 +47,7 @@ import java.lang.invoke.LambdaMetafactory;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -96,8 +101,8 @@ public class InternalServiceFabric implements InternalService {
     }
 
     @Override
-    public <T extends BlockEntity> BlockEntity.Type<T> blockEntityTypeFunction(Supplier<T> s, Block[] b) {
-        return (BlockEntity.Type<T>) BlockEntityType.Builder.create(() -> WrappingUtil.convert(s.get()), WrappingUtil.convert(b)).build(null);
+    public BlockEntity.Type blockEntityTypeFunction(Supplier<? extends BlockEntity> s, Block[] b) {
+        return (BlockEntity.Type) BlockEntityType.Builder.create(() -> WrappingUtil.convert(s.get()), WrappingUtil.convert(b)).build(null);
     }
 
     @Override
@@ -195,6 +200,27 @@ public class InternalServiceFabric implements InternalService {
     @Override
     public FluidStack fluidStackFromTagFunction(ReadableCompoundTag tag) {
         return new FluidStackImpl(tag);
+    }
+
+    @Override
+    public EntityCategory getEntityCategory(String name) {
+        return (EntityCategory) (Object) SpawnGroup.valueOf(name);
+    }
+
+    //TODO
+    @Override
+    public <T> SyncedData<T> registerSyncedData(Identity id, SyncedData.SyncedDataSerializer<T> serializer, boolean saveToWorld) {
+        return null;
+    }
+
+    @Override
+    public <T> SyncedData.SyncedDataSerializer<T> injectDataHandler(int id, DataSerializers.Serializer<T> serializer, BiFunction<String, CompoundTag, T> deserializer) {
+        return null;
+    }
+
+    @Override
+    public Object makeModelPart(int textureWidth, int textureHeight, int textureU, int textureV) {
+        return null;
     }
 
     @Override
