@@ -214,7 +214,7 @@ public class InternalServiceFabric implements InternalService {
     }
 
     @Override
-    public <T> SyncedData.SyncedDataSerializer<T> injectDataHandler(int id, DataSerializers.Serializer<T> serializer, BiFunction<String, CompoundTag, T> deserializer) {
+    public <T> SyncedData.SyncedDataSerializer<T> injectDataHandler(int present, int optional, DataSerializers.Serializer<T> serializer, BiFunction<String, CompoundTag, T> deserializer) {
         return null;
     }
 
