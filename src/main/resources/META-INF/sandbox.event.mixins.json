@@ -16,10 +16,12 @@
     "item.MixinBlockItem",
     "item.MixinItemStack",
     "network.MixinServerPlayerInteractionManager",
+    "world.MixinBlockCollisionSpliterator",
     "world.MixinServerWorld"
   ],
   "client": [
     "client.MixinMinecraftClient",
+    "client.MixinWorldRenderer",
     "network.MixinClientPlayerInteractionManager"
   ]
 }
