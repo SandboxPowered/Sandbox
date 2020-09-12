@@ -3,6 +3,7 @@ package org.sandboxpowered.sandbox.fabric.impl;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.item.Items;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
@@ -107,7 +108,7 @@ public class InternalServiceFabric implements InternalService {
 
     @Override
     public ItemStack createItemStack(Item item, int amount) {
-        if (item == null || amount == 0)
+        if (item == null || amount == 0 || item == Items.AIR)
             return WrappingUtil.cast(net.minecraft.item.ItemStack.EMPTY, ItemStack.class);
         return WrappingUtil.cast(new net.minecraft.item.ItemStack(WrappingUtil.convert(item), amount), ItemStack.class);
     }

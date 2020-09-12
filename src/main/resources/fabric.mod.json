@@ -18,7 +18,8 @@
     "META-INF/sandbox.event.mixins.json",
     "META-INF/sandbox.fabric.mixins.json",
     "META-INF/sandbox.impl.mixins.json",
-    "META-INF/sandbox.performance.mixins.json"
+    "META-INF/sandbox.performance.mixins.json",
+    "META-INF/sandbox.bugfixes.mixins.json"
   ],
   "accessWidener": "META-INF/sandbox-fabric.accesswidener",
   "depends": {

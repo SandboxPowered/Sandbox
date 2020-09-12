@@ -2,7 +2,7 @@
   "required": true,
   "package": "org.sandboxpowered.sandbox.fabric.mixin.fabric",
   "compatibilityLevel": "JAVA_8",
-  "minVersion": "0.7",
+  "minVersion": "0.8",
   "mixinPriority": 5480,
   "mixins": [
     "MixinBootstrap",
@@ -36,6 +36,7 @@
     "client.MixinItemGroup",
     "client.MixinMinecraftClient",
     "client.MixinResourcePackManager",
+    "client.MixinTitleScreen",
     "client.MixinScreen",
     "client.MixinVideoOptionsScreen",
     "networking.MixinClientConnection",
