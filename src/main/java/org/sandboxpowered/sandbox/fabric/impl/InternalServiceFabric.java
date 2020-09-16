@@ -30,6 +30,8 @@ import org.sandboxpowered.api.util.math.Vec3i;
 import org.sandboxpowered.api.util.nbt.CompoundTag;
 import org.sandboxpowered.api.util.nbt.ReadableCompoundTag;
 import org.sandboxpowered.api.util.text.Text;
+import org.sandboxpowered.eventhandler.EventHandler;
+import org.sandboxpowered.eventhandler.ResettableEventHandler;
 import org.sandboxpowered.internal.InternalService;
 import org.sandboxpowered.sandbox.fabric.SandboxComponents;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
@@ -210,5 +212,10 @@ public class InternalServiceFabric implements InternalService {
     @Override
     public Shape shape_empty() {
         return WrappingUtil.convert(VoxelShapes.empty());
+    }
+
+    @Override
+    public <X> EventHandler<X> createEventHandler() {
+        return new ResettableEventHandler<>();
     }
 }
