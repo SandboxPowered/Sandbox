@@ -2,6 +2,8 @@ package org.sandboxpowered.sandbox.fabric.util;
 
 import net.minecraft.block.Material;
 import net.minecraft.block.piston.PistonBehavior;
+import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -19,6 +21,7 @@ import net.minecraft.world.BlockView;
 import org.sandboxpowered.api.block.Block;
 import org.sandboxpowered.api.block.entity.BlockEntity;
 import org.sandboxpowered.api.client.GraphicsMode;
+import org.sandboxpowered.api.client.rendering.VertexConsumer;
 import org.sandboxpowered.api.enchantment.Enchantment;
 import org.sandboxpowered.api.entity.Entity;
 import org.sandboxpowered.api.entity.LivingEntity;
@@ -477,6 +480,18 @@ public class WrappingUtil {
             case MAINHAND:
                 return EquipmentSlot.MAINHAND;
         }
+        return null;
+    }
+
+    public static MatrixStack convert(org.sandboxpowered.api.util.math.MatrixStack stack) {
+        return cast(stack, MatrixStack.class);
+    }
+
+    public static org.sandboxpowered.api.util.math.MatrixStack convert(MatrixStack stack) {
+        return cast(stack, org.sandboxpowered.api.util.math.MatrixStack.class);
+    }
+
+    public static VertexConsumer.Provider convert(VertexConsumerProvider immediate) {
         return null;
     }
 }

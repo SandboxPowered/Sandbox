@@ -173,11 +173,13 @@ public class SandboxFabric implements Sandbox {
 
         @Override
         public boolean isAddonLoaded(String addonId) {
-            return getAddon(addonId).isPresent();
+            return loadedAddons.containsKey(addonId);
         }
 
         @Override
         public boolean isExternalModLoaded(String loader, String modId) {
+            if ("internal".equals(loader))
+                return "optifine".equals(modId) && isOptifineLoaded();
             if (!"fabric".equals(loader))
                 return false;
             if (modId == null || modId.isEmpty())
@@ -198,6 +200,26 @@ public class SandboxFabric implements Sandbox {
         @Override
         public Log getLog() {
             return log;
+        }
+    }
+
+    private static boolean ranChecks;
+    private static boolean optifine;
+
+    public static boolean isOptifineLoaded() {
+        runChecks();
+        return optifine;
+    }
+
+    private static void runChecks() {
+        if (!ranChecks) {
+            try {
+                Class.forName("optifine/Installer.class");
+                optifine = true;
+            } catch (ClassNotFoundException e) {
+                optifine = false;
+            }
+            ranChecks = true;
         }
     }
 }
