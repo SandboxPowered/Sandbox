@@ -12,6 +12,8 @@
     "block.MixinMaterial",
     "block.MixinSandboxBlock",
     "block.MixinWaterlogged",
+    "client.MixinGameRenderer",
+    "client.MixinMatrix4f",
     "enchant.MixinEnchantment",
     "enchant.MixinSandboxEnchantment",
     "entity.MixinEntity",
@@ -47,8 +49,8 @@
   ],
   "client": [
     "block.MixinBlockClient",
-    "client.MixinMinecraftClient",
     "client.MixinFluidRenderer",
+    "client.MixinMinecraftClient",
     "client.MixinModelLoader",
     "client.MixinRenderLayers",
     "client.MixinWorldRenderer"

@@ -69,4 +69,8 @@ public class SandboxInternal {
     public interface MagicQuad {
         Sprite getSprite();
     }
+
+    public interface MagicMatrix {
+        void sandbox_ortho(float zNear, float zFar, float width, float height);
+    }
 }
