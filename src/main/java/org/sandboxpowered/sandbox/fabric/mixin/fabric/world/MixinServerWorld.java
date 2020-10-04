@@ -2,6 +2,7 @@ package org.sandboxpowered.sandbox.fabric.mixin.fabric.world;
 
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import org.jetbrains.annotations.NotNull;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,6 +20,6 @@ public abstract class MixinServerWorld {
 
     @Redirect(method = "tick", at = @At(value = "INVOKE", target = "Ljava/util/stream/Stream;noneMatch(Ljava/util/function/Predicate;)Z"))
     public boolean noneMatch(Stream<ServerPlayerEntity> stream, Predicate<ServerPlayerEntity> predicate) {
-        return stream.noneMatch(entity -> !WrappingUtil.convert(entity).isSleepingIgnored() && predicate.test(entity));
+        return stream.noneMatch(predicate.and(entity -> !WrappingUtil.convert(entity).isSleepingIgnored()));
     }
 }

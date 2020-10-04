@@ -180,11 +180,13 @@ public class SandboxFabric implements Sandbox {
         public boolean isExternalModLoaded(String loader, String modId) {
             if ("internal".equals(loader))
                 return "optifine".equals(modId) && isOptifineLoaded();
-            if (!"fabric".equals(loader))
-                return false;
-            if (modId == null || modId.isEmpty())
-                return true;
-            return FabricLoader.getInstance().isModLoaded(modId);
+            boolean universal = "universal".equals(loader);
+            if (universal || "fabric".equals(loader)) {
+                if (modId == null || modId.isEmpty())
+                    return !universal;
+                return FabricLoader.getInstance().isModLoaded(modId);
+            }
+            return false;
         }
 
         @Override

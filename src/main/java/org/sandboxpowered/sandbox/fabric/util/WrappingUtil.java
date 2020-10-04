@@ -18,6 +18,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
+import org.jetbrains.annotations.Nullable;
 import org.sandboxpowered.api.block.Block;
 import org.sandboxpowered.api.block.entity.BlockEntity;
 import org.sandboxpowered.api.client.GraphicsMode;
@@ -275,18 +276,20 @@ public class WrappingUtil {
         return (Block) block;
     }
 
-    public static Entity convert(net.minecraft.entity.Entity entity_1) {
-        return (Entity) entity_1;
+    public static Entity convert(net.minecraft.entity.Entity entity) {
+        return (Entity) entity;
     }
 
-    public static PlayerEntity convert(net.minecraft.entity.player.PlayerEntity entity_1) {
-        return (PlayerEntity) entity_1;
+    public static PlayerEntity convert(net.minecraft.entity.player.PlayerEntity player) {
+        return (PlayerEntity) player;
     }
 
-    public static net.minecraft.entity.Entity convert(Entity entity_1) {
-        if (entity_1 == null)
-            return null;
-        return (net.minecraft.entity.Entity) entity_1;
+    public static net.minecraft.entity.player.PlayerEntity convert(PlayerEntity player) {
+        return (net.minecraft.entity.player.PlayerEntity) player;
+    }
+
+    public static net.minecraft.entity.Entity convert(Entity entity) {
+        return (net.minecraft.entity.Entity) entity;
     }
 
     public static <T extends Comparable<T>> Property<T> convert(org.sandboxpowered.api.state.Property<T> property) {
@@ -461,6 +464,10 @@ public class WrappingUtil {
         return (Box) boundingBox;
     }
 
+    public static net.minecraft.util.math.Box convert(Box box) {
+        return (net.minecraft.util.math.Box) box;
+    }
+
     public static Hand convert(org.sandboxpowered.api.entity.player.Hand hand) {
         return hand == org.sandboxpowered.api.entity.player.Hand.MAIN_HAND ? Hand.MAIN_HAND : Hand.OFF_HAND;
     }
@@ -492,6 +499,13 @@ public class WrappingUtil {
     }
 
     public static VertexConsumer.Provider convert(VertexConsumerProvider immediate) {
+        return null;
+    }
+
+    @Nullable
+    public static net.minecraft.entity.LivingEntity convertToLivingOrNull(Entity entity) {
+        if (entity instanceof net.minecraft.entity.LivingEntity)
+            return (net.minecraft.entity.LivingEntity) entity;
         return null;
     }
 }

@@ -106,11 +106,12 @@ public abstract class MixinBlock extends AbstractBlock implements SandboxInterna
     }
 
     public InteractionResult sbx$onBlockUsed(World world, Position pos, BlockState state, PlayerEntity player, Hand hand, Direction side, Vec3f hit) {
+//        onUse(WrappingUtil.convert(state), WrappingUtil.convert(world), WrappingUtil.convert(pos), WrappingUtil.convert(player), WrappingUtil.convert(hand), null);
         return InteractionResult.IGNORE;
     }
 
-    public InteractionResult sbx$onBlockClicked(World world, Position pos, BlockState state, PlayerEntity player) {
-        return InteractionResult.IGNORE;
+    public void sbx$onBlockClicked(World world, Position pos, BlockState state, PlayerEntity player) {
+        onBlockBreakStart(WrappingUtil.convert(state), WrappingUtil.convert(world), WrappingUtil.convert(pos), WrappingUtil.convert(player));
     }
 
     public Optional<Item> sbx$asItem() {
@@ -125,15 +126,14 @@ public abstract class MixinBlock extends AbstractBlock implements SandboxInterna
                 WrappingUtil.convert(world),
                 WrappingUtil.convert(position),
                 WrappingUtil.convert(state),
-                null,
+                WrappingUtil.convertToLivingOrNull(entity),
                 WrappingUtil.convert(itemStack)
         );
     }
 
     public void sbx$onBlockBroken(World world, Position position, BlockState state) {
-        this.onBroken((net.minecraft.world.World) world, (BlockPos) position, (net.minecraft.block.BlockState) state);
+        this.onBroken(WrappingUtil.convert(world), WrappingUtil.convert(position), WrappingUtil.convert(state));
     }
-
 
     public <X> Mono<X> sbx$getComponent(WorldReader reader, Position position, BlockState state, Component<X> component, @Nullable Direction side) {
         if (component == Components.INVENTORY_COMPONENT) {
