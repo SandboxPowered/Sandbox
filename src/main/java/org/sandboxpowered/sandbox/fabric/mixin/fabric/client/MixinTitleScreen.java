@@ -11,7 +11,6 @@ import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
@@ -22,6 +21,10 @@ import java.util.concurrent.Executor;
 
 @Mixin(TitleScreen.class)
 public abstract class MixinTitleScreen {
+    private static final CubeMapRenderer[] PANORAMA_CUBE_MAPS = new CubeMapRenderer[5];
+    @Shadow
+    @Final
+    public static CubeMapRenderer PANORAMA_CUBE_MAP;
     @Shadow
     @Final
     private static Identifier MINECRAFT_TITLE_TEXTURE;
@@ -31,15 +34,6 @@ public abstract class MixinTitleScreen {
     @Shadow
     @Final
     private static Identifier PANORAMA_OVERLAY;
-    @Shadow
-    @Final
-    public static CubeMapRenderer PANORAMA_CUBE_MAP;
-    @Mutable
-    @Shadow
-    @Final
-    private RotatingCubeMapRenderer backgroundRenderer;
-    private static final CubeMapRenderer[] PANORAMA_CUBE_MAPS = new CubeMapRenderer[5];
-    private final Random random = new Random();
 
     static {
         for (int i = 0; i < 5; i++) {
@@ -47,10 +41,11 @@ public abstract class MixinTitleScreen {
         }
     }
 
-    @Inject(method = "<init>(Z)V", at = @At("RETURN"))
-    public void constructor(boolean bl, CallbackInfo info) {
-        this.backgroundRenderer = new RotatingCubeMapRenderer(PANORAMA_CUBE_MAPS[random.nextInt(PANORAMA_CUBE_MAPS.length)]);
-    }
+    private final Random random = new Random();
+    @Mutable
+    @Shadow
+    @Final
+    private RotatingCubeMapRenderer backgroundRenderer;
 
     @Inject(method = "loadTexturesAsync", at = @At("HEAD"), cancellable = true)
     private static void loadTextures(TextureManager textureManager, Executor executor, CallbackInfoReturnable<CompletableFuture<Void>> info) {
@@ -61,6 +56,11 @@ public abstract class MixinTitleScreen {
                 PANORAMA_CUBE_MAP.loadTexturesAsync(textureManager, executor),
                 CompletableFuture.allOf(Arrays.stream(PANORAMA_CUBE_MAPS).map(cube -> cube.loadTexturesAsync(textureManager, executor)).toArray(CompletableFuture[]::new))
         ));
+    }
+
+    @Inject(method = "<init>(Z)V", at = @At("RETURN"))
+    public void constructor(boolean bl, CallbackInfo info) {
+        this.backgroundRenderer = new RotatingCubeMapRenderer(PANORAMA_CUBE_MAPS[random.nextInt(PANORAMA_CUBE_MAPS.length)]);
     }
 
 }

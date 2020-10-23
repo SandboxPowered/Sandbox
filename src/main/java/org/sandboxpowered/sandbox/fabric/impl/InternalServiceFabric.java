@@ -139,20 +139,20 @@ public class InternalServiceFabric implements InternalService {
         return null;
     }
 
-    private <A extends Content<A>, B, C extends Content<C>> Registry<C> getOrCreateRegistry(String name, net.minecraft.util.registry.Registry<B> vanilla, Class<A> sandbox, Class<?> normal) throws Throwable {
-        SandboxInternal.Registry<A, B> wrapped = (SandboxInternal.Registry<A, B>) vanilla;
-        Registry<A> registry = wrapped.sandbox_get();
+    private <S extends Content<S>, V, T extends Content<T>> Registry<T> getOrCreateRegistry(String name, net.minecraft.util.registry.Registry<V> vRegistry, Class<S> sClass, Class<?> vClass) throws Throwable {
+        SandboxInternal.Registry<S, V> sRegistry = (SandboxInternal.Registry<S, V>) vRegistry;
+        Registry<S> registry = sRegistry.sandbox_get();
         if (registry == null) {
             MethodHandles.Lookup lookup = MethodHandles.lookup();
-            MethodHandle handleAB = lookup.findStatic(WrappingUtil.class, "convert", MethodType.methodType(normal, sandbox));
-            MethodHandle handleBA = lookup.findStatic(WrappingUtil.class, "convert", MethodType.methodType(sandbox, normal));
-            Function<A, B> convertAB = (Function<A, B>) LambdaMetafactory.metafactory(lookup, "apply", MethodType.methodType(Function.class), MethodType.methodType(Object.class, Object.class), handleAB, handleAB.type()).getTarget().invokeExact();
-            Function<B, A> convertBA = (Function<B, A>) LambdaMetafactory.metafactory(lookup, "apply", MethodType.methodType(Function.class), MethodType.methodType(Object.class, Object.class), handleBA, handleBA.type()).getTarget().invokeExact();
-            wrapped.sandbox_set(new BasicRegistry<>(Identity.of(name), vanilla, sandbox, convertAB, convertBA));
-            registry = wrapped.sandbox_get();
+            MethodHandle handleSV = lookup.findStatic(WrappingUtil.class, "convert", MethodType.methodType(vClass, sClass));
+            MethodHandle handleVS = lookup.findStatic(WrappingUtil.class, "convert", MethodType.methodType(sClass, vClass));
+            Function<S, V> convertSV = (Function<S, V>) LambdaMetafactory.metafactory(lookup, "apply", MethodType.methodType(Function.class), MethodType.methodType(Object.class, Object.class), handleSV, handleSV.type()).getTarget().invokeExact();
+            Function<V, S> convertVS = (Function<V, S>) LambdaMetafactory.metafactory(lookup, "apply", MethodType.methodType(Function.class), MethodType.methodType(Object.class, Object.class), handleVS, handleVS.type()).getTarget().invokeExact();
+            sRegistry.sandbox_set(new BasicRegistry<>(Identity.of(name), vRegistry, sClass, convertSV, convertVS));
+            registry = sRegistry.sandbox_get();
         }
         //Force cast to C at the end to return the type needed
-        return (Registry<C>) registry;
+        return (Registry<T>) registry;
     }
 
     @Override

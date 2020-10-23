@@ -35,8 +35,6 @@ public class PipeBlock extends BaseBlock {
     public static final Property<Boolean> WEST = Properties.WEST;
     private static final Map<Direction, Shape> SIDE_SHAPES = new EnumMap<>(Direction.class);
 
-    private final Map<BlockState, Shape> SHAPES = new IdentityHashMap<>();
-
     static {
         CONNECTION_PROPERTIES.put(Direction.UP, UP);
         CONNECTION_PROPERTIES.put(Direction.DOWN, DOWN);
@@ -53,6 +51,12 @@ public class PipeBlock extends BaseBlock {
         SIDE_SHAPES.put(Direction.WEST, Shape.cuboid(0, 4, 4, 4, 12, 12));
     }
 
+    private final Map<BlockState, Shape> SHAPES = new IdentityHashMap<>();
+
+    public PipeBlock(Settings settings) {
+        super(settings);
+    }
+
     private static Shape computeShape(BlockState state) {
         Shape shape = CORE;
         for (Direction direction : Direction.ALL) {
@@ -61,10 +65,6 @@ public class PipeBlock extends BaseBlock {
             }
         }
         return shape;
-    }
-
-    public PipeBlock(Settings settings) {
-        super(settings);
     }
 
     @Override

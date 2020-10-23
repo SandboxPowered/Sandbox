@@ -1,7 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.util.wrapper;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Tickable;
 import org.jetbrains.annotations.NotNull;

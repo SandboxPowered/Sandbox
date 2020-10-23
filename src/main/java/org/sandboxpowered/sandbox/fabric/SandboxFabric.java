@@ -23,11 +23,29 @@ import java.util.*;
 public class SandboxFabric implements Sandbox {
     private static final Parser<Expression> PARSER = ExpressionParser.newInstance();
     private static final Identity PLATFORM = Identity.of("sandboxpowered", "fabric");
-
+    private static boolean ranChecks;
+    private static boolean optifine;
     private final Map<String, AddonInfo> loadedAddons = new LinkedHashMap<>();
     private final Map<AddonInfo, Addon> addonMap = new LinkedHashMap<>();
     private final Map<AddonInfo, SandboxAPI> addonAPIs = new LinkedHashMap<>();
     private final Map<AddonInfo, Registrar> addonRegistrars = new LinkedHashMap<>();
+
+    public static boolean isOptifineLoaded() {
+        runChecks();
+        return optifine;
+    }
+
+    private static void runChecks() {
+        if (!ranChecks) {
+            try {
+                Class.forName("optifine/Installer.class");
+                optifine = true;
+            } catch (ClassNotFoundException e) {
+                optifine = false;
+            }
+            ranChecks = true;
+        }
+    }
 
     public void loadAddon(AddonInfo info, Addon addon) {
         loadedAddons.put(info.getId(), info);
@@ -202,26 +220,6 @@ public class SandboxFabric implements Sandbox {
         @Override
         public Log getLog() {
             return log;
-        }
-    }
-
-    private static boolean ranChecks;
-    private static boolean optifine;
-
-    public static boolean isOptifineLoaded() {
-        runChecks();
-        return optifine;
-    }
-
-    private static void runChecks() {
-        if (!ranChecks) {
-            try {
-                Class.forName("optifine/Installer.class");
-                optifine = true;
-            } catch (ClassNotFoundException e) {
-                optifine = false;
-            }
-            ranChecks = true;
         }
     }
 }
