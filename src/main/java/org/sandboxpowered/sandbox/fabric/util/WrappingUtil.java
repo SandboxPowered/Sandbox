@@ -1,6 +1,7 @@
 package org.sandboxpowered.sandbox.fabric.util;
 
 import net.minecraft.block.Material;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
@@ -507,5 +508,13 @@ public class WrappingUtil {
         if (entity instanceof net.minecraft.entity.LivingEntity)
             return (net.minecraft.entity.LivingEntity) entity;
         return null;
+    }
+
+    public static BlockEntityType<?> convert(BlockEntity.Type<?> type) {
+        return cast(type, BlockEntityType.class);
+    }
+
+    public static BlockEntity.Type<?> convert(BlockEntityType<?> type) {
+        return cast(type, BlockEntity.Type.class);
     }
 }

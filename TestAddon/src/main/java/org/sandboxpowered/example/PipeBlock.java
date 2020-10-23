@@ -1,7 +1,9 @@
 package org.sandboxpowered.example;
 
+import org.jetbrains.annotations.Nullable;
 import org.sandboxpowered.api.block.BaseBlock;
 import org.sandboxpowered.api.block.Block;
+import org.sandboxpowered.api.block.entity.BlockEntity;
 import org.sandboxpowered.api.client.GraphicsMode;
 import org.sandboxpowered.api.component.Components;
 import org.sandboxpowered.api.entity.player.Hand;
@@ -63,6 +65,16 @@ public class PipeBlock extends BaseBlock {
 
     public PipeBlock(Settings settings) {
         super(settings);
+    }
+
+    @Override
+    public boolean hasBlockEntity() {
+        return true;
+    }
+
+    @Override
+    public @Nullable BlockEntity createBlockEntity(WorldReader reader) {
+        return new PipeBlockEntity(Example.PIPE);
     }
 
     @Override

@@ -12,6 +12,7 @@
     "block.MixinMaterial",
     "block.MixinSandboxBlock",
     "block.MixinWaterlogged",
+    "block.entity.MixinBlockEntityType",
     "enchant.MixinEnchantment",
     "enchant.MixinSandboxEnchantment",
     "entity.MixinEntity",
@@ -47,8 +48,8 @@
   ],
   "client": [
     "block.MixinBlockClient",
-    "client.MixinMinecraftClient",
     "client.MixinFluidRenderer",
+    "client.MixinMinecraftClient",
     "client.MixinModelLoader",
     "client.MixinRenderLayers",
     "client.MixinWorldRenderer"
