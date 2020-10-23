@@ -5,6 +5,5 @@
   "minVersion": "0.8",
   "mixinPriority": 5480,
   "mixins": [
-    "MixinMobEntity"
   ]
 }
