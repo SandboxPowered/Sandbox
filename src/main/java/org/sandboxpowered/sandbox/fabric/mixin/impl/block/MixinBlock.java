@@ -1,6 +1,7 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.block;
 
 import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.AbstractBlock.Settings;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.InventoryProvider;
 import net.minecraft.block.Waterloggable;
@@ -71,7 +72,7 @@ public abstract class MixinBlock extends AbstractBlock implements SandboxInterna
 
     @SuppressWarnings("unchecked")
     @Inject(method = "<init>", at = @At("RETURN"))
-    public void constructor(net.minecraft.block.Block.Settings settings, CallbackInfo info) {
+    public void constructor(Settings settings, CallbackInfo info) {
         if (!((Object) this instanceof BlockWrapper)) {
             sandboxFactory = new StateFactoryImpl<>(this.stateManager, b -> (Block) b, s -> (BlockState) s);
             ((SandboxInternal.StateFactory<Block, BlockState>) this.stateManager).setSboxFactory(sandboxFactory);

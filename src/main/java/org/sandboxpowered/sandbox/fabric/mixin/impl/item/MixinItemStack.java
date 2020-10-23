@@ -38,13 +38,13 @@ public abstract class MixinItemStack {
     public abstract int getCount();
 
     @Shadow
-    public abstract void setCount(int int_1);
+    public abstract void setCount(int amount);
 
     @Shadow
-    public abstract void decrement(int int_1);
+    public abstract void decrement(int amount);
 
     @Shadow
-    public abstract void increment(int int_1);
+    public abstract void increment(int amount);
 
     @Shadow
     public abstract net.minecraft.util.Rarity getRarity();
@@ -57,32 +57,32 @@ public abstract class MixinItemStack {
     public abstract net.minecraft.nbt.CompoundTag getTag();
 
     @Shadow
-    public abstract void setTag(@Nullable net.minecraft.nbt.CompoundTag compoundTag_1);
+    public abstract void setTag(@Nullable net.minecraft.nbt.CompoundTag tag);
 
     @Shadow
     public abstract net.minecraft.nbt.CompoundTag getOrCreateTag();
 
     @Shadow
     @Nullable
-    public abstract net.minecraft.nbt.CompoundTag getSubTag(String string_1);
+    public abstract net.minecraft.nbt.CompoundTag getSubTag(String string);
 
     @Shadow
-    public abstract net.minecraft.nbt.CompoundTag getOrCreateSubTag(String string_1);
+    public abstract net.minecraft.nbt.CompoundTag getOrCreateSubTag(String string);
 
     @Shadow
     public abstract int getMaxCount();
 
     @Shadow
-    public abstract boolean isItemEqual(net.minecraft.item.ItemStack itemStack_1);
+    public abstract boolean isItemEqual(net.minecraft.item.ItemStack stack);
 
     @Shadow
     public abstract net.minecraft.item.ItemStack copy();
 
     @Shadow
-    public abstract boolean isItemEqualIgnoreDamage(net.minecraft.item.ItemStack itemStack_1);
+    public abstract boolean isItemEqualIgnoreDamage(net.minecraft.item.ItemStack stack);
 
     @Shadow
-    public abstract net.minecraft.nbt.CompoundTag toTag(net.minecraft.nbt.CompoundTag compoundTag_1);
+    public abstract net.minecraft.nbt.CompoundTag toTag(net.minecraft.nbt.CompoundTag tag);
 
     @Shadow
     public abstract boolean isDamaged();

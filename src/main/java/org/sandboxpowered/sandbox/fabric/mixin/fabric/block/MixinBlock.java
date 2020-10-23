@@ -21,7 +21,6 @@ public class MixinBlock {
     /**
      * @author B0undarybreaker
      */
-    @Deprecated
     @Inject(method = "getFluidState", at = @At("HEAD"), cancellable = true)
     private void getWaterloggedFluidState(BlockState state, CallbackInfoReturnable<FluidState> info) {
         if (state.contains(Properties.WATERLOGGED))

@@ -11,8 +11,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ServerPlayerEntity.class)
 public abstract class MixinServerPlayerEntity extends net.minecraft.entity.LivingEntity {
-    public MixinServerPlayerEntity(EntityType<? extends net.minecraft.entity.LivingEntity> entityType_1, World world_1) {
-        super(entityType_1, world_1);
+    public MixinServerPlayerEntity(EntityType<? extends net.minecraft.entity.LivingEntity> entityType, World world) {
+        super(entityType, world);
     }
 
     @Inject(method = "onDeath", at = @At("HEAD"), cancellable = true)

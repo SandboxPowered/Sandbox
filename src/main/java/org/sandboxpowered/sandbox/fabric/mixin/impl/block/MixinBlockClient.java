@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.*;
 @Unique
 public abstract class MixinBlockClient {
     @Shadow
-    public abstract net.minecraft.item.ItemStack getPickStack(BlockView blockView_1, BlockPos blockPos_1, net.minecraft.block.BlockState blockState_1);
+    public abstract net.minecraft.item.ItemStack getPickStack(BlockView world, BlockPos pos, net.minecraft.block.BlockState state);
 
     public ItemStack sbx$getPickStack(WorldReader reader, Position position, BlockState state) {
         return WrappingUtil.cast(getPickStack(

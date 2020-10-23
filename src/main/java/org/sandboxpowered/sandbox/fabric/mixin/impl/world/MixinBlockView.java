@@ -19,7 +19,7 @@ import java.util.stream.Stream;
 @Mixin(BlockView.class)
 public interface MixinBlockView extends WorldReader {
     @Shadow
-    net.minecraft.block.BlockState getBlockState(BlockPos blockPos_1);
+    net.minecraft.block.BlockState getBlockState(BlockPos pos);
 
     @Shadow
     @Nullable

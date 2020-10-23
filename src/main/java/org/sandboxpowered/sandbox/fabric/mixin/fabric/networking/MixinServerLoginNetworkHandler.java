@@ -34,7 +34,7 @@ public abstract class MixinServerLoginNetworkHandler {
     private boolean velocityConn = false;
 
     @Shadow
-    public abstract void disconnect(Text text_1);
+    public abstract void disconnect(Text text);
 
     @Shadow
     public abstract void acceptPlayer();

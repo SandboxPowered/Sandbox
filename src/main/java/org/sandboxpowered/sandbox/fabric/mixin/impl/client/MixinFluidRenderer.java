@@ -38,13 +38,13 @@ public abstract class MixinFluidRenderer {
 
     @Inject(at = @At("RETURN"), method = "onResourceReload")
     public void reload(CallbackInfo info) {
-        SpriteAtlasTexture spriteAtlasTexture_1 = Objects.requireNonNull((SpriteAtlasTexture) MinecraftClient.getInstance().getTextureManager().getTexture(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE));
+        SpriteAtlasTexture texture = Objects.requireNonNull((SpriteAtlasTexture) MinecraftClient.getInstance().getTextureManager().getTexture(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE));
         spriteMap.clear();
         Registry.FLUID.forEach(fluid -> {
             if (fluid instanceof FluidWrapper) {
                 Sprite[] sprites = new Sprite[2];
-                sprites[0] = spriteAtlasTexture_1.getSprite(WrappingUtil.convert(((FluidWrapper) fluid).getFluid().getTexturePath(false)));
-                sprites[1] = spriteAtlasTexture_1.getSprite(WrappingUtil.convert(((FluidWrapper) fluid).getFluid().getTexturePath(true)));
+                sprites[0] = texture.getSprite(WrappingUtil.convert(((FluidWrapper) fluid).getFluid().getTexturePath(false)));
+                sprites[1] = texture.getSprite(WrappingUtil.convert(((FluidWrapper) fluid).getFluid().getTexturePath(true)));
                 spriteMap.put(((FluidWrapper) fluid).getFluid(), sprites);
             }
         });

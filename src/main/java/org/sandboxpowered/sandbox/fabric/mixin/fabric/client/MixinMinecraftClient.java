@@ -51,9 +51,9 @@ public abstract class MixinMinecraftClient {
 // TODO: Fix crash stuff
 //
 //    @Redirect(method = "start", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/crash/CrashReport;create(Ljava/lang/Throwable;Ljava/lang/String;)Lnet/minecraft/util/crash/CrashReport;"))
-//    private CrashReport create(Throwable throwable_1, String string_1) {
-//        Log.fatal(string_1, throwable_1);
-//        return CrashReport.create(throwable_1, string_1);
+//    private CrashReport create(Throwable throwable_1, String string) {
+//        Log.fatal(string, throwable_1);
+//        return CrashReport.create(throwable_1, string);
 //    }
 //
 //    @Redirect(method = "start", at = @At(value = "INVOKE", target = "Lorg/apache/logging/log4j/Logger;fatal(Ljava/lang/String;Ljava/lang/Throwable;)V"))

@@ -52,7 +52,7 @@ public abstract class MixinSimpleRegistry<T, C extends Content<C>> extends Mutab
 
     @Shadow
     @Nullable
-    public abstract T get(Identifier identifier_1);
+    public abstract T get(Identifier id);
 
     @Override
     public void sandboxStore() {

@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 @Mixin(WorldRenderer.class)
 public class MixinWorldRenderer implements IFrustumWorldRenderer {
 
-    private Frustum sandbox_frustum;
+    private Frustum sandboxFrustum;
 
     @Inject(locals = LocalCapture.CAPTURE_FAILHARD,
             method = "render",
@@ -23,11 +23,11 @@ public class MixinWorldRenderer implements IFrustumWorldRenderer {
     )
     private void captureFrustum(MatrixStack stack, float f, long l, boolean b, Camera camera, GameRenderer renderer, LightmapTextureManager lightmap, Matrix4f matrix, CallbackInfo ci, Profiler iprofiler, Vec3d vec3d, double d0, double d1, double d2, Matrix4f matrix4f, boolean flag, Frustum capturedFustrum) {
         if (capturedFustrum != null)
-            this.sandbox_frustum = capturedFustrum;
+            this.sandboxFrustum = capturedFustrum;
     }
 
     @Override
     public Frustum sandboxGetFrustum() {
-        return this.sandbox_frustum;
+        return this.sandboxFrustum;
     }
 }

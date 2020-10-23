@@ -47,7 +47,7 @@ public class ItemWrapper extends net.minecraft.item.Item implements SandboxInter
                 (Position) context.getBlockPos(),
                 WrappingUtil.cast(context.getStack(), ItemStack.class)
         );
-        return result == InteractionResult.SUCCESS ? ActionResult.SUCCESS : result == InteractionResult.FAILURE ? ActionResult.FAIL : ActionResult.PASS;
+        return WrappingUtil.convert(result);
     }
 
     @Override
@@ -94,7 +94,7 @@ public class ItemWrapper extends net.minecraft.item.Item implements SandboxInter
             );
             if (result == InteractionResult.IGNORE)
                 return super.useOnBlock(context);
-            return result == InteractionResult.SUCCESS ? ActionResult.SUCCESS : result == InteractionResult.FAILURE ? ActionResult.FAIL : ActionResult.PASS;
+            return WrappingUtil.convert(result);
         }
 
         @Override
@@ -143,7 +143,7 @@ public class ItemWrapper extends net.minecraft.item.Item implements SandboxInter
             );
             if (result == InteractionResult.IGNORE)
                 return super.useOnBlock(context);
-            return result == InteractionResult.SUCCESS ? ActionResult.SUCCESS : result == InteractionResult.FAILURE ? ActionResult.FAIL : ActionResult.PASS;
+            return WrappingUtil.convert(result);
         }
 
         @Override

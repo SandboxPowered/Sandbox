@@ -38,7 +38,7 @@ public abstract class MixinBlockPos extends Vec3i {
         }
 
         @Shadow
-        public abstract Mutable set(int int_1, int int_2, int int_3);
+        public abstract Mutable set(int x, int y, int z);
 
         public Position.Mutable sbx$toMutable() {
             return (Position.Mutable) this;

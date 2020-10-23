@@ -15,7 +15,7 @@ public abstract class MixinLivingEntity {
     public abstract float getHealth();
 
     @Shadow
-    public abstract void setHealth(float float_1);
+    public abstract void setHealth(float hp);
 
     @Shadow
     public abstract net.minecraft.item.ItemStack getEquippedStack(EquipmentSlot equipmentSlot);

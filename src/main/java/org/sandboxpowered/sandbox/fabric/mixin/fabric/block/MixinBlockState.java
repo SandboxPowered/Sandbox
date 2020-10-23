@@ -32,10 +32,10 @@ public abstract class MixinBlockState {
     }
 
     @Inject(at = @At("HEAD"), method = "getStateForNeighborUpdate")
-    public void onGetStateForNeighborUpdate(Direction direction_1, BlockState blockState_1, WorldAccess iWorld_1, BlockPos blockPos_1, BlockPos blockPos_2, CallbackInfoReturnable<BlockState> info) {
-        FluidState state = getFluidState();
-        if (!state.isEmpty()) {
-            iWorld_1.getFluidTickScheduler().schedule(blockPos_1, state.getFluid(), state.getFluid().getTickRate(iWorld_1));
+    public void onGetStateForNeighborUpdate(Direction direction, BlockState state, WorldAccess world, BlockPos pos, BlockPos otherPos, CallbackInfoReturnable<BlockState> info) {
+        FluidState fluidState = getFluidState();
+        if (!fluidState.isEmpty()) {
+            world.getFluidTickScheduler().schedule(pos, fluidState.getFluid(), fluidState.getFluid().getTickRate(world));
         }
     }
 }
