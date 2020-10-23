@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 import org.sandboxpowered.api.content.Content;
 import org.sandboxpowered.sandbox.fabric.impl.BasicRegistry;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
+import org.sandboxpowered.sandbox.fabric.util.Log;
 import org.sandboxpowered.sandbox.fabric.util.RegistryUtil;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -46,7 +47,7 @@ public abstract class MixinSimpleRegistry<T, C extends Content<C>> extends Mutab
     @Final
     private BiMap<RegistryKey<T>, T> keyToEntry;
 
-    public MixinSimpleRegistry(RegistryKey<Registry<T>> registryKey, Lifecycle lifecycle) {
+    protected MixinSimpleRegistry(RegistryKey<Registry<T>> registryKey, Lifecycle lifecycle) {
         super(registryKey, lifecycle);
     }
 
@@ -64,7 +65,7 @@ public abstract class MixinSimpleRegistry<T, C extends Content<C>> extends Mutab
         randomEntries = null;
         keys.clear();
         hasStored = true;
-//        Log.debug("Stored " + vanillaNext + " objects in " + net.minecraft.util.registry.Registry.REGISTRIES.getId(this)); TODO
+        Log.debug("Stored " + vanillaNext + " objects in " + getKey().getValue());
     }
 
 
@@ -89,10 +90,11 @@ public abstract class MixinSimpleRegistry<T, C extends Content<C>> extends Mutab
     @Override
     public void sandboxReset() {
         if (nextId != vanillaNext) {
-//            Log.debug("Resetting " + (nextId - vanillaNext) + " objects in " + net.minecraft.util.registry.Registry.REGISTRIES.getId(this));
+            Log.debug("Resetting " + (nextId - vanillaNext) + " objects in " + getKey().getValue());
             sboxRegistry.clearCache();
             nextId = vanillaNext;
             this.rawIdToEntry.clear();
+            this.rawIdToEntry.size(vanillaNext);
             for (int i = 0; i < vanillaNext; i++) {
                 this.rawIdToEntry.set(i, storedIndex.get(i));
             }

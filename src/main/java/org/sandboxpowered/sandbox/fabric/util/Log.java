@@ -54,6 +54,6 @@ public class Log {
     }
 
     public static void debug(String message) {
-        LOGGER.debug(message);
+        LOGGER.info(message);
     }
 }
