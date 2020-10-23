@@ -76,10 +76,6 @@ public class ItemWrapper extends net.minecraft.item.Item implements SandboxInter
             this.item = item;
         }
 
-        public BlockItem getIBlockItem() {
-            return item;
-        }
-
         @Override
         public Item getItem() {
             return item;

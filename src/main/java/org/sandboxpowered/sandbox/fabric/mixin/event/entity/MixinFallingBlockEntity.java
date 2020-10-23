@@ -7,9 +7,10 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(FallingBlockEntity.class)
+@SuppressWarnings({"java:S100","java:S1610"})
 public abstract class MixinFallingBlockEntity extends Entity {
-    public MixinFallingBlockEntity(EntityType<?> entityType_1, World world_1) {
-        super(entityType_1, world_1);
+    public MixinFallingBlockEntity(EntityType<?> type, World world) {
+        super(type, world);
     }
 
 //    @Redirect(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/FallingBlock;onLanding(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;Lnet/minecraft/block/BlockState;)V"))

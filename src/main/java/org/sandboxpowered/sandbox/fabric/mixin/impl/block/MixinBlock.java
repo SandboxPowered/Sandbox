@@ -50,6 +50,7 @@ import java.util.Optional;
 @Mixin(net.minecraft.block.Block.class)
 @Implements(@Interface(iface = Block.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
+@SuppressWarnings("java:S100")
 public abstract class MixinBlock extends AbstractBlock implements SandboxInternal.StateFactoryHolder<Block, BlockState> {
     @Shadow
     @Final
@@ -151,11 +152,9 @@ public abstract class MixinBlock extends AbstractBlock implements SandboxInterna
                 return Mono.of(new V2SInventory((Inventory) entity)).cast();
             }
         }
-        if (component == Components.FLUID_COMPONENT) {
-            if (this instanceof Waterloggable) {
-                FluidLoggingContainer container = new FluidLoggingContainer((FluidLoggable) this, reader, position, state, side);
-                return Mono.of(container).cast();
-            }
+        if (component == Components.FLUID_COMPONENT && this instanceof Waterloggable) {
+            FluidLoggingContainer container = new FluidLoggingContainer((FluidLoggable) this, reader, position, state, side);
+            return Mono.of(container).cast();
         }
         return Mono.empty();
     }

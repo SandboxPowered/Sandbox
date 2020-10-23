@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.*;
 @Mixin(BlockPos.class)
 @Implements(@Interface(iface = Position.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings({"ConstantConditions", "java:S100", "java:S1610"})
 public abstract class MixinBlockPos extends Vec3i {
     public MixinBlockPos() {
         super(0, 0, 0);
@@ -32,7 +32,7 @@ public abstract class MixinBlockPos extends Vec3i {
     @Mixin(BlockPos.Mutable.class)
     @Implements(@Interface(iface = Position.Mutable.class, prefix = "sbx$", remap = Interface.Remap.NONE))
     @Unique
-    public static abstract class MixinMutable extends BlockPos {
+    public abstract static class MixinMutable extends BlockPos {
         public MixinMutable() {
             super(0, 0, 0);
         }

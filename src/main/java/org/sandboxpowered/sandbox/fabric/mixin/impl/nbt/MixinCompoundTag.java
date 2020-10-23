@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-@SuppressWarnings("unchecked")
 @Mixin(CompoundTag.class)
 @Implements(@Interface(iface = org.sandboxpowered.api.util.nbt.CompoundTag.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
+@SuppressWarnings({"unchecked", "java:S100", "java:S1610"})
 public abstract class MixinCompoundTag implements Tag {
 
     @Shadow
@@ -92,6 +92,7 @@ public abstract class MixinCompoundTag implements Tag {
     @Shadow
     public abstract void putUuid(String key, UUID uUID);
 
+    @SuppressWarnings("java:S100")
     public int sbx$size() {
         return getSize();
     }
@@ -161,21 +162,17 @@ public abstract class MixinCompoundTag implements Tag {
         putByteArray(key, b);
     }
 
-
     public long sbx$getLong(String key) {
         return getLong(key);
     }
-
 
     public void sbx$setLong(String key, long l) {
         putLong(key, l);
     }
 
-
     public boolean sbx$getBoolean(String key) {
         return getBoolean(key);
     }
-
 
     public void sbx$setBoolean(String key, boolean bool) {
         putBoolean(key, bool);
@@ -217,11 +214,12 @@ public abstract class MixinCompoundTag implements Tag {
 
     public void sbx$setList(String key, List<? extends org.sandboxpowered.api.util.nbt.Tag> list) {
         ListTag tag;
-        if (list instanceof ListTag) {
-            tag = (ListTag) list;
+        @SuppressWarnings({"UnnessesaryLocalVariable", "rawtypes"}) List castedList = list;
+        if (castedList instanceof ListTag) {
+            tag = (ListTag) castedList;
         } else {
             tag = new ListTag();
-            tag.addAll((Collection<? extends Tag>) list);
+            tag.addAll((Collection<? extends Tag>) castedList);
         }
         put(key, tag);
     }

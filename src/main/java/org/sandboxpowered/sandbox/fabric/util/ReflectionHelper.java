@@ -24,6 +24,7 @@ public class ReflectionHelper {
             throw new NoSuchFieldException(Arrays.toString(fields));
     }
 
+    @SuppressWarnings("java:S3011")
     public static <A> void setPrivateField(Class<A> c, A obj, String field, Object val) throws NoSuchFieldException, IllegalAccessException {
         Field m = c.getDeclaredField(field);
         m.setAccessible(true);
@@ -32,6 +33,7 @@ public class ReflectionHelper {
         m.set(obj, val);
     }
 
+    @SuppressWarnings("java:S3011")
     private static Field getMods() throws NoSuchFieldException {
         if (mods == null) {
             mods = Field.class.getDeclaredField("modifiers");

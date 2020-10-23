@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MinecraftServer.class)
+@SuppressWarnings({"java:S100","java:S1610"})
 public abstract class MixinMinecraftServer {
 
     @Shadow

@@ -37,6 +37,7 @@
     "state.MixinState",
     "text.MixinText",
     "util.MixinBlockPos",
+    "util.MixinBlockPos$MixinMutable",
     "util.MixinIdentifier",
     "util.MixinProperty",
     "util.MixinVec3d",

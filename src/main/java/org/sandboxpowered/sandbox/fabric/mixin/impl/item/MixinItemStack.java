@@ -22,10 +22,10 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@SuppressWarnings("EqualsBetweenInconvertibleTypes")
 @Mixin(net.minecraft.item.ItemStack.class)
 @Implements(@Interface(iface = ItemStack.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
+@SuppressWarnings({"EqualsBetweenInconvertibleTypes", "java:S100", "java:S1610"})
 public abstract class MixinItemStack {
 
     @Shadow
@@ -145,9 +145,7 @@ public abstract class MixinItemStack {
         for (int i = 0; i < listTag.size(); ++i) {
             net.minecraft.nbt.CompoundTag tag = listTag.getCompound(i);
             String string = tag.getString("id");
-            Registry.ENCHANTMENT.getOrEmpty(Identifier.tryParse(string)).ifPresent((enchantment) -> {
-                set.add(WrappingUtil.convert(enchantment));
-            });
+            Registry.ENCHANTMENT.getOrEmpty(Identifier.tryParse(string)).ifPresent(enchantment -> set.add(WrappingUtil.convert(enchantment)));
         }
         return set;
     }

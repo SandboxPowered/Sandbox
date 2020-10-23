@@ -22,10 +22,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Optional;
 
-@SuppressWarnings("ConstantConditions")
 @Mixin(net.minecraft.fluid.Fluid.class)
 @Implements(@Interface(iface = Fluid.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
+@SuppressWarnings({"ConstantConditions", "java:S100", "java:S1610"})
 public abstract class MixinFluid implements SandboxInternal.StateFactoryHolder<Fluid, FluidState> {
     @Shadow
     @Final

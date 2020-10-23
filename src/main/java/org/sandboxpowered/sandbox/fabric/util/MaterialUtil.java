@@ -6,6 +6,7 @@ public class MaterialUtil {
     private MaterialUtil() {
     }
 
+    @SuppressWarnings("java:S1479")
     public static Material from(String s) {
         switch (s) {
             case "AIR":
