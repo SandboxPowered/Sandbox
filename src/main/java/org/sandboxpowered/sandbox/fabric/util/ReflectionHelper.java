@@ -7,6 +7,9 @@ import java.util.Arrays;
 public class ReflectionHelper {
     private static Field mods;
 
+    private ReflectionHelper() {
+    }
+
     public static <A> void setPrivateField(Class<A> c, A obj, String[] fields, Object val) throws NoSuchFieldException, IllegalAccessException {
         boolean done = false;
         for (String field : fields) {

@@ -54,7 +54,7 @@ public class BasicRegistry<A extends Content<A>, B> implements Registry<A> {
     @Override
     public Entry<A> register(Identity identity, A val) {
         B conversion = convertAB.apply(val);
-        ((MutableRegistry<B>) vanilla).add(WrappingUtil.convertToRegistryKey(((SandboxInternal.RegistryKeyObtainer<B>) vanilla).sandbox_getRegistryKey(), identity), conversion, Lifecycle.experimental()); //TODO which lifecycle should we use?
+        ((MutableRegistry<B>) vanilla).add(WrappingUtil.convertToRegistryKey(((SandboxInternal.RegistryKeyObtainer<B>) vanilla).sandboxGetRegistryKey(), identity), conversion, Lifecycle.experimental());
         return get(identity);
     }
 
@@ -79,7 +79,7 @@ public class BasicRegistry<A extends Content<A>, B> implements Registry<A> {
     }
 
     public void clearCache() {
-        cacheMap.forEach((identity, aEntry) -> aEntry.clearCache());
+        cacheMap.forEach((id, aEntry) -> aEntry.clearCache());
     }
 
     public static class RegistryEntry<T extends Content<T>> implements Entry<T> {
@@ -103,7 +103,7 @@ public class BasicRegistry<A extends Content<A>, B> implements Registry<A> {
         }
 
         @Override
-        public T get() throws NoSuchElementException {
+        public T get() {
             if (!hasCached) {
                 cache = registry.getCurrent(identity);
                 hasCached = true;

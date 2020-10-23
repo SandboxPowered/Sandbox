@@ -23,24 +23,24 @@ public class SandboxInternal {
     }
 
     public interface Registry<A extends Content<A>, B> {
-        void sandbox_store();
+        void sandboxStore();
 
-        void sandbox_reset();
+        void sandboxReset();
 
-        void sandbox_set(BasicRegistry<A, B> registry);
+        void sandboxSet(BasicRegistry<A, B> registry);
 
-        BasicRegistry<A, B> sandbox_get();
+        BasicRegistry<A, B> sandboxGet();
     }
 
     public interface RegistryKeyObtainer<T> {
-        RegistryKey<net.minecraft.util.registry.Registry<T>> sandbox_getRegistryKey();
+        RegistryKey<net.minecraft.util.registry.Registry<T>> sandboxGetRegistryKey();
     }
 
-    public interface ItemWrapper {
+    public interface IItemWrapper {
         Item getItem();
     }
 
-    public interface BlockWrapper {
+    public interface IBlockWrapper {
         Block getBlock();
     }
 

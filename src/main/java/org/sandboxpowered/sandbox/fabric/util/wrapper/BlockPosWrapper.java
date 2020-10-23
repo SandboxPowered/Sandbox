@@ -26,4 +26,16 @@ public class BlockPosWrapper extends BlockPos {
         return position.getZ();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o instanceof BlockPos)
+            return position.equals(o);
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return position.hashCode();
+    }
 }

@@ -63,17 +63,17 @@ public abstract class MixinMinecraftClient {
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/GameRenderer;render(FJZ)V", shift = At.Shift.BEFORE))
     public void renderStart(CallbackInfo info) {
-        PanoramaHandler.renderTick(true);
+        PanoramaHandler.INSTANCE.renderTick(true);
     }
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/toast/ToastManager;draw(Lnet/minecraft/client/util/math/MatrixStack;)V", shift = At.Shift.AFTER))
     public void renderEnd(CallbackInfo info) {
-        PanoramaHandler.renderTick(false);
+        PanoramaHandler.INSTANCE.renderTick(false);
     }
 
     @Inject(method = "close", at = @At("HEAD"))
     public void shutdownGlobal(CallbackInfo info) {
-        SandboxHooks.shutdownGlobal();
+        SandboxHooks.close();
     }
 
     @Redirect(method = "reloadResources", at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/ReloadableResourceManager;beginMonitoredReload(Ljava/util/concurrent/Executor;Ljava/util/concurrent/Executor;Ljava/util/concurrent/CompletableFuture;Ljava/util/List;)Lnet/minecraft/resource/ResourceReloadMonitor;"))

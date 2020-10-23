@@ -19,12 +19,8 @@ public abstract class MixinDedicatedServer extends MixinMinecraftServer {
                     shift = At.Shift.AFTER),
             cancellable = true
     )
-    public void setupServer(CallbackInfoReturnable<Boolean> info) {
-        try {
-            SandboxStorage.server = (Server) this;
-            new SandboxLoader().load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void setupServer(CallbackInfoReturnable<Boolean> info) throws IOException {
+        SandboxStorage.setServer((Server) this);
+        new SandboxLoader().load();
     }
 }

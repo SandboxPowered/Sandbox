@@ -1,7 +1,7 @@
 package org.sandboxpowered.sandbox.fabric.mixin.fabric.block;
 
 import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
+import net.minecraft.block.AbstractBlock.Settings;
 import net.minecraft.block.BlockState;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
@@ -28,11 +28,11 @@ public class MixinBlock {
             info.setReturnValue(state.get(Properties.WATERLOGGED) ? Fluids.WATER.getDefaultState() : Fluids.EMPTY.getDefaultState());
     }
 
-    @Mixin(Block.Settings.class)
-    public static abstract class MixinSettings implements SandboxInternal.MaterialInternal {
+    @Mixin(Settings.class)
+    public abstract static class MixinSettings implements SandboxInternal.MaterialInternal {
 
         @Shadow
-        public abstract AbstractBlock.Settings lightLevel(ToIntFunction<BlockState> toIntFunction);
+        public abstract Settings lightLevel(ToIntFunction<BlockState> toIntFunction);
 
         @Override
         public void setLevel(int level) {

@@ -28,4 +28,8 @@ public class AddonLog implements Log {
     public void debug(String message) {
         logger.debug(message);
     }
+
+    public AddonInfo getInfo() {
+        return info;
+    }
 }

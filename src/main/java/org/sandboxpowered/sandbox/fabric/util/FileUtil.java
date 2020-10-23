@@ -15,6 +15,9 @@ import java.nio.file.Paths;
 import java.util.*;
 
 public class FileUtil {
+    private FileUtil() {
+    }
+
     public static Collection<File> getFiles(File folder, FilenameFilter fileFilter, boolean recursive) {
         File[] files = folder.listFiles();
         if (files == null)
@@ -42,7 +45,11 @@ public class FileUtil {
     public static IDownloadIndicator downloadFile(URL url, Path out) {
         DownloadTracker tracker = new DownloadTracker();
         new Thread(() -> {
-            tracker.init(getFileSize(url));
+            try {
+                tracker.init(getFileSize(url));
+            } catch (IOException e) {
+                return;
+            }
             try (InputStream input = url.openStream()) {
                 Path downloads = Paths.get("downloads");
                 Files.createDirectories(downloads);
@@ -63,24 +70,22 @@ public class FileUtil {
                 if (Files.notExists(out.getParent()))
                     Files.createDirectories(out.getParent());
                 Files.move(temp, out);
-                tracker.complete();
+                tracker.finish();
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
-                tracker.complete();
+                tracker.finish();
             }
         }).start();
         return tracker;
     }
 
-    public static long getFileSize(URL url) {
+    public static long getFileSize(URL url) throws IOException {
         HttpURLConnection conn = null;
         try {
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("HEAD");
             return conn.getContentLengthLong();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         } finally {
             if (conn != null) {
                 conn.disconnect();
@@ -103,7 +108,7 @@ public class FileUtil {
             this.currentSize = byteCount;
         }
 
-        void complete() {
+        void finish() {
             this.complete = true;
         }
 

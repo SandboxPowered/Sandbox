@@ -7,16 +7,16 @@ import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(value = BaseItem.class, remap = false)
 @Unique
-public abstract class MixinSandboxItem implements SandboxInternal.WrappedInjection<SandboxInternal.ItemWrapper> {
-    private SandboxInternal.ItemWrapper sandboxWrappedInjection;
+public abstract class MixinSandboxItem implements SandboxInternal.WrappedInjection<SandboxInternal.IItemWrapper> {
+    private SandboxInternal.IItemWrapper sandboxWrappedInjection;
 
     @Override
-    public final SandboxInternal.ItemWrapper getInjectionWrapped() {
+    public final SandboxInternal.IItemWrapper getInjectionWrapped() {
         return sandboxWrappedInjection;
     }
 
     @Override
-    public final void setInjectionWrapped(SandboxInternal.ItemWrapper o) {
+    public final void setInjectionWrapped(SandboxInternal.IItemWrapper o) {
         sandboxWrappedInjection = o;
     }
 }

@@ -5,18 +5,18 @@ import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import java.nio.file.Path;
 
 public class Config {
-    private final CommentedFileConfig config;
+    private final CommentedFileConfig fileConfig;
 
     public Config(Path path) {
-        this.config = CommentedFileConfig.builder(path).autosave().build();
-        config.load();
+        this.fileConfig = CommentedFileConfig.builder(path).autosave().build();
+        fileConfig.load();
     }
 
     public <T> ConfigValue<T> get(String path) {
-        return new ConfigValue<>(config, path);
+        return new ConfigValue<>(fileConfig, path);
     }
 
     public void save() {
-        config.save();
+        fileConfig.save();
     }
 }

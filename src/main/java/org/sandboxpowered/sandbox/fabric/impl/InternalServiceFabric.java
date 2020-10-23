@@ -51,7 +51,7 @@ import java.util.function.Supplier;
 
 @SuppressWarnings({"ConstantConditions", "unchecked"})
 public class InternalServiceFabric implements InternalService {
-    public static InternalService INSTANCE = new InternalServiceFabric();
+    public static final InternalService INSTANCE = new InternalServiceFabric();
 
     @Override
     public Identity.Variant createVariantIdentity(Identity identity, String variant) {
@@ -60,7 +60,7 @@ public class InternalServiceFabric implements InternalService {
 
     @Override
     public Client clientInstance() {
-        return SandboxStorage.client;
+        return SandboxStorage.getClient();
     }
 
     @Override
@@ -141,15 +141,15 @@ public class InternalServiceFabric implements InternalService {
 
     private <S extends Content<S>, V, T extends Content<T>> Registry<T> getOrCreateRegistry(String name, net.minecraft.util.registry.Registry<V> vRegistry, Class<S> sClass, Class<?> vClass) throws Throwable {
         SandboxInternal.Registry<S, V> sRegistry = (SandboxInternal.Registry<S, V>) vRegistry;
-        Registry<S> registry = sRegistry.sandbox_get();
+        Registry<S> registry = sRegistry.sandboxGet();
         if (registry == null) {
             MethodHandles.Lookup lookup = MethodHandles.lookup();
             MethodHandle handleSV = lookup.findStatic(WrappingUtil.class, "convert", MethodType.methodType(vClass, sClass));
             MethodHandle handleVS = lookup.findStatic(WrappingUtil.class, "convert", MethodType.methodType(sClass, vClass));
             Function<S, V> convertSV = (Function<S, V>) LambdaMetafactory.metafactory(lookup, "apply", MethodType.methodType(Function.class), MethodType.methodType(Object.class, Object.class), handleSV, handleSV.type()).getTarget().invokeExact();
             Function<V, S> convertVS = (Function<V, S>) LambdaMetafactory.metafactory(lookup, "apply", MethodType.methodType(Function.class), MethodType.methodType(Object.class, Object.class), handleVS, handleVS.type()).getTarget().invokeExact();
-            sRegistry.sandbox_set(new BasicRegistry<>(Identity.of(name), vRegistry, sClass, convertSV, convertVS));
-            registry = sRegistry.sandbox_get();
+            sRegistry.sandboxSet(new BasicRegistry<>(Identity.of(name), vRegistry, sClass, convertSV, convertVS));
+            registry = sRegistry.sandboxGet();
         }
         //Force cast to C at the end to return the type needed
         return (Registry<T>) registry;
@@ -162,7 +162,7 @@ public class InternalServiceFabric implements InternalService {
 
     @Override
     public Server serverInstance() {
-        return SandboxStorage.server;
+        return SandboxStorage.getServer();
     }
 
     @Override

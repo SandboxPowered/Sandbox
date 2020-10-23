@@ -7,14 +7,18 @@ import org.sandboxpowered.sandbox.fabric.security.AddonSecurityPolicy;
 import java.security.Policy;
 
 public class SandboxHooks {
+    private SandboxHooks() {
+    }
+
     public static void shutdown() {
-        Registry.REGISTRIES.stream().map(registry -> (SandboxInternal.Registry) registry).forEach(SandboxInternal.Registry::sandbox_reset);
+        Registry.REGISTRIES.stream().map(registry -> (SandboxInternal.Registry) registry).forEach(SandboxInternal.Registry::sandboxReset);
     }
 
     public static void setupGlobal() {
         Policy.setPolicy(new AddonSecurityPolicy());
     }
 
-    public static void shutdownGlobal() {
+    public static void close() {
+        //Nothing to close
     }
 }

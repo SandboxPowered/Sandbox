@@ -3,10 +3,11 @@ package org.sandboxpowered.sandbox.fabric.util;
 import org.sandboxpowered.api.block.Material;
 
 public class MaterialUtil {
+    private MaterialUtil() {
+    }
+
     public static Material from(String s) {
         switch (s) {
-            default:
-                throw new RuntimeException("Unknown Material " + s);
             case "AIR":
                 return WrappingUtil.cast(net.minecraft.block.Material.AIR, Material.class);
             case "ANVIL":
@@ -100,6 +101,8 @@ public class MaterialUtil {
                 return WrappingUtil.cast(net.minecraft.block.Material.LEAVES, Material.class);
             case "GLASS":
                 return WrappingUtil.cast(net.minecraft.block.Material.GLASS, Material.class);
+            default:
+                throw new RuntimeException("Unknown Material " + s);
         }
     }
 }

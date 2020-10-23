@@ -15,14 +15,13 @@ import java.util.Collection;
 import java.util.Set;
 
 @Mixin(ModelLoader.class)
-public abstract class MixinModelLoader {
-
+public class MixinModelLoader {
     @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Ljava/util/Set;addAll(Ljava/util/Collection;)Z"))
     public boolean addAll(Set<SpriteIdentifier> set, Collection<SpriteIdentifier> set2) {
         for (Fluid fluid : Registry.FLUID) {
             if (fluid instanceof FluidWrapper) {
-                set.add(new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, WrappingUtil.convert(((FluidWrapper) fluid).fluid.getTexturePath(false))));
-                set.add(new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, WrappingUtil.convert(((FluidWrapper) fluid).fluid.getTexturePath(true))));
+                set.add(new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, WrappingUtil.convert(((FluidWrapper) fluid).getFluid().getTexturePath(false))));
+                set.add(new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, WrappingUtil.convert(((FluidWrapper) fluid).getFluid().getTexturePath(true))));
             }
         }
         return set.addAll(set2);

@@ -13,6 +13,6 @@ public class MixinClientBrandRetriever {
      */
     @Overwrite
     public static String getClientModName() {
-        return "sandbox";
+        return "Sandbox";
     }
 }

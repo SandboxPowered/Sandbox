@@ -72,9 +72,9 @@ public class SandboxConfig {
 
     public enum WorldBorder {
         VANILLA("options.sandbox.worldborder.vanilla"),
-        LINES("options.sandbox.worldborder.lines", new Identifier("sandbox", "textures/misc/lines.png")),
-        GRID("options.sandbox.worldborder.grid", new Identifier("sandbox", "textures/misc/grid.png")),
-        DOTS("options.sandbox.worldborder.dots", new Identifier("sandbox", "textures/misc/dot.png"));
+        LINES("options.sandbox.worldborder.lines", new Identifier(Sandbox.ID, "textures/misc/lines.png")),
+        GRID("options.sandbox.worldborder.grid", new Identifier(Sandbox.ID, "textures/misc/grid.png")),
+        DOTS("options.sandbox.worldborder.dots", new Identifier(Sandbox.ID, "textures/misc/dot.png"));
 
         private static final WorldBorder[] VALUES = values();
 

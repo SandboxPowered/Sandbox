@@ -14,7 +14,7 @@ public abstract class MixinRegistry<T> implements SandboxInternal.RegistryKeyObt
     private RegistryKey<Registry<T>> registryKey;
 
     @Override
-    public RegistryKey<Registry<T>> sandbox_getRegistryKey() {
+    public RegistryKey<Registry<T>> sandboxGetRegistryKey() {
         return registryKey;
     }
 }

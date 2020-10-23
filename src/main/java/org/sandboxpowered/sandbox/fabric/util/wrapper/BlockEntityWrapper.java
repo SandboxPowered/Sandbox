@@ -32,16 +32,16 @@ public class BlockEntityWrapper extends net.minecraft.block.entity.BlockEntity {
     }
 
     @Override
-    public void fromTag(BlockState blockState, CompoundTag compoundTag_1) {
-        super.fromTag(blockState, compoundTag_1);
-        blockEntity.read((ReadableCompoundTag) compoundTag_1);
+    public void fromTag(BlockState blockState, CompoundTag tag) {
+        super.fromTag(blockState, tag);
+        blockEntity.read((ReadableCompoundTag) tag);
     }
 
     @Override
-    public CompoundTag toTag(CompoundTag compoundTag_1) {
-        super.toTag(compoundTag_1);
-        blockEntity.write((WritableCompoundTag) compoundTag_1);
-        return compoundTag_1;
+    public CompoundTag toTag(CompoundTag tag) {
+        super.toTag(tag);
+        blockEntity.write((WritableCompoundTag) tag);
+        return tag;
     }
 
     public static class Ticking extends BlockEntityWrapper implements Tickable {

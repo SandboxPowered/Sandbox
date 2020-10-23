@@ -132,8 +132,8 @@ public abstract class MixinItemStack {
 
     @Inject(method = "isEffectiveOn", at = @At("HEAD"), cancellable = true)
     public void isEffectiveOn(BlockState state, CallbackInfoReturnable<Boolean> info) {
-        if (getItem() instanceof SandboxInternal.ItemWrapper) {
-            info.setReturnValue(((SandboxInternal.ItemWrapper) getItem()).getItem().isEffectiveOn(WrappingUtil.convert((net.minecraft.item.ItemStack) (Object) this), WrappingUtil.convert(state)));
+        if (getItem() instanceof SandboxInternal.IItemWrapper) {
+            info.setReturnValue(((SandboxInternal.IItemWrapper) getItem()).getItem().isEffectiveOn(WrappingUtil.convert((net.minecraft.item.ItemStack) (Object) this), WrappingUtil.convert(state)));
         }
     }
 

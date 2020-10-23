@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "id": "sandbox",
+  "id": Sandbox.ID,
   "version": "${version}",
-  "name": "Sandbox",
+  "name": Sandbox.ID,
   "description": "Minecraft mod engine!",
   "authors": [
     "SandboxPowered"

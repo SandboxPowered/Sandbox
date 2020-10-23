@@ -5,9 +5,10 @@ import org.sandboxpowered.api.component.FluidContainer;
 import org.sandboxpowered.api.component.Inventory;
 
 public class SandboxComponents {
-
     public static final Component<Inventory> INVENTORY_COMPONENT = new Component<>(Inventory.class);
     public static final Component<FluidContainer> FLUID_CONTAINER_COMPONENT = new Component<>(FluidContainer.class);
+    private SandboxComponents() {
+    }
 
     @SuppressWarnings("unchecked")
     public static <X> Component<X> getComponent(Class<X> xClass) {

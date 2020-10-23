@@ -5,6 +5,7 @@ import net.minecraft.resource.AbstractFileResourcePack;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.InvalidIdentifierException;
+import org.sandboxpowered.sandbox.fabric.util.ArrayUtil;
 import org.sandboxpowered.sandbox.fabric.util.Log;
 
 import java.io.FileNotFoundException;
@@ -17,6 +18,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 public class SandboxResources extends AbstractFileResourcePack {
     private final Path basePath;
@@ -28,7 +30,8 @@ public class SandboxResources extends AbstractFileResourcePack {
         this.separator = basePath.getFileSystem().getSeparator();
     }
 
-    private Path getPath(String filename) {
+    private Path getPath(String... filenames) {
+        String filename = ArrayUtil.join(filenames, "/");
         if (filename.equals("pack.png"))
             filename = "assets/sandbox/icon.png";
         Path childPath = basePath.resolve(filename.replace("/", separator)).toAbsolutePath().normalize();
@@ -60,21 +63,20 @@ public class SandboxResources extends AbstractFileResourcePack {
     public Collection<Identifier> findResources(ResourceType type, String namespace, String path, int depth, Predicate<String> predicate) {
         List<Identifier> ids = new ArrayList<>();
         String nioPath = path.replace("/", separator);
-        Path namespacePath = getPath(type.getDirectory() + "/" + namespace);
+        Path namespacePath = getPath(type.getDirectory(), namespace);
         if (namespacePath != null) {
             Path searchPath = namespacePath.resolve(nioPath).toAbsolutePath().normalize();
 
             if (Files.exists(searchPath)) {
-                try {
-                    Files.walk(searchPath, depth)
-                            .filter(Files::isRegularFile)
-                            .filter((p) -> {
+                try (Stream<Path> stream = Files.walk(searchPath, depth)) {
+                            stream.filter(Files::isRegularFile)
+                            .filter(p -> {
                                 String filename = p.getFileName().toString();
                                 return !filename.endsWith(".mcmeta") && predicate.test(filename);
                             })
                             .map(namespacePath::relativize)
-                            .map((p) -> p.toString().replace(separator, "/"))
-                            .forEach((s) -> {
+                            .map(p -> p.toString().replace(separator, "/"))
+                            .forEach(s -> {
                                 try {
                                     ids.add(new Identifier(namespace, s));
                                 } catch (InvalidIdentifierException e) {
@@ -92,7 +94,7 @@ public class SandboxResources extends AbstractFileResourcePack {
 
     @Override
     public Set<String> getNamespaces(ResourceType var1) {
-        return Sets.newHashSet("minecraft", "sandbox");
+        return Sets.newHashSet("minecraft", Sandbox.ID);
     }
 
     @Override

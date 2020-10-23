@@ -35,7 +35,7 @@ public abstract class MixinKeyboard {
     @Redirect(method = "onKey", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/ScreenshotUtils;saveScreenshot(Ljava/io/File;IILnet/minecraft/client/gl/Framebuffer;Ljava/util/function/Consumer;)V"))
     public void takeScreenshot(File file_1, int int_1, int int_2, Framebuffer glFramebuffer_1, Consumer<Text> consumer_1) {
         if (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), GLFW.GLFW_KEY_P)) {
-            PanoramaHandler.takeScreenshot(consumer_1);
+            PanoramaHandler.INSTANCE.takeScreenshot(consumer_1);
         } else {
             ScreenshotUtils.saveScreenshot(file_1, int_1, int_2, glFramebuffer_1, consumer_1);
         }

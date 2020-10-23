@@ -4,7 +4,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Log {
-    public static Logger LOG = LogManager.getFormatterLogger("Sandbox|Fabric");
+    public static final Logger LOG = LogManager.getFormatterLogger("Sandbox|Fabric");
+
+    private Log() {
+    }
 
     public static void info(String message) {
         LOG.info(message);

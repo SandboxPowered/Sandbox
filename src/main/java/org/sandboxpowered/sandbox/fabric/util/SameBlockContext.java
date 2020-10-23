@@ -10,13 +10,13 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public class SameBlockContext extends ItemPlacementContext {
-    public SameBlockContext(ItemUsageContext itemUsageContext_1) {
-        super(itemUsageContext_1);
+    public SameBlockContext(ItemUsageContext context) {
+        super(context);
         this.canReplaceExisting = true;
     }
 
-    public SameBlockContext(World world_1, @Nullable PlayerEntity playerEntity_1, Hand hand_1, ItemStack itemStack_1, BlockHitResult blockHitResult_1) {
-        super(world_1, playerEntity_1, hand_1, itemStack_1, blockHitResult_1);
+    public SameBlockContext(World world, @Nullable PlayerEntity player, Hand hand, ItemStack stack, BlockHitResult hitResult) {
+        super(world, player, hand, stack, hitResult);
         this.canReplaceExisting = true;
     }
 }
