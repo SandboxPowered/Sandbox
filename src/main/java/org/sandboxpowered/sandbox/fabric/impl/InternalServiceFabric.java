@@ -42,10 +42,7 @@ import org.sandboxpowered.sandbox.fabric.util.SandboxStorage;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.sandboxpowered.sandbox.fabric.util.math.Vec2iImpl;
 
-import java.lang.invoke.LambdaMetafactory;
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
+import java.lang.invoke.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -134,7 +131,7 @@ public class InternalServiceFabric implements InternalService {
                 return getOrCreateRegistry("entity_type", net.minecraft.util.registry.Registry.ENTITY_TYPE, Entity.Type.class, EntityType.class);
             }
         } catch (Throwable throwable) {
-            throw new RuntimeException("Failed to get registry for " + cla, throwable);
+            throw new IllegalArgumentException("Unknown registry " + cla, throwable);
         }
         return null;
     }
@@ -148,10 +145,10 @@ public class InternalServiceFabric implements InternalService {
             MethodHandle handleVS = lookup.findStatic(WrappingUtil.class, "convert", MethodType.methodType(sClass, vClass));
             Function<S, V> convertSV = (Function<S, V>) LambdaMetafactory.metafactory(lookup, "apply", MethodType.methodType(Function.class), MethodType.methodType(Object.class, Object.class), handleSV, handleSV.type()).getTarget().invokeExact();
             Function<V, S> convertVS = (Function<V, S>) LambdaMetafactory.metafactory(lookup, "apply", MethodType.methodType(Function.class), MethodType.methodType(Object.class, Object.class), handleVS, handleVS.type()).getTarget().invokeExact();
-            sRegistry.sandboxSet(new BasicRegistry<>(Identity.of(name), vRegistry, sClass, convertSV, convertVS));
+            sRegistry.sandboxSet(new WrappedRegistry<>(Identity.of(name), vRegistry, sClass, convertSV, convertVS));
             registry = sRegistry.sandboxGet();
         }
-        //Force cast to C at the end to return the type needed
+        //Force cast to T at the end to return the type needed
         return (Registry<T>) registry;
     }
 

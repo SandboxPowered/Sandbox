@@ -476,6 +476,9 @@ public class WrappingUtil {
     public static Hand convert(org.sandboxpowered.api.entity.player.Hand hand) {
         return hand == org.sandboxpowered.api.entity.player.Hand.MAIN_HAND ? Hand.MAIN_HAND : Hand.OFF_HAND;
     }
+    public static org.sandboxpowered.api.entity.player.Hand convert(Hand hand) {
+        return hand == Hand.MAIN_HAND ? org.sandboxpowered.api.entity.player.Hand.MAIN_HAND : org.sandboxpowered.api.entity.player.Hand.OFF_HAND;
+    }
 
     public static EquipmentSlot convert(LivingEntity.EquipmentSlot slot) {
         switch (slot) {

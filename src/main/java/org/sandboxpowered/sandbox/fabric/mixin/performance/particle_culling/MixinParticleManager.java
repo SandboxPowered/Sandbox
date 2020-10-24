@@ -26,7 +26,7 @@ public class MixinParticleManager {
             at = @At(value = "INVOKE",
                     target = "Lnet/minecraft/client/particle/Particle;buildGeometry(Lnet/minecraft/client/render/VertexConsumer;Lnet/minecraft/client/render/Camera;F)V"))
     private void cullParticles(Particle particle, VertexConsumer consumer, Camera camera, float partialTicks) {
-        if (SandboxConfig.cullParticles.get()) {
+        if (SandboxConfig.cullParticles.getBoolean()) {
             if (((IFrustumWorldRenderer) MinecraftClient.getInstance().worldRenderer).sandboxGetFrustum().isVisible(particle.getBoundingBox())) {
                 particle.buildGeometry(consumer, camera, partialTicks);
             }
@@ -41,7 +41,7 @@ public class MixinParticleManager {
             cancellable = true
     )
     private void addBlockBreakingParticles(BlockPos blockPos, Direction direction, CallbackInfo ci, BlockState state, int i, int j, int k, float f, Box box) {
-        if (SandboxConfig.cullParticles.get()) {
+        if (SandboxConfig.cullParticles.getBoolean()) {
             Frustum frustum = ((IFrustumWorldRenderer) MinecraftClient.getInstance().worldRenderer).sandboxGetFrustum();
             if (frustum != null && frustum.isVisible(box.offset(blockPos))) {
                 ci.cancel();
@@ -55,7 +55,7 @@ public class MixinParticleManager {
             cancellable = true
     )
     private void addBlockBreakParticles(BlockPos blockPos, BlockState state, CallbackInfo ci, VoxelShape shape) {
-        if (SandboxConfig.cullParticles.get()) {
+        if (SandboxConfig.cullParticles.getBoolean()) {
             Frustum frustum = ((IFrustumWorldRenderer) MinecraftClient.getInstance().worldRenderer).sandboxGetFrustum();
             if (frustum != null && shape.getBoundingBoxes().stream().map(box -> box.offset(blockPos)).noneMatch(frustum::isVisible)) {
                 ci.cancel();

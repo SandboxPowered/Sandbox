@@ -6,7 +6,7 @@ import org.sandboxpowered.api.block.Block;
 import org.sandboxpowered.api.content.Content;
 import org.sandboxpowered.api.item.Item;
 import org.sandboxpowered.api.state.PropertyContainer;
-import org.sandboxpowered.sandbox.fabric.impl.BasicRegistry;
+import org.sandboxpowered.sandbox.fabric.impl.WrappedRegistry;
 
 public class SandboxInternal {
 
@@ -27,9 +27,9 @@ public class SandboxInternal {
 
         void sandboxReset();
 
-        void sandboxSet(BasicRegistry<A, B> registry);
+        void sandboxSet(WrappedRegistry<A, B> registry);
 
-        BasicRegistry<A, B> sandboxGet();
+        WrappedRegistry<A, B> sandboxGet();
     }
 
     public interface RegistryKeyObtainer<T> {

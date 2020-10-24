@@ -15,6 +15,14 @@ public class ConfigValue<T> {
         return config.get(path);
     }
 
+    public boolean getBoolean() {
+        return config.get(path);
+    }
+
+    public int getInt() {
+        return config.get(path);
+    }
+
     public <V extends Enum<V>> V getEnum(Class<V> enumType) {
         return config.getEnum(path, enumType);
     }

@@ -14,7 +14,7 @@ public class SandboxOptions {
     );
 
     public static final BooleanOption CULL_PARTICLES = new BooleanOption("options.sandbox.cullparticles",
-            options -> SandboxConfig.cullParticles.get(),
+            options -> SandboxConfig.cullParticles.getBoolean(),
             (options, value) -> SandboxConfig.cullParticles.set(value)
     );
 }

@@ -11,7 +11,7 @@ import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.util.registry.SimpleRegistry;
 import org.jetbrains.annotations.Nullable;
 import org.sandboxpowered.api.content.Content;
-import org.sandboxpowered.sandbox.fabric.impl.BasicRegistry;
+import org.sandboxpowered.sandbox.fabric.impl.WrappedRegistry;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.util.Log;
 import org.sandboxpowered.sandbox.fabric.util.RegistryUtil;
@@ -36,7 +36,7 @@ public abstract class MixinSimpleRegistry<T, C extends Content<C>> extends Mutab
     private int nextId;
     private int vanillaNext;
     private boolean hasStored;
-    private BasicRegistry<C, T> sboxRegistry;
+    private WrappedRegistry<C, T> sboxRegistry;
     @Shadow
     @Final
     private ObjectList<T> rawIdToEntry;
@@ -78,12 +78,12 @@ public abstract class MixinSimpleRegistry<T, C extends Content<C>> extends Mutab
     }
 
     @Override
-    public void sandboxSet(BasicRegistry<C, T> registry) {
+    public void sandboxSet(WrappedRegistry<C, T> registry) {
         this.sboxRegistry = registry;
     }
 
     @Override
-    public BasicRegistry<C, T> sandboxGet() {
+    public WrappedRegistry<C, T> sandboxGet() {
         return this.sboxRegistry;
     }
 
