@@ -11,16 +11,16 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public class MixinRedstoneWireBlock {
     @Redirect(method = "update", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Direction;values()[Lnet/minecraft/util/math/Direction;"))
     private Direction[] values() {
-        return PerformanceUtil.DIRECTIONS;
+        return PerformanceUtil.getDirectionArray();
     }
 
     @Redirect(method = "updateNeighbors", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Direction;values()[Lnet/minecraft/util/math/Direction;"))
     private Direction[] values2() {
-        return PerformanceUtil.DIRECTIONS;
+        return PerformanceUtil.getDirectionArray();
     }
 
     @Redirect(method = "onStateReplaced", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Direction;values()[Lnet/minecraft/util/math/Direction;"))
     private Direction[] values3() {
-        return PerformanceUtil.DIRECTIONS;
+        return PerformanceUtil.getDirectionArray();
     }
 }

@@ -20,21 +20,18 @@ import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.util.ReflectionHelper;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 
-import java.lang.reflect.Field;
 import java.util.Optional;
 
 public class FluidWrapper extends net.minecraft.fluid.FlowableFluid {
-    public static Field whatever;
-
-    public BaseFluid fluid;
+    private final BaseFluid fluid;
 
     public FluidWrapper(BaseFluid fluid) {
         super();
         this.fluid = fluid;
-        StateManager.Builder<net.minecraft.fluid.Fluid, FluidState> stateFactory$Builder_1 = new StateManager.Builder<>(this);
-        this.appendProperties(stateFactory$Builder_1);
+        StateManager.Builder<net.minecraft.fluid.Fluid, FluidState> fluidStateBuilder = new StateManager.Builder<>(this);
+        this.appendProperties(fluidStateBuilder);
         try {
-            ReflectionHelper.setPrivateField(net.minecraft.fluid.Fluid.class, this, new String[]{"field_15905", "stateManager"}, stateFactory$Builder_1.build(Fluid::getDefaultState, FluidState::new));
+            ReflectionHelper.setPrivateField(net.minecraft.fluid.Fluid.class, this, new String[]{"field_15905", "stateManager"}, fluidStateBuilder.build(Fluid::getDefaultState, FluidState::new));
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
@@ -45,12 +42,16 @@ public class FluidWrapper extends net.minecraft.fluid.FlowableFluid {
         return new FluidWrapper(fluid);
     }
 
+    public BaseFluid getFluid() {
+        return fluid;
+    }
+
     @SuppressWarnings("unchecked")
     @Override
-    protected void appendProperties(StateManager.Builder<net.minecraft.fluid.Fluid, FluidState> stateFactory$Builder_1) {
-        super.appendProperties(stateFactory$Builder_1);
+    protected void appendProperties(StateManager.Builder<net.minecraft.fluid.Fluid, FluidState> stateBuilder) {
+        super.appendProperties(stateBuilder);
         if (fluid != null)
-            fluid.appendProperties(((SandboxInternal.StateFactoryBuilder<org.sandboxpowered.api.fluid.Fluid, org.sandboxpowered.api.state.FluidState>) stateFactory$Builder_1).getSboxBuilder());
+            fluid.appendProperties(((SandboxInternal.StateFactoryBuilder<org.sandboxpowered.api.fluid.Fluid, org.sandboxpowered.api.state.FluidState>) stateBuilder).getSboxBuilder());
     }
 
     @Override
@@ -69,19 +70,19 @@ public class FluidWrapper extends net.minecraft.fluid.FlowableFluid {
     }
 
     @Override
-    protected void beforeBreakingBlock(WorldAccess iWorld_1, BlockPos blockPos_1, BlockState blockState_1) {
-        BlockEntity blockEntity_1 = blockState_1.getBlock().hasBlockEntity() ? iWorld_1.getBlockEntity(blockPos_1) : null;
-        Block.dropStacks(blockState_1, iWorld_1, blockPos_1, blockEntity_1);
+    protected void beforeBreakingBlock(WorldAccess world, BlockPos pos, BlockState state) {
+        BlockEntity blockEntity = state.getBlock().hasBlockEntity() ? world.getBlockEntity(pos) : null;
+        Block.dropStacks(state, world, pos, blockEntity);
     }
 
     @Override
-    public Vec3d getVelocity(BlockView blockView_1, BlockPos blockPos_1, FluidState fluidState_1) {
+    public Vec3d getVelocity(BlockView world, BlockPos pos, FluidState fluidState) {
         Optional<org.sandboxpowered.api.util.math.Vec3d> mono = fluid.getVelocity(
-                (WorldReader) blockView_1,
-                (Position) blockPos_1,
-                WrappingUtil.convert(fluidState_1)
+                (WorldReader) world,
+                (Position) pos,
+                WrappingUtil.convert(fluidState)
         );
-        return mono.map(WrappingUtil::convertToVec).orElseGet(() -> super.getVelocity(blockView_1, blockPos_1, fluidState_1));
+        return mono.map(WrappingUtil::convertToVec).orElseGet(() -> super.getVelocity(world, pos, fluidState));
     }
 
     @Override
@@ -90,16 +91,9 @@ public class FluidWrapper extends net.minecraft.fluid.FlowableFluid {
     }
 
     @Override
-    protected int getLevelDecreasePerBlock(WorldView var1) {
+    protected int getLevelDecreasePerBlock(WorldView world) {
         return 1;
     }
-
-// TODO
-//
-//    @Override
-//    protected RenderLayer getRenderLayer() {
-//        return RenderLayer.TRANSLUCENT;
-//    }
 
     @Override
     public Item getBucketItem() {
@@ -122,8 +116,8 @@ public class FluidWrapper extends net.minecraft.fluid.FlowableFluid {
     }
 
     @Override
-    public boolean matchesType(net.minecraft.fluid.Fluid fluid_1) {
-        return fluid.matches(WrappingUtil.convert(fluid_1));
+    public boolean matchesType(net.minecraft.fluid.Fluid fluid) {
+        return this.fluid.matches(WrappingUtil.convert(fluid));
     }
 
     @Override

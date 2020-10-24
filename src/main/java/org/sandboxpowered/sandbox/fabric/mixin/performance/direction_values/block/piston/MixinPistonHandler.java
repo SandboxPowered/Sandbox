@@ -11,6 +11,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public class MixinPistonHandler {
     @Redirect(method = "canMoveAdjacentBlock", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Direction;values()[Lnet/minecraft/util/math/Direction;"))
     private Direction[] values() {
-        return PerformanceUtil.DIRECTIONS;
+        return PerformanceUtil.getDirectionArray();
     }
 }

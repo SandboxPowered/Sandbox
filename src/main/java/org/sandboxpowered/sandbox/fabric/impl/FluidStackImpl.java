@@ -10,7 +10,7 @@ import org.sandboxpowered.api.util.nbt.ReadableCompoundTag;
 public class FluidStackImpl implements FluidStack {
     private final Fluid fluid;
     private int amount;
-    private CompoundTag tag;
+    private CompoundTag stackTag;
 
     public FluidStackImpl(Fluid fluid, int amount) {
         this.fluid = fluid;
@@ -20,14 +20,14 @@ public class FluidStackImpl implements FluidStack {
     public FluidStackImpl(Fluid fluid, int amount, CompoundTag tag) {
         this.fluid = fluid;
         this.amount = amount;
-        this.tag = tag;
+        this.stackTag = tag;
     }
 
     public FluidStackImpl(ReadableCompoundTag tag) {
         this.fluid = Fluid.REGISTRY.get(Identity.of(tag.getString("Fluid"))).orElseGet(Fluids.EMPTY);
         this.amount = tag.getInt("Amount");
         if (tag.contains("Tag"))
-            this.tag = tag.getCompound("Tag");
+            this.stackTag = tag.getCompound("Tag");
     }
 
     @Override
@@ -53,7 +53,7 @@ public class FluidStackImpl implements FluidStack {
 
     @Override
     public FluidStack copy() {
-        return new FluidStackImpl(fluid, amount, tag);
+        return new FluidStackImpl(fluid, amount, stackTag);
     }
 
     @Override
@@ -70,30 +70,30 @@ public class FluidStackImpl implements FluidStack {
 
     @Override
     public boolean hasTag() {
-        return tag != null;
+        return stackTag != null;
     }
 
     @Override
     public CompoundTag getTag() {
-        return tag;
+        return stackTag;
     }
 
     @Override
-    public void setTag(CompoundTag tag) {
-        this.tag = tag;
+    public void setTag(CompoundTag stackTag) {
+        this.stackTag = stackTag;
     }
 
     @Override
     public CompoundTag getOrCreateTag() {
         if (!hasTag())
-            tag = CompoundTag.create();
-        return tag;
+            stackTag = CompoundTag.create();
+        return stackTag;
     }
 
     @Override
     public CompoundTag getChildTag(String key) {
         if (hasTag())
-            return tag.getCompound(key);
+            return stackTag.getCompound(key);
         return null;
     }
 

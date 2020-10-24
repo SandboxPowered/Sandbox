@@ -1,7 +1,10 @@
 package org.sandboxpowered.sandbox.fabric.util;
 
+import net.minecraft.block.AbstractBlock.Settings;
 import net.minecraft.block.Material;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.piston.PistonBehavior;
+import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.entity.EntityType;
@@ -17,9 +20,11 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
+import org.jetbrains.annotations.Nullable;
 import org.sandboxpowered.api.block.Block;
 import org.sandboxpowered.api.block.entity.BlockEntity;
 import org.sandboxpowered.api.client.GraphicsMode;
+import org.sandboxpowered.api.client.rendering.VertexConsumer;
 import org.sandboxpowered.api.enchantment.Enchantment;
 import org.sandboxpowered.api.entity.Entity;
 import org.sandboxpowered.api.entity.LivingEntity;
@@ -38,12 +43,16 @@ import org.sandboxpowered.api.world.BlockFlag;
 import org.sandboxpowered.api.world.World;
 import org.sandboxpowered.api.world.WorldReader;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
+import org.sandboxpowered.sandbox.fabric.util.exception.WrappingException;
 import org.sandboxpowered.sandbox.fabric.util.wrapper.*;
 
 import java.util.function.Function;
 
 @SuppressWarnings({"unchecked", "ConstantConditions"})
 public class WrappingUtil {
+
+    private WrappingUtil() {
+    }
 
     public static BlockPos convert(Position position) {
         return castOrWrap(position, BlockPos.class, p -> new BlockPosWrapper(position));
@@ -63,24 +72,24 @@ public class WrappingUtil {
 
     private static net.minecraft.block.Block getWrapped(Block block) {
         if (block instanceof SandboxInternal.WrappedInjection) {
-            SandboxInternal.WrappedInjection<SandboxInternal.BlockWrapper> wrappedInjection = (SandboxInternal.WrappedInjection<SandboxInternal.BlockWrapper>) block;
+            SandboxInternal.WrappedInjection<SandboxInternal.IBlockWrapper> wrappedInjection = (SandboxInternal.WrappedInjection<SandboxInternal.IBlockWrapper>) block;
             if (wrappedInjection.getInjectionWrapped() == null) {
                 wrappedInjection.setInjectionWrapped(BlockWrapper.create(block));
             }
             return (net.minecraft.block.Block) wrappedInjection.getInjectionWrapped();
         }
-        throw new RuntimeException("Unacceptable class " + block.getClass());
+        throw new WrappingException(block.getClass());
     }
 
     private static net.minecraft.item.Item getWrapped(Item item) {
         if (item instanceof SandboxInternal.WrappedInjection) {
-            SandboxInternal.WrappedInjection<SandboxInternal.ItemWrapper> wrappedInjection = (SandboxInternal.WrappedInjection<SandboxInternal.ItemWrapper>) item;
+            SandboxInternal.WrappedInjection<SandboxInternal.IItemWrapper> wrappedInjection = (SandboxInternal.WrappedInjection<SandboxInternal.IItemWrapper>) item;
             if (wrappedInjection.getInjectionWrapped() == null) {
                 wrappedInjection.setInjectionWrapped(ItemWrapper.create(item));
             }
             return (net.minecraft.item.Item) wrappedInjection.getInjectionWrapped();
         }
-        throw new RuntimeException("Unacceptable class " + item.getClass());
+        throw new WrappingException(item.getClass());
     }
 
     private static net.minecraft.enchantment.Enchantment getWrapped(Enchantment enchantment) {
@@ -91,7 +100,7 @@ public class WrappingUtil {
             }
             return wrappedInjection.getInjectionWrapped();
         }
-        throw new RuntimeException("Unacceptable class " + enchantment.getClass());
+        throw new WrappingException(enchantment.getClass());
     }
 
     private static net.minecraft.fluid.Fluid getWrapped(Fluid fluid) {
@@ -102,7 +111,7 @@ public class WrappingUtil {
             }
             return wrappedInjection.getInjectionWrapped();
         }
-        throw new RuntimeException("Unacceptable class " + fluid.getClass());
+        throw new WrappingException(fluid.getClass());
     }
 
     public static net.minecraft.enchantment.Enchantment convert(Enchantment enchant) {
@@ -127,8 +136,8 @@ public class WrappingUtil {
     }
 
     public static Item convert(net.minecraft.item.Item item) {
-        if (item instanceof SandboxInternal.ItemWrapper) {
-            return ((SandboxInternal.ItemWrapper) item).getItem();
+        if (item instanceof SandboxInternal.IItemWrapper) {
+            return ((SandboxInternal.IItemWrapper) item).getItem();
         }
         return (Item) item;
     }
@@ -151,9 +160,9 @@ public class WrappingUtil {
         return wrapper.apply(a);
     }
 
-    public static net.minecraft.block.Block.Settings convert(Block.Settings settings) {
-        return castOrWrap(settings, net.minecraft.block.Block.Settings.class, prop -> {
-            net.minecraft.block.Block.Settings vs = net.minecraft.block.Block.Settings.of(convert(settings.getMaterial()));
+    public static Settings convert(Block.Settings settings) {
+        return castOrWrap(settings, Settings.class, prop -> {
+            Settings vs = Settings.of(convert(settings.getMaterial()));
             SandboxInternal.MaterialInternal ms = (SandboxInternal.MaterialInternal) vs;
             vs.velocityMultiplier(settings.getVelocity());
             vs.jumpVelocityMultiplier(settings.getJumpVelocity());
@@ -176,8 +185,6 @@ public class WrappingUtil {
         int r = 0b00000;
         for (BlockFlag flag : flags) {
             switch (flag) {
-                default:
-                    continue;
                 case NOTIFY_NEIGHBORS:
                     r |= 0b00001;
                     continue;
@@ -192,6 +199,7 @@ public class WrappingUtil {
                     continue;
                 case NO_OBSERVER:
                     r |= 0b10000;
+                    continue;
             }
         }
         return r;
@@ -268,23 +276,25 @@ public class WrappingUtil {
     }
 
     public static Block convert(net.minecraft.block.Block block) {
-        if (block instanceof SandboxInternal.BlockWrapper)
-            return ((SandboxInternal.BlockWrapper) block).getBlock();
+        if (block instanceof SandboxInternal.IBlockWrapper)
+            return ((SandboxInternal.IBlockWrapper) block).getBlock();
         return (Block) block;
     }
 
-    public static Entity convert(net.minecraft.entity.Entity entity_1) {
-        return (Entity) entity_1;
+    public static Entity convert(net.minecraft.entity.Entity entity) {
+        return (Entity) entity;
     }
 
-    public static PlayerEntity convert(net.minecraft.entity.player.PlayerEntity entity_1) {
-        return (PlayerEntity) entity_1;
+    public static PlayerEntity convert(net.minecraft.entity.player.PlayerEntity player) {
+        return (PlayerEntity) player;
     }
 
-    public static net.minecraft.entity.Entity convert(Entity entity_1) {
-        if (entity_1 == null)
-            return null;
-        return (net.minecraft.entity.Entity) entity_1;
+    public static net.minecraft.entity.player.PlayerEntity convert(PlayerEntity player) {
+        return (net.minecraft.entity.player.PlayerEntity) player;
+    }
+
+    public static net.minecraft.entity.Entity convert(Entity entity) {
+        return (net.minecraft.entity.Entity) entity;
     }
 
     public static <T extends Comparable<T>> Property<T> convert(org.sandboxpowered.api.state.Property<T> property) {
@@ -295,14 +305,14 @@ public class WrappingUtil {
         return (Property<T>) property;
     }
 
-    public static Fluid convert(net.minecraft.fluid.Fluid fluid_1) {
-        if (fluid_1 instanceof FluidWrapper)
-            return ((FluidWrapper) fluid_1).fluid;
-        return (Fluid) fluid_1;
+    public static Fluid convert(net.minecraft.fluid.Fluid fluid) {
+        if (fluid instanceof FluidWrapper)
+            return ((FluidWrapper) fluid).getFluid();
+        return (Fluid) fluid;
     }
 
-    public static net.minecraft.fluid.Fluid convert(Fluid fluid_1) {
-        return castOrWrap(fluid_1, net.minecraft.fluid.Fluid.class, WrappingUtil::getWrapped);
+    public static net.minecraft.fluid.Fluid convert(Fluid fluid) {
+        return castOrWrap(fluid, net.minecraft.fluid.Fluid.class, WrappingUtil::getWrapped);
     }
 
     public static net.minecraft.item.Item.Settings convert(Item.Settings settings) {
@@ -345,12 +355,12 @@ public class WrappingUtil {
         return cast(view, WorldReader.class);
     }
 
-    public static Vector3d convertToVector(org.sandboxpowered.api.util.math.Vec3d vector3dc) {
-        return null; //TODO
+    public static Vector3d convertToVector(org.sandboxpowered.api.util.math.Vec3d vec3) {
+        return cast(vec3, Vector3d.class);
     }
 
-    public static Vec3d convertToVec(org.sandboxpowered.api.util.math.Vec3d vector3dc) {
-        return null; //TODO
+    public static Vec3d convertToVec(org.sandboxpowered.api.util.math.Vec3d vec3) {
+        return cast(vec3, Vec3d.class);
     }
 
     public static <T> RegistryKey<T> convertToRegistryKey(RegistryKey<Registry<T>> registryKey, Identity identity) {
@@ -462,8 +472,15 @@ public class WrappingUtil {
 return (net.minecraft.util.math.Box) box;
     }
 
+    public static net.minecraft.util.math.Box convert(Box box) {
+        return (net.minecraft.util.math.Box) box;
+    }
+
     public static Hand convert(org.sandboxpowered.api.entity.player.Hand hand) {
         return hand == org.sandboxpowered.api.entity.player.Hand.MAIN_HAND ? Hand.MAIN_HAND : Hand.OFF_HAND;
+    }
+    public static org.sandboxpowered.api.entity.player.Hand convert(Hand hand) {
+        return hand == Hand.MAIN_HAND ? org.sandboxpowered.api.entity.player.Hand.MAIN_HAND : org.sandboxpowered.api.entity.player.Hand.OFF_HAND;
     }
 
     public static EquipmentSlot convert(LivingEntity.EquipmentSlot slot) {
@@ -490,5 +507,24 @@ return (net.minecraft.util.math.Box) box;
 
     public static org.sandboxpowered.api.util.math.MatrixStack convert(MatrixStack stack) {
         return cast(stack, org.sandboxpowered.api.util.math.MatrixStack.class);
+    }
+
+    public static VertexConsumer.Provider convert(VertexConsumerProvider consumerProvider) {
+        return null;
+    }
+
+    @Nullable
+    public static net.minecraft.entity.LivingEntity convertToLivingOrNull(Entity entity) {
+        if (entity instanceof net.minecraft.entity.LivingEntity)
+            return (net.minecraft.entity.LivingEntity) entity;
+        return null;
+    }
+
+    public static <V extends net.minecraft.block.entity.BlockEntity, S extends BlockEntity> BlockEntityType<V> convert(BlockEntity.Type<S> type) {
+        return cast(type, BlockEntityType.class);
+    }
+
+    public static <V extends net.minecraft.block.entity.BlockEntity, S extends BlockEntity> BlockEntity.Type<S> convert(BlockEntityType<V> type) {
+        return cast(type, BlockEntity.Type.class);
     }
 }

@@ -63,9 +63,9 @@ public abstract class MixinMinecraftClient {
 // TODO: Fix crash stuff
 //
 //    @Redirect(method = "start", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/crash/CrashReport;create(Ljava/lang/Throwable;Ljava/lang/String;)Lnet/minecraft/util/crash/CrashReport;"))
-//    private CrashReport create(Throwable throwable_1, String string_1) {
-//        Log.fatal(string_1, throwable_1);
-//        return CrashReport.create(throwable_1, string_1);
+//    private CrashReport create(Throwable throwable_1, String string) {
+//        Log.fatal(string, throwable_1);
+//        return CrashReport.create(throwable_1, string);
 //    }
 //
 //    @Redirect(method = "start", at = @At(value = "INVOKE", target = "Lorg/apache/logging/log4j/Logger;fatal(Ljava/lang/String;Ljava/lang/Throwable;)V"))
@@ -75,17 +75,17 @@ public abstract class MixinMinecraftClient {
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/GameRenderer;render(FJZ)V", shift = At.Shift.BEFORE))
     public void renderStart(CallbackInfo info) {
-        PanoramaHandler.renderTick(true);
+        PanoramaHandler.INSTANCE.renderTick(true);
     }
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/toast/ToastManager;draw(Lnet/minecraft/client/util/math/MatrixStack;)V", shift = At.Shift.AFTER))
     public void renderEnd(CallbackInfo info) {
-        PanoramaHandler.renderTick(false);
+        PanoramaHandler.INSTANCE.renderTick(false);
     }
 
     @Inject(method = "close", at = @At("HEAD"))
     public void shutdownGlobal(CallbackInfo info) {
-        SandboxHooks.shutdownGlobal();
+        SandboxHooks.close();
     }
 
     @Redirect(method = "reloadResources", at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/ReloadableResourceManager;beginMonitoredReload(Ljava/util/concurrent/Executor;Ljava/util/concurrent/Executor;Ljava/util/concurrent/CompletableFuture;Ljava/util/List;)Lnet/minecraft/resource/ResourceReloadMonitor;"))

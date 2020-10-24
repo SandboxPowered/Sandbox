@@ -1,6 +1,7 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.block;
 
 import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.AbstractBlock.Settings;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.InventoryProvider;
 import net.minecraft.block.Waterloggable;
@@ -49,6 +50,7 @@ import java.util.Optional;
 @Mixin(net.minecraft.block.Block.class)
 @Implements(@Interface(iface = Block.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
+@SuppressWarnings("java:S100")
 public abstract class MixinBlock extends AbstractBlock implements SandboxInternal.StateFactoryHolder<Block, BlockState> {
     @Shadow
     @Final
@@ -71,7 +73,7 @@ public abstract class MixinBlock extends AbstractBlock implements SandboxInterna
 
     @SuppressWarnings("unchecked")
     @Inject(method = "<init>", at = @At("RETURN"))
-    public void constructor(net.minecraft.block.Block.Settings settings, CallbackInfo info) {
+    public void constructor(Settings settings, CallbackInfo info) {
         if (!((Object) this instanceof BlockWrapper)) {
             sandboxFactory = new StateFactoryImpl<>(this.stateManager, b -> (Block) b, s -> (BlockState) s);
             ((SandboxInternal.StateFactory<Block, BlockState>) this.stateManager).setSboxFactory(sandboxFactory);
@@ -106,11 +108,12 @@ public abstract class MixinBlock extends AbstractBlock implements SandboxInterna
     }
 
     public InteractionResult sbx$onBlockUsed(World world, Position pos, BlockState state, PlayerEntity player, Hand hand, Direction side, Vec3f hit) {
+//        onUse(WrappingUtil.convert(state), WrappingUtil.convert(world), WrappingUtil.convert(pos), WrappingUtil.convert(player), WrappingUtil.convert(hand), null);
         return InteractionResult.IGNORE;
     }
 
-    public InteractionResult sbx$onBlockClicked(World world, Position pos, BlockState state, PlayerEntity player) {
-        return InteractionResult.IGNORE;
+    public void sbx$onBlockClicked(World world, Position pos, BlockState state, PlayerEntity player) {
+        onBlockBreakStart(WrappingUtil.convert(state), WrappingUtil.convert(world), WrappingUtil.convert(pos), WrappingUtil.convert(player));
     }
 
     public Optional<Item> sbx$asItem() {
@@ -125,15 +128,14 @@ public abstract class MixinBlock extends AbstractBlock implements SandboxInterna
                 WrappingUtil.convert(world),
                 WrappingUtil.convert(position),
                 WrappingUtil.convert(state),
-                null,
+                WrappingUtil.convertToLivingOrNull(entity),
                 WrappingUtil.convert(itemStack)
         );
     }
 
     public void sbx$onBlockBroken(World world, Position position, BlockState state) {
-        this.onBroken((net.minecraft.world.World) world, (BlockPos) position, (net.minecraft.block.BlockState) state);
+        this.onBroken(WrappingUtil.convert(world), WrappingUtil.convert(position), WrappingUtil.convert(state));
     }
-
 
     public <X> Mono<X> sbx$getComponent(WorldReader reader, Position position, BlockState state, Component<X> component, @Nullable Direction side) {
         if (component == Components.INVENTORY_COMPONENT) {
@@ -150,11 +152,9 @@ public abstract class MixinBlock extends AbstractBlock implements SandboxInterna
                 return Mono.of(new V2SInventory((Inventory) entity)).cast();
             }
         }
-        if (component == Components.FLUID_COMPONENT) {
-            if (this instanceof Waterloggable) {
-                FluidLoggingContainer container = new FluidLoggingContainer((FluidLoggable) this, reader, position, state, side);
-                return Mono.of(container).cast();
-            }
+        if (component == Components.FLUID_COMPONENT && this instanceof Waterloggable) {
+            FluidLoggingContainer container = new FluidLoggingContainer((FluidLoggable) this, reader, position, state, side);
+            return Mono.of(container).cast();
         }
         return Mono.empty();
     }

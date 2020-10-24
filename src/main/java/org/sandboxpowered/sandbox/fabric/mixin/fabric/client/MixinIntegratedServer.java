@@ -43,13 +43,9 @@ public abstract class MixinIntegratedServer extends MinecraftServer {
                     shift = At.Shift.BEFORE),
             cancellable = true
     )
-    public void setupServer(CallbackInfoReturnable<Boolean> info) {
-        try {
-            SandboxStorage.client = (Client) client;
-            SandboxStorage.server = (Server) this;
-            new SandboxLoader().load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void setupServer(CallbackInfoReturnable<Boolean> info) throws IOException {
+        SandboxStorage.setClient((Client) client);
+        SandboxStorage.setServer((Server) this);
+        new SandboxLoader().load();
     }
 }

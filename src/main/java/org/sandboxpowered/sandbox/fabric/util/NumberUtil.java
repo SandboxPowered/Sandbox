@@ -3,7 +3,7 @@ package org.sandboxpowered.sandbox.fabric.util;
 import java.util.TreeMap;
 
 public class NumberUtil {
-    private final static TreeMap<Integer, String> map = new TreeMap<>();
+    private static final TreeMap<Integer, String> map = new TreeMap<>();
 
     static {
         map.put(1000, "M");
@@ -19,6 +19,9 @@ public class NumberUtil {
         map.put(5, "V");
         map.put(4, "IV");
         map.put(1, "I");
+    }
+
+    private NumberUtil() {
     }
 
     public static String toRoman(int number) {

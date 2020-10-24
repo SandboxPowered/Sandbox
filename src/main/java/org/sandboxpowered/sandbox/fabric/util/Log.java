@@ -4,53 +4,56 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Log {
-    public static Logger LOG = LogManager.getFormatterLogger("Sandbox|Fabric");
+    public static final Logger LOGGER = LogManager.getFormatterLogger("Sandbox|Fabric");
+
+    private Log() {
+    }
 
     public static void info(String message) {
-        LOG.info(message);
+        LOGGER.info(message);
     }
 
     public static void info(String message, Object... objs) {
-        LOG.info(message, objs);
+        LOGGER.info(message, objs);
     }
 
     public static void error(String message) {
-        LOG.error(message);
+        LOGGER.error(message);
     }
 
     public static void error(String message, Throwable e) {
-        LOG.error(message, e);
+        LOGGER.error(message, e);
     }
 
     public static void error(String message, Object... objs) {
-        LOG.error(message, objs);
+        LOGGER.error(message, objs);
     }
 
     public static void warn(String message) {
-        LOG.warn(message);
+        LOGGER.warn(message);
     }
 
     public static void warn(String message, Throwable e) {
-        LOG.warn(message, e);
+        LOGGER.warn(message, e);
     }
 
     public static void warn(String message, Object... objs) {
-        LOG.warn(message, objs);
+        LOGGER.warn(message, objs);
     }
 
     public static void fatal(String message) {
-        LOG.fatal(message);
+        LOGGER.fatal(message);
     }
 
     public static void fatal(String message, Throwable e) {
-        LOG.fatal(message, e);
+        LOGGER.fatal(message, e);
     }
 
     public static void fatal(String message, Object... objs) {
-        LOG.fatal(message, objs);
+        LOGGER.fatal(message, objs);
     }
 
     public static void debug(String message) {
-        LOG.debug(message);
+        LOGGER.info(message);
     }
 }

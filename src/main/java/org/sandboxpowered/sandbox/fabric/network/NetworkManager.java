@@ -10,6 +10,7 @@ import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
 import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
+import org.sandboxpowered.sandbox.fabric.Sandbox;
 
 import java.util.Objects;
 
@@ -19,8 +20,8 @@ public class NetworkManager {
     private static final BiMap<Class<? extends Packet>, Identifier> packetMapInverse = packetMap.inverse();
 
     static {
-        add(new Identifier("sandbox", "addon_sync"), AddonS2CPacket.class);
-        add(new Identifier("sandbox", "container_open"), ContainerOpenPacket.class);
+        add(new Identifier(Sandbox.ID, "addon_sync"), AddonS2CPacket.class);
+        add(new Identifier(Sandbox.ID, "container_open"), ContainerOpenPacket.class);
     }
 
     public static <T extends Packet> void add(Identifier id, Class<T> packetClass) {
@@ -34,11 +35,6 @@ public class NetworkManager {
     public static void sendToServer(Packet packet) {
         Identifier id = getId(packet);
         Objects.requireNonNull(MinecraftClient.getInstance().getNetworkHandler()).sendPacket(c2s(id, packet));
-    }
-
-    public static void sendToAll(Packet packet) {
-        Identifier id = getId(packet);
-//        SandboxServer.INSTANCE.getServer().getPlayerManager().sendToAll(s2c(id, packet)); TODO
     }
 
     public static void sendTo(Packet packet, PlayerEntity player) {

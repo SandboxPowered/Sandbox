@@ -9,6 +9,7 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.lwjgl.glfw.GLFW;
+import org.sandboxpowered.sandbox.fabric.util.Log;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -17,18 +18,20 @@ import java.util.Date;
 import java.util.function.Consumer;
 
 public class PanoramaHandler {
+    public static final PanoramaHandler INSTANCE = new PanoramaHandler();
+    private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
+    private File panoramaDir;
+    private File currentDir;
+    private float rotationYaw;
+    private float rotationPitch;
+    private int panoramaStep;
+    private boolean takingPanorama;
+    private int currentWidth;
+    private int currentHeight;
+    private final int panoramaSize = 1024;
+    private final boolean fullscreen = false;
 
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
-    public static File panoramaDir;
-    public static File currentDir;
-    public static float rotationYaw, rotationPitch;
-    public static int panoramaStep;
-    public static boolean takingPanorama;
-    public static int currentWidth, currentHeight;
-    public static int panoramaSize = 1024;
-    public static boolean fullscreen = false;
-
-    public static void takeScreenshot(Consumer<Text> consumer) {
+    public void takeScreenshot(Consumer<Text> consumer) {
         if (takingPanorama)
             return;
 
@@ -55,7 +58,7 @@ public class PanoramaHandler {
         consumer.accept(new LiteralText("Panorama saved as ").append(panoramaDirComponent));
     }
 
-    public static void renderTick(boolean start) {
+    public void renderTick(boolean start) {
         MinecraftClient mc = MinecraftClient.getInstance();
 
         if (mc.player != null && takingPanorama) {
@@ -71,31 +74,24 @@ public class PanoramaHandler {
                         GLFW.glfwSetWindowSize(MinecraftClient.getInstance().getWindow().getHandle(), panoramaSize, panoramaSize);
                 }
 
-                switch (panoramaStep) {
-                    case 1:
-                        mc.player.yaw = 180;
-                        mc.player.pitch = 0;
-                        break;
-                    case 2:
-                        mc.player.yaw = -90;
-                        mc.player.pitch = 0;
-                        break;
-                    case 3:
-                        mc.player.yaw = 0;
-                        mc.player.pitch = 0;
-                        break;
-                    case 4:
-                        mc.player.yaw = 90;
-                        mc.player.pitch = 0;
-                        break;
-                    case 5:
-                        mc.player.yaw = 180;
-                        mc.player.pitch = -90;
-                        break;
-                    case 6:
-                        mc.player.yaw = 180;
-                        mc.player.pitch = 90;
-                        break;
+                if (panoramaStep == 1) {
+                    mc.player.yaw = 180;
+                    mc.player.pitch = 0;
+                } else if (panoramaStep == 2) {
+                    mc.player.yaw = -90;
+                    mc.player.pitch = 0;
+                } else if (panoramaStep == 3) {
+                    mc.player.yaw = 0;
+                    mc.player.pitch = 0;
+                } else if (panoramaStep == 4) {
+                    mc.player.yaw = 90;
+                    mc.player.pitch = 0;
+                } else if (panoramaStep == 5) {
+                    mc.player.yaw = 180;
+                    mc.player.pitch = -90;
+                } else if (panoramaStep == 6) {
+                    mc.player.yaw = 180;
+                    mc.player.pitch = 90;
                 }
                 mc.player.prevYaw = mc.player.yaw;
                 mc.player.prevPitch = mc.player.pitch;
@@ -118,17 +114,22 @@ public class PanoramaHandler {
         }
     }
 
-    private static void saveScreenshot(File dir, String screenshotName, int width, int height, Framebuffer buffer) {
+    private void saveScreenshot(File dir, String screenshotName, int width, int height, Framebuffer buffer) {
         try {
             NativeImage bufferedImage = ScreenshotUtils.takeScreenshot(width, height, buffer);
             File file2 = new File(dir, screenshotName);
 
             bufferedImage.writeFile(file2);
-        } catch (Exception exception) {
+        } catch (Exception e) {
+            Log.error("Error saving panorama", e);
         }
     }
 
-    private static String getTimestamp() {
-        return DATE_FORMAT.format(new Date());
+    private String getTimestamp() {
+        return dateFormat.format(new Date());
+    }
+
+    public boolean isTakingPanorama() {
+        return takingPanorama;
     }
 }

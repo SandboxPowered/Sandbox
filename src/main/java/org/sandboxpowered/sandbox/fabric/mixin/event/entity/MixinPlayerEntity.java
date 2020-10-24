@@ -14,8 +14,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(PlayerEntity.class)
 public abstract class MixinPlayerEntity extends net.minecraft.entity.LivingEntity {
 
-    public MixinPlayerEntity(EntityType<? extends net.minecraft.entity.LivingEntity> entityType_1, World world_1) {
-        super(entityType_1, world_1);
+    public MixinPlayerEntity(EntityType<? extends net.minecraft.entity.LivingEntity> entityType, World world) {
+        super(entityType, world);
     }
 
     /**

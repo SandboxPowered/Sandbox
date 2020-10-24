@@ -9,10 +9,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class AddonS2CPacket implements Packet {
-
-    public int count;
-    public String prefix;
-    public List<Pair<String, String>> addons;
+    private int count;
+    private String prefix;
+    private List<Pair<String, String>> addons;
 
     public AddonS2CPacket(int count, String prefix, List<Pair<String, String>> addons) {
         this.count = count;

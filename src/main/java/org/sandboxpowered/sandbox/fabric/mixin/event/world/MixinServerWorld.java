@@ -21,7 +21,7 @@ public class MixinServerWorld {
             org.sandboxpowered.api.entity.Entity ent = WrappingUtil.convert(entity);
             Cancellable cancellable = new Cancellable();
 
-            EntityEvents.SPAWN.post(event -> event.onEvent(ent, cancellable), cancellable);
+//            EntityEvents.SPAWN.post(event -> event.onEvent(ent), cancellable);
 
             if (cancellable.isCancelled())
                 info.setReturnValue(false);

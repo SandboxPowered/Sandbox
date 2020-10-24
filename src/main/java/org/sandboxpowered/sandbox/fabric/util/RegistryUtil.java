@@ -9,7 +9,10 @@ import net.minecraft.util.registry.Registry;
 import org.sandboxpowered.sandbox.fabric.Sandbox;
 
 public class RegistryUtil {
-    public static void doOnSet(int i, Object object) {
+    private RegistryUtil() {
+    }
+
+    public static void doOnSet(Object object) {
         if (object instanceof Item && Sandbox.SANDBOX.getSide().isClient()) {
             MinecraftClient.getInstance().getItemRenderer().getModels().putModel((Item) object, new ModelIdentifier(Registry.ITEM.getId((Item) object), "inventory"));
         }

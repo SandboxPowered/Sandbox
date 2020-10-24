@@ -15,7 +15,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class BasicRegistry<A extends Content<A>, B> implements Registry<A> {
+public class WrappedRegistry<A extends Content<A>, B> implements Registry<A> {
     private final Identity identity;
     private final Map<Identity, RegistryEntry<A>> cacheMap = new TreeMap<>(Comparator.comparing(Identity::getPath).thenComparing(Identity::getNamespace));
     private final Function<A, B> convertAB;
@@ -23,7 +23,7 @@ public class BasicRegistry<A extends Content<A>, B> implements Registry<A> {
     private final net.minecraft.util.registry.Registry<B> vanilla;
     private final Class<A> type;
 
-    public BasicRegistry(Identity identity, net.minecraft.util.registry.Registry<B> vanilla, Class<A> type, Function<A, B> convertAB, Function<B, A> convertBA) {
+    public WrappedRegistry(Identity identity, net.minecraft.util.registry.Registry<B> vanilla, Class<A> type, Function<A, B> convertAB, Function<B, A> convertBA) {
         this.identity = identity;
         this.convertAB = convertAB;
         this.convertBA = convertBA;
@@ -54,7 +54,7 @@ public class BasicRegistry<A extends Content<A>, B> implements Registry<A> {
     @Override
     public Entry<A> register(Identity identity, A val) {
         B conversion = convertAB.apply(val);
-        ((MutableRegistry<B>) vanilla).add(WrappingUtil.convertToRegistryKey(((SandboxInternal.RegistryKeyObtainer<B>) vanilla).sandbox_getRegistryKey(), identity), conversion, Lifecycle.experimental()); //TODO which lifecycle should we use?
+        ((MutableRegistry<B>) vanilla).add(WrappingUtil.convertToRegistryKey(((SandboxInternal.RegistryKeyObtainer<B>) vanilla).sandboxGetRegistryKey(), identity), conversion, Lifecycle.experimental());
         return get(identity);
     }
 
@@ -79,16 +79,16 @@ public class BasicRegistry<A extends Content<A>, B> implements Registry<A> {
     }
 
     public void clearCache() {
-        cacheMap.forEach((identity, aEntry) -> aEntry.clearCache());
+        cacheMap.forEach((id, aEntry) -> aEntry.clearCache());
     }
 
     public static class RegistryEntry<T extends Content<T>> implements Entry<T> {
         private final Identity identity;
-        private final BasicRegistry<T, ?> registry;
+        private final WrappedRegistry<T, ?> registry;
         private boolean hasCached;
         private T cache;
 
-        public RegistryEntry(Identity identity, BasicRegistry<T, ?> registry) {
+        public RegistryEntry(Identity identity, WrappedRegistry<T, ?> registry) {
             this.identity = identity;
             this.registry = registry;
         }
@@ -103,7 +103,7 @@ public class BasicRegistry<A extends Content<A>, B> implements Registry<A> {
         }
 
         @Override
-        public T get() throws NoSuchElementException {
+        public T get() {
             if (!hasCached) {
                 cache = registry.getCurrent(identity);
                 hasCached = true;

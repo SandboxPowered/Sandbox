@@ -19,7 +19,7 @@ import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ItemWrapper extends net.minecraft.item.Item implements SandboxInternal.ItemWrapper {
+public class ItemWrapper extends net.minecraft.item.Item implements SandboxInternal.IItemWrapper {
     private final Item item;
 
     public ItemWrapper(Item item) {
@@ -27,7 +27,7 @@ public class ItemWrapper extends net.minecraft.item.Item implements SandboxInter
         this.item = item;
     }
 
-    public static SandboxInternal.ItemWrapper create(Item iItem) {
+    public static SandboxInternal.IItemWrapper create(Item iItem) {
         if (iItem instanceof BucketItem)
             return new BucketItemWrapper((BucketItem) iItem);
         if (iItem instanceof BlockItem)
@@ -41,13 +41,13 @@ public class ItemWrapper extends net.minecraft.item.Item implements SandboxInter
     }
 
     @Override
-    public ActionResult useOnBlock(ItemUsageContext itemUsageContext_1) {
+    public ActionResult useOnBlock(ItemUsageContext context) {
         InteractionResult result = item.onItemUsed(
-                (World) itemUsageContext_1.getWorld(),
-                (Position) itemUsageContext_1.getBlockPos(),
-                WrappingUtil.cast(itemUsageContext_1.getStack(), ItemStack.class)
+                (World) context.getWorld(),
+                (Position) context.getBlockPos(),
+                WrappingUtil.cast(context.getStack(), ItemStack.class)
         );
-        return result == InteractionResult.SUCCESS ? ActionResult.SUCCESS : result == InteractionResult.FAILURE ? ActionResult.FAIL : ActionResult.PASS;
+        return WrappingUtil.convert(result);
     }
 
     @Override
@@ -56,28 +56,24 @@ public class ItemWrapper extends net.minecraft.item.Item implements SandboxInter
     }
 
     @Override
-    public void appendTooltip(net.minecraft.item.ItemStack itemStack_1, @Nullable net.minecraft.world.World world_1, List<Text> list_1, TooltipContext tooltipContext_1) {
+    public void appendTooltip(net.minecraft.item.ItemStack stack, @Nullable net.minecraft.world.World world, List<Text> list, TooltipContext tooltipContext) {
         List<org.sandboxpowered.api.util.text.Text> tooltip = new LinkedList<>();
         item.appendTooltipText(
-                WrappingUtil.cast(itemStack_1, ItemStack.class),
-                world_1 == null ? null : (World) world_1,
+                WrappingUtil.cast(stack, ItemStack.class),
+                world == null ? null : (World) world,
                 tooltip,
-                tooltipContext_1.isAdvanced()
+                tooltipContext.isAdvanced()
         );
-        tooltip.forEach(text -> list_1.add(WrappingUtil.convert(text)));
-        super.appendTooltip(itemStack_1, world_1, list_1, tooltipContext_1);
+        tooltip.forEach(text -> list.add(WrappingUtil.convert(text)));
+        super.appendTooltip(stack, world, list, tooltipContext);
     }
 
-    public static class BlockItemWrapper extends net.minecraft.item.BlockItem implements SandboxInternal.ItemWrapper {
+    public static class BlockItemWrapper extends net.minecraft.item.BlockItem implements SandboxInternal.IItemWrapper {
         private final BlockItem item;
 
         public BlockItemWrapper(BlockItem item) {
             super(WrappingUtil.convert(item.asBlock()), WrappingUtil.convert(item.getSettings()));
             this.item = item;
-        }
-
-        public BlockItem getIBlockItem() {
-            return item;
         }
 
         @Override
@@ -86,15 +82,15 @@ public class ItemWrapper extends net.minecraft.item.Item implements SandboxInter
         }
 
         @Override
-        public ActionResult useOnBlock(ItemUsageContext itemUsageContext_1) {
+        public ActionResult useOnBlock(ItemUsageContext context) {
             InteractionResult result = item.onItemUsed(
-                    (World) itemUsageContext_1.getWorld(),
-                    (Position) itemUsageContext_1.getBlockPos(),
-                    WrappingUtil.cast(itemUsageContext_1.getStack(), ItemStack.class)
+                    (World) context.getWorld(),
+                    (Position) context.getBlockPos(),
+                    WrappingUtil.cast(context.getStack(), ItemStack.class)
             );
             if (result == InteractionResult.IGNORE)
-                return super.useOnBlock(itemUsageContext_1);
-            return result == InteractionResult.SUCCESS ? ActionResult.SUCCESS : result == InteractionResult.FAILURE ? ActionResult.FAIL : ActionResult.PASS;
+                return super.useOnBlock(context);
+            return WrappingUtil.convert(result);
         }
 
         @Override
@@ -103,20 +99,20 @@ public class ItemWrapper extends net.minecraft.item.Item implements SandboxInter
         }
 
         @Override
-        public void appendTooltip(net.minecraft.item.ItemStack itemStack_1, @Nullable net.minecraft.world.World world_1, List<Text> list_1, TooltipContext tooltipContext_1) {
+        public void appendTooltip(net.minecraft.item.ItemStack stack, @Nullable net.minecraft.world.World world, List<Text> list, TooltipContext tooltipContext) {
             List<org.sandboxpowered.api.util.text.Text> tooltip = new LinkedList<>();
             item.appendTooltipText(
-                    WrappingUtil.cast(itemStack_1, ItemStack.class),
-                    world_1 == null ? null : (World) world_1,
+                    WrappingUtil.cast(stack, ItemStack.class),
+                    world == null ? null : (World) world,
                     tooltip,
-                    tooltipContext_1.isAdvanced()
+                    tooltipContext.isAdvanced()
             );
-            tooltip.forEach(text -> list_1.add(WrappingUtil.convert(text)));
-            super.appendTooltip(itemStack_1, world_1, list_1, tooltipContext_1);
+            tooltip.forEach(text -> list.add(WrappingUtil.convert(text)));
+            super.appendTooltip(stack, world, list, tooltipContext);
         }
     }
 
-    public static class BucketItemWrapper extends net.minecraft.item.BucketItem implements SandboxInternal.ItemWrapper {
+    public static class BucketItemWrapper extends net.minecraft.item.BucketItem implements SandboxInternal.IItemWrapper {
         private final BucketItem item;
 
         public BucketItemWrapper(BucketItem item) {
@@ -135,28 +131,28 @@ public class ItemWrapper extends net.minecraft.item.Item implements SandboxInter
         }
 
         @Override
-        public ActionResult useOnBlock(ItemUsageContext itemUsageContext_1) {
+        public ActionResult useOnBlock(ItemUsageContext context) {
             InteractionResult result = item.onItemUsed(
-                    (World) itemUsageContext_1.getWorld(),
-                    (Position) itemUsageContext_1.getBlockPos(),
-                    WrappingUtil.cast(itemUsageContext_1.getStack(), ItemStack.class)
+                    (World) context.getWorld(),
+                    (Position) context.getBlockPos(),
+                    WrappingUtil.cast(context.getStack(), ItemStack.class)
             );
             if (result == InteractionResult.IGNORE)
-                return super.useOnBlock(itemUsageContext_1);
-            return result == InteractionResult.SUCCESS ? ActionResult.SUCCESS : result == InteractionResult.FAILURE ? ActionResult.FAIL : ActionResult.PASS;
+                return super.useOnBlock(context);
+            return WrappingUtil.convert(result);
         }
 
         @Override
-        public void appendTooltip(net.minecraft.item.ItemStack itemStack_1, @Nullable net.minecraft.world.World world_1, List<Text> list_1, TooltipContext tooltipContext_1) {
+        public void appendTooltip(net.minecraft.item.ItemStack stack, @Nullable net.minecraft.world.World world, List<Text> list, TooltipContext tooltipContext) {
             List<org.sandboxpowered.api.util.text.Text> tooltip = new LinkedList<>();
             item.appendTooltipText(
-                    WrappingUtil.cast(itemStack_1, ItemStack.class),
-                    world_1 == null ? null : (World) world_1,
+                    WrappingUtil.cast(stack, ItemStack.class),
+                    world == null ? null : (World) world,
                     tooltip,
-                    tooltipContext_1.isAdvanced()
+                    tooltipContext.isAdvanced()
             );
-            tooltip.forEach(text -> list_1.add(WrappingUtil.convert(text)));
-            super.appendTooltip(itemStack_1, world_1, list_1, tooltipContext_1);
+            tooltip.forEach(text -> list.add(WrappingUtil.convert(text)));
+            super.appendTooltip(stack, world, list, tooltipContext);
         }
     }
 }

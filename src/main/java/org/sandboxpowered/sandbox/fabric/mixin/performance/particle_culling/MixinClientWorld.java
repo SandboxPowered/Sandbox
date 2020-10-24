@@ -25,9 +25,9 @@ public class MixinClientWorld {
     }
 
     private void cullUnimportantParticles(ParticleEffect particleEffect, boolean bl, double d, double e, double f, CallbackInfo info) {
-        if (SandboxConfig.cullParticles.get()) {
-            boolean shouldSpawn = particleEffect.getType().shouldAlwaysSpawn() | bl;
-            if (!shouldSpawn && !((IFrustumWorldRenderer) MinecraftClient.getInstance().worldRenderer).sandbox_getFrustum().isVisible(new Box(d, e, f, d + 0.25f, e + 0.25f, f + 0.25f))) {
+        if (SandboxConfig.cullParticles.getBoolean()) {
+            boolean shouldSpawn = particleEffect.getType().shouldAlwaysSpawn() || bl;
+            if (!shouldSpawn && !((IFrustumWorldRenderer) MinecraftClient.getInstance().worldRenderer).sandboxGetFrustum().isVisible(new Box(d, e, f, d + 0.25f, e + 0.25f, f + 0.25f))) {
                 info.cancel();
             }
         }

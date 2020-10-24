@@ -14,7 +14,7 @@ public class MixinGameRenderer {
             cancellable = true
     )
     public void getFov(CallbackInfoReturnable<Double> info) {
-        if (PanoramaHandler.takingPanorama)
+        if (PanoramaHandler.INSTANCE.isTakingPanorama())
             info.setReturnValue(90.0D);
     }
 }

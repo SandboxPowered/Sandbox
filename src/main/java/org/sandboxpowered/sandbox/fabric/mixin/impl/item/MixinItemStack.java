@@ -22,10 +22,10 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-@SuppressWarnings("EqualsBetweenInconvertibleTypes")
 @Mixin(net.minecraft.item.ItemStack.class)
 @Implements(@Interface(iface = ItemStack.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
+@SuppressWarnings({"EqualsBetweenInconvertibleTypes", "java:S100", "java:S1610"})
 public abstract class MixinItemStack {
 
     @Shadow
@@ -38,13 +38,13 @@ public abstract class MixinItemStack {
     public abstract int getCount();
 
     @Shadow
-    public abstract void setCount(int int_1);
+    public abstract void setCount(int amount);
 
     @Shadow
-    public abstract void decrement(int int_1);
+    public abstract void decrement(int amount);
 
     @Shadow
-    public abstract void increment(int int_1);
+    public abstract void increment(int amount);
 
     @Shadow
     public abstract net.minecraft.util.Rarity getRarity();
@@ -57,32 +57,32 @@ public abstract class MixinItemStack {
     public abstract net.minecraft.nbt.CompoundTag getTag();
 
     @Shadow
-    public abstract void setTag(@Nullable net.minecraft.nbt.CompoundTag compoundTag_1);
+    public abstract void setTag(@Nullable net.minecraft.nbt.CompoundTag tag);
 
     @Shadow
     public abstract net.minecraft.nbt.CompoundTag getOrCreateTag();
 
     @Shadow
     @Nullable
-    public abstract net.minecraft.nbt.CompoundTag getSubTag(String string_1);
+    public abstract net.minecraft.nbt.CompoundTag getSubTag(String string);
 
     @Shadow
-    public abstract net.minecraft.nbt.CompoundTag getOrCreateSubTag(String string_1);
+    public abstract net.minecraft.nbt.CompoundTag getOrCreateSubTag(String string);
 
     @Shadow
     public abstract int getMaxCount();
 
     @Shadow
-    public abstract boolean isItemEqual(net.minecraft.item.ItemStack itemStack_1);
+    public abstract boolean isItemEqual(net.minecraft.item.ItemStack stack);
 
     @Shadow
     public abstract net.minecraft.item.ItemStack copy();
 
     @Shadow
-    public abstract boolean isItemEqualIgnoreDamage(net.minecraft.item.ItemStack itemStack_1);
+    public abstract boolean isItemEqualIgnoreDamage(net.minecraft.item.ItemStack stack);
 
     @Shadow
-    public abstract net.minecraft.nbt.CompoundTag toTag(net.minecraft.nbt.CompoundTag compoundTag_1);
+    public abstract net.minecraft.nbt.CompoundTag toTag(net.minecraft.nbt.CompoundTag tag);
 
     @Shadow
     public abstract boolean isDamaged();
@@ -132,8 +132,8 @@ public abstract class MixinItemStack {
 
     @Inject(method = "isEffectiveOn", at = @At("HEAD"), cancellable = true)
     public void isEffectiveOn(BlockState state, CallbackInfoReturnable<Boolean> info) {
-        if (getItem() instanceof SandboxInternal.ItemWrapper) {
-            info.setReturnValue(((SandboxInternal.ItemWrapper) getItem()).getItem().isEffectiveOn(WrappingUtil.convert((net.minecraft.item.ItemStack) (Object) this), WrappingUtil.convert(state)));
+        if (getItem() instanceof SandboxInternal.IItemWrapper) {
+            info.setReturnValue(((SandboxInternal.IItemWrapper) getItem()).getItem().isEffectiveOn(WrappingUtil.convert((net.minecraft.item.ItemStack) (Object) this), WrappingUtil.convert(state)));
         }
     }
 
@@ -145,9 +145,7 @@ public abstract class MixinItemStack {
         for (int i = 0; i < listTag.size(); ++i) {
             net.minecraft.nbt.CompoundTag tag = listTag.getCompound(i);
             String string = tag.getString("id");
-            Registry.ENCHANTMENT.getOrEmpty(Identifier.tryParse(string)).ifPresent((enchantment) -> {
-                set.add(WrappingUtil.convert(enchantment));
-            });
+            Registry.ENCHANTMENT.getOrEmpty(Identifier.tryParse(string)).ifPresent(enchantment -> set.add(WrappingUtil.convert(enchantment)));
         }
         return set;
     }

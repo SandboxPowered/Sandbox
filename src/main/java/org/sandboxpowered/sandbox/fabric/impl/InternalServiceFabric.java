@@ -21,6 +21,7 @@ import org.sandboxpowered.api.item.Item;
 import org.sandboxpowered.api.item.ItemStack;
 import org.sandboxpowered.api.registry.Registry;
 import org.sandboxpowered.api.server.Server;
+import org.sandboxpowered.api.shape.Box;
 import org.sandboxpowered.api.shape.Shape;
 import org.sandboxpowered.api.state.Property;
 import org.sandboxpowered.api.util.Identity;
@@ -41,16 +42,13 @@ import org.sandboxpowered.sandbox.fabric.util.SandboxStorage;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.sandboxpowered.sandbox.fabric.util.math.Vec2iImpl;
 
-import java.lang.invoke.LambdaMetafactory;
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
+import java.lang.invoke.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 @SuppressWarnings({"ConstantConditions", "unchecked"})
 public class InternalServiceFabric implements InternalService {
-    public static InternalService INSTANCE = new InternalServiceFabric();
+    public static final InternalService INSTANCE = new InternalServiceFabric();
 
     @Override
     public Identity.Variant createVariantIdentity(Identity identity, String variant) {
@@ -59,7 +57,7 @@ public class InternalServiceFabric implements InternalService {
 
     @Override
     public Client clientInstance() {
-        return SandboxStorage.client;
+        return SandboxStorage.getClient();
     }
 
     @Override
@@ -133,25 +131,25 @@ public class InternalServiceFabric implements InternalService {
                 return getOrCreateRegistry("entity_type", net.minecraft.util.registry.Registry.ENTITY_TYPE, Entity.Type.class, EntityType.class);
             }
         } catch (Throwable throwable) {
-            throw new RuntimeException("Failed to get registry for " + cla, throwable);
+            throw new IllegalArgumentException("Unknown registry " + cla, throwable);
         }
         return null;
     }
 
-    private <A extends Content<A>, B, C extends Content<C>> Registry<C> getOrCreateRegistry(String name, net.minecraft.util.registry.Registry<B> vanilla, Class<A> sandbox, Class<?> normal) throws Throwable {
-        SandboxInternal.Registry<A, B> wrapped = (SandboxInternal.Registry<A, B>) vanilla;
-        Registry<A> registry = wrapped.sandbox_get();
+    private <S extends Content<S>, V, T extends Content<T>> Registry<T> getOrCreateRegistry(String name, net.minecraft.util.registry.Registry<V> vRegistry, Class<S> sClass, Class<?> vClass) throws Throwable {
+        SandboxInternal.Registry<S, V> sRegistry = (SandboxInternal.Registry<S, V>) vRegistry;
+        Registry<S> registry = sRegistry.sandboxGet();
         if (registry == null) {
             MethodHandles.Lookup lookup = MethodHandles.lookup();
-            MethodHandle handleAB = lookup.findStatic(WrappingUtil.class, "convert", MethodType.methodType(normal, sandbox));
-            MethodHandle handleBA = lookup.findStatic(WrappingUtil.class, "convert", MethodType.methodType(sandbox, normal));
-            Function<A, B> convertAB = (Function<A, B>) LambdaMetafactory.metafactory(lookup, "apply", MethodType.methodType(Function.class), MethodType.methodType(Object.class, Object.class), handleAB, handleAB.type()).getTarget().invokeExact();
-            Function<B, A> convertBA = (Function<B, A>) LambdaMetafactory.metafactory(lookup, "apply", MethodType.methodType(Function.class), MethodType.methodType(Object.class, Object.class), handleBA, handleBA.type()).getTarget().invokeExact();
-            wrapped.sandbox_set(new BasicRegistry<>(Identity.of(name), vanilla, sandbox, convertAB, convertBA));
-            registry = wrapped.sandbox_get();
+            MethodHandle handleSV = lookup.findStatic(WrappingUtil.class, "convert", MethodType.methodType(vClass, sClass));
+            MethodHandle handleVS = lookup.findStatic(WrappingUtil.class, "convert", MethodType.methodType(sClass, vClass));
+            Function<S, V> convertSV = (Function<S, V>) LambdaMetafactory.metafactory(lookup, "apply", MethodType.methodType(Function.class), MethodType.methodType(Object.class, Object.class), handleSV, handleSV.type()).getTarget().invokeExact();
+            Function<V, S> convertVS = (Function<V, S>) LambdaMetafactory.metafactory(lookup, "apply", MethodType.methodType(Function.class), MethodType.methodType(Object.class, Object.class), handleVS, handleVS.type()).getTarget().invokeExact();
+            sRegistry.sandboxSet(new WrappedRegistry<>(Identity.of(name), vRegistry, sClass, convertSV, convertVS));
+            registry = sRegistry.sandboxGet();
         }
-        //Force cast to C at the end to return the type needed
-        return (Registry<C>) registry;
+        //Force cast to T at the end to return the type needed
+        return (Registry<T>) registry;
     }
 
     @Override
@@ -161,7 +159,7 @@ public class InternalServiceFabric implements InternalService {
 
     @Override
     public Server serverInstance() {
-        return SandboxStorage.server;
+        return SandboxStorage.getServer();
     }
 
     @Override
@@ -217,5 +215,15 @@ public class InternalServiceFabric implements InternalService {
     @Override
     public <X> EventHandler<X> createEventHandler() {
         return new ResettableEventHandler<>();
+    }
+
+    @Override
+    public Box box_of(double minX, double minY, double minZ, double maxX, double maxY, double maxZ) {
+        return WrappingUtil.convert(new net.minecraft.util.math.Box(minX, minY, minZ, maxX, maxY, maxZ));
+    }
+
+    @Override
+    public Box box_of(Position pos1, Position pos2) {
+        return WrappingUtil.convert(new net.minecraft.util.math.Box(WrappingUtil.convert(pos1), WrappingUtil.convert(pos2)));
     }
 }

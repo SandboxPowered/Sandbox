@@ -20,6 +20,7 @@ import java.util.stream.Stream;
 @Mixin(MinecraftServer.class)
 @Implements(@Interface(iface = Server.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
+@SuppressWarnings({"java:S100","java:S1610"})
 public abstract class MixinMinecraftServer {
     @Shadow
     @Nullable

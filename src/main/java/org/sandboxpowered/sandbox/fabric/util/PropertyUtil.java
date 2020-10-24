@@ -7,43 +7,44 @@ import org.sandboxpowered.api.util.SlabType;
 import org.sandboxpowered.sandbox.fabric.util.wrapper.EnumPropertyWrapper;
 
 public class PropertyUtil {
-
-    public static EnumPropertyWrapper<Direction, net.minecraft.util.math.Direction> FACING = new EnumPropertyWrapper<>(
+    public static final EnumPropertyWrapper<Direction, net.minecraft.util.math.Direction> FACING = new EnumPropertyWrapper<>(
             Properties.FACING,
             WrappingUtil::convert,
             WrappingUtil::convert,
             Direction.class
     );
-    public static EnumPropertyWrapper<Direction, net.minecraft.util.math.Direction> HORIZONTAL = new EnumPropertyWrapper<>(
+    public static final EnumPropertyWrapper<Direction, net.minecraft.util.math.Direction> HORIZONTAL = new EnumPropertyWrapper<>(
             Properties.HORIZONTAL_FACING,
             WrappingUtil::convert,
             WrappingUtil::convert,
             Direction.class
     );
-    public static EnumPropertyWrapper<Direction, net.minecraft.util.math.Direction> HOPPER_FACING = new EnumPropertyWrapper<>(
+    public static final EnumPropertyWrapper<Direction, net.minecraft.util.math.Direction> HOPPER_FACING = new EnumPropertyWrapper<>(
             Properties.HOPPER_FACING,
             WrappingUtil::convert,
             WrappingUtil::convert,
             Direction.class
     );
-    public static EnumPropertyWrapper<Direction.Axis, net.minecraft.util.math.Direction.Axis> AXIS = new EnumPropertyWrapper<>(
+    public static final EnumPropertyWrapper<Direction.Axis, net.minecraft.util.math.Direction.Axis> AXIS = new EnumPropertyWrapper<>(
             Properties.AXIS,
             WrappingUtil::convert,
             WrappingUtil::convert,
             Direction.Axis.class
     );
-    public static EnumPropertyWrapper<Direction.Axis, net.minecraft.util.math.Direction.Axis> HORIZONTAL_AXIS = new EnumPropertyWrapper<>(
+    public static final EnumPropertyWrapper<Direction.Axis, net.minecraft.util.math.Direction.Axis> HORIZONTAL_AXIS = new EnumPropertyWrapper<>(
             Properties.HORIZONTAL_AXIS,
             WrappingUtil::convert,
             WrappingUtil::convert,
             Direction.Axis.class
     );
-    public static EnumPropertyWrapper<SlabType, net.minecraft.block.enums.SlabType> SLAB_TYPE = new EnumPropertyWrapper<>(
+    public static final EnumPropertyWrapper<SlabType, net.minecraft.block.enums.SlabType> SLAB_TYPE = new EnumPropertyWrapper<>(
             Properties.SLAB_TYPE,
             WrappingUtil::convert,
             WrappingUtil::convert,
             SlabType.class
     );
+    private PropertyUtil() {
+    }
 
     @SuppressWarnings("unchecked")
     public static <T extends Comparable<T>> Property<T> get(String s) {

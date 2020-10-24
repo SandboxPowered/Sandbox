@@ -10,6 +10,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.InvalidIdentifierException;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import org.sandboxpowered.internal.AddonSpec;
+import org.sandboxpowered.sandbox.fabric.util.ArrayUtil;
 import org.sandboxpowered.sandbox.fabric.util.Log;
 
 import java.io.*;
@@ -18,6 +19,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 public class AddonFolderResourcePack extends AbstractFileResourcePack {
 
@@ -33,7 +35,8 @@ public class AddonFolderResourcePack extends AbstractFileResourcePack {
         this.spec = spec;
     }
 
-    private Path getPath(String filename) {
+    private Path getPath(String... filenames) {
+        String filename = ArrayUtil.join(filenames, "/");
         Path childPath = basePath.resolve(filename.replace("/", separator)).toAbsolutePath().normalize();
 
         if (childPath.startsWith(basePath) && Files.exists(childPath)) {
@@ -73,21 +76,20 @@ public class AddonFolderResourcePack extends AbstractFileResourcePack {
         List<Identifier> ids = new ArrayList<>();
         String nioPath = path.replace("/", separator);
 
-        Path namespacePath = getPath(type.getDirectory() + "/" + namespace);
+        Path namespacePath = getPath(type.getDirectory(), namespace);
         if (namespacePath != null) {
             Path searchPath = namespacePath.resolve(nioPath).toAbsolutePath().normalize();
 
             if (Files.exists(searchPath)) {
-                try {
-                    Files.walk(searchPath, depth)
-                            .filter(Files::isRegularFile)
-                            .filter((p) -> {
+                try (Stream<Path> stream = Files.walk(searchPath, depth)) {
+                    stream.filter(Files::isRegularFile)
+                            .filter(p -> {
                                 String filename = p.getFileName().toString();
                                 return !filename.endsWith(".mcmeta") && predicate.test(filename);
                             })
                             .map(namespacePath::relativize)
-                            .map((p) -> p.toString().replace(separator, "/"))
-                            .forEach((s) -> {
+                            .map(p -> p.toString().replace(separator, "/"))
+                            .forEach(s -> {
                                 try {
                                     ids.add(new Identifier(namespace, s));
                                 } catch (InvalidIdentifierException e) {
@@ -124,7 +126,7 @@ public class AddonFolderResourcePack extends AbstractFileResourcePack {
 
     @Override
     public void close() {
-
+        // No closing required
     }
 
     @Override

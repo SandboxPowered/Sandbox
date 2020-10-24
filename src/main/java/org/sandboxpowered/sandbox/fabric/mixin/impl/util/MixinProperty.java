@@ -9,6 +9,7 @@ import java.util.Optional;
 @Mixin(net.minecraft.state.property.Property.class)
 @Implements(@Interface(iface = Property.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
+@SuppressWarnings("java:S100")
 public abstract class MixinProperty<T extends Comparable<T>> {
     @Shadow
     public abstract String getName();

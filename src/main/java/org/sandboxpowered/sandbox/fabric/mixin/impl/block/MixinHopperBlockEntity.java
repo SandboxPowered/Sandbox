@@ -20,8 +20,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(net.minecraft.block.entity.HopperBlockEntity.class)
 public abstract class MixinHopperBlockEntity extends BlockEntity {
-    public MixinHopperBlockEntity(BlockEntityType<?> blockEntityType_1) {
-        super(blockEntityType_1);
+    public MixinHopperBlockEntity(BlockEntityType<?> type) {
+        super(type);
     }
 
     @Inject(method = "extract(Lnet/minecraft/block/entity/Hopper;)Z", at = @At("HEAD"), cancellable = true)
@@ -87,12 +87,10 @@ public abstract class MixinHopperBlockEntity extends BlockEntity {
                 Inventory inputInv = mono.get();
                 for (int slot : hopperInventory) {
                     ItemStack input = hopperInventory.extract(slot, 1, true);
-                    if (!input.isEmpty()) {
-                        if (inputInv.insert(input, true).isEmpty()) {
-                            inputInv.insert(hopperInventory.extract(slot, 1));
-                            info.setReturnValue(true);
-                            return;
-                        }
+                    if (!input.isEmpty() && inputInv.insert(input, true).isEmpty()) {
+                        inputInv.insert(hopperInventory.extract(slot, 1));
+                        info.setReturnValue(true);
+                        return;
                     }
                 }
                 info.setReturnValue(false);

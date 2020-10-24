@@ -2,16 +2,35 @@ plugins {
 	id 'fabric-loom' version '0.5-SNAPSHOT'
 	id 'java-library'
 	id 'maven-publish'
-	id "com.jfrog.bintray" version "1.8.4"
+	id 'me.qoomon.git-versioning' version '3.0.0'
+	id "org.sonarqube" version "3.0"
 }
 
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 
+def releasesRepoUrl = "https://nexus.sandboxpowered.org/repository/maven-releases/"
+def snapshotsRepoUrl = "https://nexus.sandboxpowered.org/repository/maven-snapshots/"
 def ENV = System.getenv()
 archivesBaseName = project.archives_base_name
-def buildNumber = ENV.BUILD_NUMBER ?: '0'
-version = "${project.sandbox_version}.${buildNumber}"
 group = project.maven_group
+version = "${project.sandbox_version}-SNAPSHOT"
+gitVersioning.apply {
+	branch {
+		pattern = 'develop'
+		versionFormat = '${version}'
+	}
+	branch {
+		pattern = 'feature/(?<feature>.+)'
+		versionFormat = '${feature}-SNAPSHOT'
+	}
+	tag {
+		pattern = 'release/(?<tagVersion>[0-9].*)'
+		versionFormat = '${tagVersion}'
+	}
+	commit {
+		versionFormat = '${commit.short}'
+	}
+}
 
 minecraft {
 	accessWidener = file("src/main/resources/META-INF/sandbox-fabric.accesswidener")
@@ -22,9 +41,7 @@ allprojects {
 }
 
 repositories {
-	mavenCentral()
-	maven { url 'https://dl.bintray.com/sandboxpowered/API' }
-	maven { url 'https://dl.bintray.com/sandboxpowered/Library' }
+	maven { url 'https://nexus.sandboxpowered.org/repository/maven-public/' }
 }
 
 dependencies {
@@ -79,27 +96,11 @@ jar {
 	from "LICENSE"
 }
 
-bintray {
-	user = System.getenv("BINTRAY_USER")
-	key = System.getenv("BINTRAY_KEY")
-	publications = ['maven']
-	publish = true
-
-	pkg {
-		repo = 'Loader'
-		name = 'fabric'
-		userOrg = 'sandboxpowered'
-		licenses = ['LGPL-3.0']
-		vcsUrl = 'https://github.com/sandboxpowered/sandbox.git'
-		publicDownloadNumbers = true
-		githubRepo = 'sandboxpowered/sandbox'
-		githubReleaseNotesFile = 'README.md'
-		version {
-			name = project.version
-			desc = ''
-			vcsTag = project.version
-			released  = new Date()
-		}
+sonarqube {
+	properties {
+		property "sonar.projectKey", "SandboxPowered_Sandbox"
+		property "sonar.organization", "sandboxpowered"
+		property "sonar.host.url", "https://sonarcloud.io"
 	}
 }
 
@@ -109,6 +110,16 @@ publishing {
 			artifact remapJar
 			artifact(sourcesJar) {
 				builtBy remapSourcesJar
+			}
+		}
+	}
+
+	repositories {
+		maven {
+			url = rootProject.version.endsWith("-SNAPSHOT") ? snapshotsRepoUrl : releasesRepoUrl
+			credentials {
+				username ENV.MAVEN_USER
+				password ENV.MAVEN_PASS
 			}
 		}
 	}

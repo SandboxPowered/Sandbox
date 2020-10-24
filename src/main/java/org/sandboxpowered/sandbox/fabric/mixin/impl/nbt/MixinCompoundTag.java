@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-@SuppressWarnings("unchecked")
 @Mixin(CompoundTag.class)
 @Implements(@Interface(iface = org.sandboxpowered.api.util.nbt.CompoundTag.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
+@SuppressWarnings({"unchecked", "java:S100", "java:S1610"})
 public abstract class MixinCompoundTag implements Tag {
 
     @Shadow
@@ -26,72 +26,73 @@ public abstract class MixinCompoundTag implements Tag {
     public abstract Set<String> getKeys();
 
     @Shadow
-    public abstract int getInt(String string_1);
+    public abstract int getInt(String key);
 
     @Shadow
-    public abstract void putInt(String string_1, int int_1);
+    public abstract void putInt(String key, int i);
 
     @Shadow
-    public abstract int[] getIntArray(String string_1);
+    public abstract int[] getIntArray(String key);
 
     @Shadow
-    public abstract void putIntArray(String string_1, int[] ints_1);
+    public abstract void putIntArray(String key, int[] ints);
 
     @Shadow
-    public abstract String getString(String string_1);
+    public abstract String getString(String key);
 
     @Shadow
-    public abstract void putString(String string_1, String string_2);
+    public abstract void putString(String key, String string);
 
     @Shadow
-    public abstract double getDouble(String string_1);
+    public abstract double getDouble(String key);
 
     @Shadow
-    public abstract byte getByte(String string_1);
+    public abstract byte getByte(String key);
 
     @Shadow
-    public abstract void putByte(String string_1, byte byte_1);
+    public abstract void putByte(String key, byte b);
 
     @Shadow
-    public abstract byte[] getByteArray(String string_1);
+    public abstract byte[] getByteArray(String key);
 
     @Shadow
-    public abstract void putByteArray(String string_1, byte[] bytes_1);
+    public abstract void putByteArray(String key, byte[] bytes);
 
     @Shadow
-    public abstract long getLong(String string_1);
+    public abstract long getLong(String key);
 
     @Shadow
-    public abstract void putLong(String string_1, long long_1);
+    public abstract void putLong(String key, long l);
 
     @Shadow
-    public abstract boolean getBoolean(String string_1);
+    public abstract boolean getBoolean(String key);
 
     @Shadow
-    public abstract void putBoolean(String string_1, boolean boolean_1);
+    public abstract void putBoolean(String key, boolean b);
 
     @Shadow
-    public abstract void putDouble(String string_1, double double_1);
+    public abstract void putDouble(String key, double d);
 
     @Shadow
-    public abstract void remove(String string_1);
+    public abstract void remove(String key);
 
     @Shadow
     @Nullable
-    public abstract Tag put(String string_1, Tag tag_1);
+    public abstract Tag put(String key, Tag tag);
 
     @Shadow
-    public abstract ListTag getList(String string_1, int int_1);
+    public abstract ListTag getList(String key, int i);
 
     @Shadow
-    public abstract boolean contains(String string_1);
+    public abstract boolean contains(String key);
 
     @Shadow
-    public abstract UUID getUuid(String string);
+    public abstract UUID getUuid(String key);
 
     @Shadow
-    public abstract void putUuid(String string, UUID uUID);
+    public abstract void putUuid(String key, UUID uUID);
 
+    @SuppressWarnings("java:S100")
     public int sbx$size() {
         return getSize();
     }
@@ -161,21 +162,17 @@ public abstract class MixinCompoundTag implements Tag {
         putByteArray(key, b);
     }
 
-
     public long sbx$getLong(String key) {
         return getLong(key);
     }
-
 
     public void sbx$setLong(String key, long l) {
         putLong(key, l);
     }
 
-
     public boolean sbx$getBoolean(String key) {
         return getBoolean(key);
     }
-
 
     public void sbx$setBoolean(String key, boolean bool) {
         putBoolean(key, bool);
@@ -217,7 +214,7 @@ public abstract class MixinCompoundTag implements Tag {
 
     public void sbx$setList(String key, List<? extends org.sandboxpowered.api.util.nbt.Tag> list) {
         ListTag tag;
-        @SuppressWarnings("UnnecessaryLocalVariable") Object castedList = list;
+        @SuppressWarnings({"UnnessesaryLocalVariable", "rawtypes"}) List castedList = list;
         if (castedList instanceof ListTag) {
             tag = (ListTag) castedList;
         } else {
@@ -232,7 +229,6 @@ public abstract class MixinCompoundTag implements Tag {
         if (tagType == org.sandboxpowered.api.util.nbt.CompoundTag.class) {
             id = 10;
         }
-        //TODO
         ListTag tag = getList(key, id);
         return (List<T>) tag;
     }

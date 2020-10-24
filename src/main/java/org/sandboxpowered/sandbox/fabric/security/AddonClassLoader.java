@@ -44,6 +44,7 @@ public class AddonClassLoader extends SecureClassLoader {
             super(urls, original);
         }
 
+        @Override
         public void addURL(URL url) {
             super.addURL(url);
         }

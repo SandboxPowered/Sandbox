@@ -11,11 +11,11 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public class MixinUpgradeData {
     @Redirect(method = "upgradeSide", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Direction;values()[Lnet/minecraft/util/math/Direction;"))
     private static Direction[] values() {
-        return PerformanceUtil.DIRECTIONS;
+        return PerformanceUtil.getDirectionArray();
     }
 
     @Redirect(method = "upgradeCenter", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Direction;values()[Lnet/minecraft/util/math/Direction;"))
     private Direction[] values2() {
-        return PerformanceUtil.DIRECTIONS;
+        return PerformanceUtil.getDirectionArray();
     }
 }

@@ -20,6 +20,9 @@ import java.security.NoSuchAlgorithmException;
 public class VelocityUtil {
     public static final Identifier PLAYER_INFO_CHANNEL = new Identifier("velocity", "player_info");
 
+    private VelocityUtil() {
+    }
+
     public static boolean checkIntegrity(final PacketByteBuf buf) {
         final byte[] signature = new byte[32];
         buf.readBytes(signature);

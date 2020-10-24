@@ -6,7 +6,7 @@ import org.sandboxpowered.api.block.Block;
 import org.sandboxpowered.api.content.Content;
 import org.sandboxpowered.api.item.Item;
 import org.sandboxpowered.api.state.PropertyContainer;
-import org.sandboxpowered.sandbox.fabric.impl.BasicRegistry;
+import org.sandboxpowered.sandbox.fabric.impl.WrappedRegistry;
 
 public class SandboxInternal {
 
@@ -23,24 +23,24 @@ public class SandboxInternal {
     }
 
     public interface Registry<A extends Content<A>, B> {
-        void sandbox_store();
+        void sandboxStore();
 
-        void sandbox_reset();
+        void sandboxReset();
 
-        void sandbox_set(BasicRegistry<A, B> registry);
+        void sandboxSet(WrappedRegistry<A, B> registry);
 
-        BasicRegistry<A, B> sandbox_get();
+        WrappedRegistry<A, B> sandboxGet();
     }
 
     public interface RegistryKeyObtainer<T> {
-        RegistryKey<net.minecraft.util.registry.Registry<T>> sandbox_getRegistryKey();
+        RegistryKey<net.minecraft.util.registry.Registry<T>> sandboxGetRegistryKey();
     }
 
-    public interface ItemWrapper {
+    public interface IItemWrapper {
         Item getItem();
     }
 
-    public interface BlockWrapper {
+    public interface IBlockWrapper {
         Block getBlock();
     }
 

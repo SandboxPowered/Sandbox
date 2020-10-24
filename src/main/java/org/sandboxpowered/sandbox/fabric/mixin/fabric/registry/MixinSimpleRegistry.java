@@ -11,8 +11,9 @@ import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.util.registry.SimpleRegistry;
 import org.jetbrains.annotations.Nullable;
 import org.sandboxpowered.api.content.Content;
-import org.sandboxpowered.sandbox.fabric.impl.BasicRegistry;
+import org.sandboxpowered.sandbox.fabric.impl.WrappedRegistry;
 import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
+import org.sandboxpowered.sandbox.fabric.util.Log;
 import org.sandboxpowered.sandbox.fabric.util.RegistryUtil;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -32,74 +33,75 @@ public abstract class MixinSimpleRegistry<T, C extends Content<C>> extends Mutab
     protected Object[] randomEntries;
     protected Int2ObjectBiMap<T> storedIndex = new Int2ObjectBiMap<>(256);
     @Shadow
-    @Final
-    private BiMap<Identifier, T> entriesById;
-    @Shadow
     private int nextId;
     private int vanillaNext;
     private boolean hasStored;
-    private BasicRegistry<C, T> sboxRegistry;
+    private WrappedRegistry<C, T> sboxRegistry;
     @Shadow
     @Final
-    private BiMap<RegistryKey<T>, T> entriesByKey;
+    private ObjectList<T> rawIdToEntry;
     @Shadow
     @Final
-    private ObjectList<T> field_26682; //FIXME this seems to be the replacement for 'indexedEntries'
+    private BiMap<Identifier, T> idToEntry;
+    @Shadow
+    @Final
+    private BiMap<RegistryKey<T>, T> keyToEntry;
 
-    public MixinSimpleRegistry(RegistryKey<Registry<T>> registryKey, Lifecycle lifecycle) {
+    protected MixinSimpleRegistry(RegistryKey<Registry<T>> registryKey, Lifecycle lifecycle) {
         super(registryKey, lifecycle);
     }
 
     @Shadow
     @Nullable
-    public abstract T get(Identifier identifier_1);
+    public abstract T get(Identifier id);
 
     @Override
-    public void sandbox_store() {
+    public void sandboxStore() {
         vanillaNext = nextId;
         storedIndex.clear();
         for (int i = 0; i < vanillaNext; i++) {
-            storedIndex.put(this.field_26682.get(i), i);
+            storedIndex.put(this.rawIdToEntry.get(i), i);
         }
         randomEntries = null;
         keys.clear();
         hasStored = true;
-//        Log.debug("Stored " + vanillaNext + " objects in " + net.minecraft.util.registry.Registry.REGISTRIES.getId(this)); TODO
+        Log.debug("Stored " + vanillaNext + " objects in " + getKey().getValue());
     }
 
 
-    @Inject(method = "set", at = @At(value = "RETURN"))
-    public <V extends T> void set(int i, RegistryKey<T> registryKey, V object, Lifecycle lifecycle, CallbackInfoReturnable<V> cir) {
+    @Inject(method = "set(ILnet/minecraft/util/registry/RegistryKey;Ljava/lang/Object;Lcom/mojang/serialization/Lifecycle;Z)Ljava/lang/Object;", at = @At(value = "RETURN"))
+    public <V extends T> void set(int i, RegistryKey<T> registryKey, V object, Lifecycle lifecycle, boolean bl, CallbackInfoReturnable<V> cir) {
         if (hasStored) {
             keys.add(registryKey);
-            RegistryUtil.doOnSet(i, object);
+            RegistryUtil.doOnSet(object);
         }
     }
 
     @Override
-    public void sandbox_set(BasicRegistry<C, T> registry) {
+    public void sandboxSet(WrappedRegistry<C, T> registry) {
         this.sboxRegistry = registry;
     }
 
     @Override
-    public BasicRegistry<C, T> sandbox_get() {
+    public WrappedRegistry<C, T> sandboxGet() {
         return this.sboxRegistry;
     }
 
     @Override
-    public void sandbox_reset() {
+    public void sandboxReset() {
         if (nextId != vanillaNext) {
-//            Log.debug("Resetting " + (nextId - vanillaNext) + " objects in " + net.minecraft.util.registry.Registry.REGISTRIES.getId(this));
+            Log.debug("Resetting " + (nextId - vanillaNext) + " objects in " + getKey().getValue());
             sboxRegistry.clearCache();
             nextId = vanillaNext;
-            this.field_26682.clear();
+            this.rawIdToEntry.clear();
+            this.rawIdToEntry.size(vanillaNext);
             for (int i = 0; i < vanillaNext; i++) {
-                this.field_26682.set(i, storedIndex.get(i));
+                this.rawIdToEntry.set(i, storedIndex.get(i));
             }
             randomEntries = null;
             keys.forEach(id -> {
-                entriesById.remove(id.getValue());
-                entriesByKey.remove(id);
+                idToEntry.remove(id.getValue());
+                keyToEntry.remove(id);
             });
         }
     }

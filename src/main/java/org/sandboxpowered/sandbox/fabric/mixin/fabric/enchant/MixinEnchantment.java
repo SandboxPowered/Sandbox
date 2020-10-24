@@ -13,6 +13,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public class MixinEnchantment {
     @Redirect(method = "getName(I)Lnet/minecraft/text/Text;", at = @At(value = "INVOKE", target = "Lnet/minecraft/text/MutableText;append(Lnet/minecraft/text/Text;)Lnet/minecraft/text/MutableText;"))
     private MutableText text(MutableText text, Text value, int i) {
-        return text.append(SandboxConfig.enchantmentDecimal.get() ? String.valueOf(i) : NumberUtil.toRoman(i));
+        return text.append(SandboxConfig.enchantmentDecimal.getBoolean() ? String.valueOf(i) : NumberUtil.toRoman(i));
     }
 }

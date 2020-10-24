@@ -2,8 +2,8 @@
   "schemaVersion": 1,
   "id": "sandbox",
   "version": "${version}",
-  "name": "Sandbox",
-  "description": "Minecraft mod engine!",
+  "name": "Sandbox Fabric",
+  "description": "SandboxAPI implementation for FabricMC",
   "authors": [
     "SandboxPowered"
   ],

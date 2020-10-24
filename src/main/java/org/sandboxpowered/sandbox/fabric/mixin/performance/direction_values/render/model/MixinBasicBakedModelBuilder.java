@@ -11,6 +11,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public class MixinBasicBakedModelBuilder {
     @Redirect(method = "<init>(ZZZLnet/minecraft/client/render/model/json/ModelTransformation;Lnet/minecraft/client/render/model/json/ModelOverrideList;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Direction;values()[Lnet/minecraft/util/math/Direction;"))
     private Direction[] values() {
-        return PerformanceUtil.DIRECTIONS;
+        return PerformanceUtil.getDirectionArray();
     }
 }

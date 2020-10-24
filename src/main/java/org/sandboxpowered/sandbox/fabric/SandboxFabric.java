@@ -23,11 +23,29 @@ import java.util.*;
 public class SandboxFabric implements Sandbox {
     private static final Parser<Expression> PARSER = ExpressionParser.newInstance();
     private static final Identity PLATFORM = Identity.of("sandboxpowered", "fabric");
-
+    private static boolean ranChecks;
+    private static boolean optifine;
     private final Map<String, AddonInfo> loadedAddons = new LinkedHashMap<>();
     private final Map<AddonInfo, Addon> addonMap = new LinkedHashMap<>();
     private final Map<AddonInfo, SandboxAPI> addonAPIs = new LinkedHashMap<>();
     private final Map<AddonInfo, Registrar> addonRegistrars = new LinkedHashMap<>();
+
+    public static boolean isOptifineLoaded() {
+        runChecks();
+        return optifine;
+    }
+
+    private static void runChecks() {
+        if (!ranChecks) {
+            try {
+                Class.forName("optifine/Installer.class");
+                optifine = true;
+            } catch (ClassNotFoundException e) {
+                optifine = false;
+            }
+            ranChecks = true;
+        }
+    }
 
     public void loadAddon(AddonInfo info, Addon addon) {
         loadedAddons.put(info.getId(), info);
@@ -173,16 +191,20 @@ public class SandboxFabric implements Sandbox {
 
         @Override
         public boolean isAddonLoaded(String addonId) {
-            return getAddon(addonId).isPresent();
+            return loadedAddons.containsKey(addonId);
         }
 
         @Override
         public boolean isExternalModLoaded(String loader, String modId) {
-            if (!"fabric".equals(loader))
-                return false;
-            if (modId == null || modId.isEmpty())
-                return true;
-            return FabricLoader.getInstance().isModLoaded(modId);
+            if ("internal".equals(loader))
+                return "optifine".equals(modId) && isOptifineLoaded();
+            boolean universal = "universal".equals(loader);
+            if (universal || "fabric".equals(loader)) {
+                if (modId == null || modId.isEmpty())
+                    return !universal;
+                return FabricLoader.getInstance().isModLoaded(modId);
+            }
+            return false;
         }
 
         @Override

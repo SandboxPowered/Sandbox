@@ -16,7 +16,7 @@ public abstract class MixinScreen implements ISandboxScreen {
     protected List<AbstractButtonWidget> buttons;
 
     @Shadow
-    protected abstract <T extends AbstractButtonWidget> T addButton(T abstractButtonWidget_1);
+    protected abstract <T extends AbstractButtonWidget> T addButton(T button);
 
     @Override
     public List<AbstractButtonWidget> getButtons() {
