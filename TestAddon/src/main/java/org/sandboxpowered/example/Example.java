@@ -42,12 +42,14 @@ public class Example implements Addon {
     }
 
     @Override
-    public void register(Registrar registrar) {
+    public void register(SandboxAPI api, Registrar registrar) {
+        api.getLog().info("Registering Content");
         PipeBlock pipe = new PipeBlock(Block.Settings.builder(Material.METAL).build());
         pipeEntityType = BlockEntity.Type.of(() -> new PipeBlockEntity(pipeEntityType), pipe);
         registrar.register("pipe", pipe);
         registrar.register("pipe", pipeEntityType);
         registrar.register("pipe", new BaseBlockItem(pipe, new Item.Settings()));
         registrar.register("test", new BaseItem(new Item.Settings()));
+        api.getLog().info("Finished Registration");
     }
 }
