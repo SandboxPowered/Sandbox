@@ -13,8 +13,10 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Matrix4f;
 import org.sandboxpowered.api.client.rendering.ui.DynamicRenderer;
 import org.sandboxpowered.api.client.rendering.ui.Sprite;
+import org.sandboxpowered.api.shape.Box;
 import org.sandboxpowered.api.util.Identity;
 import org.sandboxpowered.api.util.math.MatrixStack;
+import org.sandboxpowered.api.util.math.Vec3f;
 import org.sandboxpowered.sandbox.fabric.util.JsonUtil;
 import org.sandboxpowered.sandbox.fabric.util.Log;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
@@ -227,5 +229,15 @@ public class FabricDynamicRenderer implements DynamicRenderer {
         consumer.vertex(model, width, height, 0).texture(uMax, vMax).color(255, 255, 255, 255).next();
         consumer.vertex(model, width, posY, 0).texture(uMax, vMin).color(255, 255, 255, 255).next();
         consumer.vertex(model, posX, posY, 0).texture(uMin, vMin).color(255, 255, 255, 255).next();
+    }
+
+    @Override
+    public void drawBox(MatrixStack stack, org.sandboxpowered.api.client.rendering.VertexConsumer consumer, Box box, float r, float g, float b) {
+        
+    }
+
+    @Override
+    public void drawLine(MatrixStack stack, org.sandboxpowered.api.client.rendering.VertexConsumer consumer, Vec3f from, Vec3f to, float r, float g, float b) {
+
     }
 }

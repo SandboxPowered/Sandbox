@@ -82,9 +82,10 @@ public class SandboxFabric implements Sandbox {
                 throw new IllegalStateException(String.format("Addon %s cannot run on platform %s!", info.getId(), getPlatform().toString()));
             }
             Addon addon = getAllAddons().get(info);
+            SandboxAPI api = getAPIFor(info);
             Registrar registrar = getRegistrarFor(info);
             try {
-                addon.register(registrar);
+                addon.register(api, registrar);
             } catch (Exception e) {
                 throw new RuntimeException(String.format("Registration for addon %s failed: %s", info.getId(), e.getMessage()), e);
             }

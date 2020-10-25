@@ -5,7 +5,7 @@ import net.minecraft.util.registry.RegistryKey;
 import org.sandboxpowered.api.block.Block;
 import org.sandboxpowered.api.content.Content;
 import org.sandboxpowered.api.item.Item;
-import org.sandboxpowered.api.state.PropertyContainer;
+import org.sandboxpowered.api.state.property.PropertyContainer;
 import org.sandboxpowered.sandbox.fabric.impl.WrappedRegistry;
 
 public class SandboxInternal {

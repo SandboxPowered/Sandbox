@@ -1,8 +1,8 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.state;
 
 import net.minecraft.state.State;
-import org.sandboxpowered.api.state.Property;
-import org.sandboxpowered.api.state.PropertyContainer;
+import org.sandboxpowered.api.state.property.Property;
+import org.sandboxpowered.api.state.property.PropertyContainer;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.sandboxpowered.sandbox.fabric.util.wrapper.EnumPropertyWrapper;
 import org.spongepowered.asm.mixin.*;
@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.*;
 @Mixin(State.class)
 @Implements(@Interface(iface = PropertyContainer.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
+@SuppressWarnings({"java:S100","java:S1610"})
 public abstract class MixinState {
     @Shadow
     public abstract <T extends Comparable<T>> T get(net.minecraft.state.property.Property<T> var1);
@@ -19,6 +20,9 @@ public abstract class MixinState {
 
     @Shadow
     public abstract <T extends Comparable<T>> boolean contains(net.minecraft.state.property.Property<T> property);
+
+    @Shadow
+    public abstract <T extends Comparable<T>> Object cycle(net.minecraft.state.property.Property<T> property);
 
     public <T extends Comparable<T>> T sbx$get(Property<T> property) {
         if (property instanceof EnumPropertyWrapper) {
@@ -33,6 +37,10 @@ public abstract class MixinState {
             value = (T) ((EnumPropertyWrapper) property).getS2VFunction().apply(value);
         }
         return with(WrappingUtil.convert(property), value);
+    }
+
+    public <T extends Comparable<T>> Object sbx$cycle(Property<T> property) {
+        return cycle(WrappingUtil.convert(property));
     }
 
     public <T extends Comparable<T>> boolean sbx$contains(Property<T> property) {

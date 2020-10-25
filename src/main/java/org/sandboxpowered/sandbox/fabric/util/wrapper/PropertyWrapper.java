@@ -6,11 +6,15 @@ import java.util.Collection;
 import java.util.Optional;
 
 public class PropertyWrapper<T extends Comparable<T>> extends Property<T> {
-    private final org.sandboxpowered.api.state.Property<T> property;
+    private final org.sandboxpowered.api.state.property.Property<T> property;
 
-    public PropertyWrapper(org.sandboxpowered.api.state.Property<T> property) {
+    public PropertyWrapper(org.sandboxpowered.api.state.property.Property<T> property) {
         super(property.getName(), property.getValueType());
         this.property = property;
+    }
+
+    public org.sandboxpowered.api.state.property.Property<T> getProperty() {
+        return property;
     }
 
     @Override

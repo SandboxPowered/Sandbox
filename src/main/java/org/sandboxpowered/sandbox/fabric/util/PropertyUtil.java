@@ -1,7 +1,7 @@
 package org.sandboxpowered.sandbox.fabric.util;
 
 import net.minecraft.state.property.Properties;
-import org.sandboxpowered.api.state.Property;
+import org.sandboxpowered.api.state.property.Property;
 import org.sandboxpowered.api.util.Direction;
 import org.sandboxpowered.api.util.SlabType;
 import org.sandboxpowered.sandbox.fabric.util.wrapper.EnumPropertyWrapper;

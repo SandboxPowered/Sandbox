@@ -53,4 +53,9 @@ public interface MixinBlockView extends WorldReader {
     default <T extends Entity> Stream<T> getEntitiesWithin(Box box, Class<T> filter) {
         return Stream.empty();
     }
+
+    @Override
+    default long getWorldTime() {
+        return -1;
+    }
 }

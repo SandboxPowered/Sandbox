@@ -3,7 +3,7 @@ package org.sandboxpowered.sandbox.fabric.util.wrapper;
 
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.util.StringIdentifiable;
-import org.sandboxpowered.api.state.Property;
+import org.sandboxpowered.api.state.property.Property;
 
 import java.util.Collection;
 import java.util.Optional;

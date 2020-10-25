@@ -38,10 +38,6 @@ public abstract class MixinPlayerEntity extends LivingEntity {
         this.sendMessage(WrappingUtil.convert(text), true);
     }
 
-    public void sbx$openContainer(Identity id, CompoundTag data) {
-        // NO-OP
-    }
-
     public boolean sbx$isSleeping() {
         return this.getSleepingPosition().isPresent();
     }

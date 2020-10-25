@@ -1,6 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.util;
 
-import org.sandboxpowered.api.state.Property;
+import org.sandboxpowered.api.state.property.Property;
 import org.spongepowered.asm.mixin.*;
 
 import java.util.Collection;

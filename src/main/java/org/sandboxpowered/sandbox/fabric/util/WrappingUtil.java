@@ -10,6 +10,7 @@ import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.fluid.FluidState;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.state.property.Property;
 import net.minecraft.text.Text;
@@ -25,6 +26,7 @@ import org.sandboxpowered.api.block.Block;
 import org.sandboxpowered.api.block.entity.BlockEntity;
 import org.sandboxpowered.api.client.GraphicsMode;
 import org.sandboxpowered.api.client.rendering.VertexConsumer;
+import org.sandboxpowered.api.content.Content;
 import org.sandboxpowered.api.enchantment.Enchantment;
 import org.sandboxpowered.api.entity.Entity;
 import org.sandboxpowered.api.entity.LivingEntity;
@@ -46,6 +48,8 @@ import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.util.exception.WrappingException;
 import org.sandboxpowered.sandbox.fabric.util.wrapper.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 
 @SuppressWarnings({"unchecked", "ConstantConditions"})
@@ -209,6 +213,10 @@ public class WrappingUtil {
         return castOrWrap(identity, Identifier.class, id -> new Identifier(id.getNamespace(), id.getPath()));
     }
 
+    public static Identity convert(Identifier identifier) {
+        return castOrWrap(identifier, Identity.class, id -> Identity.of(identifier.getNamespace(), identifier.getPath()));
+    }
+
     public static net.minecraft.util.math.Direction convert(Direction direction) {
         return net.minecraft.util.math.Direction.byId(direction.ordinal());
     }
@@ -297,12 +305,20 @@ public class WrappingUtil {
         return (net.minecraft.entity.Entity) entity;
     }
 
-    public static <T extends Comparable<T>> Property<T> convert(org.sandboxpowered.api.state.Property<T> property) {
+    public static <T extends Comparable<T>> Property<T> convert(org.sandboxpowered.api.state.property.Property<T> property) {
         if (property instanceof EnumPropertyWrapper) {
             return (Property<T>) ((EnumPropertyWrapper<?, ?>) property).getEnumProperty();
         }
-        //TODO: Wrapper
+        if (!(property instanceof Property)) {
+            return new PropertyWrapper<>(property); //TODO: dont create a new one each time?
+        }
         return (Property<T>) property;
+    }
+
+    public static <T extends Comparable<T>> org.sandboxpowered.api.state.property.Property<T> convert(Property<T> property) {
+        if (property instanceof PropertyWrapper)
+            return ((PropertyWrapper<T>) property).getProperty();
+        return (org.sandboxpowered.api.state.property.Property<T>) property;
     }
 
     public static Fluid convert(net.minecraft.fluid.Fluid fluid) {
@@ -316,7 +332,7 @@ public class WrappingUtil {
     }
 
     public static net.minecraft.item.Item.Settings convert(Item.Settings settings) {
-        return new net.minecraft.item.Item.Settings().maxCount(settings.getStackSize()).maxDamage(settings.getMaxDamage()).recipeRemainder(settings.getRecipeRemainder() == null ? null : convert(settings.getRecipeRemainder()));
+        return new net.minecraft.item.Item.Settings().maxCount(settings.getStackSize()).group(ItemGroup.MISC).maxDamage(settings.getMaxDamage()).recipeRemainder(settings.getRecipeRemainder() == null ? null : convert(settings.getRecipeRemainder()));
     }
 
     public static ActionResult convert(InteractionResult result) {
@@ -468,9 +484,6 @@ public class WrappingUtil {
     public static Box convert(net.minecraft.util.math.Box boundingBox) {
         return (Box) boundingBox;
     }
-    public static net.minecraft.util.math.Box convert(Box box) {
-return (net.minecraft.util.math.Box) box;
-    }
 
     public static net.minecraft.util.math.Box convert(Box box) {
         return (net.minecraft.util.math.Box) box;
@@ -479,6 +492,7 @@ return (net.minecraft.util.math.Box) box;
     public static Hand convert(org.sandboxpowered.api.entity.player.Hand hand) {
         return hand == org.sandboxpowered.api.entity.player.Hand.MAIN_HAND ? Hand.MAIN_HAND : Hand.OFF_HAND;
     }
+
     public static org.sandboxpowered.api.entity.player.Hand convert(Hand hand) {
         return hand == Hand.MAIN_HAND ? org.sandboxpowered.api.entity.player.Hand.MAIN_HAND : org.sandboxpowered.api.entity.player.Hand.OFF_HAND;
     }
@@ -526,5 +540,29 @@ return (net.minecraft.util.math.Box) box;
 
     public static <V extends net.minecraft.block.entity.BlockEntity, S extends BlockEntity> BlockEntity.Type<S> convert(BlockEntityType<V> type) {
         return cast(type, BlockEntity.Type.class);
+    }
+
+    public static <C extends Content<C>> Object convert(C content) {
+        if (content instanceof Block)
+            return WrappingUtil.convert((Block) content);
+        if (content instanceof Item)
+            return WrappingUtil.convert((Item) content);
+        if (content instanceof Fluid)
+            return WrappingUtil.convert((Fluid) content);
+        if (content instanceof Entity.Type)
+            return WrappingUtil.convert((Entity.Type) content);
+        throw new IllegalArgumentException("Unknown content " + content.getContentType());
+    }
+
+    public static <C extends Content<C>> C convert(Object content) {
+        if (content instanceof net.minecraft.block.Block)
+            return (C) WrappingUtil.convert((net.minecraft.block.Block) content);
+        if (content instanceof net.minecraft.item.Item)
+            return (C) WrappingUtil.convert((net.minecraft.item.Item) content);
+        if (content instanceof net.minecraft.fluid.Fluid)
+            return (C) WrappingUtil.convert((net.minecraft.fluid.Fluid) content);
+        if (content instanceof EntityType)
+            return (C) WrappingUtil.convert((EntityType) content);
+        throw new IllegalArgumentException("Unknown content " + content.getClass());
     }
 }
