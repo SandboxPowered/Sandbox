@@ -1,10 +1,6 @@
 package org.sandboxpowered.sandbox.fabric.mixin.impl.block;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.AbstractBlock.Settings;
-import net.minecraft.block.BlockEntityProvider;
-import net.minecraft.block.InventoryProvider;
-import net.minecraft.block.Waterloggable;
+import net.minecraft.block.*;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SidedInventory;
@@ -139,6 +135,13 @@ public abstract class MixinBlock extends AbstractBlock implements SandboxInterna
 
     public <X> Mono<X> sbx$getComponent(WorldReader reader, Position position, BlockState state, Component<X> component, @Nullable Direction side) {
         if (component == Components.INVENTORY_COMPONENT) {
+            if ((AbstractBlock) this instanceof ChestBlock) {
+                net.minecraft.block.entity.BlockEntity entity = ((BlockView) reader).getBlockEntity((BlockPos) position);
+                Inventory inv = ChestBlock.getInventory(WrappingUtil.cast(this, ChestBlock.class), WrappingUtil.convert(state), entity.getWorld(), WrappingUtil.convert(position), true);
+                if (side != null && inv instanceof SidedInventory)
+                    return Mono.of(new SidedRespective((SidedInventory) inv, side)).cast();
+                return Mono.of(new V2SInventory(inv)).cast();
+            }
             if (this instanceof InventoryProvider) {
                 SidedInventory inventory = ((InventoryProvider) this).getInventory((net.minecraft.block.BlockState) state, (WorldAccess) reader, (BlockPos) position);
                 if (side != null)
