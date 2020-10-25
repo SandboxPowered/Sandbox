@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.*;
 @Mixin(net.minecraft.fluid.FluidState.class)
 @Implements(@Interface(iface = FluidState.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
-@SuppressWarnings({"java:S100","java:S1610"})
+@SuppressWarnings({"java:S100", "java:S1610"})
 public abstract class MixinFluidState {
     @Shadow
     public abstract net.minecraft.fluid.Fluid getFluid();

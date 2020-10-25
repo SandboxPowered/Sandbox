@@ -8,12 +8,12 @@ import net.minecraft.resource.ResourcePack;
 import net.minecraft.resource.ResourceReloadMonitor;
 import net.minecraft.util.Unit;
 import org.sandboxpowered.internal.AddonSpec;
-import org.sandboxpowered.sandbox.fabric.service.rendering.AtlasReloader;
 import org.sandboxpowered.sandbox.fabric.SandboxHooks;
 import org.sandboxpowered.sandbox.fabric.client.AddonFolderResourcePack;
 import org.sandboxpowered.sandbox.fabric.client.AddonResourcePack;
 import org.sandboxpowered.sandbox.fabric.client.PanoramaHandler;
 import org.sandboxpowered.sandbox.fabric.loader.SandboxLoader;
+import org.sandboxpowered.sandbox.fabric.service.rendering.AtlasReloader;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -36,7 +36,9 @@ import java.util.concurrent.Executor;
 @Mixin(MinecraftClient.class)
 public abstract class MixinMinecraftClient {
 
-    @Shadow @Final private ReloadableResourceManager resourceManager;
+    @Shadow
+    @Final
+    private ReloadableResourceManager resourceManager;
 
     private void addonResourcePackModifications(List<ResourcePack> packs) {
         if (SandboxLoader.loader != null && SandboxLoader.loader.getFabric() != null)

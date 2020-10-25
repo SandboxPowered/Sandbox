@@ -52,10 +52,10 @@ public class WrappedRegistry<A extends Content<A>, B> implements Registry<A> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Entry<A> register(Identity identity, A val) {
+    public Entry<A> register(A val) {
         B conversion = convertAB.apply(val);
-        ((MutableRegistry<B>) vanilla).add(WrappingUtil.convertToRegistryKey(((SandboxInternal.RegistryKeyObtainer<B>) vanilla).sandboxGetRegistryKey(), identity), conversion, Lifecycle.experimental());
-        return get(identity);
+        ((MutableRegistry<B>) vanilla).add(WrappingUtil.convertToRegistryKey(((SandboxInternal.RegistryKeyObtainer<B>) vanilla).sandboxGetRegistryKey(), val.getIdentity()), conversion, Lifecycle.experimental());
+        return get(val.getIdentity());
     }
 
     @Override

@@ -7,7 +7,7 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(FallingBlockEntity.class)
-@SuppressWarnings({"java:S100","java:S1610"})
+@SuppressWarnings({"java:S100", "java:S1610"})
 public abstract class MixinFallingBlockEntity extends Entity {
     public MixinFallingBlockEntity(EntityType<?> type, World world) {
         super(type, world);

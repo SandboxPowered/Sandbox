@@ -36,7 +36,7 @@ public class ItemWrapper extends net.minecraft.item.Item implements SandboxInter
     }
 
     @Override
-    public Item getItem() {
+    public Item getSandboxItem() {
         return item;
     }
 
@@ -77,7 +77,7 @@ public class ItemWrapper extends net.minecraft.item.Item implements SandboxInter
         }
 
         @Override
-        public Item getItem() {
+        public Item getSandboxItem() {
             return item;
         }
 
@@ -126,7 +126,7 @@ public class ItemWrapper extends net.minecraft.item.Item implements SandboxInter
         }
 
         @Override
-        public Item getItem() {
+        public Item getSandboxItem() {
             return item;
         }
 

@@ -6,7 +6,7 @@ import org.spongepowered.asm.mixin.*;
 
 @Mixin(AbstractBlock.class)
 @Implements(@Interface(iface = Block.class, prefix = "sbx$", remap = Interface.Remap.NONE))
-@SuppressWarnings({"java:S100","java:S1610"})
+@SuppressWarnings({"java:S100", "java:S1610"})
 public abstract class MixinAbstractBlock {
     @Shadow
     public abstract boolean hasBlockEntity();

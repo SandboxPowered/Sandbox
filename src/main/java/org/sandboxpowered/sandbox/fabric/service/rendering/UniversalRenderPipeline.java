@@ -6,7 +6,7 @@ import org.sandboxpowered.api.client.rendering.ui.TextRenderer;
 
 public class UniversalRenderPipeline implements RenderPipeline {
 
-    private FabricDynamicRenderer renderer = new FabricDynamicRenderer();
+    private final FabricDynamicRenderer renderer = new FabricDynamicRenderer();
     private FabricTextRenderer text;
 
     @Override

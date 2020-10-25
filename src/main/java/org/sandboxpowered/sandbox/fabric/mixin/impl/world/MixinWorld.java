@@ -16,7 +16,7 @@ import java.util.stream.Stream;
 @Mixin(World.class)
 @Implements(@Interface(iface = org.sandboxpowered.api.world.World.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
-@SuppressWarnings({"java:S100","java:S1610"})
+@SuppressWarnings({"java:S100", "java:S1610"})
 public abstract class MixinWorld {
     @Shadow
     public abstract boolean isClient();
@@ -24,7 +24,8 @@ public abstract class MixinWorld {
     @Shadow
     public abstract List<net.minecraft.entity.Entity> getOtherEntities(net.minecraft.entity.@Nullable Entity entity, net.minecraft.util.math.Box box, @Nullable Predicate<? super net.minecraft.entity.Entity> predicate);
 
-    @Shadow public abstract long getTime();
+    @Shadow
+    public abstract long getTime();
 
     public Side sbx$getSide() {
         return this.isClient() ? Side.CLIENT : Side.SERVER;

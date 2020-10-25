@@ -49,8 +49,6 @@ import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.util.exception.WrappingException;
 import org.sandboxpowered.sandbox.fabric.util.wrapper.*;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Function;
 
 @SuppressWarnings({"unchecked", "ConstantConditions"})
@@ -142,7 +140,7 @@ public class WrappingUtil {
 
     public static Item convert(net.minecraft.item.Item item) {
         if (item instanceof SandboxInternal.IItemWrapper) {
-            return ((SandboxInternal.IItemWrapper) item).getItem();
+            return ((SandboxInternal.IItemWrapper) item).getSandboxItem();
         }
         return (Item) item;
     }
@@ -160,6 +158,8 @@ public class WrappingUtil {
     }
 
     private static <A, B> B castOrWrap(A a, Class<B> bClass, Function<A, B> wrapper) {
+        if (a == null)
+            return null;
         if (bClass.isInstance(a))
             return bClass.cast(a);
         return wrapper.apply(a);
@@ -286,7 +286,7 @@ public class WrappingUtil {
 
     public static Block convert(net.minecraft.block.Block block) {
         if (block instanceof SandboxInternal.IBlockWrapper)
-            return ((SandboxInternal.IBlockWrapper) block).getBlock();
+            return ((SandboxInternal.IBlockWrapper) block).getSandboxBlock();
         return (Block) block;
     }
 
@@ -550,9 +550,11 @@ public class WrappingUtil {
     public static net.minecraft.nbt.Tag convert(Tag tag) {
         return (net.minecraft.nbt.Tag) tag;
     }
+
     public static CompoundTag convert(org.sandboxpowered.api.util.nbt.CompoundTag tag) {
         return (CompoundTag) tag;
     }
+
     public static org.sandboxpowered.api.util.nbt.CompoundTag convert(CompoundTag tag) {
         return (org.sandboxpowered.api.util.nbt.CompoundTag) tag;
     }

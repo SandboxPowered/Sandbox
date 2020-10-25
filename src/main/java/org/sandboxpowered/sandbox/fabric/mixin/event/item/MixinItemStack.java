@@ -14,7 +14,7 @@ import javax.annotation.Nullable;
 import java.util.Random;
 
 @Mixin(ItemStack.class)
-@SuppressWarnings({"java:S100","java:S1610"})
+@SuppressWarnings({"java:S100", "java:S1610"})
 public abstract class MixinItemStack {
     @Shadow
     public abstract boolean isDamageable();

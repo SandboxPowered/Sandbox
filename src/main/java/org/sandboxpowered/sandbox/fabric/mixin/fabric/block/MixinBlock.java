@@ -30,7 +30,8 @@ public class MixinBlock {
     @Mixin(Settings.class)
     public abstract static class MixinSettings implements SandboxInternal.MaterialInternal {
 
-        @Shadow public abstract Settings luminance(ToIntFunction<BlockState> toIntFunction);
+        @Shadow
+        public abstract Settings luminance(ToIntFunction<BlockState> toIntFunction);
 
         @Override
         public void setLevel(int level) {

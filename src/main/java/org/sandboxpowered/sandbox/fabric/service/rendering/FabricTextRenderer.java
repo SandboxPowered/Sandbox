@@ -1,6 +1,5 @@
 package org.sandboxpowered.sandbox.fabric.service.rendering;
 
-import org.sandboxpowered.api.client.rendering.ui.DynamicRenderer;
 import org.sandboxpowered.api.client.rendering.ui.TextRenderer;
 import org.sandboxpowered.api.util.math.MatrixStack;
 import org.sandboxpowered.api.util.text.Text;

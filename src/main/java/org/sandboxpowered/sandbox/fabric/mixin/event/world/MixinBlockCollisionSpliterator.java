@@ -45,20 +45,20 @@ public class MixinBlockCollisionSpliterator {
 
     @Inject(method = "offerBlockShape", at = @At("RETURN"), cancellable = true)
     public void offerShape(Consumer<? super VoxelShape> consumer, CallbackInfoReturnable<Boolean> info) {
-            if (sandboxShouldAlterCollisionBoxes&&!info.getReturnValue()) {
-                AtomicReference<Shape> ref = new AtomicReference<>();
-                while (true) {
-                    if (sandboxShapes.tryAdvance(ref::set)) {
-                        VoxelShape area = WrappingUtil.convert(ref.get());
-                        if (!area.isEmpty() && area.getBoundingBox().intersects(this.box)) {
-                            consumer.accept(area);
-                            info.setReturnValue(true);
-                            return;
-                        }
-                    } else {
+        if (sandboxShouldAlterCollisionBoxes && !info.getReturnValue()) {
+            AtomicReference<Shape> ref = new AtomicReference<>();
+            while (true) {
+                if (sandboxShapes.tryAdvance(ref::set)) {
+                    VoxelShape area = WrappingUtil.convert(ref.get());
+                    if (!area.isEmpty() && area.getBoundingBox().intersects(this.box)) {
+                        consumer.accept(area);
+                        info.setReturnValue(true);
                         return;
                     }
+                } else {
+                    return;
                 }
             }
         }
+    }
 }

@@ -20,13 +20,14 @@ import java.util.stream.Stream;
 @Mixin(MinecraftServer.class)
 @Implements(@Interface(iface = Server.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
-@SuppressWarnings({"java:S100","java:S1610"})
+@SuppressWarnings({"java:S100", "java:S1610"})
 public abstract class MixinMinecraftServer {
+    @Shadow
+    private PlayerManager playerManager;
+
     @Shadow
     @Nullable
     public abstract ServerWorld getWorld(RegistryKey<net.minecraft.world.World> registryKey);
-
-    @Shadow private PlayerManager playerManager;
 
     @Inject(method = "<init>", at = @At("RETURN"))
     public void constructor(CallbackInfo info) {

@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.List;
 
 public class SandboxConfig {
     public static final ConfigValue<Boolean> enchantmentDecimal;
@@ -17,6 +19,7 @@ public class SandboxConfig {
     public static final ConfigValue<Boolean> disableAutoCrashSending;
     public static final ConfigValue<WorldBorder> worldBorder;
     public static final ConfigValue<Boolean> cullParticles;
+    public static final ConfigValue<List<String>> priorityResourceNamespaces;
     public static final Config config;
 
     static {
@@ -49,6 +52,10 @@ public class SandboxConfig {
             cullParticles = config.get("client.particle-culling");
             cullParticles.add(true);
             cullParticles.setComment(" Enables culling particles not visible to the player");
+
+            priorityResourceNamespaces = config.get("resource.priority-namespaces");
+            priorityResourceNamespaces.add(Collections.emptyList());
+
             config.save();
         } catch (IOException e) {
             throw new RuntimeException(e);

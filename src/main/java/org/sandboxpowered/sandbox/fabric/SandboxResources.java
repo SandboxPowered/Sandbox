@@ -69,7 +69,7 @@ public class SandboxResources extends AbstractFileResourcePack {
 
             if (Files.exists(searchPath)) {
                 try (Stream<Path> stream = Files.walk(searchPath, depth)) {
-                            stream.filter(Files::isRegularFile)
+                    stream.filter(Files::isRegularFile)
                             .filter(p -> {
                                 String filename = p.getFileName().toString();
                                 return !filename.endsWith(".mcmeta") && predicate.test(filename);

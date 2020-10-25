@@ -4,6 +4,8 @@ import net.minecraft.client.texture.Sprite;
 import net.minecraft.util.registry.RegistryKey;
 import org.sandboxpowered.api.block.Block;
 import org.sandboxpowered.api.content.Content;
+import org.sandboxpowered.api.enchantment.Enchantment;
+import org.sandboxpowered.api.fluid.Fluid;
 import org.sandboxpowered.api.item.Item;
 import org.sandboxpowered.api.state.property.PropertyContainer;
 import org.sandboxpowered.sandbox.fabric.impl.WrappedRegistry;
@@ -37,11 +39,19 @@ public class SandboxInternal {
     }
 
     public interface IItemWrapper {
-        Item getItem();
+        Item getSandboxItem();
+    }
+
+    public interface IFluidWrapper {
+        Fluid getSandboxFluid();
+    }
+
+    public interface IEnchantmentWrapper {
+        Enchantment getSandboxEnchantment();
     }
 
     public interface IBlockWrapper {
-        Block getBlock();
+        Block getSandboxBlock();
     }
 
     public interface MaterialInternal {

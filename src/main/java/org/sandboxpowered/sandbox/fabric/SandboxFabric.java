@@ -8,14 +8,20 @@ import net.fabricmc.loader.api.FabricLoader;
 import org.sandboxpowered.api.SandboxAPI;
 import org.sandboxpowered.api.addon.Addon;
 import org.sandboxpowered.api.addon.AddonInfo;
+import org.sandboxpowered.api.block.BaseBlock;
 import org.sandboxpowered.api.content.Content;
+import org.sandboxpowered.api.item.BaseBlockItem;
+import org.sandboxpowered.api.item.Item;
 import org.sandboxpowered.api.registry.Registrar;
 import org.sandboxpowered.api.registry.Registry;
-import org.sandboxpowered.api.resources.ResourceManager;
+import org.sandboxpowered.api.resources.ResourceMaterial;
+import org.sandboxpowered.api.resources.ResourceRegistrationService;
+import org.sandboxpowered.api.resources.ResourceType;
 import org.sandboxpowered.api.util.Identity;
 import org.sandboxpowered.api.util.Log;
 import org.sandboxpowered.api.util.Side;
 import org.sandboxpowered.internal.Sandbox;
+import org.sandboxpowered.sandbox.fabric.resource.GlobalResourceRegistrationService;
 import org.sandboxpowered.sandbox.fabric.util.AddonLog;
 
 import java.util.*;
@@ -29,6 +35,7 @@ public class SandboxFabric implements Sandbox {
     private final Map<AddonInfo, Addon> addonMap = new LinkedHashMap<>();
     private final Map<AddonInfo, SandboxAPI> addonAPIs = new LinkedHashMap<>();
     private final Map<AddonInfo, Registrar> addonRegistrars = new LinkedHashMap<>();
+    private final GlobalResourceRegistrationService resourceRegistration = new GlobalResourceRegistrationService();
 
     public static boolean isOptifineLoaded() {
         runChecks();
@@ -44,6 +51,17 @@ public class SandboxFabric implements Sandbox {
                 optifine = false;
             }
             ranChecks = true;
+        }
+    }
+
+    private static <C extends Content<C>> void registerUnsafe(ResourceMaterial material, ResourceType<?> type, Content<?> content) {
+        register(material, (ResourceType<C>) type, (C) content);
+    }
+
+    private static <C extends Content<C>> void register(ResourceMaterial material, ResourceType<C> type, C content) {
+        Registry.getRegistryFromType(content.getContentType()).register(content);
+        if (content instanceof BaseBlock) {
+            Item.REGISTRY.register(new BaseBlockItem((BaseBlock) content, new Item.Settings()).setIdentity(content.getIdentity()));
         }
     }
 
@@ -90,7 +108,13 @@ public class SandboxFabric implements Sandbox {
                 throw new RuntimeException(String.format("Registration for addon %s failed: %s", info.getId(), e.getMessage()), e);
             }
         });
-        ResourceManager.register();
+
+        resourceRegistration.getResourceMap().forEach((material, map) -> {
+            map.forEach((type, resource) -> {
+                Content<?> content = resource.get();
+                registerUnsafe(material, type, content);
+            });
+        });
     }
 
     //TODO: does this properly prevent circular dependencies while satisfying everything?
@@ -142,13 +166,14 @@ public class SandboxFabric implements Sandbox {
         addonMap.clear();
         addonAPIs.clear();
         addonRegistrars.clear();
+        resourceRegistration.destroy();
     }
 
     public void reloadResources() {
         org.sandboxpowered.sandbox.fabric.Sandbox.SANDBOX.reload();
     }
 
-    public static class AddonSpecificRegistrar implements Registrar {
+    public class AddonSpecificRegistrar implements Registrar {
         private final AddonInfo info;
 
         public AddonSpecificRegistrar(AddonInfo info) {
@@ -171,12 +196,15 @@ public class SandboxFabric implements Sandbox {
         }
 
         @Override
-        public <T extends Content<T>> Registry.Entry<T> register(Identity identity, T content) {
-            return Registry.getRegistryFromType(content.getContentType()).register(identity, content);
+        public <T extends Content<T>> Registry.Entry<T> register(T content) {
+            return Registry.getRegistryFromType(content.getContentType()).register(content);
         }
 
         @Override
         public <T extends Service> Optional<T> getRegistrarService(Class<T> tClass) {
+            if (tClass == ResourceRegistrationService.class) {
+                return Optional.of(tClass.cast(resourceRegistration.getServiceFor(info)));
+            }
             return Optional.empty(); //TODO: Implement registrar services
         }
     }

@@ -120,7 +120,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
     }
 
     @Override
-    public Block getBlock() {
+    public Block getSandboxBlock() {
         return block;
     }
 
@@ -251,7 +251,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
         }
 
         @Override
-        public Block getBlock() {
+        public Block getSandboxBlock() {
             return block;
         }
 
@@ -366,7 +366,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
         @Nullable
         @Override
         public BlockEntity createBlockEntity(BlockView var1) {
-            return WrappingUtil.convert(getBlock().createBlockEntity((WorldReader) var1));
+            return WrappingUtil.convert(getSandboxBlock().createBlockEntity((WorldReader) var1));
         }
     }
 
@@ -433,7 +433,7 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
         @Nullable
         @Override
         public BlockEntity createBlockEntity(BlockView var1) {
-            return WrappingUtil.convert(getBlock().createBlockEntity((WorldReader) var1));
+            return WrappingUtil.convert(getSandboxBlock().createBlockEntity((WorldReader) var1));
         }
     }
 }

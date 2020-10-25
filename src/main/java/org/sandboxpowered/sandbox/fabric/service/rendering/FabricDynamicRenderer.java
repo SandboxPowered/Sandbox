@@ -18,7 +18,6 @@ import org.sandboxpowered.api.util.Identity;
 import org.sandboxpowered.api.util.math.MatrixStack;
 import org.sandboxpowered.api.util.math.Vec3f;
 import org.sandboxpowered.sandbox.fabric.util.JsonUtil;
-import org.sandboxpowered.sandbox.fabric.util.Log;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 
 import java.io.IOException;
@@ -29,6 +28,65 @@ import java.util.Map;
 public class FabricDynamicRenderer implements DynamicRenderer {
     private static final Gson GSON = new GsonBuilder().create();
     private final Map<Identity, FabricUISprite> spriteMap = new HashMap<>();
+
+    private static void drawSprite(MatrixStack stack, VertexConsumer consumer, Sprite sprite, int posX, int posY, int sizeX, int sizeY) {
+        net.minecraft.client.util.math.MatrixStack matrixStack = WrappingUtil.convert(stack);
+        Matrix4f model = matrixStack.peek().getModel();
+        int width = posX + sizeX;
+        int height = posY + sizeY;
+
+        float uMin = sprite.getPositionX() / 256f;
+        float uMax = (sprite.getPositionX() + sprite.getSizeX()) / 256f;
+        float vMin = sprite.getPositionY() / 256f;
+        float vMax = (sprite.getPositionY() + sprite.getSizeY()) / 256f;
+
+        int borderTop = sprite.getBorderTop();
+        int borderBottom = sprite.getBorderBottom();
+        int borderLeft = sprite.getBorderLeft();
+        int borderRight = sprite.getBorderRight();
+
+        float borderTopDivide = sprite.getBorderTop() / 256f;
+        float borderBottomDivide = sprite.getBorderBottom() / 256f;
+        float borderLeftDivide = sprite.getBorderLeft() / 256f;
+        float borderRightDivide = sprite.getBorderRight() / 256f;
+
+        if (!sprite.hasBorder() || (sprite.getSizeX() == sizeX && sprite.getSizeY() == sizeY)) {
+            drawSpriteSection(model, consumer, posX, posY, width, height, uMin, uMax, vMin, vMax);
+        } else {
+            if (borderLeft != 0) {
+                if (borderTop != 0) {
+                    drawSpriteSection(model, consumer, posX, posY, posX + borderLeft, posY + borderTop, uMin, uMin + borderLeftDivide, vMin, vMin + borderTopDivide);
+                }
+                if (borderBottom != 0) {
+                    drawSpriteSection(model, consumer, posX, height - borderBottom, posX + borderLeft, height, uMin, uMin + borderLeftDivide, vMax - borderBottomDivide, vMax);
+                }
+                drawSpriteSection(model, consumer, posX, posY + borderTop, posX + borderLeft, height - borderBottom, uMin, uMin + borderLeftDivide, vMin + borderTopDivide, vMax - borderBottomDivide);
+            }
+            if (borderRight != 0) {
+                if (borderTop != 0) {
+                    drawSpriteSection(model, consumer, width - borderRight, posY, width, posY + borderTop, uMax - borderRightDivide, uMax, vMin, vMin + borderTopDivide);
+                }
+                if (borderBottom != 0) {
+                    drawSpriteSection(model, consumer, width - borderRight, height - borderBottom, width, height, uMax - borderRightDivide, uMax, vMax - borderBottomDivide, vMax);
+                }
+                drawSpriteSection(model, consumer, width - borderRight, posY + borderTop, width, height - borderBottom, uMax - borderRightDivide, uMax, vMin + borderTopDivide, vMax - borderBottomDivide);
+            }
+            if (borderTop != 0) {
+                drawSpriteSection(model, consumer, posX + borderLeft, posY, width - borderRight, posY + borderTop, uMin + borderLeftDivide, uMax - borderRightDivide, vMin, vMin + borderTopDivide);
+            }
+            if (borderBottom != 0) {
+                drawSpriteSection(model, consumer, posX + borderLeft, height - borderBottom, width - borderRight, height, uMin + borderLeftDivide, uMax - borderRightDivide, vMax - borderBottomDivide, vMax);
+            }
+            drawSpriteSection(model, consumer, posX + borderLeft, posY + borderTop, width - borderRight, height - borderBottom, uMin + borderLeftDivide, uMax - borderRightDivide, vMin + borderTopDivide, vMax - borderBottomDivide);
+        }
+    }
+
+    private static void drawSpriteSection(Matrix4f model, VertexConsumer consumer, int posX, int posY, int width, int height, float uMin, float uMax, float vMin, float vMax) {
+        consumer.vertex(model, posX, height, 0).texture(uMin, vMax).color(255, 255, 255, 255).next();
+        consumer.vertex(model, width, height, 0).texture(uMax, vMax).color(255, 255, 255, 255).next();
+        consumer.vertex(model, width, posY, 0).texture(uMax, vMin).color(255, 255, 255, 255).next();
+        consumer.vertex(model, posX, posY, 0).texture(uMin, vMin).color(255, 255, 255, 255).next();
+    }
 
     public void empty() {
         spriteMap.clear();
@@ -172,68 +230,9 @@ public class FabricDynamicRenderer implements DynamicRenderer {
         BufferRenderer.draw(bufferBuilder);
     }
 
-    private static void drawSprite(MatrixStack stack, VertexConsumer consumer, Sprite sprite, int posX, int posY, int sizeX, int sizeY) {
-        net.minecraft.client.util.math.MatrixStack matrixStack = WrappingUtil.convert(stack);
-        Matrix4f model = matrixStack.peek().getModel();
-        int width = posX + sizeX;
-        int height = posY + sizeY;
-
-        float uMin = sprite.getPositionX() / 256f;
-        float uMax = (sprite.getPositionX() + sprite.getSizeX()) / 256f;
-        float vMin = sprite.getPositionY() / 256f;
-        float vMax = (sprite.getPositionY() + sprite.getSizeY()) / 256f;
-
-        int borderTop = sprite.getBorderTop();
-        int borderBottom = sprite.getBorderBottom();
-        int borderLeft = sprite.getBorderLeft();
-        int borderRight = sprite.getBorderRight();
-
-        float borderTopDivide = sprite.getBorderTop() / 256f;
-        float borderBottomDivide = sprite.getBorderBottom() / 256f;
-        float borderLeftDivide = sprite.getBorderLeft() / 256f;
-        float borderRightDivide = sprite.getBorderRight() / 256f;
-
-        if (!sprite.hasBorder() || (sprite.getSizeX() == sizeX && sprite.getSizeY() == sizeY)) {
-            drawSpriteSection(model, consumer, posX, posY, width, height, uMin, uMax, vMin, vMax);
-        } else {
-            if (borderLeft != 0) {
-                if (borderTop != 0) {
-                    drawSpriteSection(model, consumer, posX, posY, posX + borderLeft, posY + borderTop, uMin, uMin + borderLeftDivide, vMin, vMin + borderTopDivide);
-                }
-                if (borderBottom != 0) {
-                    drawSpriteSection(model, consumer, posX, height - borderBottom, posX + borderLeft, height, uMin, uMin + borderLeftDivide, vMax - borderBottomDivide, vMax);
-                }
-                drawSpriteSection(model, consumer, posX, posY + borderTop, posX + borderLeft, height - borderBottom, uMin, uMin + borderLeftDivide, vMin + borderTopDivide, vMax - borderBottomDivide);
-            }
-            if (borderRight != 0) {
-                if (borderTop != 0) {
-                    drawSpriteSection(model, consumer, width - borderRight, posY, width, posY + borderTop, uMax - borderRightDivide, uMax, vMin, vMin + borderTopDivide);
-                }
-                if (borderBottom != 0) {
-                    drawSpriteSection(model, consumer, width - borderRight, height - borderBottom, width, height, uMax - borderRightDivide, uMax, vMax - borderBottomDivide, vMax);
-                }
-                drawSpriteSection(model, consumer, width - borderRight, posY + borderTop, width, height - borderBottom, uMax - borderRightDivide, uMax, vMin + borderTopDivide, vMax - borderBottomDivide);
-            }
-            if (borderTop != 0) {
-                drawSpriteSection(model, consumer, posX + borderLeft, posY, width - borderRight, posY + borderTop, uMin + borderLeftDivide, uMax - borderRightDivide, vMin, vMin + borderTopDivide);
-            }
-            if (borderBottom != 0) {
-                drawSpriteSection(model, consumer, posX + borderLeft, height - borderBottom, width - borderRight, height, uMin + borderLeftDivide, uMax - borderRightDivide, vMax - borderBottomDivide, vMax);
-            }
-            drawSpriteSection(model, consumer, posX + borderLeft, posY + borderTop, width - borderRight, height - borderBottom, uMin + borderLeftDivide, uMax - borderRightDivide, vMin + borderTopDivide, vMax - borderBottomDivide);
-        }
-    }
-
-    private static void drawSpriteSection(Matrix4f model, VertexConsumer consumer, int posX, int posY, int width, int height, float uMin, float uMax, float vMin, float vMax) {
-        consumer.vertex(model, posX, height, 0).texture(uMin, vMax).color(255, 255, 255, 255).next();
-        consumer.vertex(model, width, height, 0).texture(uMax, vMax).color(255, 255, 255, 255).next();
-        consumer.vertex(model, width, posY, 0).texture(uMax, vMin).color(255, 255, 255, 255).next();
-        consumer.vertex(model, posX, posY, 0).texture(uMin, vMin).color(255, 255, 255, 255).next();
-    }
-
     @Override
     public void drawBox(MatrixStack stack, org.sandboxpowered.api.client.rendering.VertexConsumer consumer, Box box, float r, float g, float b) {
-        
+
     }
 
     @Override

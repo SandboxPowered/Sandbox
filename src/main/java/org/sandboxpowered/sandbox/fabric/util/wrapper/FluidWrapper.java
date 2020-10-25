@@ -22,7 +22,7 @@ import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 
 import java.util.Optional;
 
-public class FluidWrapper extends net.minecraft.fluid.FlowableFluid {
+public class FluidWrapper extends net.minecraft.fluid.FlowableFluid implements SandboxInternal.IFluidWrapper {
     private final BaseFluid fluid;
 
     public FluidWrapper(BaseFluid fluid) {
@@ -43,6 +43,11 @@ public class FluidWrapper extends net.minecraft.fluid.FlowableFluid {
     }
 
     public BaseFluid getFluid() {
+        return fluid;
+    }
+
+    @Override
+    public org.sandboxpowered.api.fluid.Fluid getSandboxFluid() {
         return fluid;
     }
 

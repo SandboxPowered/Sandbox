@@ -6,6 +6,7 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.state.StateManager;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.WorldAccess;
 import org.jetbrains.annotations.Nullable;
@@ -15,6 +16,7 @@ import org.sandboxpowered.api.block.entity.BlockEntity;
 import org.sandboxpowered.api.component.Component;
 import org.sandboxpowered.api.component.Components;
 import org.sandboxpowered.api.component.fluid.FluidLoggingContainer;
+import org.sandboxpowered.api.content.Content;
 import org.sandboxpowered.api.entity.Entity;
 import org.sandboxpowered.api.entity.player.Hand;
 import org.sandboxpowered.api.entity.player.PlayerEntity;
@@ -24,6 +26,7 @@ import org.sandboxpowered.api.item.Items;
 import org.sandboxpowered.api.state.BlockState;
 import org.sandboxpowered.api.state.StateFactory;
 import org.sandboxpowered.api.util.Direction;
+import org.sandboxpowered.api.util.Identity;
 import org.sandboxpowered.api.util.InteractionResult;
 import org.sandboxpowered.api.util.Mono;
 import org.sandboxpowered.api.util.math.Position;
@@ -53,6 +56,7 @@ public abstract class MixinBlock extends AbstractBlock implements SandboxInterna
     protected StateManager<net.minecraft.block.Block, net.minecraft.block.BlockState> stateManager;
     private StateFactory<Block, BlockState> sandboxFactory;
     private Block.Settings sbxSettings;
+    private Identity identity;
 
     public MixinBlock(Settings settings) {
         super(settings);
@@ -167,5 +171,21 @@ public abstract class MixinBlock extends AbstractBlock implements SandboxInterna
         if (hasBlockEntity())
             return (BlockEntity) ((BlockEntityProvider) this).createBlockEntity(WrappingUtil.convert(reader));
         return null;
+    }
+
+    public Identity sbx$getIdentity() {
+        if (this instanceof SandboxInternal.IBlockWrapper) {
+            return ((SandboxInternal.IBlockWrapper) this).getSandboxBlock().getIdentity();
+        }
+        if (this.identity == null)
+            this.identity = WrappingUtil.convert(Registry.BLOCK.getId(WrappingUtil.cast(this, net.minecraft.block.Block.class)));
+        return identity;
+    }
+
+    public Content<?> sbx$setIdentity(Identity identity) {
+        if (this instanceof SandboxInternal.IBlockWrapper) {
+            return ((SandboxInternal.IBlockWrapper) this).getSandboxBlock().setIdentity(identity);
+        }
+        throw new UnsupportedOperationException("Cannot set identity on content with existing identity");
     }
 }

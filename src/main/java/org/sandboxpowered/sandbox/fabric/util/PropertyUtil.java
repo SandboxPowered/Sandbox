@@ -43,6 +43,7 @@ public class PropertyUtil {
             WrappingUtil::convert,
             SlabType.class
     );
+
     private PropertyUtil() {
     }
 

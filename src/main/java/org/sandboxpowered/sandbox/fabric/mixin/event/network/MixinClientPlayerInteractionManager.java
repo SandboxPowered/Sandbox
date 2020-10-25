@@ -6,7 +6,6 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.network.packet.c2s.play.PlayerInteractBlockC2SPacket;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
@@ -26,7 +25,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(ClientPlayerInteractionManager.class)
 public class MixinClientPlayerInteractionManager {
@@ -35,7 +33,9 @@ public class MixinClientPlayerInteractionManager {
     @Final
     private MinecraftClient client;
 
-    @Shadow @Final private ClientPlayNetworkHandler networkHandler;
+    @Shadow
+    @Final
+    private ClientPlayNetworkHandler networkHandler;
 
     @Inject(method = "breakBlock", at = @At("HEAD"), cancellable = true)
     public void breakBlock(BlockPos pos, CallbackInfoReturnable<Boolean> info) {

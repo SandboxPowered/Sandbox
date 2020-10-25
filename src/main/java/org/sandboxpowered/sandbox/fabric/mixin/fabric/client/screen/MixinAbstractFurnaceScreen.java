@@ -18,16 +18,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AbstractFurnaceScreen.class)
 public abstract class MixinAbstractFurnaceScreen extends HandledScreen {
-    public MixinAbstractFurnaceScreen(ScreenHandler screenHandler, PlayerInventory playerInventory, Text text) {
-        super(screenHandler, playerInventory, text);
-    }
-
     private static final Identity BACKGROUND = Identity.of("sandbox", "background");
     private static final Identity SLOT = Identity.of("sandbox", "slot");
     private static final Identity FIRE_ON = Identity.of("sandbox", "fire_on");
     private static final Identity FIRE_OFF = Identity.of("sandbox", "fire_off");
     private static final Identity ARROW_FULL = Identity.of("sandbox", "arrow_full");
     private static final Identity ARROW_EMPTY = Identity.of("sandbox", "arrow_empty");
+    public MixinAbstractFurnaceScreen(ScreenHandler screenHandler, PlayerInventory playerInventory, Text text) {
+        super(screenHandler, playerInventory, text);
+    }
 
     @Inject(method = "drawBackground", at = @At(value = "HEAD"), cancellable = true)
     public void renderBackground(MatrixStack matrixStack, float f, int i, int j, CallbackInfo info) {

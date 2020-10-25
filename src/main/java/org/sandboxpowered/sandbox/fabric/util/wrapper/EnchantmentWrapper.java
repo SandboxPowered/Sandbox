@@ -6,14 +6,20 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import org.sandboxpowered.api.enchantment.Enchantment;
+import org.sandboxpowered.sandbox.fabric.internal.SandboxInternal;
 import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 
-public class EnchantmentWrapper extends net.minecraft.enchantment.Enchantment {
+public class EnchantmentWrapper extends net.minecraft.enchantment.Enchantment implements SandboxInternal.IEnchantmentWrapper {
     private final Enchantment enchantment;
 
     public EnchantmentWrapper(Enchantment enchantment) {
         super(WrappingUtil.convert(enchantment.getRarity()), EnchantmentTarget.WEARABLE, EquipmentSlot.values()); //TODO: Allow sandbox enchants to specify these values
         this.enchantment = enchantment;
+    }
+
+    @Override
+    public Enchantment getSandboxEnchantment() {
+        return enchantment;
     }
 
     @Override

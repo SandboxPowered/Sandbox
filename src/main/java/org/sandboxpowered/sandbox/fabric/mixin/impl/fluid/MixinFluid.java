@@ -3,12 +3,15 @@ package org.sandboxpowered.sandbox.fabric.mixin.impl.fluid;
 import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.BlockView;
+import org.sandboxpowered.api.content.Content;
 import org.sandboxpowered.api.fluid.Fluid;
 import org.sandboxpowered.api.item.Item;
 import org.sandboxpowered.api.state.BlockState;
 import org.sandboxpowered.api.state.FluidState;
 import org.sandboxpowered.api.state.StateFactory;
+import org.sandboxpowered.api.util.Identity;
 import org.sandboxpowered.api.util.math.Position;
 import org.sandboxpowered.api.util.math.Vec3d;
 import org.sandboxpowered.api.world.WorldReader;
@@ -31,6 +34,7 @@ public abstract class MixinFluid implements SandboxInternal.StateFactoryHolder<F
     @Final
     protected net.minecraft.state.StateManager<net.minecraft.fluid.Fluid, net.minecraft.fluid.FluidState> stateManager;
     private StateFactory<Fluid, FluidState> sandboxFactory;
+    private Identity identity;
 
     @SuppressWarnings("unchecked")
     @Inject(method = "<init>", at = @At("RETURN"))
@@ -72,7 +76,6 @@ public abstract class MixinFluid implements SandboxInternal.StateFactoryHolder<F
         return isStill(WrappingUtil.convert(state));
     }
 
-
     public BlockState sbx$asBlockState(FluidState state) {
         return (BlockState) this.toBlockState(WrappingUtil.convert(state));
     }
@@ -82,7 +85,6 @@ public abstract class MixinFluid implements SandboxInternal.StateFactoryHolder<F
             return WrappingUtil.convert(((FlowableFluid) (Object) this).getStill());
         return WrappingUtil.convert(Fluids.EMPTY);
     }
-
 
     public Fluid sbx$asFlowing() {
         if ((Object) this instanceof FlowableFluid)
@@ -106,5 +108,21 @@ public abstract class MixinFluid implements SandboxInternal.StateFactoryHolder<F
                 (BlockPos) position,
                 WrappingUtil.convert(state)
         )).map(vec -> (Vec3d) vec);
+    }
+
+    public Identity sbx$getIdentity() {
+        if (this instanceof SandboxInternal.IFluidWrapper) {
+            return ((SandboxInternal.IFluidWrapper) this).getSandboxFluid().getIdentity();
+        }
+        if (this.identity == null)
+            this.identity = WrappingUtil.convert(Registry.FLUID.getId(WrappingUtil.cast(this, net.minecraft.fluid.Fluid.class)));
+        return identity;
+    }
+
+    public Content<?> sbx$setIdentity(Identity identity) {
+        if (this instanceof SandboxInternal.IFluidWrapper) {
+            return ((SandboxInternal.IFluidWrapper) this).getSandboxFluid().setIdentity(identity);
+        }
+        throw new UnsupportedOperationException("Cannot set identity on content with existing identity");
     }
 }

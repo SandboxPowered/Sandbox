@@ -20,6 +20,8 @@ import java.util.function.Consumer;
 public class PanoramaHandler {
     public static final PanoramaHandler INSTANCE = new PanoramaHandler();
     private final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
+    private final int panoramaSize = 1024;
+    private final boolean fullscreen = false;
     private File panoramaDir;
     private File currentDir;
     private float rotationYaw;
@@ -28,8 +30,6 @@ public class PanoramaHandler {
     private boolean takingPanorama;
     private int currentWidth;
     private int currentHeight;
-    private final int panoramaSize = 1024;
-    private final boolean fullscreen = false;
 
     public void takeScreenshot(Consumer<Text> consumer) {
         if (takingPanorama)
