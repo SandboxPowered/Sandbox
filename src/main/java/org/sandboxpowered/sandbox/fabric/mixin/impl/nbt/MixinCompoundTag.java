@@ -6,6 +6,7 @@ import net.minecraft.nbt.Tag;
 import org.jetbrains.annotations.Nullable;
 import org.sandboxpowered.api.util.Identity;
 import org.sandboxpowered.api.util.math.Position;
+import org.sandboxpowered.sandbox.fabric.util.WrappingUtil;
 import org.spongepowered.asm.mixin.*;
 
 import java.util.Collection;
@@ -92,71 +93,65 @@ public abstract class MixinCompoundTag implements Tag {
     @Shadow
     public abstract void putUuid(String key, UUID uUID);
 
+    @Shadow
+    public @Nullable
+    abstract Tag get(String string);
+
+    @Shadow
+    public abstract CompoundTag getCompound(String string);
+
     @SuppressWarnings("java:S100")
     public int sbx$size() {
         return getSize();
     }
 
-
     public Collection<String> sbx$getKeys() {
         return getKeys();
     }
-
 
     public int sbx$getInt(String key) {
         return getInt(key);
     }
 
-
     public void sbx$setInt(String key, int i) {
         putInt(key, i);
     }
-
 
     public int[] sbx$getIntArray(String key) {
         return getIntArray(key);
     }
 
-
     public void sbx$setIntArray(String key, int[] i) {
         putIntArray(key, i);
     }
-
 
     public String sbx$getString(String key) {
         return getString(key);
     }
 
-
     public void sbx$setString(String key, String s) {
         putString(key, s);
     }
-
 
     public double sbx$getDouble(String key) {
         return getDouble(key);
     }
 
-
     public void sbx$setDouble(String key, double d) {
         putDouble(key, d);
     }
-
 
     public byte sbx$getByte(String key) {
         return getByte(key);
     }
 
-
     public void sbx$setByte(String key, byte b) {
         putByte(key, b);
     }
 
-
     public byte[] sbx$getByteArray(String key) {
         return getByteArray(key);
     }
-
 
     public void sbx$setByteArray(String key, byte[] b) {
         putByteArray(key, b);
@@ -184,6 +179,18 @@ public abstract class MixinCompoundTag implements Tag {
 
     public void sbx$setUUID(String key, UUID uuid) {
         putUuid(key, uuid);
+    }
+
+    public void sbx$setTag(String key, org.sandboxpowered.api.util.nbt.Tag tag) {
+        put(key, WrappingUtil.convert(tag));
+    }
+
+    public org.sandboxpowered.api.util.nbt.Tag sbx$getTag(String key) {
+        return WrappingUtil.convert(get(key));
+    }
+
+    public org.sandboxpowered.api.util.nbt.CompoundTag sbx$getCompoundTag(String key) {
+        return WrappingUtil.convert(getCompound(key));
     }
 
     public boolean sbx$remove(String key) {

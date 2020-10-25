@@ -27,7 +27,7 @@ public class FluidStackImpl implements FluidStack {
         this.fluid = Fluid.REGISTRY.get(Identity.of(tag.getString("Fluid"))).orElseGet(Fluids.EMPTY);
         this.amount = tag.getInt("Amount");
         if (tag.contains("Tag"))
-            this.stackTag = tag.getCompound("Tag");
+            this.stackTag = tag.getCompoundTag("Tag");
     }
 
     @Override
@@ -93,7 +93,7 @@ public class FluidStackImpl implements FluidStack {
     @Override
     public CompoundTag getChildTag(String key) {
         if (hasTag())
-            return stackTag.getCompound(key);
+            return stackTag.getCompoundTag(key);
         return null;
     }
 
@@ -102,7 +102,7 @@ public class FluidStackImpl implements FluidStack {
         CompoundTag tag = getOrCreateTag();
         if (!tag.contains(key))
             tag.setTag(key, CompoundTag.create());
-        return tag.getCompound(key);
+        return tag.getCompoundTag(key);
     }
 
     @Override

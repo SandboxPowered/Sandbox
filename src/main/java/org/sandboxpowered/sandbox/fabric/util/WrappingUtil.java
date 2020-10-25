@@ -41,6 +41,7 @@ import org.sandboxpowered.api.state.BlockState;
 import org.sandboxpowered.api.util.*;
 import org.sandboxpowered.api.util.math.Position;
 import org.sandboxpowered.api.util.nbt.ReadableCompoundTag;
+import org.sandboxpowered.api.util.nbt.Tag;
 import org.sandboxpowered.api.world.BlockFlag;
 import org.sandboxpowered.api.world.World;
 import org.sandboxpowered.api.world.WorldReader;
@@ -364,7 +365,7 @@ public class WrappingUtil {
     }
 
     public static CompoundTag convert(ReadableCompoundTag tag) {
-        return (net.minecraft.nbt.CompoundTag) tag;
+        return (CompoundTag) tag;
     }
 
     public static WorldReader convert(BlockView view) {
@@ -542,7 +543,21 @@ public class WrappingUtil {
         return cast(type, BlockEntity.Type.class);
     }
 
-    public static <C extends Content<C>> Object convert(C content) {
+    public static Tag convert(net.minecraft.nbt.Tag tag) {
+        return (Tag) tag;
+    }
+
+    public static net.minecraft.nbt.Tag convert(Tag tag) {
+        return (net.minecraft.nbt.Tag) tag;
+    }
+    public static CompoundTag convert(org.sandboxpowered.api.util.nbt.CompoundTag tag) {
+        return (CompoundTag) tag;
+    }
+    public static org.sandboxpowered.api.util.nbt.CompoundTag convert(CompoundTag tag) {
+        return (org.sandboxpowered.api.util.nbt.CompoundTag) tag;
+    }
+
+    public static <C extends Content<C>> Object convertUnsafe(C content) {
         if (content instanceof Block)
             return WrappingUtil.convert((Block) content);
         if (content instanceof Item)
@@ -554,7 +569,7 @@ public class WrappingUtil {
         throw new IllegalArgumentException("Unknown content " + content.getContentType());
     }
 
-    public static <C extends Content<C>> C convert(Object content) {
+    public static <C extends Content<C>> C convertUnsafe(Object content) {
         if (content instanceof net.minecraft.block.Block)
             return (C) WrappingUtil.convert((net.minecraft.block.Block) content);
         if (content instanceof net.minecraft.item.Item)

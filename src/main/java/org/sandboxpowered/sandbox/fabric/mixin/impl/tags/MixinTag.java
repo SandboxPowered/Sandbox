@@ -12,26 +12,26 @@ import java.util.stream.Stream;
 @Mixin(net.minecraft.tag.Tag.class)
 @Implements(@Interface(iface = Tag.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
-@SuppressWarnings({"java:S100","java:S1610"})
-public abstract class MixinTag<C extends Content<C>> {
+@SuppressWarnings({"java:S100", "java:S1610"})
+public interface MixinTag<C extends Content<C>> {
     @Shadow
-    public abstract boolean contains(Object object);
+    boolean contains(Object object);
 
     @Shadow
-    public abstract List<Object> values();
+    List<Object> values();
 
     @Shadow
-    public abstract Object getRandom(Random random);
+    Object getRandom(Random random);
 
-    public boolean sbx$contains(C content) {
-        return contains(WrappingUtil.convert(content));
+    default boolean sbx$contains(C content) {
+        return contains(WrappingUtil.convertUnsafe(content));
     }
 
-    public Stream<C> sbx$values() {
-        return values().stream().map(WrappingUtil::convert);
+    default Stream<C> sbx$values() {
+        return values().stream().map(WrappingUtil::convertUnsafe);
     }
 
-    public C sbx$getRandom(Random random) {
-        return WrappingUtil.convert(getRandom(random));
+    default C sbx$getRandom(Random random) {
+        return WrappingUtil.convertUnsafe(getRandom(random));
     }
 }

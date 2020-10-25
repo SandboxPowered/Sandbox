@@ -12,27 +12,33 @@ import org.spongepowered.asm.mixin.*;
 @Mixin(net.minecraft.tag.TagManager.class)
 @Implements(@Interface(iface = TagManager.class, prefix = "sbx$", remap = Interface.Remap.NONE))
 @Unique
-@SuppressWarnings({"java:S100","java:S1610"})
-public abstract class MixinTagManager {
-    @Shadow public abstract net.minecraft.tag.TagGroup<net.minecraft.block.Block> getBlocks();
+@SuppressWarnings({"java:S100", "java:S1610"})
+public interface MixinTagManager {
+    @Shadow
+    net.minecraft.tag.TagGroup<net.minecraft.block.Block> getBlocks();
 
-    @Shadow public abstract net.minecraft.tag.TagGroup<net.minecraft.item.Item> getItems();
+    @Shadow
+    net.minecraft.tag.TagGroup<net.minecraft.item.Item> getItems();
 
-    @Shadow public abstract net.minecraft.tag.TagGroup<net.minecraft.fluid.Fluid> getFluids();
+    @Shadow
+    net.minecraft.tag.TagGroup<net.minecraft.fluid.Fluid> getFluids();
 
-    @Shadow public abstract net.minecraft.tag.TagGroup<EntityType<?>> getEntityTypes();
+    @Shadow
+    net.minecraft.tag.TagGroup<EntityType<?>> getEntityTypes();
 
-    public TagGroup<Block> sbx$getBlocks() {
+    default TagGroup<Block> sbx$getBlocks() {
         return (TagGroup<Block>) getBlocks();
     }
-    public TagGroup<Item> sbx$getItems() {
+
+    default TagGroup<Item> sbx$getItems() {
         return (TagGroup<Item>) getItems();
     }
-    public TagGroup<Fluid> sbx$getFluids() {
+
+    default TagGroup<Fluid> sbx$getFluids() {
         return (TagGroup<Fluid>) getFluids();
     }
 
-    public TagGroup<Type> sbx$getEntities() {
+    default TagGroup<Type> sbx$getEntities() {
         return (TagGroup<Type>) getEntityTypes();
     }
 }
