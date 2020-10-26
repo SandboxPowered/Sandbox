@@ -37,5 +37,6 @@ public class Sandbox implements ISandbox {
     @Environment(EnvType.CLIENT)
     public void reloadClient() {
         MinecraftClient.getInstance().reloadResources();
+        MinecraftClient.getInstance().initializeSearchableContainers();
     }
 }
