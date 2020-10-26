@@ -12,8 +12,8 @@ import org.sandboxpowered.api.item.ItemStack;
 import org.sandboxpowered.api.shape.Shape;
 import org.sandboxpowered.api.state.BlockState;
 import org.sandboxpowered.api.state.Properties;
-import org.sandboxpowered.api.state.Property;
 import org.sandboxpowered.api.state.StateFactory;
+import org.sandboxpowered.api.state.property.Property;
 import org.sandboxpowered.api.util.Direction;
 import org.sandboxpowered.api.util.math.Position;
 import org.sandboxpowered.api.util.math.Vec3d;
@@ -25,15 +25,15 @@ import java.util.Map;
 
 public class PipeBlock extends BaseBlock {
     public static final Shape CORE = Shape.cuboid(4, 4, 4, 12, 12, 12);
-    protected static final Property<Boolean>[] CONNECTION_PROPERTIES = new Property[Direction.ALL.length];
     public static final Property<Boolean> UP = Properties.UP;
     public static final Property<Boolean> DOWN = Properties.DOWN;
     public static final Property<Boolean> NORTH = Properties.NORTH;
     public static final Property<Boolean> EAST = Properties.EAST;
     public static final Property<Boolean> SOUTH = Properties.SOUTH;
     public static final Property<Boolean> WEST = Properties.WEST;
-    private static final Shape[] SIDE_SHAPES = new Shape[Direction.ALL.length];
     public static final Shape CENTER_SHAPE;
+    protected static final Property<Boolean>[] CONNECTION_PROPERTIES = new Property[Direction.ALL.length];
+    private static final Shape[] SIDE_SHAPES = new Shape[Direction.ALL.length];
 
     static {
         CENTER_SHAPE = Shape.cuboid(4, 4, 4, 12, 12, 12);
@@ -89,18 +89,18 @@ public class PipeBlock extends BaseBlock {
         BlockState state = getBaseState();
         for (Direction direction : Direction.ALL) {
             Position offsetPos = pos.offset(direction);
-            state = state.with(CONNECTION_PROPERTIES[direction.getId()], canConnectTo(reader, offsetPos, reader.getBlockState(offsetPos)));
+            state = state.with(CONNECTION_PROPERTIES[direction.getId()], canConnectTo(reader, offsetPos, reader.getBlockState(offsetPos), direction));
         }
         return state;
     }
 
-    public boolean canConnectTo(WorldReader reader, Position pos, BlockState state) {
-        return state.getBlock() instanceof PipeBlock || state.getComponent(reader, pos, Components.INVENTORY_COMPONENT).isPresent();
+    public boolean canConnectTo(WorldReader reader, Position pos, BlockState state, Direction dir) {
+        return state.getBlock() instanceof PipeBlock || state.getComponent(reader, pos, Components.INVENTORY_COMPONENT, dir.getOppositeDirection()).isPresent();
     }
 
     @Override
     public BlockState updateOnNeighborChanged(BlockState state, Direction direction, BlockState otherState, World world, Position position, Position otherPosition) {
-        return state.with(CONNECTION_PROPERTIES[direction.getId()], canConnectTo(world, otherPosition, otherState));
+        return state.with(CONNECTION_PROPERTIES[direction.getId()], canConnectTo(world, otherPosition, otherState, direction));
     }
 
     @Override
