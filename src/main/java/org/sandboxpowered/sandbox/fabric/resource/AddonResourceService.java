@@ -3,17 +3,17 @@ package org.sandboxpowered.sandbox.fabric.resource;
 import org.sandboxpowered.api.addon.AddonInfo;
 import org.sandboxpowered.api.content.Content;
 import org.sandboxpowered.api.resources.ResourceMaterial;
-import org.sandboxpowered.api.resources.ResourceRegistrationService;
+import org.sandboxpowered.api.resources.ResourceService;
 import org.sandboxpowered.api.resources.ResourceType;
 import org.sandboxpowered.api.util.Identity;
 
 import java.util.function.Supplier;
 
-public class AddonResourceRegistrationService implements ResourceRegistrationService {
+public class AddonResourceService implements ResourceService {
     private final AddonInfo addon;
     private final GlobalResourceRegistrationService global;
 
-    public AddonResourceRegistrationService(AddonInfo addon, GlobalResourceRegistrationService global) {
+    public AddonResourceService(AddonInfo addon, GlobalResourceRegistrationService global) {
         this.addon = addon;
         this.global = global;
     }

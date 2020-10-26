@@ -111,6 +111,7 @@ public class SandboxLoader {
 
             fabric.initAll();
             fabric.registerAll();
+            fabric.postAll();
             fabric.reloadResources();
         }
     }

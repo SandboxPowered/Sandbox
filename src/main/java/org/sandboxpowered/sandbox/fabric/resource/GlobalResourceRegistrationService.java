@@ -3,7 +3,7 @@ package org.sandboxpowered.sandbox.fabric.resource;
 import org.sandboxpowered.api.addon.AddonInfo;
 import org.sandboxpowered.api.content.Content;
 import org.sandboxpowered.api.resources.ResourceMaterial;
-import org.sandboxpowered.api.resources.ResourceRegistrationService;
+import org.sandboxpowered.api.resources.ResourceService;
 import org.sandboxpowered.api.resources.ResourceType;
 import org.sandboxpowered.api.util.Identity;
 import org.sandboxpowered.sandbox.fabric.SandboxConfig;
@@ -11,7 +11,7 @@ import org.sandboxpowered.sandbox.fabric.SandboxConfig;
 import java.util.*;
 
 public class GlobalResourceRegistrationService {
-    private final Map<AddonInfo, AddonResourceRegistrationService> serviceMap = new LinkedHashMap<>();
+    private final Map<AddonInfo, AddonResourceService> serviceMap = new LinkedHashMap<>();
     private final Map<ResourceMaterial, Map<ResourceType<?>, ResourceImpl<?>>> resourceMap = new IdentityHashMap<>();
     private final PrioritySortOrder sortOrder = new PrioritySortOrder();
 
@@ -20,8 +20,8 @@ public class GlobalResourceRegistrationService {
         serviceMap.clear();
     }
 
-    public ResourceRegistrationService getServiceFor(AddonInfo info) {
-        return serviceMap.computeIfAbsent(info, i -> new AddonResourceRegistrationService(info, this));
+    public ResourceService getServiceFor(AddonInfo info) {
+        return serviceMap.computeIfAbsent(info, i -> new AddonResourceService(info, this));
     }
 
     public Map<ResourceMaterial, Map<ResourceType<?>, ResourceImpl<?>>> getResourceMap() {

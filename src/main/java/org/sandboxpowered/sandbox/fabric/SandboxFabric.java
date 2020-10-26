@@ -15,7 +15,7 @@ import org.sandboxpowered.api.item.Item;
 import org.sandboxpowered.api.registry.Registrar;
 import org.sandboxpowered.api.registry.Registry;
 import org.sandboxpowered.api.resources.ResourceMaterial;
-import org.sandboxpowered.api.resources.ResourceRegistrationService;
+import org.sandboxpowered.api.resources.ResourceService;
 import org.sandboxpowered.api.resources.ResourceType;
 import org.sandboxpowered.api.util.Identity;
 import org.sandboxpowered.api.util.Log;
@@ -173,6 +173,21 @@ public class SandboxFabric implements Sandbox {
         org.sandboxpowered.sandbox.fabric.Sandbox.SANDBOX.reload();
     }
 
+    public void postAll() {
+        getLoadOrder().forEach(info -> {
+            if (!info.getPlatformSupport(getPlatform()).canRun()) {
+                throw new IllegalStateException(String.format("Addon %s cannot run on platform %s!", info.getId(), getPlatform().toString()));
+            }
+            Addon addon = getAllAddons().get(info);
+            SandboxAPI api = getAPIFor(info);
+            try {
+                addon.finishLoad(api);
+            } catch (Exception e) {
+                throw new RuntimeException(String.format("Registration for addon %s failed: %s", info.getId(), e.getMessage()), e);
+            }
+        });
+    }
+
     public class AddonSpecificRegistrar implements Registrar {
         private final AddonInfo info;
 
@@ -202,7 +217,7 @@ public class SandboxFabric implements Sandbox {
 
         @Override
         public <T extends Service> Optional<T> getRegistrarService(Class<T> tClass) {
-            if (tClass == ResourceRegistrationService.class) {
+            if (tClass == ResourceService.class) {
                 return Optional.of(tClass.cast(resourceRegistration.getServiceFor(info)));
             }
             return Optional.empty(); //TODO: Implement registrar services
