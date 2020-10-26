@@ -333,7 +333,14 @@ public class WrappingUtil {
     }
 
     public static net.minecraft.item.Item.Settings convert(Item.Settings settings) {
-        return new net.minecraft.item.Item.Settings().maxCount(settings.getStackSize()).group(ItemGroup.MISC).maxDamage(settings.getMaxDamage()).recipeRemainder(settings.getRecipeRemainder() == null ? null : convert(settings.getRecipeRemainder()));
+        net.minecraft.item.Item.Settings s = new net.minecraft.item.Item.Settings();
+        s.maxCount(settings.getStackSize());
+        if (settings.getMaxDamage() > 0)
+            s.maxDamage(settings.getMaxDamage());
+        s.group(ItemGroup.MISC);
+        if (settings.getRecipeRemainder() != null)
+            s.recipeRemainder(convert(settings.getRecipeRemainder()));
+        return s;
     }
 
     public static ActionResult convert(InteractionResult result) {
