@@ -3,6 +3,7 @@ package org.sandboxpowered.sandbox.fabric.mixin.fabric.client;
 import net.minecraft.resource.ResourcePackManager;
 import net.minecraft.resource.ResourcePackProfile;
 import net.minecraft.resource.ResourcePackProvider;
+import org.sandboxpowered.sandbox.fabric.client.AddonResourceCreator;
 import org.sandboxpowered.sandbox.fabric.resources.SandboxResourceCreator;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -26,5 +27,6 @@ public class MixinResourcePackManager {
     public void construct(ResourcePackProfile.Factory factory, ResourcePackProvider[] resourcePackProviders, CallbackInfo ci) {
         providers = new HashSet<>(providers);
         providers.add(new SandboxResourceCreator());
+        providers.add(new AddonResourceCreator());
     }
 }

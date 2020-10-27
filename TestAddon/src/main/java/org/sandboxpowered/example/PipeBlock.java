@@ -69,11 +69,6 @@ public class PipeBlock extends BaseBlock {
     }
 
     @Override
-    public boolean hasBlockEntity() {
-        return true;
-    }
-
-    @Override
     public @Nullable BlockEntity createBlockEntity(WorldReader reader) {
         return new PipeBlockEntity(Example.pipeEntityType);
     }

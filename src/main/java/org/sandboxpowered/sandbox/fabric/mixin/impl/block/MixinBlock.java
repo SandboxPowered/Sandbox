@@ -117,7 +117,7 @@ public abstract class MixinBlock extends AbstractBlock implements SandboxInterna
     }
 
     public Optional<Item> sbx$asItem() {
-        Item item = (Item) asItem();
+        Item item = WrappingUtil.convert(asItem());
         if (Items.AIR.matches(item))
             return Optional.empty();
         return Optional.of(item);
@@ -169,7 +169,7 @@ public abstract class MixinBlock extends AbstractBlock implements SandboxInterna
     @Nullable
     public BlockEntity sbx$createBlockEntity(WorldReader reader) {
         if (hasBlockEntity())
-            return (BlockEntity) ((BlockEntityProvider) this).createBlockEntity(WrappingUtil.convert(reader));
+            return WrappingUtil.convert(((BlockEntityProvider) this).createBlockEntity(WrappingUtil.convert(reader)));
         return null;
     }
 

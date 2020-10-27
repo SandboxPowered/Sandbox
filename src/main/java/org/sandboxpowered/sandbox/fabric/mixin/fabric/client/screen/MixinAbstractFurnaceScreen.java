@@ -24,6 +24,7 @@ public abstract class MixinAbstractFurnaceScreen extends HandledScreen {
     private static final Identity FIRE_OFF = Identity.of("sandbox", "fire_off");
     private static final Identity ARROW_FULL = Identity.of("sandbox", "arrow_full");
     private static final Identity ARROW_EMPTY = Identity.of("sandbox", "arrow_empty");
+
     public MixinAbstractFurnaceScreen(ScreenHandler screenHandler, PlayerInventory playerInventory, Text text) {
         super(screenHandler, playerInventory, text);
     }

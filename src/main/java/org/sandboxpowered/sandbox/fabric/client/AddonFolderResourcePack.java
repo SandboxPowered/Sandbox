@@ -3,7 +3,6 @@ package org.sandboxpowered.sandbox.fabric.client;
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import net.minecraft.resource.AbstractFileResourcePack;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
@@ -14,12 +13,13 @@ import org.sandboxpowered.sandbox.fabric.util.ArrayUtil;
 import org.sandboxpowered.sandbox.fabric.util.Log;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
+
+import static org.sandboxpowered.sandbox.fabric.util.JsonUtil.generatePackMCMeta;
 
 public class AddonFolderResourcePack extends AbstractFileResourcePack {
 
@@ -52,12 +52,7 @@ public class AddonFolderResourcePack extends AbstractFileResourcePack {
         if (path != null && Files.isRegularFile(path)) {
             return Files.newInputStream(path);
         } else if ("pack.mcmeta".equals(filename)) { //file not found, substitute one by using the addon spec description
-            JsonObject meta = new JsonObject();
-            JsonObject pack = new JsonObject();
-            pack.addProperty("pack_format", 4);
-            pack.addProperty("description", spec.getDescription());
-            meta.add("pack", pack);
-            return new ByteArrayInputStream(GSON.toJson(meta).getBytes(StandardCharsets.UTF_8));
+            return generatePackMCMeta(spec, GSON);
         }
 
         throw new FileNotFoundException(String.format("'%s' in ResourcePack '%s'", basePath, filename)); //mirror MC's ResourceNotFoundException

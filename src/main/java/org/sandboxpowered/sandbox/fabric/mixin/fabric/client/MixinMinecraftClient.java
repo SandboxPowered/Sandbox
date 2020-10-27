@@ -4,15 +4,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.SplashScreen;
 import net.minecraft.resource.ReloadableResourceManager;
-import net.minecraft.resource.ResourcePack;
-import net.minecraft.resource.ResourceReloadMonitor;
-import net.minecraft.util.Unit;
-import org.sandboxpowered.internal.AddonSpec;
 import org.sandboxpowered.sandbox.fabric.SandboxHooks;
-import org.sandboxpowered.sandbox.fabric.client.AddonFolderResourcePack;
-import org.sandboxpowered.sandbox.fabric.client.AddonResourcePack;
 import org.sandboxpowered.sandbox.fabric.client.PanoramaHandler;
-import org.sandboxpowered.sandbox.fabric.loader.SandboxLoader;
 import org.sandboxpowered.sandbox.fabric.service.rendering.AtlasReloader;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -24,37 +17,12 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
-
 @Mixin(MinecraftClient.class)
 public abstract class MixinMinecraftClient {
 
     @Shadow
     @Final
     private ReloadableResourceManager resourceManager;
-
-    private void addonResourcePackModifications(List<ResourcePack> packs) {
-        if (SandboxLoader.loader != null && SandboxLoader.loader.getFabric() != null)
-            SandboxLoader.loader.getFabric().getAllAddons().forEach((addonInfo, addon) -> {
-                try {
-                    AddonSpec spec = (AddonSpec) addonInfo;
-                    Path path = Paths.get(spec.getPath().toURI());
-                    if (Files.isDirectory(path))
-                        packs.add(new AddonFolderResourcePack(path, spec));
-                    else
-                        packs.add(new AddonResourcePack(path.toFile()));
-                } catch (URISyntaxException e) {
-                    e.printStackTrace();
-                }
-            });
-    }
 
     @Redirect(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/SplashScreen;init(Lnet/minecraft/client/MinecraftClient;)V"))
     public void setOverlay(MinecraftClient client) {
@@ -88,13 +56,6 @@ public abstract class MixinMinecraftClient {
     @Inject(method = "close", at = @At("HEAD"))
     public void shutdownGlobal(CallbackInfo info) {
         SandboxHooks.close();
-    }
-
-    @Redirect(method = "reloadResources", at = @At(value = "INVOKE", target = "Lnet/minecraft/resource/ReloadableResourceManager;beginMonitoredReload(Ljava/util/concurrent/Executor;Ljava/util/concurrent/Executor;Ljava/util/concurrent/CompletableFuture;Ljava/util/List;)Lnet/minecraft/resource/ResourceReloadMonitor;"))
-    public ResourceReloadMonitor reloadResources(ReloadableResourceManager manager, Executor var1, Executor var2, CompletableFuture<Unit> var3, List<ResourcePack> packs) {
-        packs = new ArrayList<>(packs);
-        addonResourcePackModifications(packs);
-        return manager.beginMonitoredReload(var1, var2, var3, packs);
     }
 
     @ModifyVariable(method = "openScreen", at = @At("HEAD"), ordinal = 0)

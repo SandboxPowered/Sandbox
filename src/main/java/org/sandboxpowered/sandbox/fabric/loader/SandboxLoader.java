@@ -82,26 +82,34 @@ public class SandboxLoader {
             TomlParser parser = new TomlParser();
             for (URL cURL : addonUrls) {
                 InputStream configStream = null;
+                JarFile jarFile = null;
                 try {
                     if (cURL.toString().endsWith(".jar")) {
-                        try (JarFile jarFile = new JarFile(new File(cURL.toURI()))) {
-                            ZipEntry ze = jarFile.getEntry(SANDBOX_TOML);
-                            if (ze != null)
-                                configStream = jarFile.getInputStream(ze);
-                            if (configStream == null)
-                                continue;
-                            loadAddonFromStream(parser, cURL, configStream);
-                        }
+                        jarFile = new JarFile(new File(cURL.toURI()));
+                        ZipEntry ze = jarFile.getEntry(SANDBOX_TOML);
+                        if (ze != null)
+                            configStream = jarFile.getInputStream(ze);
                     } else {
                         configStream = cURL.toURI().resolve(SANDBOX_TOML).toURL().openStream();
-                        if (configStream == null)
-                            continue;
-                        loadAddonFromStream(parser, cURL, configStream);
+                    }
+                    if (configStream == null)
+                        continue;
+                    Config config = parser.parse(configStream);
+                    AddonSpec spec = AddonSpec.from(config, cURL);
+                    getClassLoader(spec).addURL(cURL);
+                    Class<?> mainClass = getClassLoader(spec).loadClass(spec.getMainClass());
+                    if (Addon.class.isAssignableFrom(mainClass)) {
+                        Addon addon = (Addon) mainClass.getConstructor().newInstance();
+                        fabric.loadAddon(spec, addon);
+                    } else {
+                        Log.error("Class {} does not implement Addon", mainClass);
                     }
                 } catch (Exception e) {
                     Log.error("Unknown Error", e);
                 } finally {
                     IOUtils.closeQuietly(configStream);
+                    if (jarFile != null)
+                        jarFile.close();
                 }
             }
 
@@ -109,17 +117,6 @@ public class SandboxLoader {
             fabric.registerAll();
             fabric.postAll();
             fabric.reloadResources();
-        }
-    }
-
-    private void loadAddonFromStream(TomlParser parser, URL cURL, InputStream configStream) throws ClassNotFoundException, InstantiationException, IllegalAccessException, java.lang.reflect.InvocationTargetException, NoSuchMethodException {
-        Config config = parser.parse(configStream);
-        AddonSpec spec = AddonSpec.from(config, cURL);
-        getClassLoader(spec).addURL(cURL);
-        Class<?> mainClass = getClassLoader(spec).loadClass(spec.getMainClass());
-        if (Addon.class.isAssignableFrom(mainClass)) {
-            Addon addon = (Addon) mainClass.getConstructor().newInstance();
-            fabric.loadAddon(spec, addon);
         }
     }
 

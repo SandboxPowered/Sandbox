@@ -63,12 +63,12 @@ public class BlockWrapper extends net.minecraft.block.Block implements SandboxIn
         if (block instanceof org.sandboxpowered.api.block.FluidBlock)
             return new WithFluid((FlowableFluid) WrappingUtil.convert(((org.sandboxpowered.api.block.FluidBlock) block).getFluid()), block);
         if (block instanceof FluidContainer) {
-            if (block.hasBlockEntity()) {
+            if (block.getSettings().hasBlockEntity()) {
                 return new BlockWrapper.WithWaterloggableBlockEntity(block);
             }
             return new BlockWrapper.WithWaterloggable(block);
         }
-        if (block.hasBlockEntity()) {
+        if (block.getSettings().hasBlockEntity()) {
             return new BlockWrapper.WithBlockEntity(block);
         }
         return new BlockWrapper(block);
