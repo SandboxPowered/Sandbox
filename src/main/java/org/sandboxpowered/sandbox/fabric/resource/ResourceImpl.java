@@ -31,13 +31,13 @@ public class ResourceImpl<C extends Content<C>> implements Resource<C> {
         return resourceMaterial;
     }
 
-    public ResourceType<C> getForm() {
+    public ResourceType<C> getType() {
         return form;
     }
 
     @Override
     public String toString() {
-        return String.format("Resource %s %s: %s", getMaterial(), getForm(), get());
+        return String.format("Resource %s %s: %s", getMaterial(), getType(), get());
     }
 
     public void addVariant(C variant) {

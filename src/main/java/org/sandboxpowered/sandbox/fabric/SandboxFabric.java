@@ -42,6 +42,10 @@ public class SandboxFabric implements Sandbox {
         return optifine;
     }
 
+    public GlobalResourceRegistrationService getResourceRegistration() {
+        return resourceRegistration;
+    }
+
     private static void runChecks() {
         if (!ranChecks) {
             try {

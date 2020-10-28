@@ -6,3 +6,5 @@ accessible method net/minecraft/client/options/Option getPercentLabel (D)Lnet/mi
 accessible method net/minecraft/client/options/Option getPercentAdditionLabel (I)Lnet/minecraft/text/Text;
 accessible method net/minecraft/client/options/Option getGenericLabel (I)Lnet/minecraft/text/Text;
 accessible method net/minecraft/client/MinecraftClient initializeSearchableContainers ()V
+
+accessible class net/minecraft/recipe/Ingredient$Entry
