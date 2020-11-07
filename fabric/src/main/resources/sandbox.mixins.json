@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "org.sandboxpowered.loader.fabric.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "minVersion": "0.8",
+  "mixinPriority": 5480,
+  "mixins": [
+    "brand.MixinMinecraftClient",
+    "registry.MixinMappedRegistry"
+  ],
+  "client": [
+    "brand.MixinClientBrandRetriever"
+  ]
+}

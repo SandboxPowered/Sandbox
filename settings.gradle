@@ -1,16 +1,18 @@
 pluginManagement {
     repositories {
         jcenter()
-        maven {
-            name = 'Fabric'
-            url = 'https://maven.fabricmc.net/'
-        }
+        maven { url "https://maven.fabricmc.net/" }
+        maven { url "https://dl.bintray.com/shedaniel/cloth" }
         gradlePluginPortal()
     }
 }
+
+include("common")
+include("fabric")
+include("forge")
 
 include 'TestAddon'
 
 includeBuild 'SandboxAPI'
 
-rootProject.name = "sandbox-fabric"
+rootProject.name = "Sandbox"

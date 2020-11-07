@@ -26,3 +26,18 @@ run/*
 
 !run/addons/test/*
 logs/
+
+*/build
+/build
+/bin
+*/bin
+/.gradle
+*/.gradle
+/minecraft
+*/minecraft
+/out
+*/run
+*/out
+/run
+/classes
+logs/

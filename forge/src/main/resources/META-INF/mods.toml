@@ -1,0 +1,24 @@
+modLoader = "javafml"
+loaderVersion = "[32,)"
+license = "GNU LGPLv3"
+
+[[mods]]
+modId = "sandbox-forge"
+version = "${file.jarVersion}"
+displayName = "Sandbox Forge"
+authors = "SandboxPowered"
+license = "GNU LGPLv3"
+
+[[dependencies.sandbox-forge]]
+modId = "forge"
+mandatory = true
+versionRange = "[35.0.3,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.sandbox-forge]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.16,)"
+ordering = "NONE"
+side = "BOTH"
