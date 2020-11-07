@@ -24,7 +24,7 @@ minecraft {
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
     runs {
         client {
-            workingDirectory project.file("run")
+            workingDirectory rootProject.file("run")
             args '--mixin.config', 'sandbox.mixin.json'
             mods {
                 'sandbox-forge' {
@@ -33,7 +33,7 @@ minecraft {
             }
         }
         server {
-            workingDirectory project.file("run")
+            workingDirectory rootProject.file("run")
             args '--mixin.config', 'sandbox.mixin.json'
             mods {
                 'sandbox-forge' {

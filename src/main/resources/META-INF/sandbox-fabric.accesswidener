@@ -1,7 +1,0 @@
-accessWidener v1 named
-
-accessible method net/minecraft/client/options/Option getGenericLabel (Lnet/minecraft/text/Text;)Lnet/minecraft/text/Text;
-accessible method net/minecraft/client/options/Option getPixelLabel (I)Lnet/minecraft/text/Text;
-accessible method net/minecraft/client/options/Option getPercentLabel (D)Lnet/minecraft/text/Text;
-accessible method net/minecraft/client/options/Option getPercentAdditionLabel (I)Lnet/minecraft/text/Text;
-accessible method net/minecraft/client/options/Option getGenericLabel (I)Lnet/minecraft/text/Text;
