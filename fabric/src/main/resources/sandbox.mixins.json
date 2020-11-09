@@ -5,10 +5,12 @@
   "minVersion": "0.8",
   "mixinPriority": 5480,
   "mixins": [
-    "brand.MixinMinecraftClient",
+    "content.MixinBootstrap",
+    "injection.MixinResourceLocation",
     "registry.MixinMappedRegistry"
   ],
   "client": [
+    "brand.MixinMinecraftClient",
     "brand.MixinClientBrandRetriever"
   ]
 }

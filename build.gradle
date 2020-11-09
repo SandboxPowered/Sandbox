@@ -36,5 +36,6 @@ subprojects {
 		implementation('org.sandboxpowered:SimpleEventHandler:2.0.3')
 		implementation 'com.google.guava:guava:21.0'
 		implementation 'org.apache.commons:commons-lang3:3.9'
+		implementation 'commons-io:commons-io:2.5'
 	}
 }

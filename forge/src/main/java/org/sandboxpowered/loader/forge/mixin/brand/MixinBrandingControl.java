@@ -1,12 +1,9 @@
 package org.sandboxpowered.loader.forge.mixin.brand;
 
 import com.google.common.collect.ImmutableList;
-import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.fml.BrandingControl;
 import net.minecraftforge.fml.ForgeI18n;
-import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.forgespi.language.IModInfo;
 import net.minecraftforge.versions.forge.ForgeVersion;
 import net.minecraftforge.versions.mcp.MCPVersion;
 import org.spongepowered.asm.mixin.Mixin;

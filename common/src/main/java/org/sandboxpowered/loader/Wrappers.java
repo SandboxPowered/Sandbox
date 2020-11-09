@@ -1,23 +1,70 @@
 package org.sandboxpowered.loader;
 
+import net.minecraft.resources.ResourceLocation;
 import org.sandboxpowered.api.block.Block;
-import org.sandboxpowered.api.content.Content;
+import org.sandboxpowered.api.enchantment.Enchantment;
+import org.sandboxpowered.api.fluid.Fluid;
+import org.sandboxpowered.api.item.Item;
+import org.sandboxpowered.api.item.ItemStack;
+import org.sandboxpowered.api.util.Identity;
 
+import java.util.Collection;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class Wrappers {
+    public static final Wrapper<Item, net.minecraft.world.item.Item> ITEM = new Wrapper<>(
+            Item.class, net.minecraft.world.item.Item.class,
+            item -> null,
+            item -> null
+    );
     public static Wrapper<Block, net.minecraft.world.level.block.Block> BLOCK = new Wrapper<>(
+            Block.class, net.minecraft.world.level.block.Block.class,
             block -> null,
             block -> null
     );
+    public static Wrapper<Fluid, net.minecraft.world.level.material.Fluid> FLUID = new Wrapper<>(
+            Fluid.class, net.minecraft.world.level.material.Fluid.class,
+            fluid -> null,
+            fluid -> null
+    );
+    public static Wrapper<Enchantment, net.minecraft.world.item.enchantment.Enchantment> ENCHANTMENT = new Wrapper<>(
+            Enchantment.class, net.minecraft.world.item.enchantment.Enchantment.class,
+            enchant -> null,
+            enchant -> null
+    );
 
-    private static class Wrapper<S extends Content<S>,V> {
+    public static Wrapper<Identity, ResourceLocation> IDENTITY = new Wrapper<>(Identity.class, ResourceLocation.class);
+
+    public static Wrapper<ItemStack, net.minecraft.world.item.ItemStack> ITEMSTACK = new Wrapper<>(ItemStack.class, net.minecraft.world.item.ItemStack.class);
+
+    private static <X, Y> Function<X, Y> cast() {
+        return i -> (Y) i;
+    }
+
+    public static class Wrapper<S, V> {
+        private final Class<S> sandboxType;
+        private final Class<V> vanillaType;
         private final Function<S, V> sandboxToVanilla;
         private final Function<V, S> vanillaToSandbox;
+        private final Function<Collection<S>, Collection<V>> sandboxToVanillaCollection;
+        private final Function<Collection<V>, Collection<S>> vanillaToSandboxCollection;
 
-        public Wrapper(Function<S, V> sandboxToVanilla, Function<V, S> vanillaToSandbox) {
+        public Wrapper(Class<S> sandboxType, Class<V> vanillaType, Function<S, V> sandboxToVanilla, Function<V, S> vanillaToSandbox) {
+            this(sandboxType, vanillaType, sandboxToVanilla, vanillaToSandbox, c -> c.stream().map(sandboxToVanilla).collect(Collectors.toSet()), c -> c.stream().map(vanillaToSandbox).collect(Collectors.toList()));
+        }
+
+        public Wrapper(Class<S> sandboxType, Class<V> vanillaType) {
+            this(sandboxType, vanillaType, cast(), cast(), cast(), cast());
+        }
+
+        public Wrapper(Class<S> sandboxType, Class<V> vanillaType, Function<S, V> sandboxToVanilla, Function<V, S> vanillaToSandbox, Function<Collection<S>, Collection<V>> sandboxToVanillaCollection, Function<Collection<V>, Collection<S>> vanillaToSandboxCollection) {
+            this.sandboxType = sandboxType;
+            this.vanillaType = vanillaType;
             this.sandboxToVanilla = sandboxToVanilla;
             this.vanillaToSandbox = vanillaToSandbox;
+            this.sandboxToVanillaCollection = sandboxToVanillaCollection;
+            this.vanillaToSandboxCollection = vanillaToSandboxCollection;
         }
 
         public V toVanilla(S sandbox) {
@@ -26,6 +73,22 @@ public class Wrappers {
 
         public S toSandbox(V vanilla) {
             return vanillaToSandbox.apply(vanilla);
+        }
+
+        public Class<S> getSandboxType() {
+            return sandboxType;
+        }
+
+        public Class<V> getVanillaType() {
+            return vanillaType;
+        }
+
+        public Collection<S> toSandboxList(Collection<V> collection) {
+            return vanillaToSandboxCollection.apply(collection);
+        }
+
+        public Collection<V> toVanillaList(Collection<S> collection) {
+            return sandboxToVanillaCollection.apply(collection);
         }
     }
 }
