@@ -7,10 +7,11 @@
   "mixins": [
     "content.MixinBootstrap",
     "injection.MixinResourceLocation",
+    "injection.item.MixinItemStack",
     "registry.MixinMappedRegistry"
   ],
   "client": [
-    "brand.MixinMinecraftClient",
-    "brand.MixinClientBrandRetriever"
+    "brand.MixinClientBrandRetriever",
+    "brand.MixinMinecraftClient"
   ]
 }

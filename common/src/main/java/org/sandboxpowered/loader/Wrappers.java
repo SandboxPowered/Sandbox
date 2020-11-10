@@ -3,6 +3,7 @@ package org.sandboxpowered.loader;
 import net.minecraft.resources.ResourceLocation;
 import org.sandboxpowered.api.block.Block;
 import org.sandboxpowered.api.enchantment.Enchantment;
+import org.sandboxpowered.api.entity.LivingEntity;
 import org.sandboxpowered.api.fluid.Fluid;
 import org.sandboxpowered.api.item.Item;
 import org.sandboxpowered.api.item.ItemStack;
@@ -32,6 +33,9 @@ public class Wrappers {
             Enchantment.class, net.minecraft.world.item.enchantment.Enchantment.class,
             enchant -> null,
             enchant -> null
+    );
+    public static Wrapper<LivingEntity, net.minecraft.world.entity.LivingEntity> LIVING_ENTITY = new Wrapper<>(
+            LivingEntity.class, net.minecraft.world.entity.LivingEntity.class
     );
 
     public static Wrapper<Identity, ResourceLocation> IDENTITY = new Wrapper<>(Identity.class, ResourceLocation.class);
