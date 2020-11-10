@@ -6,6 +6,7 @@
   "mixinPriority": 5480,
   "mixins": [
     "content.MixinBootstrap",
+    "feature.MixinEnchantment",
     "injection.MixinResourceLocation",
     "injection.item.MixinItemStack",
     "registry.MixinMappedRegistry"
