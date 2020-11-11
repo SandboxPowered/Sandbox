@@ -3,10 +3,11 @@ package org.sandboxpowered.loader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.sandboxpowered.loader.config.Config;
+import org.sandboxpowered.loader.platform.SandboxPlatform;
 
 import java.io.IOException;
 
-public abstract class SandboxCore {
+public abstract class SandboxCore implements SandboxPlatform {
     protected Config config;
     protected Logger logger;
 

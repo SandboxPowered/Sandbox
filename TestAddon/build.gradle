@@ -4,12 +4,10 @@ plugins {
 
 repositories {
     mavenCentral()
-    maven { url 'https://dl.bintray.com/sandboxpowered/API/' }
-    maven { url 'https://dl.bintray.com/sandboxpowered/Library/' }
 }
 
 dependencies {
-    implementation platform("org.sandboxpowered.api:api:0.4.+")
+    implementation platform("org.sandboxpowered.api:api:0.5.+")
 
     implementation "org.sandboxpowered.api:base"
     implementation "org.sandboxpowered.api:rendering"

@@ -1,13 +1,23 @@
 package org.sandboxpowered.loader;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import org.sandboxpowered.api.block.Block;
+import org.sandboxpowered.api.block.entity.BlockEntity;
 import org.sandboxpowered.api.enchantment.Enchantment;
 import org.sandboxpowered.api.entity.LivingEntity;
 import org.sandboxpowered.api.fluid.Fluid;
 import org.sandboxpowered.api.item.Item;
 import org.sandboxpowered.api.item.ItemStack;
 import org.sandboxpowered.api.util.Identity;
+import org.sandboxpowered.api.util.text.Text;
+import org.sandboxpowered.api.world.World;
+import org.sandboxpowered.api.world.WorldReader;
+import org.sandboxpowered.loader.wrapper.WrappedBlock;
+import org.sandboxpowered.loader.wrapper.WrappedItem;
 
 import java.util.Collection;
 import java.util.function.Function;
@@ -16,13 +26,28 @@ import java.util.stream.Collectors;
 public class Wrappers {
     public static final Wrapper<Item, net.minecraft.world.item.Item> ITEM = new Wrapper<>(
             Item.class, net.minecraft.world.item.Item.class,
-            item -> null,
-            item -> null
+            WrappedItem::convertSandboxItem,
+            WrappedItem::convertVanillaItem
+    );
+    public static final Wrapper<Text, Component> TEXT = new Wrapper<>(
+            Text.class, Component.class
+    );
+    public static final Wrapper<World, Level> WORLD = new Wrapper<>(
+            World.class, Level.class
+    );
+    public static final Wrapper<WorldReader, BlockGetter> WORLD_READER = new Wrapper<>(
+            WorldReader.class, BlockGetter.class
+    );
+    public static final Wrapper<BlockEntity, net.minecraft.world.level.block.entity.BlockEntity> BLOCK_ENTITY = new Wrapper<>(
+            BlockEntity.class, net.minecraft.world.level.block.entity.BlockEntity.class
+    );
+    public static final Wrapper<org.sandboxpowered.api.state.BlockState, BlockState> BLOCKSTATE = new Wrapper<>(
+            org.sandboxpowered.api.state.BlockState.class, BlockState.class
     );
     public static Wrapper<Block, net.minecraft.world.level.block.Block> BLOCK = new Wrapper<>(
             Block.class, net.minecraft.world.level.block.Block.class,
-            block -> null,
-            block -> null
+            WrappedBlock::convertSandboxBlock,
+            WrappedBlock::convertVanillaBlock
     );
     public static Wrapper<Fluid, net.minecraft.world.level.material.Fluid> FLUID = new Wrapper<>(
             Fluid.class, net.minecraft.world.level.material.Fluid.class,
