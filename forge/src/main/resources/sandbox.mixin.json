@@ -10,6 +10,9 @@
     "brand.MixinMinecraftClient",
     "content.MixinBootstrap",
     "feature.MixinEnchantment",
+    "fixes.recipe_caching.MixinAbstractFurnaceTileEntity",
+    "fixes.spawner_rendering.MixinBeeEntity",
+    "fixes.spawner_rendering.MixinEndermanEntity",
     "injection.MixinResourceLocation",
     "injection.item.MixinItemStack",
     "registry.MixinForgeRegistry"

@@ -7,10 +7,12 @@
   "mixins": [
     "content.MixinBootstrap",
     "feature.MixinEnchantment",
-    "fixes.MixinBee",
-    "fixes.MixinEnderMan",
+    "fixes.recipe_caching.MixinAbstractFurnaceBlockEntity",
+    "fixes.spawner_rendering.MixinBee",
+    "fixes.spawner_rendering.MixinEnderMan",
     "injection.MixinResourceLocation",
     "injection.hasBlockEntity.MixinBlock",
+    "injection.hasBlockEntity.MixinBlockStateParser",
     "injection.hasBlockEntity.MixinWorldGenRegion",
     "injection.item.MixinItemStack",
     "registry.MixinMappedRegistry"

@@ -14,7 +14,7 @@ public abstract class MixinBootstrap {
     }
 
     @Redirect(method = "bootStrap", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/Bootstrap;wrapStreams()V"))
-    private static void wrapStreamsRedirect() {
+    private static void vanillaSnapshot() {
         wrapStreams();
         SandboxFabric.CORE.init();
     }
