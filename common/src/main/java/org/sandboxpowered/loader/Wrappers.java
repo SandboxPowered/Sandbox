@@ -1,5 +1,6 @@
 package org.sandboxpowered.loader;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.BlockGetter;
@@ -13,6 +14,7 @@ import org.sandboxpowered.api.fluid.Fluid;
 import org.sandboxpowered.api.item.Item;
 import org.sandboxpowered.api.item.ItemStack;
 import org.sandboxpowered.api.util.Identity;
+import org.sandboxpowered.api.util.math.Position;
 import org.sandboxpowered.api.util.text.Text;
 import org.sandboxpowered.api.world.World;
 import org.sandboxpowered.api.world.WorldReader;
@@ -43,6 +45,9 @@ public class Wrappers {
     );
     public static final Wrapper<org.sandboxpowered.api.state.BlockState, BlockState> BLOCKSTATE = new Wrapper<>(
             org.sandboxpowered.api.state.BlockState.class, BlockState.class
+    );
+    public static final Wrapper<Position, BlockPos> POSITION = new Wrapper<>(
+            Position.class, BlockPos.class
     );
     public static Wrapper<Block, net.minecraft.world.level.block.Block> BLOCK = new Wrapper<>(
             Block.class, net.minecraft.world.level.block.Block.class,

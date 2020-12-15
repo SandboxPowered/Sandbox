@@ -18,6 +18,9 @@ dependencies {
     shadow(project(":common")) {
         transitive = false
     }
+    modRuntime ("com.github.SuperCoder7979:databreaker:715b589") {
+        exclude module: "fabric-loader"
+    }
 }
 
 shadowJar {

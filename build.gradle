@@ -20,6 +20,10 @@ subprojects {
 
 	repositories {
 		maven { url 'https://nexus.sandboxpowered.org/repository/maven-public/' }
+		maven {
+			name = "JitPack"
+			url = "https://jitpack.io"
+		}
 	}
 
 	dependencies {
