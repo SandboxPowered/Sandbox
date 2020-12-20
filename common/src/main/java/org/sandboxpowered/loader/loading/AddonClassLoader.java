@@ -19,22 +19,24 @@ public class AddonClassLoader extends SecureClassLoader {
         registerAsParallelCapable();
     }
 
+    private final SandboxLoader loader;
     private final AddonSpec spec;
-    private CodeSource addonSource;
     private final ClassLoader original;
     private final URL url;
     private final DynamicURLClassLoader classLoader = (DynamicURLClassLoader) getParent();
+    private CodeSource addonSource;
 
-    public AddonClassLoader(ClassLoader original, URL url, AddonSpec spec) {
+    public AddonClassLoader(SandboxLoader loader, ClassLoader original, URL url, AddonSpec spec) {
         super(new DynamicURLClassLoader(new URL[]{url}, original));
-        this.original=original;
+        this.loader = loader;
+        this.original = original;
         this.spec = spec;
         this.url = url;
     }
 
     public CodeSource getAddonSource() {
-        if(addonSource == null)
-            addonSource =  new CodeSource(url, (Certificate[]) null);
+        if (addonSource == null)
+            addonSource = new CodeSource(url, (Certificate[]) null);
         return addonSource;
     }
 
@@ -57,41 +59,39 @@ public class AddonClassLoader extends SecureClassLoader {
         return outputStream.toByteArray();
     }
 
-    @Override
-    protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
+    private Class<?> getLoadedOrDefineClass(String name) {
         synchronized (getClassLoadingLock(name)) {
             Class<?> c = findLoadedClass(name);
 
-            if (c == null && !name.startsWith("java.")) {
-                byte[] input = new byte[0];
-                try {
-                    input = readAddonClass(name);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                if (input != null) {
-                    int delimiterIndex = name.lastIndexOf('.');
-                    if (delimiterIndex > 0) {
-                        String classPackage = name.substring(0, delimiterIndex);
-                        if (getPackage(classPackage) == null) {
-                            definePackage(classPackage, null, null, null, null, null, null, null);
-                        }
-                    }
+            if (c != null || name.startsWith("java.")) return c;
 
-                    c = defineClass(name, input, 0, input.length, getAddonSource());
-                }
+            byte[] input = new byte[0];
+            try {
+                input = readAddonClass(name);
+            } catch (IOException e) {
+                loader.log.error("Error reading addon class bytecode", e);
             }
 
-            if (c == null) {
-                c = original.loadClass(name);
+            if (input == null) return null;
+
+            int delimiterIndex = name.lastIndexOf('.');
+            if (delimiterIndex > 0) {
+                String classPackage = name.substring(0, delimiterIndex);
+                if (getPackage(classPackage) == null)
+                    definePackage(classPackage, null, null, null, null, null, null, null);
             }
 
-            if (resolve) {
-                resolveClass(c);
-            }
-
+            c = defineClass(name, input, 0, input.length, getAddonSource());
             return c;
         }
+    }
+
+    @Override
+    protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
+        Class<?> c = getLoadedOrDefineClass(name);
+        if (c == null) c = original.loadClass(name);
+        if (resolve) resolveClass(c);
+        return c;
     }
 
     @Override

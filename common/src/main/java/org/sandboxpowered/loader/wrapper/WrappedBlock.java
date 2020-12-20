@@ -12,14 +12,13 @@ import org.sandboxpowered.loader.util.ConditionalBlockEntityProvider;
 import java.util.IdentityHashMap;
 
 public class WrappedBlock extends net.minecraft.world.level.block.Block implements ConditionalBlockEntityProvider {
+    private static final IdentityHashMap<Block, WrappedBlock> BLOCK_MAP = new IdentityHashMap<>();
     private final Block block;
 
     public WrappedBlock(Block block) {
         super(Properties.of(Material.STONE));
         this.block = block;
     }
-
-    private static final IdentityHashMap<Block, WrappedBlock> BLOCK_MAP = new IdentityHashMap<>();
 
     public static net.minecraft.world.level.block.Block convertSandboxBlock(Block block) {
         if (block instanceof net.minecraft.world.level.block.Block)

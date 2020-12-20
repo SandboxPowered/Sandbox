@@ -13,12 +13,16 @@ import java.util.IdentityHashMap;
 import java.util.List;
 
 public class WrappedItem extends net.minecraft.world.item.Item {
+    private static final IdentityHashMap<Item, WrappedItem> ITEM_MAP = new IdentityHashMap<>();
     private final Item item;
 
-    private static final IdentityHashMap<Item, WrappedItem> ITEM_MAP = new IdentityHashMap<>();
+    public WrappedItem(Item item) {
+        super(new Properties());
+        this.item = item;
+    }
 
     public static net.minecraft.world.item.Item convertSandboxItem(Item item) {
-        if(item instanceof net.minecraft.world.item.Item)
+        if (item instanceof net.minecraft.world.item.Item)
             return (net.minecraft.world.item.Item) item;
         return ITEM_MAP.computeIfAbsent(item, WrappedItem::new);
     }
@@ -27,11 +31,6 @@ public class WrappedItem extends net.minecraft.world.item.Item {
         if (item instanceof WrappedItem)
             return ((WrappedItem) item).item;
         return (Item) item;
-    }
-
-    public WrappedItem(Item item) {
-        super(new Properties());
-        this.item = item;
     }
 
     @Override

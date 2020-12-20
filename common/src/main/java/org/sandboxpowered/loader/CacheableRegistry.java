@@ -12,7 +12,7 @@ public interface CacheableRegistry<S extends Content<S>, V> {
 
     void resetRegistryContent();
 
-    public interface Wrapped<S,V> {
+    interface Wrapped<S, V> {
         net.minecraft.core.Registry<V> toVanilla();
     }
 }

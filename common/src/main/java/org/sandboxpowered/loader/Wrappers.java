@@ -53,12 +53,12 @@ public class Wrappers {
     public static final Wrapper<Registry, net.minecraft.core.Registry> REGISTRY = new Wrapper<>(
             Registry.class, net.minecraft.core.Registry.class,
             s -> {
-                if(s instanceof CacheableRegistry.Wrapped)
+                if (s instanceof CacheableRegistry.Wrapped)
                     return ((CacheableRegistry.Wrapped<?, ?>) s).toVanilla();
                 return null;
             },
             v -> {
-                if(v instanceof CacheableRegistry)
+                if (v instanceof CacheableRegistry)
                     return ((CacheableRegistry<?, ?>) v).getSandboxRegistry();
                 return null;
             }

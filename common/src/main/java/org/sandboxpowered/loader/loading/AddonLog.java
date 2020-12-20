@@ -7,13 +7,12 @@ import org.sandboxpowered.internal.AddonSpec;
 
 public class AddonLog implements Log {
     private final AddonSpec spec;
+    private final Logger logger;
 
     public AddonLog(AddonSpec spec) {
         this.spec = spec;
         this.logger = LogManager.getLogger(spec.getTitle());
     }
-
-    private final Logger logger;
 
     @Override
     public void info(String message) {

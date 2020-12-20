@@ -34,8 +34,13 @@ public class SandboxLoader {
     private final Map<AddonSpec, Addon> addonMap = new HashMap<>();
     private final Map<AddonSpec, AddonSpecificAPIReference> addonAPIs = new HashMap<>();
     private final Map<AddonSpec, AddonSpecificRegistrarReference> addonRegistrars = new HashMap<>();
+    private final AddonFinder scanner = new AddonFinder.MergedScanner(
+            new AddonFinder.FolderScanner(Paths.get("addons")),
+            new AddonFinder.ClasspathScanner()
+    );
+    private final Map<String, AddonClassLoader> addonToClassLoader = new LinkedHashMap<>();
+    public Logger log = LogManager.getLogger(SandboxLoader.class);
     private boolean loaded;
-    private Logger log = LogManager.getLogger(SandboxLoader.class);
 
     private AddonSpecificRegistrarReference getRegistrarForAddon(AddonSpec spec) {
         return addonRegistrars.computeIfAbsent(spec, s -> new AddonSpecificRegistrarReference(s, this));
@@ -112,11 +117,8 @@ public class SandboxLoader {
         loaded = false;
     }
 
-    private final AddonFinder scanner = new AddonFinder.FolderScanner(Paths.get("addons"));
-
-    private final Map<String, AddonClassLoader> addonToClassLoader = new LinkedHashMap<>();
     public AddonClassLoader getClassLoader(AddonSpec spec, URL url) {
-        return addonToClassLoader.computeIfAbsent(spec.getId(), addonId -> new AddonClassLoader(Addon.class.getClassLoader(), url, spec));
+        return addonToClassLoader.computeIfAbsent(spec.getId(), addonId -> new AddonClassLoader(this, Addon.class.getClassLoader(), url, spec));
     }
 
     private void loadFromURLs(Collection<URL> urls) {
@@ -146,6 +148,8 @@ public class SandboxLoader {
                     Object obj = mainClass.getConstructor().newInstance();
                     if (obj instanceof Addon) {
                         loadAddon(spec, (Addon) obj);
+                    } else {
+                        log.error("Unable to load addon '{}', main class not instance of Addon", spec.getId());
                     }
                 } catch (IOException | NoSuchMethodException | ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException | URISyntaxException e) {
                     log.error("Unknown Error", e);
