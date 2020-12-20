@@ -2,15 +2,19 @@ package org.sandboxpowered.loader.fabric.registry;
 
 import com.mojang.serialization.Lifecycle;
 import net.minecraft.resources.ResourceKey;
+import org.sandboxpowered.api.block.BaseBlock;
 import org.sandboxpowered.api.content.Content;
+import org.sandboxpowered.api.item.BaseBlockItem;
+import org.sandboxpowered.api.item.BlockItem;
 import org.sandboxpowered.api.registry.Registry;
 import org.sandboxpowered.api.util.Identity;
+import org.sandboxpowered.loader.CacheableRegistry;
 import org.sandboxpowered.loader.Wrappers;
 
 import java.util.Collection;
 import java.util.stream.Stream;
 
-public class WrappedRegistry<S extends Content<S>, V> implements Registry<S> {
+public class WrappedRegistry<S extends Content<S>, V> implements Registry<S>, CacheableRegistry.Wrapped<S,V> {
     private final Identity identity;
     //    private final Map<Identity, RegistryEntry<A>> cacheMap = new TreeMap<>(Comparator.comparing(Identity::getPath).thenComparing(Identity::getNamespace));
     private final net.minecraft.core.WritableRegistry<V> vanilla;
@@ -20,6 +24,11 @@ public class WrappedRegistry<S extends Content<S>, V> implements Registry<S> {
         this.identity = identity;
         this.wrapper = wrapper;
         this.vanilla = vanilla;
+    }
+
+    @Override
+    public net.minecraft.core.Registry<V> toVanilla() {
+        return vanilla;
     }
 
     @Override

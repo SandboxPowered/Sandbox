@@ -1,16 +1,32 @@
 package org.sandboxpowered.loader.loading;
 
+import com.electronwill.nightconfig.core.Config;
+import com.electronwill.nightconfig.toml.TomlParser;
 import com.github.zafarkhaja.semver.Parser;
 import com.github.zafarkhaja.semver.expr.Expression;
 import com.github.zafarkhaja.semver.expr.ExpressionParser;
 import com.google.common.collect.ImmutableMap;
+import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.sandboxpowered.api.addon.Addon;
 import org.sandboxpowered.api.util.Identity;
 import org.sandboxpowered.api.util.Side;
 import org.sandboxpowered.internal.AddonSpec;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
+
+import static org.sandboxpowered.loader.loading.AddonFinder.SANDBOX_TOML;
 
 public class SandboxLoader {
     private static final Parser<Expression> PARSER = ExpressionParser.newInstance();
@@ -18,6 +34,8 @@ public class SandboxLoader {
     private final Map<AddonSpec, Addon> addonMap = new HashMap<>();
     private final Map<AddonSpec, AddonSpecificAPIReference> addonAPIs = new HashMap<>();
     private final Map<AddonSpec, AddonSpecificRegistrarReference> addonRegistrars = new HashMap<>();
+    private boolean loaded;
+    private Logger log = LogManager.getLogger(SandboxLoader.class);
 
     private AddonSpecificRegistrarReference getRegistrarForAddon(AddonSpec spec) {
         return addonRegistrars.computeIfAbsent(spec, s -> new AddonSpecificRegistrarReference(s, this));
@@ -84,10 +102,73 @@ public class SandboxLoader {
         return ImmutableMap.copyOf(addonMap);
     }
 
+    public void unload() {
+        log.info("Unloading Sandbox");
+        loadedAddons.clear();
+        addonMap.clear();
+        addonAPIs.clear();
+        addonRegistrars.clear();
+        addonToClassLoader.clear();
+        loaded = false;
+    }
+
+    private final AddonFinder scanner = new AddonFinder.FolderScanner(Paths.get("addons"));
+
+    private final Map<String, AddonClassLoader> addonToClassLoader = new LinkedHashMap<>();
+    public AddonClassLoader getClassLoader(AddonSpec spec, URL url) {
+        return addonToClassLoader.computeIfAbsent(spec.getId(), addonId -> new AddonClassLoader(Addon.class.getClassLoader(), url, spec));
+    }
+
+    private void loadFromURLs(Collection<URL> urls) {
+        if (urls.isEmpty()) {
+            log.info("Loaded 0 addons");
+        } else {
+            log.info("Loading {} addons", urls.size());
+            TomlParser parser = new TomlParser();
+            for (URL url : urls) {
+                InputStream configStream = null;
+                JarFile jarFile = null;
+                try {
+                    if (url.toString().endsWith(".jar")) {
+                        jarFile = new JarFile(new File(url.toURI()));
+                        ZipEntry ze = jarFile.getEntry(SANDBOX_TOML);
+                        if (ze != null)
+                            configStream = jarFile.getInputStream(ze);
+                    } else {
+                        configStream = url.toURI().resolve(SANDBOX_TOML).toURL().openStream();
+                    }
+                    if (configStream == null)
+                        continue;
+                    Config config = parser.parse(configStream);
+                    AddonSpec spec = AddonSpec.from(config, url);
+                    AddonClassLoader loader = getClassLoader(spec, url);
+                    Class<?> mainClass = loader.loadClass(spec.getMainClass());
+                    Object obj = mainClass.getConstructor().newInstance();
+                    if (obj instanceof Addon) {
+                        loadAddon(spec, (Addon) obj);
+                    }
+                } catch (IOException | NoSuchMethodException | ClassNotFoundException | InstantiationException | IllegalAccessException | InvocationTargetException | URISyntaxException e) {
+                    log.error("Unknown Error", e);
+                    //TODO: Split these up to provide unique messages per error.
+                } finally {
+                    IOUtils.closeQuietly(configStream);
+                    IOUtils.closeQuietly(jarFile);
+                }
+            }
+        }
+    }
+
     public void load() {
+        try {
+            loadFromURLs(scanner.findAddons());
+        } catch (IOException e) {
+            log.error("Failed to load classpath addons", e);
+        }
+
         loopInOrder(spec -> addonMap.get(spec).init(getAPIForAddon(spec)));
         loopInOrder(spec -> addonMap.get(spec).register(getAPIForAddon(spec), getRegistrarForAddon(spec)));
         loopInOrder(spec -> addonMap.get(spec).finishLoad(getAPIForAddon(spec)));
+        loaded = true;
     }
 
     public boolean isAddonLoaded(String addonId) {
@@ -100,5 +181,9 @@ public class SandboxLoader {
 
     public boolean isExternalModLoaded(String loader, String modId) {
         return false;
+    }
+
+    public boolean isLoaded() {
+        return loaded;
     }
 }

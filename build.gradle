@@ -6,9 +6,13 @@ architect {
 	minecraft = rootProject.minecraft_version
 }
 
+sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
+
 subprojects {
 	apply plugin: "java"
 	apply plugin: "architect-plugin"
+
+	sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 
 	archivesBaseName = rootProject.archives_base_name
 	version = rootProject.mod_version
@@ -27,7 +31,7 @@ subprojects {
 	}
 
 	dependencies {
-		implementation platform('org.sandboxpowered.api:api:0.4.+')
+		implementation platform('org.sandboxpowered.api:api:0.5.+')
 
 		implementation('org.sandboxpowered.api:base')
 		implementation('org.sandboxpowered.api:rendering')

@@ -5,8 +5,9 @@
   "minVersion": "0.8",
   "mixinPriority": 5480,
   "mixins": [
-    "content.MixinBootstrap",
+    "feature.MixinCreativeModeTab",
     "feature.MixinEnchantment",
+    "fixes.enchantment_acceptable_item.MixinEnchantmentHelper",
     "fixes.recipe_caching.MixinAbstractFurnaceBlockEntity",
     "fixes.spawner_rendering.MixinBee",
     "fixes.spawner_rendering.MixinEnderMan",
@@ -17,6 +18,8 @@
     "injection.item.MixinItemStack",
     "injection.world.MixinBlockGetter",
     "injection.world.MixinLevel",
+    "loading.MixinBootstrap",
+    "loading.MixinIntegratedServer",
     "registry.MixinMappedRegistry"
   ],
   "client": [

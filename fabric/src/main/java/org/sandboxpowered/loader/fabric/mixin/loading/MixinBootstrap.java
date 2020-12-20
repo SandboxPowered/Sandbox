@@ -1,4 +1,4 @@
-package org.sandboxpowered.loader.fabric.mixin.content;
+package org.sandboxpowered.loader.fabric.mixin.loading;
 
 import net.minecraft.server.Bootstrap;
 import org.sandboxpowered.loader.fabric.SandboxFabric;
@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(Bootstrap.class)
-public abstract class MixinBootstrap {
+public class MixinBootstrap {
     @Shadow
     protected static void wrapStreams() {
     }

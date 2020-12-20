@@ -2,7 +2,10 @@ package org.sandboxpowered.example;
 
 import org.sandboxpowered.api.SandboxAPI;
 import org.sandboxpowered.api.addon.Addon;
+import org.sandboxpowered.api.block.BaseBlock;
+import org.sandboxpowered.api.block.Block;
 import org.sandboxpowered.api.block.Blocks;
+import org.sandboxpowered.api.block.Material;
 import org.sandboxpowered.api.block.entity.BlockEntity;
 import org.sandboxpowered.api.events.BlockEvents;
 import org.sandboxpowered.api.item.BaseItem;
@@ -35,5 +38,7 @@ public class Example implements Addon {
     @Override
     public void register(SandboxAPI api, Registrar registrar) {
         registrar.register("test", new BaseItem(new Item.Settings()));
+        registrar.register("block", new BaseBlock(Block.Settings.builder(Material.STONE).build()));
+        registrar.register("block_no_itemblock", new BaseBlock(Block.Settings.builder(Material.STONE).removeItemBlock().build()));
     }
 }

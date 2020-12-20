@@ -13,6 +13,7 @@ import org.sandboxpowered.api.entity.LivingEntity;
 import org.sandboxpowered.api.fluid.Fluid;
 import org.sandboxpowered.api.item.Item;
 import org.sandboxpowered.api.item.ItemStack;
+import org.sandboxpowered.api.registry.Registry;
 import org.sandboxpowered.api.util.Identity;
 import org.sandboxpowered.api.util.math.Position;
 import org.sandboxpowered.api.util.text.Text;
@@ -49,6 +50,19 @@ public class Wrappers {
     public static final Wrapper<Position, BlockPos> POSITION = new Wrapper<>(
             Position.class, BlockPos.class
     );
+    public static final Wrapper<Registry, net.minecraft.core.Registry> REGISTRY = new Wrapper<>(
+            Registry.class, net.minecraft.core.Registry.class,
+            s -> {
+                if(s instanceof CacheableRegistry.Wrapped)
+                    return ((CacheableRegistry.Wrapped<?, ?>) s).toVanilla();
+                return null;
+            },
+            v -> {
+                if(v instanceof CacheableRegistry)
+                    return ((CacheableRegistry<?, ?>) v).getSandboxRegistry();
+                return null;
+            }
+    );
     public static Wrapper<Block, net.minecraft.world.level.block.Block> BLOCK = new Wrapper<>(
             Block.class, net.minecraft.world.level.block.Block.class,
             WrappedBlock::convertSandboxBlock,
@@ -68,9 +82,13 @@ public class Wrappers {
             LivingEntity.class, net.minecraft.world.entity.LivingEntity.class
     );
 
-    public static Wrapper<Identity, ResourceLocation> IDENTITY = new Wrapper<>(Identity.class, ResourceLocation.class);
+    public static Wrapper<Identity, ResourceLocation> IDENTITY = new Wrapper<>(
+            Identity.class, ResourceLocation.class
+    );
 
-    public static Wrapper<ItemStack, net.minecraft.world.item.ItemStack> ITEMSTACK = new Wrapper<>(ItemStack.class, net.minecraft.world.item.ItemStack.class);
+    public static Wrapper<ItemStack, net.minecraft.world.item.ItemStack> ITEMSTACK = new Wrapper<>(
+            ItemStack.class, net.minecraft.world.item.ItemStack.class
+    );
 
     private static <X, Y> Function<X, Y> cast() {
         return i -> (Y) i;

@@ -40,6 +40,9 @@ public class WrappedBlock extends net.minecraft.world.level.block.Block implemen
 
     @Override
     public @Nullable BlockEntity createBlockEntity(BlockGetter getter, BlockState state) {
-        return Wrappers.BLOCK_ENTITY.toVanilla(block.createBlockEntity(Wrappers.WORLD_READER.toSandbox(getter), Wrappers.BLOCKSTATE.toSandbox(state)));
+        return Wrappers.BLOCK_ENTITY.toVanilla(block.createBlockEntity(
+                Wrappers.WORLD_READER.toSandbox(getter),
+                Wrappers.BLOCKSTATE.toSandbox(state)
+        ));
     }
 }

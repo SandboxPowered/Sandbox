@@ -1,4 +1,4 @@
-package org.sandboxpowered.loader;
+package org.sandboxpowered.loader.service;
 
 import net.minecraft.resources.ResourceLocation;
 import org.sandboxpowered.api.block.Block;
@@ -25,7 +25,9 @@ import org.sandboxpowered.api.util.nbt.CompoundTag;
 import org.sandboxpowered.api.util.nbt.ReadableCompoundTag;
 import org.sandboxpowered.api.util.text.Text;
 import org.sandboxpowered.eventhandler.EventHandler;
+import org.sandboxpowered.eventhandler.ResettableEventHandler;
 import org.sandboxpowered.internal.InternalService;
+import org.sandboxpowered.loader.Wrappers;
 
 import java.util.function.Supplier;
 
@@ -72,6 +74,16 @@ public class BaseInternalService implements InternalService {
 
     @Override
     public <T extends Content<T>> Registry<T> registryFunction(Class<T> c) {
+        return Wrappers.REGISTRY.toSandbox(vanillaRegistry(c));
+    }
+
+    public net.minecraft.core.Registry<?> vanillaRegistry(Class<?> c) {
+        if (c == Item.class)
+            return net.minecraft.core.Registry.ITEM;
+        if (c == Block.class)
+            return net.minecraft.core.Registry.BLOCK;
+        if (c == Fluid.class)
+            return net.minecraft.core.Registry.FLUID;
         return null;
     }
 
@@ -157,7 +169,7 @@ public class BaseInternalService implements InternalService {
 
     @Override
     public <X> EventHandler<X> createEventHandler() {
-        return null;
+        return new ResettableEventHandler<>();
     }
 
     @Override

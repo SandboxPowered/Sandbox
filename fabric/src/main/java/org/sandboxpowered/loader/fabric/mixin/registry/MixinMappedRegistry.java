@@ -10,11 +10,12 @@ import org.sandboxpowered.loader.CacheableRegistry;
 import org.sandboxpowered.loader.Wrappers;
 import org.sandboxpowered.loader.fabric.SandboxFabric;
 import org.sandboxpowered.loader.fabric.registry.WrappedRegistry;
+import org.sandboxpowered.loader.fabric.registry.WrappedRegistryIndicator;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 @Mixin(MappedRegistry.class)
-public abstract class MixinMappedRegistry<T, S extends Content<S>> extends WritableRegistry<T> implements CacheableRegistry<S, T> {
+public abstract class MixinMappedRegistry<T, S extends Content<S>> extends WritableRegistry<T> implements CacheableRegistry<S, T>, WrappedRegistryIndicator<S,T> {
     @Shadow
     private int nextId;
     private int vanillaNext;
@@ -27,6 +28,16 @@ public abstract class MixinMappedRegistry<T, S extends Content<S>> extends Writa
 
     public void setWrappedRegistry(WrappedRegistry<S, T> wrappedRegistry) {
         this.wrappedRegistry = wrappedRegistry;
+    }
+
+    @Override
+    public WrappedRegistry<S, T> sandbox_getWrappedRegistry() {
+        return wrappedRegistry;
+    }
+
+    @Override
+    public org.sandboxpowered.api.registry.Registry<S> getSandboxRegistry() {
+        return sandbox_getWrappedRegistry();
     }
 
     @Override
