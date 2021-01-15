@@ -1,47 +1,13 @@
-buildscript {
-    repositories {
-        maven { url "https://files.minecraftforge.net/maven" }
-        maven { url "https://repo.spongepowered.org/maven" }
-        jcenter()
-        mavenCentral()
-    }
-    dependencies {
-        classpath(group: "net.minecraftforge.gradle", name: "ForgeGradle", version: "3.+", changing: true)
-        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
-    }
-}
-
 plugins {
     id "com.github.johnrengelman.shadow" version "5.0.0"
-    id "eclipse"
 }
 
-apply plugin: "net.minecraftforge.gradle"
-apply plugin: 'org.spongepowered.mixin'
+configurations {
+    shadow
+}
 
-minecraft {
-    mappings(channel: "official", version: rootProject.architect.minecraft)
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-    runs {
-        client {
-            workingDirectory rootProject.file("run")
-            args '--mixin.config', 'sandbox.mixin.json'
-            mods {
-                'sandbox-forge' {
-                    source sourceSets.main
-                }
-            }
-        }
-        server {
-            workingDirectory rootProject.file("run")
-            args '--mixin.config', 'sandbox.mixin.json'
-            mods {
-                'sandbox-forge' {
-                    source sourceSets.main
-                }
-            }
-        }
-    }
+architectury {
+    platformSetupLoomIde()
 }
 
 repositories {
@@ -54,12 +20,17 @@ configurations {
 }
 
 dependencies {
-    minecraft("net.minecraftforge:forge:${rootProject.architect.minecraft}-${rootProject.forge_version}")
+    minecraft("com.mojang:minecraft:${rootProject.architect.minecraft}")
+    mappings(minecraft.officialMojangMappings())
+    forge("net.minecraftforge:forge:${rootProject.architect.minecraft}-${rootProject.forge_version}")
 
-    compile(project(path: ":common", configuration: "mcpGenerateMod")) {
+    compileOnly(project(path: ":common")) {
         transitive = false
     }
-    shadow(project(path: ":common", configuration: "mcp")) {
+    runtimeOnly(project(path: ":common", configuration: "transformForgeFakeMod")) {
+        transitive = false
+    }
+    shadow(project(path: ":common", configuration: "transformForge")) {
         transitive = false
     }
 }
@@ -71,9 +42,8 @@ shadowJar {
     classifier null
 }
 
-reobf {
-    shadowJar {}
-}
-mixin {
-    add sourceSets.main, "sandbox.refmap.json"
+remapJar {
+    dependsOn(shadowJar)
+    input.set(shadowJar.archivePath)
+    archiveClassifier = "forge"
 }
