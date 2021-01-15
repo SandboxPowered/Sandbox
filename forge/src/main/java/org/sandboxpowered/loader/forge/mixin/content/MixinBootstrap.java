@@ -1,8 +1,7 @@
 package org.sandboxpowered.loader.forge.mixin.content;
 
 
-import net.minecraft.tileentity.AbstractFurnaceTileEntity;
-import net.minecraft.util.registry.Bootstrap;
+import net.minecraft.server.Bootstrap;
 import net.minecraftforge.registries.GameData;
 import org.sandboxpowered.loader.forge.SandboxForgeCore;
 import org.spongepowered.asm.mixin.Mixin;

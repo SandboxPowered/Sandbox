@@ -56,6 +56,11 @@ public class WrappedItem extends net.minecraft.world.item.Item implements IWrapp
         );
     }
 
+    @Override
+    public boolean isFoil(ItemStack itemStack) {
+        return item.showEnchantmentGlint(Wrappers.ITEMSTACK.toSandbox(itemStack));
+    }
+
     public static class WrappedItemBlock extends net.minecraft.world.item.BlockItem implements IWrappedItem {
         private final BlockItem item;
 

@@ -12,7 +12,8 @@ public interface CacheableRegistry<S extends Content<S>, V> {
 
     void resetRegistryContent();
 
-    interface Wrapped<S, V> {
+    interface Wrapped<S extends Content<S>, V> {
         net.minecraft.core.Registry<V> toVanilla();
+        Registry<S> toSandbox();
     }
 }

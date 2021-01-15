@@ -47,7 +47,7 @@ public abstract class MixinMappedRegistry<T, S extends Content<S>> extends Writa
                 this,
                 wrapper
         ));
-        SandboxFabric.CORE.getLog().debug("Setting cached registry '{}' to Sandbox: '{}' Vanilla: '{}'", wrappedRegistry.getIdentity(), wrapper.getSandboxType(), wrapper.getVanillaType());
+//        SandboxFabric.CORE.getLog().debug("Setting cached registry '{}' to Sandbox: '{}' Vanilla: '{}'", wrappedRegistry.getIdentity(), wrapper.getSandboxType(), wrapper.getVanillaType());
     }
 
     @Override

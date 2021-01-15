@@ -1,8 +1,10 @@
 package org.sandboxpowered.loader;
 
+import com.google.inject.Guice;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.sandboxpowered.loader.config.Config;
+import org.sandboxpowered.loader.inject.SandboxImplementationModule;
 import org.sandboxpowered.loader.loading.AddonSecurityPolicy;
 import org.sandboxpowered.loader.loading.SandboxLoader;
 import org.sandboxpowered.loader.platform.SandboxPlatform;

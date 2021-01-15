@@ -3,7 +3,6 @@ package org.sandboxpowered.loader.wrapper;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 import org.jetbrains.annotations.Nullable;
 import org.sandboxpowered.api.block.Block;
 import org.sandboxpowered.loader.Wrappers;
@@ -15,8 +14,18 @@ public class WrappedBlock extends net.minecraft.world.level.block.Block implemen
     private static final IdentityHashMap<Block, WrappedBlock> BLOCK_MAP = new IdentityHashMap<>();
     private final Block block;
 
+    public static Properties from(Block.Settings settings) {
+        Properties properties = Properties.of(Wrappers.MATERIAL.toVanilla(settings.getMaterial()));
+        if(settings.doesRandomTick())
+            properties.randomTicks();
+        if(settings.getVelocity()>0)
+            properties.speedFactor(settings.getVelocity());
+        properties.jumpFactor(settings.getJumpVelocity());
+        return properties;
+    }
+
     public WrappedBlock(Block block) {
-        super(Properties.of(Material.STONE));
+        super(from(block.getSettings()));
         this.block = block;
     }
 
@@ -33,15 +42,19 @@ public class WrappedBlock extends net.minecraft.world.level.block.Block implemen
     }
 
     @Override
+    public boolean isRandomlyTicking(BlockState blockState) {
+        return super.isRandomlyTicking(blockState);
+    }
+
+    @Override
     public boolean hasBlockEntity(BlockState state) {
-        return block.hasBlockEntity(Wrappers.BLOCKSTATE.toSandbox(state));
+        return block.hasBlockEntity();
     }
 
     @Override
     public @Nullable BlockEntity createBlockEntity(BlockGetter getter, BlockState state) {
         return Wrappers.BLOCK_ENTITY.toVanilla(block.createBlockEntity(
-                Wrappers.WORLD_READER.toSandbox(getter),
-                Wrappers.BLOCKSTATE.toSandbox(state)
+                Wrappers.WORLD_READER.toSandbox(getter)
         ));
     }
 }

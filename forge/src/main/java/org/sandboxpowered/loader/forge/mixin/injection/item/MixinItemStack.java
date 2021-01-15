@@ -3,16 +3,16 @@ package org.sandboxpowered.loader.forge.mixin.injection.item;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.ListNBT;
-import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.sandboxpowered.api.ecs.Entity;
 import org.sandboxpowered.api.enchantment.Enchantment;
-import org.sandboxpowered.api.entity.LivingEntity;
 import org.sandboxpowered.api.item.Item;
 import org.sandboxpowered.api.util.nbt.CompoundTag;
+import org.sandboxpowered.api.world.World;
 import org.sandboxpowered.loader.Wrappers;
 import org.spongepowered.asm.mixin.*;
 
@@ -206,7 +206,11 @@ public abstract class MixinItemStack {
         return getDamageValue();
     }
 
-    public void stack$damage(int damage, LivingEntity entity) {
-        hurtAndBreak(damage, Wrappers.LIVING_ENTITY.toVanilla(entity), livingEntity -> livingEntity.broadcastBreakEvent(Hand.MAIN_HAND));
+    public void stack$damage(int damage, Entity entity) {
+
+    }
+
+    public void stack$damage(int damage, World world, int entity) {
+
     }
 }

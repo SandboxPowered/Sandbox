@@ -3,18 +3,22 @@ package org.sandboxpowered.loader;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.sandboxpowered.api.block.Block;
+import org.sandboxpowered.api.block.Material;
 import org.sandboxpowered.api.block.entity.BlockEntity;
 import org.sandboxpowered.api.enchantment.Enchantment;
-import org.sandboxpowered.api.entity.LivingEntity;
 import org.sandboxpowered.api.fluid.Fluid;
 import org.sandboxpowered.api.item.Item;
 import org.sandboxpowered.api.item.ItemStack;
+import org.sandboxpowered.api.item.tool.ToolMaterial;
 import org.sandboxpowered.api.registry.Registry;
 import org.sandboxpowered.api.util.Identity;
+import org.sandboxpowered.api.util.InteractionResult;
 import org.sandboxpowered.api.util.math.Position;
 import org.sandboxpowered.api.util.text.Text;
 import org.sandboxpowered.api.world.World;
@@ -63,6 +67,39 @@ public class Wrappers {
                 return null;
             }
     );
+    public static final Wrapper<InteractionResult, net.minecraft.world.InteractionResult> INTERACTION_RESULT = new Wrapper<>(
+            InteractionResult.class, net.minecraft.world.InteractionResult.class,
+            result -> {
+                switch (result) {
+                    case CONSUME:
+                        return net.minecraft.world.InteractionResult.CONSUME;
+                    case SUCCESS:
+                        return net.minecraft.world.InteractionResult.SUCCESS;
+                    case FAILURE:
+                        return net.minecraft.world.InteractionResult.FAIL;
+                    default:
+                        return net.minecraft.world.InteractionResult.PASS;
+                }
+            },
+            result -> {
+                switch (result) {
+                    case CONSUME:
+                        return InteractionResult.CONSUME;
+                    case SUCCESS:
+                        return InteractionResult.SUCCESS;
+                    case FAIL:
+                        return InteractionResult.FAILURE;
+                    default:
+                        return InteractionResult.IGNORE;
+                }
+            }
+    );
+    public static final Wrapper<Material, net.minecraft.world.level.material.Material> MATERIAL = new Wrapper<>(
+            Material.class, net.minecraft.world.level.material.Material.class
+    );
+    public static Wrapper<ToolMaterial, Tier> TOOL_MATERIAL = new Wrapper<>(
+            ToolMaterial.class, Tier.class
+    );
     public static Wrapper<Block, net.minecraft.world.level.block.Block> BLOCK = new Wrapper<>(
             Block.class, net.minecraft.world.level.block.Block.class,
             WrappedBlock::convertSandboxBlock,
@@ -77,9 +114,6 @@ public class Wrappers {
             Enchantment.class, net.minecraft.world.item.enchantment.Enchantment.class,
             enchant -> null,
             enchant -> null
-    );
-    public static Wrapper<LivingEntity, net.minecraft.world.entity.LivingEntity> LIVING_ENTITY = new Wrapper<>(
-            LivingEntity.class, net.minecraft.world.entity.LivingEntity.class
     );
 
     public static Wrapper<Identity, ResourceLocation> IDENTITY = new Wrapper<>(

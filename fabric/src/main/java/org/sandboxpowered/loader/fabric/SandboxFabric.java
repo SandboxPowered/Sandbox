@@ -1,6 +1,8 @@
 package org.sandboxpowered.loader.fabric;
 
 import net.minecraft.core.Registry;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.state.properties.StairsShape;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.sandboxpowered.api.content.Content;
@@ -10,8 +12,7 @@ import org.sandboxpowered.loader.SandboxCore;
 import org.sandboxpowered.loader.Wrappers;
 
 public class SandboxFabric extends SandboxCore {
-    public static SandboxFabric CORE = new SandboxFabric();
-    private static final Identity ID = Identity.of("sandbox", "fabric");
+    private final Identity ID = Identity.of("sandbox", "fabric");
 
     @Override
     public Identity getIdentity() {

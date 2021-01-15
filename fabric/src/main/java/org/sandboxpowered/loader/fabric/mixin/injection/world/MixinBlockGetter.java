@@ -4,8 +4,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import org.jetbrains.annotations.Nullable;
 import org.sandboxpowered.api.block.entity.BlockEntity;
-import org.sandboxpowered.api.entity.Entity;
-import org.sandboxpowered.api.shape.Box;
 import org.sandboxpowered.api.state.BlockState;
 import org.sandboxpowered.api.state.FluidState;
 import org.sandboxpowered.api.tags.TagManager;
@@ -13,8 +11,6 @@ import org.sandboxpowered.api.util.math.Position;
 import org.sandboxpowered.api.world.WorldReader;
 import org.sandboxpowered.loader.Wrappers;
 import org.spongepowered.asm.mixin.*;
-
-import java.util.stream.Stream;
 
 @Mixin(BlockGetter.class)
 @Implements(@Interface(iface = WorldReader.class, prefix = "reader$", remap = Interface.Remap.NONE))
@@ -36,14 +32,6 @@ public interface MixinBlockGetter {
         return null;
     }
 
-    default Stream<Entity> reader$getEntitiesWithin(Box box) {
-        return Stream.empty();
-    }
-
-    default <T extends Entity> Stream<T> reader$getEntitiesWithin(Box box, Class<T> filter) {
-        return Stream.empty();
-    }
-
     default long reader$getWorldTime() {
         return 0;
     }
@@ -51,4 +39,5 @@ public interface MixinBlockGetter {
     default TagManager reader$getTagManager() {
         return null;
     }
+
 }

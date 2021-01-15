@@ -2,6 +2,7 @@ package org.sandboxpowered.loader.fabric.mixin.loading;
 
 import net.minecraft.client.server.IntegratedServer;
 import org.sandboxpowered.loader.fabric.SandboxFabric;
+import org.sandboxpowered.loader.platform.SandboxPlatform;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -20,7 +21,7 @@ public class MixinIntegratedServer {
             cancellable = true
     )
     public void setupServer(CallbackInfoReturnable<Boolean> info) throws IOException {
-        SandboxFabric.CORE.load();
+//        SandboxFabric.CORE.load();
     }
     @Inject(method = "stopServer",
             at = @At(value = "INVOKE",
@@ -29,6 +30,6 @@ public class MixinIntegratedServer {
             cancellable = true
     )
     public void setupServer(CallbackInfo info) throws IOException {
-        SandboxFabric.CORE.unload();
+//        SandboxFabric.CORE.unload();
     }
 }
