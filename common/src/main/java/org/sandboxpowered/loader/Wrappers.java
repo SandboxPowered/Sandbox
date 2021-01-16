@@ -97,6 +97,9 @@ public class Wrappers {
     public static final Wrapper<Material, net.minecraft.world.level.material.Material> MATERIAL = new Wrapper<>(
             Material.class, net.minecraft.world.level.material.Material.class
     );
+    public static final Wrapper<Position.Mutable, BlockPos.MutableBlockPos> MUTABLE_POSITION = new Wrapper<>(
+            Position.Mutable.class, BlockPos.MutableBlockPos.class
+    );
     public static Wrapper<ToolMaterial, Tier> TOOL_MATERIAL = new Wrapper<>(
             ToolMaterial.class, Tier.class
     );

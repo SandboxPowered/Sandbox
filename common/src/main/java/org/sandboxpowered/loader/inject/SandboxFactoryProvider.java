@@ -4,13 +4,20 @@ import com.google.inject.Singleton;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Tiers;
+import org.sandboxpowered.api.block.Material;
+import org.sandboxpowered.api.block.Materials;
 import org.sandboxpowered.api.events.EventHandlerFactory;
 import org.sandboxpowered.api.inject.FactoryProvider;
+import org.sandboxpowered.api.item.ItemStack;
 import org.sandboxpowered.api.item.tool.ToolMaterials;
 import org.sandboxpowered.api.util.Identity;
+import org.sandboxpowered.api.util.math.Position;
 import org.sandboxpowered.eventhandler.ResettableEventHandler;
 import org.sandboxpowered.loader.Wrappers;
 import org.sandboxpowered.loader.inject.factory.IdentityFactory;
+import org.sandboxpowered.loader.inject.factory.ItemStackFactory;
+import org.sandboxpowered.loader.inject.factory.MaterialFactory;
+import org.sandboxpowered.loader.inject.factory.PositionFactory;
 
 import java.util.Map;
 import java.util.Objects;
@@ -39,6 +46,9 @@ public class SandboxFactoryProvider implements FactoryProvider {
 
     public void registerDefaultFactories() {
         registerFactory(Identity.Factory.class, new IdentityFactory());
+        registerFactory(Position.Factory.class, new PositionFactory());
+        registerFactory(Materials.Factory.class, new MaterialFactory());
+        registerFactory(ItemStack.Factory.class, new ItemStackFactory());
         registerFactory(ToolMaterials.Factory.class, material -> {
             switch (material) {
                 case "stone":

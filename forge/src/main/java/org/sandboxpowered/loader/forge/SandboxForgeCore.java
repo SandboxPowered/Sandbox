@@ -15,11 +15,6 @@ public class SandboxForgeCore extends SandboxCore {
     public static final SandboxForgeCore CORE = new SandboxForgeCore();
 
     @Override
-    protected Logger createLogger() {
-        return LogManager.getLogger("Sandbox|Forge");
-    }
-
-    @Override
     protected void initCachedRegistries() {
         setRegistryWrapper(ForgeRegistries.BLOCKS, Wrappers.BLOCK);
         setRegistryWrapper(ForgeRegistries.ITEMS, Wrappers.ITEM);

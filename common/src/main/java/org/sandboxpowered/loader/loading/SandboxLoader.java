@@ -6,6 +6,8 @@ import com.github.zafarkhaja.semver.Parser;
 import com.github.zafarkhaja.semver.expr.Expression;
 import com.github.zafarkhaja.semver.expr.ExpressionParser;
 import com.google.common.collect.ImmutableMap;
+import net.minecraft.world.level.storage.LevelResource;
+import net.minecraft.world.level.storage.LevelStorageSource;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,6 +22,7 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Consumer;
@@ -34,10 +37,6 @@ public class SandboxLoader {
     private final Map<AddonSpec, Addon> addonMap = new HashMap<>();
     private final Map<AddonSpec, AddonSpecificAPIReference> addonAPIs = new HashMap<>();
     private final Map<AddonSpec, AddonSpecificRegistrarReference> addonRegistrars = new HashMap<>();
-    private final AddonFinder scanner = new AddonFinder.MergedScanner(
-            new AddonFinder.FolderScanner(Paths.get("addons")),
-            new AddonFinder.ClasspathScanner()
-    );
     private final Map<String, AddonClassLoader> addonToClassLoader = new LinkedHashMap<>();
     public Logger log = LogManager.getLogger(SandboxLoader.class);
     private boolean loaded;
@@ -162,9 +161,15 @@ public class SandboxLoader {
         }
     }
 
-    public void load() {
+    public void load(LevelStorageSource.LevelStorageAccess storageSource) {
+        Path path = storageSource.getLevelPath(LevelResource.ROOT);
+        Path addonsDir = path.resolve("addons");
+        AddonFinder finder = new AddonFinder.MergedScanner(
+                new AddonFinder.FolderScanner(addonsDir),
+                new AddonFinder.ClasspathScanner()
+        );
         try {
-            loadFromURLs(scanner.findAddons());
+            loadFromURLs(finder.findAddons());
         } catch (IOException e) {
             log.error("Failed to load classpath addons", e);
         }

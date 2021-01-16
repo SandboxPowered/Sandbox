@@ -20,11 +20,6 @@ public class SandboxFabric extends SandboxCore {
     }
 
     @Override
-    protected Logger createLogger() {
-        return LogManager.getLogger("Sandbox|Fabric");
-    }
-
-    @Override
     protected void initCachedRegistries() {
         setRegistryWrapper(Registry.BLOCK, Wrappers.BLOCK);
         setRegistryWrapper(Registry.ITEM, Wrappers.ITEM);

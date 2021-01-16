@@ -3,6 +3,7 @@
   "id": "sandbox",
   "version": "0.0.1",
   "mixins": [
+    "sandbox-common.mixins.json",
     "sandbox.mixins.json"
   ]
 }

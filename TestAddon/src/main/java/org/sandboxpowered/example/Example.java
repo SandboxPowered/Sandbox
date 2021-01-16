@@ -38,11 +38,6 @@ public class Example implements Addon {
             if (world.isClient())
                 return InteractionResult.IGNORE;
             Block block = state.getBlock();
-            if(block.isIn(BlockTags.DOORS)) {
-                Property<Boolean> open = Properties.OPEN;
-                Property<Direction> dir = Properties.HORIZONTAL_FACING;
-            }
-
             if (block instanceof CropBlock) {
                 CropBlock crop = (CropBlock) block;
                 int age = crop.getAge(state);
@@ -69,7 +64,6 @@ public class Example implements Addon {
                                 world.spawnItem(position.getX() + 0.5, position.getY() + 0.5, position.getZ() + 0.5, drop);
                             }
                         }
-//                        player.swingHand(hand);
                         return InteractionResult.SUCCESS;
                     }
                 }
@@ -86,7 +80,7 @@ public class Example implements Addon {
     public void register(SandboxAPI api, Registrar registrar) {
         registrar.useRegistrarService(ResourceService.class, this::registerMaterials);
         registrar.register("test", new BaseItem(new Item.Settings()));
-        registrar.register("block", new BaseBlock(Block.Settings.builder(Material.STONE).build()));
-        registrar.register("block_no_itemblock", new BaseBlock(Block.Settings.builder(Material.STONE).removeItemBlock().build()));
+        registrar.register("block", new BaseBlock(Block.Settings.builder(Materials.STONE).build()));
+        registrar.register("block_no_itemblock", new BaseBlock(Block.Settings.builder(Materials.STONE).removeItemBlock().build()));
     }
 }

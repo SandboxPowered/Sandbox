@@ -1,5 +1,6 @@
 package org.sandboxpowered.loader.service;
 
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Tiers;
 import org.sandboxpowered.api.block.Block;
 import org.sandboxpowered.api.block.Material;
@@ -111,7 +112,7 @@ public abstract class BaseInternalService implements InternalService {
 
     @Override
     public Tag<Block> getBlockTag(String string) {
-        return null;
+        return (Tag<Block>) BlockTags.BEACON_BASE_BLOCKS;
     }
 
     @Override

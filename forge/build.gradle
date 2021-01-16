@@ -10,6 +10,10 @@ architectury {
     platformSetupLoomIde()
 }
 
+loom {
+    mixinConfigs = ["sandbox.mixins.json", "sandbox-common.mixins.json"]
+}
+
 repositories {
     jcenter()
     maven { url "https://files.minecraftforge.net/maven" }
