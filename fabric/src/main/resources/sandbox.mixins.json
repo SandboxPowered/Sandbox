@@ -1,7 +1,7 @@
 {
   "required": true,
   "package": "org.sandboxpowered.loader.fabric.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_11",
   "minVersion": "0.8",
   "mixinPriority": 5480,
   "mixins": [
