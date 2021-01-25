@@ -3,27 +3,18 @@ package org.sandboxpowered.example;
 import org.sandboxpowered.api.SandboxAPI;
 import org.sandboxpowered.api.addon.Addon;
 import org.sandboxpowered.api.block.*;
-import org.sandboxpowered.api.block.entity.BlockEntity;
 import org.sandboxpowered.api.events.BlockEvents;
 import org.sandboxpowered.api.item.BaseItem;
 import org.sandboxpowered.api.item.Item;
 import org.sandboxpowered.api.item.ItemStack;
 import org.sandboxpowered.api.registry.Registrar;
-import org.sandboxpowered.api.resources.Resource;
 import org.sandboxpowered.api.resources.ResourceConstants;
 import org.sandboxpowered.api.resources.ResourceService;
-import org.sandboxpowered.api.state.Properties;
-import org.sandboxpowered.api.state.property.Property;
-import org.sandboxpowered.api.tags.BlockTags;
-import org.sandboxpowered.api.tags.Tag;
-import org.sandboxpowered.api.util.Direction;
 import org.sandboxpowered.api.util.InteractionResult;
 
 import java.util.List;
 
 public class Example implements Addon {
-    public static BlockEntity.Type<?> pipeEntityType;
-
     @Override
     public void init(SandboxAPI api) {
         api.getLog().info("Loading Example Addon");
@@ -82,5 +73,6 @@ public class Example implements Addon {
         registrar.register("test", new BaseItem(new Item.Settings()));
         registrar.register("block", new BaseBlock(Block.Settings.builder(Materials.STONE).build()));
         registrar.register("block_no_itemblock", new BaseBlock(Block.Settings.builder(Materials.STONE).removeItemBlock().build()));
+        registrar.register("block_with_entity", new TestBlockEntity(Block.Settings.builder(Materials.METAL).hasBlockEntity().build()));
     }
 }

@@ -3,7 +3,6 @@ package org.sandboxpowered.loader.mixin.injection.world;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import org.jetbrains.annotations.Nullable;
-import org.sandboxpowered.api.block.entity.BlockEntity;
 import org.sandboxpowered.api.state.BlockState;
 import org.sandboxpowered.api.state.FluidState;
 import org.sandboxpowered.api.tags.TagManager;
@@ -22,10 +21,6 @@ public interface MixinBlockGetter {
 
     default BlockState reader$getBlockState(Position position) {
         return Wrappers.BLOCKSTATE.toSandbox(getBlockState(Wrappers.POSITION.toVanilla(position)));
-    }
-
-    default @Nullable BlockEntity reader$getBlockEntity(Position position) {
-        return Wrappers.BLOCK_ENTITY.toSandbox(getBlockEntity(Wrappers.POSITION.toVanilla(position)));
     }
 
     default FluidState reader$getFluidState(Position position) {

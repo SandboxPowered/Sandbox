@@ -33,7 +33,7 @@ public class WrappedBlock extends net.minecraft.world.level.block.Block {
         if (block instanceof net.minecraft.world.level.block.Block)
             return (net.minecraft.world.level.block.Block) block;
         return BLOCK_MAP.computeIfAbsent(block, toWrap -> {
-            if (toWrap.hasBlockEntity()) {
+            if (toWrap.getSettings().hasBlockEntity()) {
                 return new WithBE(toWrap);
             }
             return new WrappedBlock(toWrap);
@@ -63,9 +63,10 @@ public class WrappedBlock extends net.minecraft.world.level.block.Block {
         @Nullable
         @Override
         public BlockEntity newBlockEntity(BlockGetter blockGetter) {
-            return Wrappers.BLOCK_ENTITY.toVanilla(getBlock().createBlockEntity(
-                    Wrappers.WORLD_READER.toSandbox(blockGetter)
-            ));
+//            return Wrappers.BLOCK_ENTITY.toVanilla(getBlock().createBlockEntity(
+//                    Wrappers.WORLD_READER.toSandbox(blockGetter)
+//            ));
+            return null;
         }
     }
 

@@ -5,6 +5,8 @@ import org.apache.logging.log4j.Logger;
 import org.sandboxpowered.api.util.Log;
 import org.sandboxpowered.internal.AddonSpec;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 public class AddonLog implements Log {
     private final AddonSpec spec;
     private final Logger logger;
