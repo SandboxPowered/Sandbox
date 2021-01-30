@@ -8,7 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
-import org.sandboxpowered.api.entity.player.Hand;
+import org.sandboxpowered.api.util.Hand;
 import org.sandboxpowered.api.events.BlockEvents;
 import org.sandboxpowered.api.item.ItemStack;
 import org.sandboxpowered.api.state.BlockState;

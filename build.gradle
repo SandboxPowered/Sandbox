@@ -7,10 +7,6 @@ architect {
 	minecraft = rootProject.minecraft_version
 }
 
-if(!JavaVersion.current().java11Compatible) {
-	throw new RuntimeException("You must use Java 11 or above to compile sandbox")
-}
-
 subprojects {
 	apply plugin: "java"
 	if(name != "TestAddon") {
