@@ -34,27 +34,12 @@ public abstract class BaseInternalService implements InternalService {
     }
 
     @Override
-    public Material getMaterial(String material) {
-        return null;
-    }
-
-    @Override
-    public CompoundTag createCompoundTag() {
-        return null;
-    }
-
-    @Override
     public <T extends Comparable<T>> Property<T> getProperty(String property) {
         return null;
     }
 
     @Override
     public Server serverInstance() {
-        return null;
-    }
-
-    @Override
-    public Vec3i createVec3i(int x, int y, int z) {
         return null;
     }
 
@@ -84,11 +69,6 @@ public abstract class BaseInternalService implements InternalService {
     }
 
     @Override
-    public Vec2i createVec2i(int x, int y) {
-        return null;
-    }
-
-    @Override
     public <T extends Content<T>> Registry<T> registryFunction(Class<T> c) {
         return null;
     }
@@ -96,10 +76,5 @@ public abstract class BaseInternalService implements InternalService {
     @Override
     public Tag<Block> getBlockTag(String string) {
         return (Tag<Block>) BlockTags.BEACON_BASE_BLOCKS;
-    }
-
-    @Override
-    public Vec3d createVec3d(double x, double y, double z) {
-        return null;
     }
 }
