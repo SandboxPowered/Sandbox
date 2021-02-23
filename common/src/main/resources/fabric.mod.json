@@ -1,5 +1,6 @@
 {
   "schemaVersion": 1,
   "id": "sandbox-common",
-  "version": "0.0.1"
+  "version": "0.0.1",
+  "accessWidener": "sandbox.accesswidener"
 }

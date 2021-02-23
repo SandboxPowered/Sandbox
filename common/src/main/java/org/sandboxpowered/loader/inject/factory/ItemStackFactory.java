@@ -10,7 +10,7 @@ import org.sandboxpowered.loader.Wrappers;
 public class ItemStackFactory implements ItemStack.Factory {
     @Override
     public ItemStack create(Item item, int count, @Nullable CompoundTag nbt) {
-        if (item == null || count <= 0)
+        if (count <= 0)
             return Wrappers.ITEMSTACK.toSandbox(net.minecraft.world.item.ItemStack.EMPTY);
         return Wrappers.ITEMSTACK.toSandbox(new net.minecraft.world.item.ItemStack(
                 Wrappers.ITEM.toVanilla(item),

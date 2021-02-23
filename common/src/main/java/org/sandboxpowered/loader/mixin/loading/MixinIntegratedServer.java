@@ -35,7 +35,7 @@ public abstract class MixinIntegratedServer extends MinecraftServer {
             cancellable = true
     )
     public void setupServer(CallbackInfoReturnable<Boolean> info) throws IOException {
-        Platform.getPlatform().load(storageSource);
+        Platform.getPlatform().load(this, storageSource);
     }
 
     @Inject(method = "stopServer",

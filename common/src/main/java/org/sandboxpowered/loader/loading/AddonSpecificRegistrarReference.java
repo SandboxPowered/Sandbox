@@ -7,6 +7,7 @@ import org.sandboxpowered.api.item.BaseBlockItem;
 import org.sandboxpowered.api.item.BlockItem;
 import org.sandboxpowered.api.registry.Registrar;
 import org.sandboxpowered.api.registry.Registry;
+import org.sandboxpowered.api.resources.ResourceService;
 import org.sandboxpowered.api.util.Identity;
 import org.sandboxpowered.internal.AddonSpec;
 
@@ -38,18 +39,13 @@ public class AddonSpecificRegistrarReference implements Registrar {
 
     @Override
     public <T extends Content<T>> Registry.Entry<T> register(T content) {
-        Registry.Entry<T> entry = Registry.getRegistryFromType(content.getContentType()).register(content);
-        if (content instanceof BaseBlock) {
-            BlockItem item = ((BaseBlock) content).createBlockItem();
-            if (item instanceof BaseBlockItem) {
-                register(item.setIdentity(content.getIdentity()));
-            }
-        }
-        return entry;
+        return loader.register(content);
     }
 
     @Override
     public <T extends Service> Optional<T> getRegistrarService(Class<T> tClass) {
+        if (tClass == ResourceService.class)
+            return Optional.of((T) loader.getResourceService().getServiceFor(getSourceAddon()));
         return Optional.empty();
     }
 }

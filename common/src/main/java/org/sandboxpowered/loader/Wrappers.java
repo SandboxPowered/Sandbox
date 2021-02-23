@@ -3,6 +3,7 @@ package org.sandboxpowered.loader;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -13,8 +14,10 @@ import org.sandboxpowered.api.enchantment.Enchantment;
 import org.sandboxpowered.api.fluid.Fluid;
 import org.sandboxpowered.api.item.Item;
 import org.sandboxpowered.api.item.ItemStack;
+import org.sandboxpowered.api.item.attribute.Attribute;
 import org.sandboxpowered.api.item.tool.ToolMaterial;
 import org.sandboxpowered.api.registry.Registry;
+import org.sandboxpowered.api.util.EquipmentSlot;
 import org.sandboxpowered.api.util.Identity;
 import org.sandboxpowered.api.util.InteractionResult;
 import org.sandboxpowered.api.util.math.Position;
@@ -95,31 +98,99 @@ public class Wrappers {
     public static final Wrapper<Position.Mutable, BlockPos.MutableBlockPos> MUTABLE_POSITION = new Wrapper<>(
             Position.Mutable.class, BlockPos.MutableBlockPos.class
     );
-    public static Wrapper<ToolMaterial, Tier> TOOL_MATERIAL = new Wrapper<>(
+    public static final Wrapper<Attribute, net.minecraft.world.entity.ai.attributes.Attribute> ATTRIBUTE = new Wrapper<>(
+            Attribute.class, net.minecraft.world.entity.ai.attributes.Attribute.class
+    );
+    public static final Wrapper<ToolMaterial, Tier> TOOL_MATERIAL = new Wrapper<>(
             ToolMaterial.class, Tier.class
     );
-    public static Wrapper<Block, net.minecraft.world.level.block.Block> BLOCK = new Wrapper<>(
+    public static final Wrapper<Block, net.minecraft.world.level.block.Block> BLOCK = new Wrapper<>(
             Block.class, net.minecraft.world.level.block.Block.class,
             WrappedBlock::convertSandboxBlock,
             WrappedBlock::convertVanillaBlock
     );
-    public static Wrapper<Fluid, net.minecraft.world.level.material.Fluid> FLUID = new Wrapper<>(
+    public static final Wrapper<Fluid, net.minecraft.world.level.material.Fluid> FLUID = new Wrapper<>(
             Fluid.class, net.minecraft.world.level.material.Fluid.class,
             fluid -> null,
             fluid -> null
     );
-    public static Wrapper<Enchantment, net.minecraft.world.item.enchantment.Enchantment> ENCHANTMENT = new Wrapper<>(
+    public static final Wrapper<Enchantment, net.minecraft.world.item.enchantment.Enchantment> ENCHANTMENT = new Wrapper<>(
             Enchantment.class, net.minecraft.world.item.enchantment.Enchantment.class,
             enchant -> null,
             enchant -> null
     );
 
-    public static Wrapper<Identity, ResourceLocation> IDENTITY = new Wrapper<>(
+    public static final Wrapper<Identity, ResourceLocation> IDENTITY = new Wrapper<>(
             Identity.class, ResourceLocation.class
     );
 
-    public static Wrapper<ItemStack, net.minecraft.world.item.ItemStack> ITEMSTACK = new Wrapper<>(
+    public static final Wrapper<ItemStack, net.minecraft.world.item.ItemStack> ITEMSTACK = new Wrapper<>(
             ItemStack.class, net.minecraft.world.item.ItemStack.class
+    );
+    public static final Wrapper<EquipmentSlot, net.minecraft.world.entity.EquipmentSlot> EQUIPMENT_SLOT = new Wrapper<>(
+            EquipmentSlot.class, net.minecraft.world.entity.EquipmentSlot.class,
+            slot -> {
+                switch (slot) {
+                    case MAIN_HAND:
+                        return net.minecraft.world.entity.EquipmentSlot.MAINHAND;
+                    case FEET:
+                        return net.minecraft.world.entity.EquipmentSlot.FEET;
+                    case LEGS:
+                        return net.minecraft.world.entity.EquipmentSlot.LEGS;
+                    case CHEST:
+                        return net.minecraft.world.entity.EquipmentSlot.CHEST;
+                    case HEAD:
+                        return net.minecraft.world.entity.EquipmentSlot.HEAD;
+                    case OFF_HAND:
+                    default:
+                        return net.minecraft.world.entity.EquipmentSlot.OFFHAND;
+                }
+            },
+            slot -> {
+                switch (slot) {
+                    case MAINHAND:
+                        return EquipmentSlot.MAIN_HAND;
+                    case FEET:
+                        return EquipmentSlot.FEET;
+                    case LEGS:
+                        return EquipmentSlot.LEGS;
+                    case CHEST:
+                        return EquipmentSlot.CHEST;
+                    case HEAD:
+                        return EquipmentSlot.HEAD;
+                    case OFFHAND:
+                    default:
+                        return EquipmentSlot.OFF_HAND;
+                }
+            }
+    );
+    public static final Wrapper<Attribute.Modifier, AttributeModifier> ATTRIBUTE_MODIFIER = new Wrapper<>(
+            Attribute.Modifier.class, AttributeModifier.class
+    );
+    public static final Wrapper<Attribute.Operation, AttributeModifier.Operation> ATTRIBUTE_OPERATION = new Wrapper<>(
+            Attribute.Operation.class, AttributeModifier.Operation.class,
+            operation -> {
+                switch (operation) {
+                    case MULTIPLY_BASE:
+                        return AttributeModifier.Operation.MULTIPLY_BASE;
+                    case MULTIPLY_TOTAL:
+                        return AttributeModifier.Operation.MULTIPLY_TOTAL;
+                    case ADDITION:
+                    default:
+                        return AttributeModifier.Operation.ADDITION;
+                }
+            },
+            operation -> {
+                switch (operation) {
+                    case MULTIPLY_BASE:
+                        return Attribute.Operation.MULTIPLY_BASE;
+                    case MULTIPLY_TOTAL:
+                        return Attribute.Operation.MULTIPLY_TOTAL;
+                    case ADDITION:
+                    default:
+                        return Attribute.Operation.ADDITION;
+                }
+            }
     );
 
     private static <X, Y> Function<X, Y> cast() {

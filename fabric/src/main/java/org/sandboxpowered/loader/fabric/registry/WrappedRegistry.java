@@ -2,6 +2,7 @@ package org.sandboxpowered.loader.fabric.registry;
 
 import com.mojang.serialization.Lifecycle;
 import net.minecraft.resources.ResourceKey;
+import org.jetbrains.annotations.Nullable;
 import org.sandboxpowered.api.content.Content;
 import org.sandboxpowered.api.registry.Registry;
 import org.sandboxpowered.api.util.Identity;
@@ -122,6 +123,11 @@ public class WrappedRegistry<S extends Content<S>, V> implements Registry<S>, Ca
         @Override
         public T orElse(T other) {
             return getAsOptional().orElse(other);
+        }
+
+        @Override
+        public @Nullable T orNull() {
+            return getAsOptional().orElse(null);
         }
 
         @Override

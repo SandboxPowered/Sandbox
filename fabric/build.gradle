@@ -2,6 +2,10 @@ plugins {
     id "com.github.johnrengelman.shadow" version "5.0.0"
 }
 
+architectury {
+    platformSetupLoomIde()
+}
+
 configurations {
     shadow
 }

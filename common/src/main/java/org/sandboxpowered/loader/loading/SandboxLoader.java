@@ -6,15 +6,26 @@ import com.github.zafarkhaja.semver.Parser;
 import com.github.zafarkhaja.semver.expr.Expression;
 import com.github.zafarkhaja.semver.expr.ExpressionParser;
 import com.google.common.collect.ImmutableMap;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.server.IntegratedServer;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraft.world.level.storage.LevelStorageSource;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.sandboxpowered.api.addon.Addon;
+import org.sandboxpowered.api.block.BaseBlock;
+import org.sandboxpowered.api.content.Content;
+import org.sandboxpowered.api.item.BaseBlockItem;
+import org.sandboxpowered.api.item.BlockItem;
+import org.sandboxpowered.api.registry.Registry;
 import org.sandboxpowered.api.util.Identity;
 import org.sandboxpowered.api.util.Side;
 import org.sandboxpowered.internal.AddonSpec;
+import org.sandboxpowered.loader.loading.resource_service.GlobalResourceService;
+import org.sandboxpowered.loader.packs.AddonPackRespositorySource;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +34,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.jar.JarFile;
@@ -39,10 +49,16 @@ public class SandboxLoader {
     private final Map<AddonSpec, AddonSpecificRegistrarReference> addonRegistrars = new HashMap<>();
     private final Map<String, AddonClassLoader> addonToClassLoader = new LinkedHashMap<>();
     public Logger log = LogManager.getLogger(SandboxLoader.class);
+    public AddonPackRespositorySource addonPackRespositorySource = new AddonPackRespositorySource();
     private boolean loaded;
+    private final GlobalResourceService resourceService = new GlobalResourceService();
 
     private AddonSpecificRegistrarReference getRegistrarForAddon(AddonSpec spec) {
         return addonRegistrars.computeIfAbsent(spec, s -> new AddonSpecificRegistrarReference(s, this));
+    }
+
+    public GlobalResourceService getResourceService() {
+        return resourceService;
     }
 
     private AddonSpecificAPIReference getAPIForAddon(AddonSpec spec) {
@@ -108,6 +124,7 @@ public class SandboxLoader {
 
     public void unload() {
         log.info("Unloading Sandbox");
+        resourceService.clear();
         loadedAddons.clear();
         addonMap.clear();
         addonAPIs.clear();
@@ -161,7 +178,7 @@ public class SandboxLoader {
         }
     }
 
-    public void load(LevelStorageSource.LevelStorageAccess storageSource) {
+    public void load(MinecraftServer server, LevelStorageSource.LevelStorageAccess storageSource) {
         Path path = storageSource.getLevelPath(LevelResource.ROOT);
         Path addonsDir = path.resolve("addons");
         AddonFinder finder = new AddonFinder.MergedScanner(
@@ -174,10 +191,48 @@ public class SandboxLoader {
             log.error("Failed to load classpath addons", e);
         }
 
+        resourceService.initVanillaContent();
+
         loopInOrder(spec -> addonMap.get(spec).init(getAPIForAddon(spec)));
         loopInOrder(spec -> addonMap.get(spec).register(getAPIForAddon(spec), getRegistrarForAddon(spec)));
         loopInOrder(spec -> addonMap.get(spec).finishLoad(getAPIForAddon(spec)));
         loaded = true;
+
+        resourceService.getResourceMap().forEach((material, subMap) -> subMap.forEach((type, resource) -> {
+            Content o = resource.get();
+            Set set = resource.getVariants();
+            if (o != null) {
+                if (o.getIdentity().getNamespace().equals("minecraft")) {
+                    if (set.size() > 1) {
+                        log.info(String.format("Ignoring %d variants for '%s:%s' as '%s' already exists.", set.size() - 1, material, type, o.getIdentity()));
+                    }
+                } else {
+                    register(o);
+                }
+            }
+            }));
+
+        if (server instanceof IntegratedServer) {
+            reloadClientResources();
+        }
+        server.getPackRepository().reload();
+        server.reloadResources(server.getPackRepository().getSelectedIds());
+    }
+
+    @CanIgnoreReturnValue
+    public  <C extends Content<C>> Registry.Entry<C> register(C content) {
+        Registry.Entry<C> entry = Registry.getRegistryFromType(content.getContentType()).register(content);
+        if (content instanceof BaseBlock) {
+            BlockItem item = ((BaseBlock) content).createBlockItem();
+            if (item instanceof BaseBlockItem) {
+                Registry.getRegistryFromType(item.getContentType()).register(item.setIdentity(content.getIdentity()));
+            }
+        }
+        return entry;
+    }
+
+    private void reloadClientResources() {
+        Minecraft.getInstance().reloadResourcePacks();
     }
 
     public boolean isAddonLoaded(String addonId) {

@@ -3,8 +3,11 @@ package org.sandboxpowered.loader.mixin.injection.item;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.Level;
 import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -96,6 +99,7 @@ public abstract class MixinItemStack {
         return isEmpty();
     }
 
+    @NotNull
     public Item stack$getItem() {
         return Wrappers.ITEM.toSandbox(getItem());
     }
@@ -104,33 +108,38 @@ public abstract class MixinItemStack {
         return getCount();
     }
 
+    @NotNull
     public org.sandboxpowered.api.item.ItemStack stack$setCount(int amount) {
         setCount(amount);
         return asSandbox();
     }
 
+    @NotNull
     public org.sandboxpowered.api.item.ItemStack stack$copy() {
         return asSandbox(copy());
     }
 
+    @NotNull
     public org.sandboxpowered.api.item.ItemStack stack$shrink(int amount) {
         shrink(amount);
         return asSandbox();
     }
 
+    @NotNull
     public org.sandboxpowered.api.item.ItemStack stack$grow(int amount) {
         grow(amount);
         return asSandbox();
     }
 
-    public boolean stack$has(Enchantment enchantment) {
+    public boolean stack$has(@NotNull Enchantment enchantment) {
         return stack$getLevel(enchantment) > 0;
     }
 
-    public int stack$getLevel(Enchantment enchantment) {
+    public int stack$getLevel(@NotNull Enchantment enchantment) {
         return EnchantmentHelper.getItemEnchantmentLevel(Wrappers.ENCHANTMENT.toVanilla(enchantment), asVanilla());
     }
 
+    @NotNull
     public Set<Enchantment> stack$getEnchantments() {
         if (stack$isEmpty())
             return Collections.emptySet();
@@ -142,7 +151,7 @@ public abstract class MixinItemStack {
                 .filter(Objects::nonNull)
                 .map(Registry.ENCHANTMENT::get)
                 .filter(Objects::nonNull)
-                .map(enchantment -> Wrappers.ENCHANTMENT.toSandbox(enchantment))
+                .map(Wrappers.ENCHANTMENT::toSandbox)
                 .collect(Collectors.toSet());
     }
 
@@ -154,10 +163,11 @@ public abstract class MixinItemStack {
         throw new NotImplementedException("TODO");
     }
 
-    public void stack$setTag(CompoundTag tag) {
+    public void stack$setTag(@NotNull CompoundTag tag) {
         throw new NotImplementedException("TODO");
     }
 
+    @NotNull
     public CompoundTag stack$getOrCreateTag() {
         throw new NotImplementedException("TODO");
     }
@@ -166,10 +176,12 @@ public abstract class MixinItemStack {
         throw new NotImplementedException("TODO");
     }
 
+    @NotNull
     public CompoundTag stack$getOrCreateChildTag(String key) {
         throw new NotImplementedException("TODO");
     }
 
+    @NotNull
     public CompoundTag stack$asTag() {
         throw new NotImplementedException("TODO");
     }
@@ -206,10 +218,22 @@ public abstract class MixinItemStack {
         return getDamageValue();
     }
 
-    public void stack$damage(int damage, Entity entity) {
-        hurtAndBreak(damage, null, e -> {});
+    public void stack$damage(int damage, @NotNull Entity entity) {
+        hurtAndBreak(damage, null, e -> {
+        });
     }
-    public void stack$damage(int damage, World world, int entity) {
-        hurtAndBreak(damage, null, e -> {});
+
+    public void stack$damage(int damage, @NotNull World world, int entity) {
+        Level level = Wrappers.WORLD.toVanilla(world);
+        net.minecraft.world.entity.Entity ent = level.getEntity(entity);
+        if (ent != null && ent instanceof LivingEntity) {
+            hurtAndBreak(damage, (LivingEntity) ent, e -> {
+                if(e.getMainHandItem() == asVanilla()) {
+                    e.broadcastBreakEvent(InteractionHand.MAIN_HAND);
+                } else {
+                    e.broadcastBreakEvent(InteractionHand.OFF_HAND);
+                }
+            });
+        }
     }
 }
