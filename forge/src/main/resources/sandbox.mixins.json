@@ -6,9 +6,9 @@
   "minVersion": "0.8",
   "mixinPriority": 5480,
   "mixins": [
-
+    "injection.MixinForgeRegistry",
+    "loading.MixinBootstrap"
   ],
   "client": [
-
   ]
 }

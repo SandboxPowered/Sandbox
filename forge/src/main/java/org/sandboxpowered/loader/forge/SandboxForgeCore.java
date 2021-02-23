@@ -12,8 +12,6 @@ import org.sandboxpowered.loader.SandboxCore;
 import org.sandboxpowered.loader.Wrappers;
 
 public class SandboxForgeCore extends SandboxCore {
-    public static final SandboxForgeCore CORE = new SandboxForgeCore();
-
     @Override
     protected void initCachedRegistries() {
         setRegistryWrapper(ForgeRegistries.BLOCKS, Wrappers.BLOCK);
@@ -28,6 +26,6 @@ public class SandboxForgeCore extends SandboxCore {
 
     @Override
     public Identity getIdentity() {
-        return null;
+        return Identity.of("sandbox", "forge");
     }
 }

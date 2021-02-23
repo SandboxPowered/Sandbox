@@ -37,6 +37,7 @@ dependencies {
     shadow(project(path: ":common", configuration: "transformForge")) {
         transitive = false
     }
+    runtime(project(":TestAddon"))
 }
 
 shadowJar {
