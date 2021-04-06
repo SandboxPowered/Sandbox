@@ -7,6 +7,7 @@ dependencies {
 
     implementation "org.graalvm.sdk:graal-sdk:$graalVersion"
     implementation "org.graalvm.js:js:$graalVersion"
+    implementation "net.jodah:typetools:0.6.2"
 }
 
 architect {
