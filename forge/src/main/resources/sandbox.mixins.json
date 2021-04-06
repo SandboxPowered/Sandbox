@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "org.sandboxpowered.loader.forge.mixin",
+  "refmap": "sandbox.refmap.json",
+  "compatibilityLevel": "JAVA_11",
+  "minVersion": "0.8",
+  "mixinPriority": 5480,
+  "mixins": [
+    "injection.MixinForgeRegistry",
+    "loading.MixinBootstrap"
+  ],
+  "client": [
+  ]
+}

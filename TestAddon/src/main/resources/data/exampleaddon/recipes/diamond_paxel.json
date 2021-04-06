@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PSA",
+    " B ",
+    " # "
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:stick"
+    },
+    "B": {
+      "item": "minecraft:slime_ball"
+    },
+    "P": {
+      "item": "minecraft:diamond_pickaxe"
+    },
+    "A": {
+      "item": "minecraft:diamond_axe"
+    },
+    "S": {
+      "item": "minecraft:diamond_shovel"
+    }
+  },
+  "result": {
+    "item": "exampleaddon:diamond_paxel"
+  }
+}

@@ -1,0 +1,54 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "5.0.0"
+}
+
+configurations {
+    shadow
+}
+
+architectury {
+    platformSetupLoomIde()
+}
+
+loom {
+    mixinConfigs = ["sandbox.mixins.json", "sandbox-common.mixins.json"]
+}
+
+repositories {
+    jcenter()
+    maven { url "https://files.minecraftforge.net/maven" }
+}
+
+configurations {
+    shadow
+}
+
+dependencies {
+    minecraft("com.mojang:minecraft:${rootProject.architect.minecraft}")
+    mappings(minecraft.officialMojangMappings())
+    forge("net.minecraftforge:forge:${rootProject.architect.minecraft}-${rootProject.forge_version}")
+
+    compileOnly(project(path: ":common")) {
+        transitive = false
+    }
+    runtimeOnly(project(path: ":common", configuration: "transformForgeFakeMod")) {
+        transitive = false
+    }
+    shadow(project(path: ":common", configuration: "transformForge")) {
+        transitive = false
+    }
+    runtime(project(":TestAddon"))
+}
+
+shadowJar {
+    exclude "fabric.mod.json"
+
+    configurations = [project.configurations.shadow]
+    classifier null
+}
+
+remapJar {
+    dependsOn(shadowJar)
+    input.set(shadowJar.archivePath)
+    archiveClassifier = "forge"
+}

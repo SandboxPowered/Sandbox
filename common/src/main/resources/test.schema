@@ -1,0 +1,18 @@
+package org.sandboxpowered.ecs.capability;
+
+bool | Boolean | true or false
+
+
+capability BlockEntityPosition {
+  id = 'be-position';
+  sint x;
+  sint y;
+  sint z;
+}
+
+capability EntityPosition {
+  id = 'entity-position';
+  float x;
+  float y;
+  float z;
+}
